@@ -1,0 +1,45 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "swift",
+			"args": [
+				"build",
+				"--build-tests",
+				"-Xswiftc",
+				"-diagnostic-style=llvm"
+			],
+			"disableTaskQueue": true,
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+			"label": "swift: Build All",
+			"detail": "swift build --build-tests -Xswiftc -diagnostic-style=llvm"
+		},
+		{
+			"type": "shell",
+			"command": "swift",
+			"args": [
+				"package",
+				"plugin",
+				"--allow-writing-to-package-directory",
+				"--allow-network-connections", "all",
+				"vulkan-generate"
+			],
+			"options": {
+				"env": {
+					"ENABLE_GENERATOR": "1"
+				}
+			},
+			"label": "swift-plugin: VulkanGenerate",
+			"detail": "swift package vulkan-generate"
+		},
+		{
+			"type": "shell",
+			"label": "taskAsLaunch",
+			"dependsOn": "swift-plugin: VulkanGenerate"
+		}
+	]
+}

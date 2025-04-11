@@ -1,0 +1,19 @@
+{
+    "psi-header.changes-tracking": {
+        "isActive": true,
+        "include": [
+            "c",
+            "cpp",
+            "swift",
+            "python"
+        ]
+    },
+    "psi-header.variables": [
+        ["projectCreationYear", "2025"]
+    ],
+    "cmake.ignoreCMakeListsMissing": true,
+    "swift.swiftEnvironmentVariables": {
+        "ENABLE_GENERATOR": "1"
+    },
+    "custom.taskAsLaunch": true
+}
