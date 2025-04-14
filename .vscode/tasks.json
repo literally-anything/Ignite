@@ -23,6 +23,7 @@
 			"command": "swift",
 			"args": [
 				"package",
+				"--disable-sandbox",
 				"plugin",
 				"--allow-writing-to-package-directory",
 				"--allow-network-connections", "all",

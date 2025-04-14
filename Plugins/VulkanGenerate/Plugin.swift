@@ -13,16 +13,20 @@ import Foundation
 #endif
 
 /// An error that can occur when running the generate plugin.
-struct GeneratePluginError: Error {
+struct GeneratePluginError: Error, ExpressibleByStringInterpolation, CustomStringConvertible {
     /// Textual description of the error.
     let message: String
+    var description: String { message }
+    init(stringLiteral value: String) {
+        self.message = value
+    }
 }
 
 @main
 struct VulkanGenerate: CommandPlugin {
     /// The main entry point for the plugin.
-    func performCommand(context: PluginContext, arguments: [String]) throws {
-        try perform(path: context.package.directoryURL, getTool: context.tool)
+    func performCommand(context: PluginContext, arguments: [String]) async throws {
+        try await perform(path: context.package.directoryURL, getTool: context.tool)
     }
 }
 
@@ -31,8 +35,8 @@ struct VulkanGenerate: CommandPlugin {
 
     extension VulkanGenerate: XcodeCommandPlugin {
         /// This entry point is called when operating on an Xcode project.
-        func performCommand(context: XcodePluginContext, arguments: [String]) throws {
-            try perform(path: context.xcodeProject.directoryURL, getTool: context.tool)
+        func performCommand(context: XcodePluginContext, arguments: [String]) async throws {
+            try await perform(path: context.xcodeProject.directoryURL, getTool: context.tool)
         }
     }
 #endif
@@ -42,87 +46,30 @@ extension VulkanGenerate {
     /// - Parameters:
     ///   - path: The path to the package or project.
     ///   - getTool: A closure that can be used to get a command line tool from the context.
-    func perform(path: URL, getTool: (String) throws -> PluginContext.Tool) throws {
+    func perform(path: URL, getTool: (String) throws -> PluginContext.Tool) async throws {
         // Ensure the package directory exists
         do {
             let values = try path.resourceValues(forKeys: [.isDirectoryKey])
             guard values.isDirectory! else {
-                throw GeneratePluginError(message: "Provided package directory is not a directory")
+                throw "Provided package directory is not a directory" as GeneratePluginError
             }
         } catch {
             print("Provided package directory does not exist: \(error)")
             throw error
         }
 
-        let vulkanPath = path.appending(components: ".vulkan-spec-tmp")
-        try cloneVulkan(
-            to: vulkanPath,
-            getTool: getTool
-        )
+        let specUrl = URL(string: "https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/refs/heads/main/xml/vk.xml")!
 
-        let specification = vulkanPath.appending(components: "xml", "vk.xml")
-
+        print("Downloading the Vulkan specification XML file...")
         let parser: Parser
         do {
-            parser = try Parser(specification: specification)
+            parser = try Parser(specification: specUrl)
         } catch {
             print("Error loading the Vulkan specification: \(error). Either the file does not exist or is not a valid XML file.")
             throw error
         }
 
         print("Parsing the Vulkan specification...")
-        try parser.parse()
-    }
-
-    /// Clones the Vulkan docs repository into the specified package directory.
-    /// - Parameters:
-    ///   - destination: The destination directory to clone the Vulkan docs into.
-    ///   - getTool: A closure that can be used to get a command line tool from the context.
-    func cloneVulkan(
-        to destination: URL,
-        getTool: (String) throws -> PluginContext.Tool
-    ) throws {
-        let git: PluginContext.Tool
-        do {
-            git = try getTool("git")
-        } catch {
-            print("Error finding git: \(error)")
-            throw error
-        }
-
-        // Check if the destination directory already exists
-        // If it does, we just go into it and pull, otherwise we clone
-        if FileManager.default.fileExists(atPath: destination.path()) {
-            print("Pulling the Vulkan specification...")
-            let ret = try git.run(
-                arguments: [
-                    "-C", destination.path(),
-                    "pull",
-                    "--progress"
-                ],
-                cwd: destination
-            )
-            guard ret == 0 else {
-                print("Error pulling the Vulkan specification: \(ret)")
-                throw GeneratePluginError(message: "Error pulling the Vulkan specification: \(ret)")
-            }
-        } else {
-            let packageDir = destination.deletingLastPathComponent()
-            print("Cloning the Vulkan specification...")
-            let ret = try git.run(
-                arguments: [
-                    "-C", packageDir.path(),
-                    "clone", "https://github.com/KhronosGroup/Vulkan-Docs.git",
-                    destination.path(),
-                    "--progress"
-                ],
-                cwd: packageDir
-            )
-            guard ret == 0 else {
-                print("Error cloning the Vulkan specification: \(ret)")
-                throw GeneratePluginError(message: "Error cloning the Vulkan specification: \(ret)")
-            }
-        }
-        print("Vulkan specification ready!")
+        let parsedSpec = try parser.parse()
     }
 }
