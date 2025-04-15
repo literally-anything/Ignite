@@ -21,11 +21,11 @@ struct Registry: CustomStringConvertible {
     var description: String {
         """
         Registry(
-            aliases: (\(aliases.count))[
-                \(aliases.map { "\($0.key): \($0.value)" }.joined(separator: ",\n        "))
-            ],
             vendorTags: (\(vendorTags.count))[
                 \(vendorTags.map { "\($0.key): \($0.value)" }.joined(separator: ",\n        "))
+            ],
+            aliases: (\(aliases.count))[
+                \(aliases.map { "\($0.key): \($0.value)" }.joined(separator: ",\n        "))
             ],
             baseTypes: (\(baseTypes.count))[
                 \(baseTypes.map { "\($0.name): \($0.definition)" }.joined(separator: ",\n        "))
