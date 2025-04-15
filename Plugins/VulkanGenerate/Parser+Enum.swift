@@ -15,7 +15,7 @@ extension Parser {
         let enums = root.elements(forName: "enums")
 
         // This doesn't functionally do anything, but it is a good sanity check to make sure we are not missing any enums.
-        let knownTypes: Set<String> = ["bitmask"]
+        let knownTypes: Set<String> = ["constants", "bitmask"]
         let foundTypes: Set<String> = .init(
             enums.compactMap { enumElement in
                 if let type = enumElement.attribute(forName: "type")?.stringValue {
@@ -31,14 +31,64 @@ extension Parser {
             print("Warning: Unknown enum types found: \(unknownTypes)")
         }
 
+        let constantsElement = enums.filter { $0.attribute(forName: "type")?.stringValue == "constants" }
+        guard constantsElement.count == 1 else {
+            throw "specification should have exactly one enum with type='constants'" as GeneratePluginError
+        }
+        let (constants, constantAliases) = try Self.parseConstants(constantsElement: constantsElement.first!)
+        registry.constants = constants
+        registry.constantAliases = constantAliases
+
         let bitmaskEnums = enums.filter { $0.attribute(forName: "type")?.stringValue == "bitmask" }
         let bitmasks = try Self.parseBitmasks(bitmaskEnums: bitmaskEnums)
         registry.bitmasks = bitmasks
     }
 
+    /// Extract the constants from the XML specification.
+    private static func parseConstants(constantsElement: XMLElement) throws -> ([Constant], [String: String]) {
+        let constantElements = constantsElement.elements(forName: "enum")
+        guard constantElements.count > 0 else {
+            throw "specification has no constants" as GeneratePluginError
+        }
+
+        var constants: [Constant] = []
+        var aliases: [String: String] = [:]
+        for element in constantElements {
+            guard let name = element.attribute(forName: "name")?.stringValue else {
+                throw "constant has no name: \(element)" as GeneratePluginError
+            }
+            if let alias = element.attribute(forName: "alias")?.stringValue {
+                // If we have an alias, then we need to add it to the aliases dictionary
+                guard let name = element.attribute(forName: "name")?.stringValue else {
+                    throw "constant alias has no name: \(element)" as GeneratePluginError
+                }
+                aliases[name] = alias
+            } else {
+                // Otherwise, we need to add it to the constants array
+                guard let type = element.attribute(forName: "type")?.stringValue else {
+                    throw "constant has no type: \(element)" as GeneratePluginError
+                }
+                guard let value = element.attribute(forName: "value")?.stringValue else {
+                    throw "constant has no value: \(element)" as GeneratePluginError
+                }
+                constants.append(
+                    Constant(
+                        name: name,
+                        type: type,
+                        value: value,
+                        api: element.attribute(forName: "api")?.stringValue,
+                        deprecated: element.attribute(forName: "deprecated")?.stringValue,
+                        comment: element.attribute(forName: "comment")?.stringValue
+                    )
+                )
+            }
+        }
+        return (constants, aliases)
+    }
+
     /// Extract the bitmasks from the XML specification.
     private static func parseBitmasks(bitmaskEnums: [XMLElement]) throws -> [Bitmask] {
-        let bitmasks = try bitmaskEnums.map { element in
+        try bitmaskEnums.map { element in
             guard let name = element.attribute(forName: "name")?.stringValue else {
                 throw "bitmask has no name: \(element)" as GeneratePluginError
             }
@@ -84,9 +134,10 @@ extension Parser {
                 bitWidth: element.attribute(forName: "bitwidth")?.stringValue ?? "32",
                 flags: flags,
                 aliases: aliases,
-                api: element.attribute(forName: "api")?.stringValue
+                api: element.attribute(forName: "api")?.stringValue,
+                deprecated: element.attribute(forName: "deprecated")?.stringValue,
+                comment: element.attribute(forName: "comment")?.stringValue
             )
         }
-        return bitmasks
     }
 }

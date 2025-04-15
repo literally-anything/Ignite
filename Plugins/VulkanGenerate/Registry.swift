@@ -14,6 +14,10 @@ struct Registry: CustomStringConvertible {
     /// An array of base types in the Vulkan specification.
     /// This isn't actually exported anywhere, but it is used to find the swift type that corresponds to some vulkan types.
     var baseTypes: [BaseType] = []
+    /// An array of constants in the Vulkan specification.
+    var constants: [Constant] = []
+    /// A mapping of constant aliases to their corresponding constants.
+    var constantAliases: [String: String] = [:]
     /// An array of bitmasks and their associated fields in the Vulkan specification.
     var bitmasks: [Bitmask] = []
 
@@ -24,11 +28,11 @@ struct Registry: CustomStringConvertible {
             vendorTags: (\(vendorTags.count))[
                 \(vendorTags.map { "\($0.key): \($0.value)" }.joined(separator: ",\n        "))
             ],
-            aliases: (\(aliases.count))[
-                \(aliases.map { "\($0.key): \($0.value)" }.joined(separator: ",\n        "))
-            ],
             baseTypes: (\(baseTypes.count))[
                 \(baseTypes.map { "\($0.name): \($0.definition)" }.joined(separator: ",\n        "))
+            ],
+            constants: (\(constants.count))[
+                \(constants.map { "\($0.name): \($0.type) = \($0.value)" }.joined(separator: ",\n        "))
             ],
             bitmasks: (\(bitmasks.count))[
                 \(bitmasks.map { "\($0.name): \($0.flags.count) flags" }.joined(separator: ",\n        "))
@@ -76,6 +80,20 @@ struct BaseType: APIComponent, Equatable {
         ///   - use: The type with extra attributes applied to it.
         case nativeObjC(actual: String, kind: String, use: String)
     }
+}
+
+/// A constant in the Vulkan specification.
+struct Constant: APIComponent, Equatable {
+    /// The name of the constant.
+    var name: String
+    /// The type of the constant.
+    var type: String
+    /// The value of the constant.
+    var value: String
+
+    var api: String?
+    var deprecated: String?
+    var comment: String?
 }
 
 /// A bitmask in the Vulkan specification.
