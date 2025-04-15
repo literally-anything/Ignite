@@ -71,5 +71,8 @@ extension VulkanGenerate {
 
         print("Parsing the Vulkan specification...")
         let registry = try parser.parse()
+
+        print(registry)
+        print("Parsing done!")
     }
 }

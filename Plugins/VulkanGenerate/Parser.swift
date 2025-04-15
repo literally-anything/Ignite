@@ -44,19 +44,13 @@ extension Parser {
 
         try parseTags(registry: &registry)
         try parseBaseTypes(registry: &registry)
-        try parseBitmasks(registry: &registry)
-
-        print(registry)
-        print("Parsing done!")
+        try parseEnums(registry: &registry)
 
         return registry
     }
 
-    /// Extract the vendor tags from the XML document.
+    /// Extract the vendor tags from the XML specification.
     private func parseTags(registry: inout Registry) throws {
-        registry.vendorTags = [:]
-
-        // Parse the tags from the XML document
         let tags = (try? root.nodes(forXPath: "tags/tag"))?.compactMap { $0 as? XMLElement } ?? []
         guard tags.count > 0 else {
             throw "specification has no vendor tags" as GeneratePluginError
@@ -73,14 +67,11 @@ extension Parser {
         }
     }
 
-    /// Extract the base types from the XML document.
+    /// Extract the base types from the XML specification.
     private func parseBaseTypes(registry: inout Registry) throws {
-        registry.baseTypes = []
+        let baseTypeElements = (try? root.nodes(forXPath: "types/type[@category='basetype']"))?.compactMap { $0 as? XMLElement } ?? []
 
-        // Parse the base types from the XML document
-        let baseTypes = (try? root.nodes(forXPath: "types/type[@category='basetype']"))?.compactMap { $0 as? XMLElement } ?? []
-
-        for baseType in baseTypes {
+        let baseTypes = try baseTypeElements.map { baseType in
             // The name is always annotated
             let name = baseType.elements(forName: "name").first?.stringValue
             guard let name else {
@@ -97,13 +88,16 @@ extension Parser {
                 } ?? []
             }
 
+            let pickedName: String
+            let pickedDefinition: BaseType.Definition
             if tokens[0] == "struct" {
                 // If the first token is a struct, then it is a forward declaration of a struct for a native type
                 var use = tokens[1]
                 if use.hasSuffix(";") {
                     use.removeLast()
                 }
-                registry.baseTypes.append(BaseType(name: name, definition: .native(use: use), api: nil))
+                pickedName = name
+                pickedDefinition = .native(use: use)
             } else if tokens[0] == "typedef" {
                 // If the first token is a typedef, then we need to figure out whether it is a typedef of a native type or a primitive
                 if tokens[1] == "struct" {
@@ -115,14 +109,9 @@ extension Parser {
                         index -= 1
                     }
 
-                    registry.baseTypes.append(
-                        BaseType(
-                            name: name,
-                            definition: .native(
-                                use: tokens[2..<index].joined(separator: " ").trimmingCharacters(in: .whitespacesAndNewlines)
-                            ),
-                            api: nil
-                        )
+                    pickedName = name
+                    pickedDefinition = .native(
+                        use: tokens[2..<index].joined(separator: " ").trimmingCharacters(in: .whitespacesAndNewlines)
                     )
                 } else {
                     // If the second token is not a struct, then it is a typedef of a primitive type
@@ -134,13 +123,8 @@ extension Parser {
                     }
 
                     let type = tokens[1..<index].joined(separator: " ").trimmingCharacters(in: .whitespacesAndNewlines)
-                    registry.baseTypes.append(
-                        BaseType(
-                            name: name,
-                            definition: .typedef(type: type),
-                            api: nil
-                        )
-                    )
+                    pickedName = name
+                    pickedDefinition = .typedef(type: type)
                 }
             } else {
                 // If the first token is not a typedef, then it is a forward declaration of a native type with some extra junk surrounding it
@@ -166,44 +150,29 @@ extension Parser {
                         actualName.removeLast()
                     }
                     let use = tokens[startIndex..<endIndex].joined(separator: " ")
-                    registry.baseTypes.append(
-                        BaseType(
-                            name: name,
-                            definition: .nativeObjC(
-                                actual: actualName,
-                                kind: objcKind,
-                                use: objcKind == "class" ? actualName : use  // If it's a class, what it is typedefed to is irrelevant
-                            ),
-                            api: nil
-                        )
+                    pickedName = name
+                    pickedDefinition = .nativeObjC(
+                        actual: actualName,
+                        kind: objcKind,
+                        use: objcKind == "class" ? actualName : use  // If it's a class, what it is typedefed to is irrelevant
                     )
                 } else {
                     // If there is no ObjC identifier, then we can just use the type as a normal native type
-                    registry.baseTypes.append(
-                        BaseType(
-                            name: name,
-                            definition: .native(
-                                use: tokens[startIndex..<endIndex].joined(separator: " ")
-                            ),
-                            api: nil
-                        )
+                    pickedName = name
+                    pickedDefinition = .native(
+                        use: tokens[startIndex..<endIndex].joined(separator: " ")
                     )
                 }
             }
+
+            return BaseType(
+                name: pickedName,
+                definition: pickedDefinition,
+                api: baseType.attribute(forName: "api")?.stringValue,
+                deprecated: baseType.attribute(forName: "deprecated")?.stringValue,
+                comment: baseType.attribute(forName: "comment")?.stringValue
+            )
         }
-    }
-
-    /// Extract the bitmasks from the XML document.
-    private func parseBitmasks(registry: inout Registry) throws {
-        // Parse the bitmasks from the XML document
-        let bitmasks = (try? root.nodes(forXPath: "enums[@type='bitmask']"))?.compactMap { $0 as? XMLElement } ?? []
-        // guard bitmaskDefs.count > 0 else {
-        //     throw "specification has no bitmasks" as GeneratePluginError
-        // }
-
-        // for bitmaskDef in bitmaskDefs {
-        //     let baseType = try Self.readTypeDef(typeDef: bitmaskDef)
-        //     registry.baseTypes[baseType.name] = baseType.type
-        // }
+        registry.baseTypes = baseTypes
     }
 }
