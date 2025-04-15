@@ -9,6 +9,8 @@
 struct Registry: CustomStringConvertible {
     /// A mapping of vendor tags to their corresponding vendor names.
     var vendorTags: [String: String] = [:]
+    /// A mapping of aliases to their corresponding types.
+    var aliases: [String: String] = [:]
     /// An array of base types in the Vulkan specification.
     /// This isn't actually exported anywhere, but it is used to find the swift type that corresponds to some vulkan types.
     var baseTypes: [BaseType] = []
@@ -19,11 +21,17 @@ struct Registry: CustomStringConvertible {
     var description: String {
         """
         Registry(
+            aliases: (\(aliases.count))[
+                \(aliases.map { "\($0.key): \($0.value)" }.joined(separator: ",\n        "))
+            ],
             vendorTags: (\(vendorTags.count))[
                 \(vendorTags.map { "\($0.key): \($0.value)" }.joined(separator: ",\n        "))
             ],
             baseTypes: (\(baseTypes.count))[
                 \(baseTypes.map { "\($0.name): \($0.definition)" }.joined(separator: ",\n        "))
+            ],
+            bitmasks: (\(bitmasks.count))[
+                \(bitmasks.map { "\($0.name): \($0.flags.count) flags" }.joined(separator: ",\n        "))
             ]
         )
         """

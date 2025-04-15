@@ -38,33 +38,12 @@ extension Parser {
 
         var registry = Registry()
 
-        // guard let platforms = children.first(where: { $0.name == "platforms" }) else {
-        //     throw "specification has no platforms node" as GeneratePluginError
-        // }
-
         try parseTags(registry: &registry)
         try parseBaseTypes(registry: &registry)
         try parseEnums(registry: &registry)
+        try parseTypes(registry: &registry)
 
         return registry
-    }
-
-    /// Extract the vendor tags from the XML specification.
-    private func parseTags(registry: inout Registry) throws {
-        let tags = (try? root.nodes(forXPath: "tags/tag"))?.compactMap { $0 as? XMLElement } ?? []
-        guard tags.count > 0 else {
-            throw "specification has no vendor tags" as GeneratePluginError
-        }
-
-        for tag in tags {
-            guard let name = tag.attribute(forName: "name")?.stringValue else {
-                throw "tag has no name" as GeneratePluginError
-            }
-            guard let author = tag.attribute(forName: "author")?.stringValue else {
-                throw "tag has no vendor" as GeneratePluginError
-            }
-            registry.vendorTags[name] = author
-        }
     }
 
     /// Extract the base types from the XML specification.
