@@ -78,7 +78,8 @@ extension Parser {
                         value: value,
                         api: element.attribute(forName: "api")?.stringValue,
                         deprecated: element.attribute(forName: "deprecated")?.stringValue,
-                        comment: element.attribute(forName: "comment")?.stringValue
+                        comment: element.attribute(forName: "comment")?.stringValue,
+                        protect: element.attribute(forName: "protect")?.stringValue
                     )
                 )
             }
@@ -125,6 +126,7 @@ extension Parser {
                             api: flag.attribute(forName: "api")?.stringValue,
                             deprecated: flag.attribute(forName: "deprecated")?.stringValue,
                             comment: flag.attribute(forName: "comment")?.stringValue,
+                            protect: flag.attribute(forName: "protect")?.stringValue
                         )
                     )
                 }

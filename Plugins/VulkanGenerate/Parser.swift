@@ -41,7 +41,28 @@ extension Parser {
         try parseTags(registry: &registry)
         try parseEnums(registry: &registry)
         try parseTypes(registry: &registry)
+        try parseAPIVersions(registry: &registry)
+        try parseExtensions(registry: &registry)
 
         return registry
+    }
+
+    /// Extract the vendor tags from the XML specification.
+    func parseTags(registry: inout Registry) throws {
+        print("Parsing vendor tags...")
+        let tags = (try? root.nodes(forXPath: "tags/tag"))?.compactMap { $0 as? XMLElement } ?? []
+        guard tags.count > 0 else {
+            throw "specification has no vendor tags" as GeneratePluginError
+        }
+
+        for tag in tags {
+            guard let name = tag.attribute(forName: "name")?.stringValue else {
+                throw "tag has no name" as GeneratePluginError
+            }
+            guard let author = tag.attribute(forName: "author")?.stringValue else {
+                throw "tag has no vendor" as GeneratePluginError
+            }
+            registry.vendorTags[name] = author
+        }
     }
 }
