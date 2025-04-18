@@ -20,6 +20,12 @@ struct Registry: CustomStringConvertible {
     var constantAliases: [String: String] = [:]
     /// An array of bitmasks and their associated fields in the Vulkan specification.
     var bitmasks: [Bitmask] = []
+
+    /// An array of the commands in the Vulkan specification.
+    var commands: [Command] = []
+    /// An array of aliases for commands in the Vulkan specification.
+    var commandAliases: [String: String] = [:]
+
     /// An array of API versions in the Vulkan specification.
     var apiVersions: [Version] = []
     /// An array of extensions in the Vulkan specification.
@@ -35,23 +41,13 @@ struct Registry: CustomStringConvertible {
             baseTypes: (\(baseTypes.count))[
                 \(baseTypes.map { "\($0.name): \($0.definition)" }.joined(separator: ",\n        "))
             ],
-            constants: (\(constants.count))[
-                \(constants.map { "\($0.name): \($0.type) = \($0.value)" }.joined(separator: ",\n        "))
-            ],
-            bitmasks: (\(bitmasks.count))[
-                \(bitmasks.map { "\($0.name): \($0.flags.count) flags" }.joined(separator: ",\n        "))
-            ],
+            constants: (\(constants.count)),
+            bitmasks: (\(bitmasks.count)),
+            commands: (\(commands.count)),
             apiVersions: (\(apiVersions.count))[
                 \(apiVersions.map { "\($0.name): \($0.api)" }.joined(separator: ",\n        "))
             ],
-            extensions: (\(extensions.count))[
-                \
-        \(extensions.filter {
-            $0.deprecatedby == nil && $0.supported != "disabled" && !$0.provisional
-        }.map {
-            "\($0.name)(\($0.kind)): \(String(describing: $0.platform)), \(String(describing: $0.protect))"
-        }.joined(separator: ",\n        "))
-            ]
+            extensions: (\(extensions.count))
         )
         """
     }
@@ -241,4 +237,54 @@ struct Bitmask: APIComponent {
         var comment: String?
         var protect: String?
     }
+}
+
+/// A command in the Vulkan specification.
+struct Command {
+    /// The name of the command.
+    var name: String
+    /// The return type of the function.
+    var returnType: String
+    /// The parameters of the function.
+    var params: [CommandParam]
+    /// The kinds of queues that this command can be submitted to.
+    var queues: [String]?
+    /// The possible success codes that could be returned.
+    var successcodes: [String]?
+    /// The possible error codes that could be returned.
+    var errorcodes: [String]?
+    /// The levels of command buffers that this command is allowed in.
+    var cmdbufferlevel: [String]?
+    /// A textual comment.
+    var comment: String?
+    /// A list of other things that must be externally syncronized for this command.
+    var implicitExternalSyncParams: [String]
+    /// The api version or extension that provides this command.
+    var api: String?
+}
+
+/// A parameter for a command.
+struct CommandParam {
+    /// The name of the parameter.
+    var name: String
+    /// If the param is an array, this specifies the length:
+    ///     len may be one or more of the following things, separated by commas (one for each array indirection):
+    ///     another member of that struct, 'null-terminated' for a string, '1' to indicate it is just a pointer (used for nested pointers),
+    ///     or a latex equation (prefixed with 'latexmath:')
+    var length: String?
+    /// if len has latexmath equations, this contains equivalent C99 expressions separated by commas.
+    var altlen: String?
+    /// if the member is an array, stride specifies the name of another parameter containing the byte stride between consecutive
+    /// elements in the array. The array is assumed to be tightly packed if omitted.
+    var stride: String?
+    /// Whether this parameter must be externally syncronized.
+    var externsync: Bool
+    /// Whether the parameter is optional. (When it is a handle, pass VK_NULL_HANDLE, but when)
+    var optional: Bool
+    /// If the type is a handle represented by an integer, this is the actual handle type.
+    var objecttype: String?
+    /// For a generic structure pointer, this is a list of all the valid structures to pass.
+    var validstructs: [String]?
+    /// The api version that provides this param.
+    var api: String?
 }

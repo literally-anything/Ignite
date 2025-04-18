@@ -41,6 +41,7 @@ extension Parser {
         try parseTags(registry: &registry)
         try parseEnums(registry: &registry)
         try parseTypes(registry: &registry)
+        try parseCommands(registry: &registry)
         try parseAPIVersions(registry: &registry)
         try parseExtensions(registry: &registry)
 
