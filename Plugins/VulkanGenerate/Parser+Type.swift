@@ -39,6 +39,11 @@ extension Parser {
         let baseTypeElements = types.filter { $0.attribute(forName: "category")?.stringValue == "basetype" }
         let baseTypes = try Self.parseBaseTypes(baseTypeElements: baseTypeElements)
         registry.baseTypes = baseTypes
+
+        let handleElements = types.filter { $0.attribute(forName: "category")?.stringValue == "handle" }
+        let (handles, handleAliases) = try Self.parseHandleTypes(handleElements: handleElements)
+        registry.handles = handles
+        registry.handleAliases = handleAliases
     }
 
     /// Extract the aliases from the XML specification.
@@ -161,5 +166,58 @@ extension Parser {
                 comment: baseType.attribute(forName: "comment")?.stringValue
             )
         }
+    }
+
+    /// Parse handle types from the XML specification.
+    private static func parseHandleTypes(handleElements: [XMLElement]) throws -> ([Handle], [HandleAlias]) {
+        var handles: [Handle] = []
+        var handleAliases: [HandleAlias] = []
+        for element in handleElements {
+            let api = element.attribute(forName: "api")?.stringValue
+            let comment = element.attribute(forName: "comment")?.stringValue
+            let protect = element.attribute(forName: "protect")?.stringValue
+            let deprecated = element.attribute(forName: "deprecated")?.stringValue
+            if let alias = element.attribute(forName: "alias")?.stringValue {
+                guard let name = element.attribute(forName: "name")?.stringValue else {
+                    throw "Handle has no name: \(element)" as GeneratePluginError
+                }
+                handleAliases.append(
+                    HandleAlias(
+                        name: name,
+                        alias: alias,
+                        api: api,
+                        comment: comment,
+                        protect: protect,
+                        deprecated: deprecated
+                    )
+                )
+            } else {
+                guard let name = element.elements(forName: "name").first?.stringValue else {
+                    throw "Handle has no name: \(element)" as GeneratePluginError
+                }
+                guard let type = element.elements(forName: "type").first?.stringValue else {
+                    throw "Handle has no type: \(element)" as GeneratePluginError
+                }
+                let dispatchable = type.trimmingCharacters(in: .whitespacesAndNewlines) == "VK_DEFINE_HANDLE"
+
+                guard let objectType = element.attribute(forName: "objtypeenum")?.stringValue else {
+                    throw "Handle has no object type: \(element)" as GeneratePluginError
+                }
+
+                handles.append(
+                    Handle(
+                        name: name,
+                        objectType: objectType,
+                        parent: element.attribute(forName: "parent")?.stringValue,
+                        dispatchable: dispatchable,
+                        api: api,
+                        comment: comment,
+                        protect: protect,
+                        deprecated: deprecated
+                    )
+                )
+            }
+        }
+        return (handles, handleAliases)
     }
 }

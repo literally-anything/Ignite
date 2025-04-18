@@ -42,6 +42,10 @@ extension Parser {
         let bitmaskEnums = enums.filter { $0.attribute(forName: "type")?.stringValue == "bitmask" }
         let bitmasks = try Self.parseBitmasks(bitmaskEnums: bitmaskEnums)
         registry.bitmasks = bitmasks
+
+        let realEnumElements = enums.filter { $0.attribute(forName: "type")?.stringValue == "enum" }
+        let realEnums = try Self.parseEnums(enumElements: realEnumElements)
+        registry.enums = realEnums
     }
 
     /// Extract the constants from the XML specification.
@@ -139,6 +143,64 @@ extension Parser {
                 api: element.attribute(forName: "api")?.stringValue,
                 deprecated: element.attribute(forName: "deprecated")?.stringValue,
                 comment: element.attribute(forName: "comment")?.stringValue
+            )
+        }
+    }
+
+    /// Extract the enums from the XML specification.
+    private static func parseEnums(enumElements: [XMLElement]) throws -> [Enum] {
+        return try enumElements.map { element in
+            guard let name = element.attribute(forName: "name")?.stringValue else {
+                throw "Enum has no name: \(element)" as GeneratePluginError
+            }
+            let bitwidthString = element.attribute(forName: "bitwidth")?.stringValue
+
+            var cases: [Enum.Case] = []
+            var caseAliases: [Enum.CaseAlias] = []
+            let caseElements = element.elements(forName: "enum")
+            for caseElement in caseElements {
+                guard let name = caseElement.attribute(forName: "name")?.stringValue else {
+                    throw "Enum case has no name: \(caseElement)" as GeneratePluginError
+                }
+                if let alias = caseElement.attribute(forName: "alias")?.stringValue {
+                    // If we have an alias, then we need to add it to the aliases array
+                    guard let name = caseElement.attribute(forName: "name")?.stringValue else {
+                        throw "Enum case alias has no name: \(caseElement)" as GeneratePluginError
+                    }
+                    caseAliases.append(
+                        Enum.CaseAlias(
+                            name: name,
+                            extends: caseElement.attribute(forName: "extends")?.stringValue,
+                            alias: alias,
+                            api: caseElement.attribute(forName: "api")?.stringValue,
+                            protect: caseElement.attribute(forName: "protect")?.stringValue,
+                            comment: caseElement.attribute(forName: "comment")?.stringValue
+                        )
+                    )
+                } else {
+                    // Otherwise, we need to add it to the cases array
+                    guard let value = caseElement.attribute(forName: "value")?.stringValue else {
+                        throw "Enum case has no value: \(caseElement)" as GeneratePluginError
+                    }
+                    cases.append(
+                        Enum.Case(
+                            name: name,
+                            extends: caseElement.attribute(forName: "extends")?.stringValue,
+                            value: value,
+                            api: caseElement.attribute(forName: "api")?.stringValue,
+                            protect: caseElement.attribute(forName: "protect")?.stringValue,
+                            comment: caseElement.attribute(forName: "comment")?.stringValue
+                        )
+                    )
+                }
+            }
+            
+            return Enum(
+                name: name,
+                bitwidth: bitwidthString != nil ? UInt(bitwidthString!) : nil,
+                comment: element.attribute(forName: "comment")?.stringValue,
+                cases: cases,
+                caseAliases: caseAliases
             )
         }
     }

@@ -20,6 +20,12 @@ struct Registry: CustomStringConvertible {
     var constantAliases: [String: String] = [:]
     /// An array of bitmasks and their associated fields in the Vulkan specification.
     var bitmasks: [Bitmask] = []
+    /// An array of enums in the Vulkan specification.
+    var enums: [Enum] = []
+    /// An array of object handles in the Vulkan specification.
+    var handles: [Handle] = []
+    /// An array of handle aliases in the Vulkan specification.
+    var handleAliases: [HandleAlias] = []
 
     /// An array of the commands in the Vulkan specification.
     var commands: [Command] = []
@@ -43,6 +49,8 @@ struct Registry: CustomStringConvertible {
             ],
             constants: (\(constants.count)),
             bitmasks: (\(bitmasks.count)),
+            enums: (\(enums.count)),
+            handles: (\(handles.count)),
             commands: (\(commands.count)),
             apiVersions: (\(apiVersions.count))[
                 \(apiVersions.map { "\($0.name): \($0.api)" }.joined(separator: ",\n        "))
@@ -237,6 +245,90 @@ struct Bitmask: APIComponent {
         var comment: String?
         var protect: String?
     }
+}
+
+/// An enum in the Vulkan specification.
+struct Enum {
+    /// The name of the enum.
+    var name: String
+    /// The bit width of the enum's raw value.
+    var bitwidth: UInt?
+    /// A textual description of the enum.
+    var comment: String?
+    /// An array of the cases in the enum.
+    var cases: [Case]
+    /// An array of the case aliases for the enum.
+    var caseAliases: [CaseAlias]
+
+    /// A single case in an enum.
+    struct Case {
+        /// The name of the case.
+        var name: String
+        /// The name of the case that this case extends.
+        var extends: String?
+        /// The value of the case.
+        var value: String
+        /// The api version that this case is associated with.
+        var api: String?
+        /// The name of the c preprocessor guard that protects this case.
+        var protect: String?
+        /// A textual description of the case.
+        var comment: String?
+    }
+
+    /// An alias for a case in an enum.
+    struct CaseAlias {
+        /// The name of the case.
+        var name: String
+        /// The name of the case that this case extends.
+        var extends: String?
+        /// The name of the case that this alias refers to.
+        var alias: String
+        /// The api version that this case is associated with.
+        var api: String?
+        /// The name of the c preprocessor guard that protects this case.
+        var protect: String?
+        /// A textual description of the case.
+        var comment: String?
+    }
+}
+
+/// A handle in the Vulkan specification.
+struct Handle: APIComponent {
+    /// The name of the handle.
+    var name: String
+    /// The name of the VK_OBJECT_TYPE_* enum value that this handle is associated with.
+    var objectType: String
+    /// The type of the parent handle.
+    var parent: String?
+    /// Whether this handle is a dispatchable handle.
+    var dispatchable: Bool
+
+    /// The api version that this handle is associated with.
+    var api: String?
+    /// A textual description of the handle.
+    var comment: String?
+    /// The name of the c preprocessor guard that protects this handle.
+    var protect: String?
+    /// Why the type is deprecated if it is.
+    var deprecated: String?
+}
+
+/// A handle alias in the Vulkan specification.
+struct HandleAlias: APIComponent {
+    /// The name of the handle alias.
+    var name: String
+    /// The name of the handle that this alias refers to.
+    var alias: String
+
+    /// The api version that this handle is associated with.
+    var api: String?
+    /// A textual description of the handle alias.
+    var comment: String?
+    /// The name of the c preprocessor guard that protects this handle alias.
+    var protect: String?
+    /// Why the type is deprecated if it is.
+    var deprecated: String?
 }
 
 /// A command in the Vulkan specification.
