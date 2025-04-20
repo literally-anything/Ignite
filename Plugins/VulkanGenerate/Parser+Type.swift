@@ -18,7 +18,7 @@ extension Parser {
         }
 
         // This doesn't functionally do anything, but it is a good sanity check to make sure we are not missing any types.
-        let knownCategories: Set<String?> = ["basetype"]
+        let knownCategories: Set<String?> = ["basetype", "handle", "struct", "union"]
         let foundCategories: Set<String?> = .init(
             types.compactMap { typeElement in
                 typeElement.attribute(forName: "category")?.stringValue
@@ -44,6 +44,14 @@ extension Parser {
         let (handles, handleAliases) = try Self.parseHandleTypes(handleElements: handleElements)
         registry.handles = handles
         registry.handleAliases = handleAliases
+
+        let structElements = types.filter { $0.attribute(forName: "category")?.stringValue == "struct" }
+        let structs = try parseStructs(structElements: structElements)
+        registry.structs = structs
+
+        let unionElements = types.filter { $0.attribute(forName: "category")?.stringValue == "union" }
+        let unions = try parseUnions(unionElements: unionElements)
+        registry.unions = unions
     }
 
     /// Extract the aliases from the XML specification.
@@ -219,5 +227,84 @@ extension Parser {
             }
         }
         return (handles, handleAliases)
+    }
+
+    /// Parse the structs from the XML specification.
+    private func parseStructs(structElements: [XMLElement]) throws -> [Struct] {
+        try structElements.map { element in
+            guard let name = element.attribute(forName: "name")?.stringValue else {
+                throw "Struct has no name: \(element)" as GeneratePluginError
+            }
+            let memberElements = element.elements(forName: "member")
+            let members = try memberElements.map { memberElement in
+                guard let name = memberElement.elements(forName: "name").first?.stringValue else {
+                    throw "Struct member has no name: \(memberElement)" as GeneratePluginError
+                }
+                guard let type = memberElement.elements(forName: "type").first?.stringValue else {
+                    throw "Struct member has no type: \(memberElement)" as GeneratePluginError
+                }
+                let valuesArray = element.attribute(forName: "values")?.stringValue?.split(separator: ",").map({ String($0) })
+                let values = valuesArray != nil ? Set(valuesArray!) : nil
+
+                return StructMember(
+                    name: name,
+                    type: type,
+                    length: element.attribute(forName: "len")?.stringValue,
+                    altlen: element.attribute(forName: "altlen")?.stringValue,
+                    stride: element.attribute(forName: "stride")?.stringValue,
+                    externalSync: element.attribute(forName: "externsync")?.stringValue == "true",
+                    optional: element.attribute(forName: "optional")?.stringValue == "true",
+                    objecttype: element.attribute(forName: "deprecated")?.stringValue,
+                    selector: element.attribute(forName: "selector")?.stringValue,
+                    validValues: values,
+                    api: element.attribute(forName: "api")?.stringValue,
+                    deprecated: element.attribute(forName: "deprecated")?.stringValue
+                )
+            }
+
+            return Struct(
+                name: name,
+                requires: element.attribute(forName: "requires")?.stringValue,
+                api: element.attribute(forName: "api")?.stringValue,
+                comment: element.attribute(forName: "comment")?.stringValue,
+                deprecated: element.attribute(forName: "deprecated")?.stringValue,
+                returnedOnly: element.attribute(forName: "returnedonly")?.stringValue == "true",
+                extends: element.attribute(forName: "structextends")?.stringValue?.split(separator: ",").map({ String($0) }) ?? [],
+                allowDuplicate: element.attribute(forName: "allowduplicate")?.stringValue == "true",
+                members: members
+            )
+        }
+    }
+
+    /// Parse the unions from the XML specification.
+    private func parseUnions(unionElements: [XMLElement]) throws -> [Union] {
+        try unionElements.map { element in
+            guard let name = element.attribute(forName: "name")?.stringValue else {
+                throw "Union has no name: \(element)" as GeneratePluginError
+            }
+            let caseElements = element.elements(forName: "member")
+            let cases = try caseElements.map { caseElement in
+                guard let name = caseElement.elements(forName: "name").first?.stringValue else {
+                    throw "Union case has no name: \(caseElement)" as GeneratePluginError
+                }
+                guard let type = caseElement.elements(forName: "type").first?.stringValue else {
+                    throw "Union case has no type: \(caseElement)" as GeneratePluginError
+                }
+
+                return (
+                    name,
+                    (
+                        type: type,
+                        selection: caseElement.attribute(forName: "selection")?.stringValue,
+                    )
+                )
+            }
+
+            return Union(
+                name: name,
+                comment: element.attribute(forName: "comment")?.stringValue,
+                cases: .init(uniqueKeysWithValues: cases)
+            )
+        }
     }
 }

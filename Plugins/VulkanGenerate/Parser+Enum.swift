@@ -15,7 +15,7 @@ extension Parser {
         let enums = root.elements(forName: "enums")
 
         // This doesn't functionally do anything, but it is a good sanity check to make sure we are not missing any enums.
-        let knownTypes: Set<String> = ["constants", "bitmask"]
+        let knownTypes: Set<String> = ["constants", "bitmask", "enum"]
         let foundTypes: Set<String> = .init(
             enums.compactMap { enumElement in
                 if let type = enumElement.attribute(forName: "type")?.stringValue {

@@ -25,7 +25,7 @@ struct Parser {
 }
 
 extension Parser {
-    /// Parse the specification into
+    /// Parse the specification into a Registry object.
     func parse() throws -> Registry {
         guard let children = root.children, children.count > 0 else {
             throw "XML root has no children" as GeneratePluginError
@@ -39,6 +39,7 @@ extension Parser {
         var registry = Registry()
 
         try parseTags(registry: &registry)
+        try parsePlatforms(registry: &registry)
         try parseEnums(registry: &registry)
         try parseTypes(registry: &registry)
         try parseCommands(registry: &registry)
@@ -51,7 +52,7 @@ extension Parser {
     /// Extract the vendor tags from the XML specification.
     func parseTags(registry: inout Registry) throws {
         print("Parsing vendor tags...")
-        let tags = (try? root.nodes(forXPath: "tags/tag"))?.compactMap { $0 as? XMLElement } ?? []
+        let tags = root.elements(forName: "tags").flatMap { $0.elements(forName: "tag") }
         guard tags.count > 0 else {
             throw "specification has no vendor tags" as GeneratePluginError
         }
@@ -65,5 +66,28 @@ extension Parser {
             }
             registry.vendorTags[name] = author
         }
+    }
+
+    /// Extract the enums from the XML specification.
+    func parsePlatforms(registry: inout Registry) throws {
+        print("Parsing platforms...")
+        let platformElements = root.elements(forName: "platforms").flatMap { $0.elements(forName: "platform") }
+        guard platformElements.count > 0 else {
+            throw "specification has no platforms" as GeneratePluginError
+        }
+        let platforms = try platformElements.map { element in
+            guard let name = element.attribute(forName: "name")?.stringValue else {
+                throw "platform has no name" as GeneratePluginError
+            }
+            guard let protect = element.attribute(forName: "protect")?.stringValue else {
+                throw "platform has no protect" as GeneratePluginError
+            }
+            return Platform(
+                name: name,
+                protect: protect,
+                comment: element.attribute(forName: "protect")?.stringValue ?? ""
+            )
+        }
+        registry.platforms = platforms
     }
 }

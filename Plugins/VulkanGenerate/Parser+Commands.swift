@@ -46,7 +46,7 @@ extension Parser {
                         length: paramElement.attribute(forName: "len")?.stringValue,
                         altlen: paramElement.attribute(forName: "altlen")?.stringValue,
                         stride: paramElement.attribute(forName: "stride")?.stringValue,
-                        externsync: paramElement.attribute(forName: "externsync")?.stringValue == "true",
+                        externalSync: paramElement.attribute(forName: "externsync")?.stringValue == "true",
                         optional: paramElement.attribute(forName: "optional")?.stringValue == "true",
                         objecttype: paramElement.attribute(forName: "objecttype")?.stringValue,
                         validstructs: validstructs,

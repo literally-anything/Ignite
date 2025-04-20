@@ -1,7 +1,7 @@
 .vulkan-spec-tmp/
 
 .DS_Store
-/.build
+.build
 /Packages
 xcuserdata/
 DerivedData/

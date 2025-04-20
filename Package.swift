@@ -10,6 +10,10 @@
 import Foundation
 import PackageDescription
 
+let cSettings: [CSetting] = [
+    .unsafeFlags(["-I", "/usr/local/include"])
+]
+
 var package = Package(
     name: "Ignite",
     products: [
@@ -20,7 +24,15 @@ var package = Package(
     ],
     targets: [
         .target(
-            name: "Ignite"
+            name: "Ignite",
+            dependencies: [
+                "CVulkan"
+            ],
+            cSettings: cSettings
+        ),
+        .target(
+            name: "CVulkan",
+            cSettings: cSettings
         )
     ]
 )

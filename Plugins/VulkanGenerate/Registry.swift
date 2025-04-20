@@ -9,6 +9,8 @@
 struct Registry: CustomStringConvertible {
     /// A mapping of vendor tags to their corresponding vendor names.
     var vendorTags: [String: String] = [:]
+    /// An array of platforms in the Vulkan specification.
+    var platforms: [Platform] = []
     /// A mapping of aliases to their corresponding types.
     var aliases: [String: String] = [:]
     /// An array of base types in the Vulkan specification.
@@ -32,6 +34,11 @@ struct Registry: CustomStringConvertible {
     /// An array of aliases for commands in the Vulkan specification.
     var commandAliases: [String: String] = [:]
 
+    /// An array of structs in the Vulkan specification.
+    var structs: [Struct] = []
+    /// An array of unions in the Vulkan specification.
+    var unions: [Union] = []
+
     /// An array of API versions in the Vulkan specification.
     var apiVersions: [Version] = []
     /// An array of extensions in the Vulkan specification.
@@ -44,6 +51,9 @@ struct Registry: CustomStringConvertible {
             vendorTags: (\(vendorTags.count))[
                 \(vendorTags.map { "\($0.key): \($0.value)" }.joined(separator: ",\n        "))
             ],
+            platforms: (\(platforms.count))[
+                \(platforms.map { "\($0.name): \($0.protect)" }.joined(separator: ",\n        "))
+            ],
             baseTypes: (\(baseTypes.count))[
                 \(baseTypes.map { "\($0.name): \($0.definition)" }.joined(separator: ",\n        "))
             ],
@@ -52,6 +62,8 @@ struct Registry: CustomStringConvertible {
             enums: (\(enums.count)),
             handles: (\(handles.count)),
             commands: (\(commands.count)),
+            structs: (\(structs.count)),
+            unions: (\(unions.count)),
             apiVersions: (\(apiVersions.count))[
                 \(apiVersions.map { "\($0.name): \($0.api)" }.joined(separator: ",\n        "))
             ],
@@ -75,6 +87,16 @@ protocol APIComponent {
     var name: String { get }
     /// The guard that goes around the type.
     var protect: String? { get }
+}
+
+/// A platform in the Vulkan specification.
+struct Platform {
+    /// The name of the platform.
+    var name: String
+    /// The include guard surrounding every type that requires this platform.
+    var protect: String
+    /// A textual comment about the platform.
+    var comment: String
 }
 
 /// A depencency of an API version or an extension in the Vulkan specification.
@@ -370,7 +392,7 @@ struct CommandParam {
     /// elements in the array. The array is assumed to be tightly packed if omitted.
     var stride: String?
     /// Whether this parameter must be externally syncronized.
-    var externsync: Bool
+    var externalSync: Bool
     /// Whether the parameter is optional. (When it is a handle, pass VK_NULL_HANDLE, but when)
     var optional: Bool
     /// If the type is a handle represented by an integer, this is the actual handle type.
@@ -379,4 +401,68 @@ struct CommandParam {
     var validstructs: [String]?
     /// The api version that provides this param.
     var api: String?
+}
+
+/// A structure in the Vulkan specification.
+struct Struct {
+    /// The name of the structure.
+    var name: String
+    /// The name of a struct that this struct requires.
+    var requires: String?
+    /// The api version that provides this struct.
+    var api: String?
+    /// A textual comment about the struct.
+    var comment: String?
+    /// If the struct is deprecated, this is the reason why.
+    var deprecated: String?
+    /// Whether this struct is only ever created by the runtime and doesn't need to be created by the application.
+    var returnedOnly: Bool
+    /// A list of all of the structures that this struct can extend through the pNext chain.
+    var extends: [String]
+    /// Whether the pNext chain can contain multiple of this struct.
+    var allowDuplicate: Bool
+    /// An array of the members in the struct.
+    var members: [StructMember]
+}
+
+/// A member of a structure in the Vulkan specification.
+struct StructMember {
+    /// The name of the member.
+    var name: String
+    /// The type of the member.
+    var type: String
+    /// If the param is an array, this specifies the length:
+    ///     len may be one or more of the following things, separated by commas (one for each array indirection):
+    ///     another member of that struct, 'null-terminated' for a string, '1' to indicate it is just a pointer (used for nested pointers),
+    ///     or a latex equation (prefixed with 'latexmath:')
+    var length: String?
+    /// if len has latexmath equations, this contains equivalent C99 expressions separated by commas.
+    var altlen: String?
+    /// if the member is an array, stride specifies the name of another parameter containing the byte stride between consecutive
+    /// elements in the array. The array is assumed to be tightly packed if omitted.
+    var stride: String?
+    /// Whether this parameter must be externally syncronized.
+    var externalSync: Bool
+    /// Whether the parameter is optional. (When it is a handle, pass VK_NULL_HANDLE, but when)
+    var optional: Bool
+    /// If the type is a handle represented by an integer, this is the actual handle type.
+    var objecttype: String?
+    /// For a union member, this specifys which member hints at which union case to use.
+    var selector: String?
+    /// If specified, only the provided values are allowed. This is mainly used for sType members.
+    var validValues: Set<String>?
+    /// The api version that provides this struct.
+    var api: String?
+    /// If the struct is deprecated, this is the reason why.
+    var deprecated: String?
+}
+
+/// A union in the Vulkan specification.
+struct Union {
+    /// The name of the union.
+    var name: String
+    /// A textual comment about the union.
+    var comment: String?
+    /// A mapping of the names of the union cases to their info.
+    var cases: [String: (type: String, selection: String?)]
 }
