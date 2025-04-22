@@ -11,19 +11,24 @@ struct Registry: CustomStringConvertible {
     var vendorTags: [String: String] = [:]
     /// An array of platforms in the Vulkan specification.
     var platforms: [Platform] = []
+
     /// A mapping of aliases to their corresponding types.
     var aliases: [String: String] = [:]
+
     /// An array of base types in the Vulkan specification.
     /// This isn't actually exported anywhere, but it is used to find the swift type that corresponds to some vulkan types.
     var baseTypes: [BaseType] = []
+
     /// An array of constants in the Vulkan specification.
     var constants: [Constant] = []
     /// A mapping of constant aliases to their corresponding constants.
     var constantAliases: [String: String] = [:]
+
     /// An array of bitmasks and their associated fields in the Vulkan specification.
     var bitmasks: [Bitmask] = []
     /// An array of enums in the Vulkan specification.
     var enums: [Enum] = []
+
     /// An array of object handles in the Vulkan specification.
     var handles: [Handle] = []
     /// An array of handle aliases in the Vulkan specification.
@@ -70,6 +75,31 @@ struct Registry: CustomStringConvertible {
             extensions: (\(extensions.count))
         )
         """
+    }
+}
+
+extension Registry {
+    /// Check if the given handle type is a child of the parent handle.
+    /// - Parameters:
+    ///   - name: The name of the handle to check.
+    ///   - parent: The name of the parent handle.
+    /// - Returns: True if the handle is a child of the parent handle.
+    func isDecendent(_ name: String, of parent: String, counter: UInt = 0) throws -> Bool {
+        if name == parent {
+            return true
+        }
+
+        guard let handle = handles.first(where: { $0.name == name }) else {
+            return false
+        }
+        if handle.parent == nil {
+            return false
+        } else if handle.parent == parent {
+            return true
+        } else if counter > 100 {
+            throw "Handle \(name) has a recursive loop of parents" as GeneratePluginError
+        }
+        return try isDecendent(handle.parent!, of: parent, counter: counter + 1)
     }
 }
 
@@ -357,6 +387,10 @@ struct HandleAlias: APIComponent {
 struct Command {
     /// The name of the command.
     var name: String
+    /// The name of the typedef of the function type.
+    var typeName: String
+    /// The scope of the command. (Loader, Instance, or Device)
+    var scope: Scope
     /// The return type of the function.
     var returnType: String
     /// The parameters of the function.
@@ -375,12 +409,30 @@ struct Command {
     var implicitExternalSyncParams: [String]
     /// The api version or extension that provides this command.
     var api: String?
+
+    /// The scope of a command.
+    enum Scope {
+        /// The command is used on the loader.
+        case loader
+        /// The command is used on the instance.
+        case instance
+        /// The command is used on the device.
+        case device
+    }
+
+    /// The name of the command without the vk prefix.
+    var fixedName: String {
+        let name = name.trimmingPrefix("vk")
+        return "\(name.first!.lowercased())\(name.dropFirst())"
+    }
 }
 
 /// A parameter for a command.
 struct CommandParam {
     /// The name of the parameter.
     var name: String
+    /// The type of the parameter.
+    var type: String
     /// If the param is an array, this specifies the length:
     ///     len may be one or more of the following things, separated by commas (one for each array indirection):
     ///     another member of that struct, 'null-terminated' for a string, '1' to indicate it is just a pointer (used for nested pointers),

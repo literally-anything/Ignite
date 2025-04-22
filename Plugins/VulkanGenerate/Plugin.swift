@@ -74,5 +74,8 @@ extension VulkanGenerate {
 
         print(registry)
         print("Parsing done!")
+
+        // Run the generators
+        try generateFunctionTables(packagePath: path, registry: registry)
     }
 }

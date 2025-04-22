@@ -5,7 +5,7 @@
  * Created by Hunter Baker on 4/11/2025
  * Copyright (C) 2025-2025, by Hunter Baker hunterbaker@me.com
  */
-// swift-tools-version: 6.0
+// swift-tools-version: 6.1
 
 import Foundation
 import PackageDescription
@@ -22,11 +22,23 @@ var package = Package(
             targets: ["Ignite"]
         )
     ],
+    traits: [
+        .trait(
+            name: "MetaLoader",
+            description:
+                "Enables the meta loader, which loads Vulkan dynamically at runtime. If this isn't enabled, the loader must be linked manually."
+        ),
+        .default(enabledTraits: ["MetaLoader"])
+    ],
+    dependencies: [
+        .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0")
+    ],
     targets: [
         .target(
             name: "Ignite",
             dependencies: [
-                "CVulkan"
+                "CVulkan",
+                .product(name: "Logging", package: "swift-log")
             ],
             cSettings: cSettings
         ),

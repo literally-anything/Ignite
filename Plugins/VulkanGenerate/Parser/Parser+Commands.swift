@@ -14,7 +14,6 @@ extension Parser {
         let commandElements = root.elements(forName: "commands").flatMap { $0.elements(forName: "command") }
 
         for element in commandElements {
-            let api = element.attribute(forName: "api")?.stringValue
             if let alias = element.attribute(forName: "alias")?.stringValue {
                 guard let name = element.attribute(forName: "name")?.stringValue else {
                     throw "Command alias has no name: \(element)" as GeneratePluginError
@@ -32,26 +31,38 @@ extension Parser {
                 }
 
                 let paramElements = element.elements(forName: "param")
-                let params = try paramElements.map { paramElement in
+                let params: [CommandParam] = try paramElements.compactMap { paramElement in
                     guard let name = paramElement.elements(forName: "name").first?.stringValue else {
                         throw "Command param has no name: \(paramElement)" as GeneratePluginError
+                    }
+                    guard let type = paramElement.elements(forName: "type").first?.stringValue else {
+                        throw "Command param has no type: \(paramElement)" as GeneratePluginError
                     }
                     let validstructs = paramElement.attribute(
                         forName: "validstructs"
                     )?.stringValue?.split(separator: ",").map {
                         String($0)
                     }
+                    // Cut anything that is in vulkansc
+                    let api = paramElement.attribute(forName: "api")?.stringValue
+                    if let api, api != "vulkan" {
+                        return nil
+                    }
                     return CommandParam(
                         name: name,
+                        type: type,
                         length: paramElement.attribute(forName: "len")?.stringValue,
                         altlen: paramElement.attribute(forName: "altlen")?.stringValue,
                         stride: paramElement.attribute(forName: "stride")?.stringValue,
                         externalSync: paramElement.attribute(forName: "externsync")?.stringValue == "true",
-                        optional: paramElement.attribute(forName: "optional")?.stringValue == "true",
+                        optional: paramElement.attribute(forName: "optional")?.stringValue?.contains("true") == true,
                         objecttype: paramElement.attribute(forName: "objecttype")?.stringValue,
                         validstructs: validstructs,
-                        api: paramElement.attribute(forName: "api")?.stringValue
+                        api: api
                     )
+                }
+                guard params.count > 0 else {
+                    throw "Command has no parameters: \(element)" as GeneratePluginError
                 }
 
                 let queues =
@@ -85,9 +96,33 @@ extension Parser {
                         $0.stringValue
                     } ?? []
 
+                let scope: Command.Scope =
+                    // These look like they should be a different scope, so we fix them
+                    if name == "vkGetInstanceProcAddr" {
+                        .loader
+                    } else if name == "vkGetDeviceProcAddr" {
+                        .device
+                    } else {
+                        if try registry.isDecendent(params.first!.type, of: "VkDevice") {
+                            .device
+                        } else if try registry.isDecendent(params.first!.type, of: "VkInstance") {
+                            .instance
+                        } else {
+                            .loader
+                        }
+                    }
+
+                // Cut anything that is in vulkansc
+                let api = element.attribute(forName: "api")?.stringValue
+                if let api, api != "vulkan" {
+                    continue
+                }
+
                 registry.commands.append(
                     Command(
                         name: name,
+                        typeName: "PFN_\(name)",
+                        scope: scope,
                         returnType: returnType,
                         params: params,
                         queues: queues,
