@@ -28,33 +28,6 @@ import CVulkan
     #endif
 #endif
 
-// Just needed a way to log failures to load the Vulkan library only when in debug mode.
-#if DEBUG
-    import Logging
-    struct LoaderLoggerContainer {
-        static let shared = Logger(label: "Ignite.Loader.Debug")
-    }
-    /// A logging function that only prints in debug mode.
-    private func debugLog(
-        _ message: @autoclosure () -> Logger.Message, file: String = #fileID, function: String = #function, line: UInt = #line
-    ) {
-        LoaderLoggerContainer.shared.debug(message(), file: file, function: function, line: line)
-    }
-    /// A trace logging function that only prints in debug mode.
-    private func traceLog(
-        _ message: @autoclosure () -> Logger.Message, file: String = #fileID, function: String = #function, line: UInt = #line
-    ) {
-        LoaderLoggerContainer.shared.trace(message(), file: file, function: function, line: line)
-    }
-#else
-    /// A logging function that only prints in debug mode.
-    @inline(__always)
-    private func debugLog(_ message: @autoclosure () -> String) {}
-    /// A trace logging function that only prints in debug mode.
-    @inline(__always)
-    private func traceLog(_ message: @autoclosure () -> String) {}
-#endif
-
 
 /// A structure that loads the Vulkan library and provides access to the loader scoped Vulkan function pointers.
 /// This is a singleton that is the entry point for all Vulkan commands. It plays a similar role to volk.
