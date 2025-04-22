@@ -1,6 +1,4 @@
 module CVulkan {
-    requires c99
-
     header "CVulkan.h"
 
     config_macros __cplusplus, __OBJC__,

@@ -21,7 +21,7 @@ import CVulkan
 #else
     // If we don't know the platform, we can't load the Vulkan library.
     // We don't care though if the user already wants to dynamically load vulkan.
-    #if !MetaLoader
+    #if MetaLoader
         #error(
             "Unknown platform. Ignite doesn't know know to load libraries on this platform. Either make a pull request or disable the MetaLoader trait."
         )

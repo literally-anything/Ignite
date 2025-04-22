@@ -13,6 +13,9 @@ import PackageDescription
 let cSettings: [CSetting] = [
     .unsafeFlags(["-I", "/usr/local/include"])
 ]
+let linkerSettings: [LinkerSetting] = [
+    .linkedLibrary("vulkan", .when(traits: ["LinkedVulkan"])),
+]
 
 var package = Package(
     name: "Ignite",
@@ -23,6 +26,11 @@ var package = Package(
         )
     ],
     traits: [
+        .trait(
+            name: "LinkedVulkan",
+            description:
+                "Makes this package direcly link vulkan at compile time."
+        ),
         .trait(
             name: "MetaLoader",
             description:
@@ -40,11 +48,14 @@ var package = Package(
                 "CVulkan",
                 .product(name: "Logging", package: "swift-log")
             ],
-            cSettings: cSettings
+            // These need to be here because SwiftPM only seems to respect these settings in the first target that depends on the c target
+            cSettings: cSettings,
+            linkerSettings: linkerSettings
         ),
         .target(
             name: "CVulkan",
-            cSettings: cSettings
+            cSettings: cSettings,
+            linkerSettings: linkerSettings
         )
     ]
 )

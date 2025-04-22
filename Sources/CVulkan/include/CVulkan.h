@@ -13,6 +13,10 @@
 #  error "Ignite, CVulkan: Can't find the vulkan headers"
 #endif
 
+// Clang doesn't like that vulkan includes things inside extern "C" blocks, so we just tell it not to.
+// I already included the stdint.h header above, so this won't cause any problems.
+#define VK_NO_STDINT_H
+
 #include <vulkan/vk_platform.h>
 #include <vulkan/vulkan_core.h>
 
