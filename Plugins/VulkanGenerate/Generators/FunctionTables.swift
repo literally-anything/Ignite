@@ -155,7 +155,7 @@ private func generateFunctionTable(
             """
             traceLog("Loading \(command.name) command in \(tableTypeName)")
             self.\(command.fixedName) = unsafeBitCast(
-                getInstanceProcAddr(nil, "\(command.name)"),
+                getProcAddr(context, "\(command.name)"),
                 to: \(command.typeName).self
             )
             if self.\(command.fixedName) == nil {

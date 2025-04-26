@@ -316,10 +316,13 @@ extension Loader {
 
         /// Load the Vulkan function pointers using the getInstanceProcAddr function.
         internal init(getInstanceProcAddr: PFN_vkGetInstanceProcAddr) {
+            let getProcAddr = getInstanceProcAddr
+            let context: VkInstance? = nil
+
             // BEGIN_GENERATE_LOADER_TABLE_INIT
             traceLog("Loading vkCreateInstance command in LoaderTable")
             self.createInstance = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkCreateInstance"),
+                getProcAddr(context, "vkCreateInstance"),
                 to: PFN_vkCreateInstance.self
             )
             if self.createInstance == nil {
@@ -328,7 +331,7 @@ extension Loader {
 
             traceLog("Loading vkGetInstanceProcAddr command in LoaderTable")
             self.getInstanceProcAddr = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetInstanceProcAddr"),
+                getProcAddr(context, "vkGetInstanceProcAddr"),
                 to: PFN_vkGetInstanceProcAddr.self
             )
             if self.getInstanceProcAddr == nil {
@@ -337,7 +340,7 @@ extension Loader {
 
             traceLog("Loading vkEnumerateInstanceVersion command in LoaderTable")
             self.enumerateInstanceVersion = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkEnumerateInstanceVersion"),
+                getProcAddr(context, "vkEnumerateInstanceVersion"),
                 to: PFN_vkEnumerateInstanceVersion.self
             )
             if self.enumerateInstanceVersion == nil {
@@ -346,7 +349,7 @@ extension Loader {
 
             traceLog("Loading vkEnumerateInstanceLayerProperties command in LoaderTable")
             self.enumerateInstanceLayerProperties = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkEnumerateInstanceLayerProperties"),
+                getProcAddr(context, "vkEnumerateInstanceLayerProperties"),
                 to: PFN_vkEnumerateInstanceLayerProperties.self
             )
             if self.enumerateInstanceLayerProperties == nil {
@@ -355,7 +358,7 @@ extension Loader {
 
             traceLog("Loading vkEnumerateInstanceExtensionProperties command in LoaderTable")
             self.enumerateInstanceExtensionProperties = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkEnumerateInstanceExtensionProperties"),
+                getProcAddr(context, "vkEnumerateInstanceExtensionProperties"),
                 to: PFN_vkEnumerateInstanceExtensionProperties.self
             )
             if self.enumerateInstanceExtensionProperties == nil {

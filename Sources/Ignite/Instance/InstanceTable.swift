@@ -2627,11 +2627,14 @@ extension Instance {
         // END_GENERATE_INSTANCE_TABLE
 
         ///
-        internal init(getInstanceProcAddr: PFN_vkGetInstanceProcAddr) {
+        internal init(getInstanceProcAddr: PFN_vkGetInstanceProcAddr, instance: VkInstance) {
+            let getProcAddr = getInstanceProcAddr
+            let context = instance
+
             // BEGIN_GENERATE_INSTANCE_TABLE_INIT
             traceLog("Loading vkDestroyInstance command in InstanceTable")
             self.destroyInstance = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkDestroyInstance"),
+                getProcAddr(context, "vkDestroyInstance"),
                 to: PFN_vkDestroyInstance.self
             )
             if self.destroyInstance == nil {
@@ -2640,7 +2643,7 @@ extension Instance {
 
             traceLog("Loading vkEnumeratePhysicalDevices command in InstanceTable")
             self.enumeratePhysicalDevices = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkEnumeratePhysicalDevices"),
+                getProcAddr(context, "vkEnumeratePhysicalDevices"),
                 to: PFN_vkEnumeratePhysicalDevices.self
             )
             if self.enumeratePhysicalDevices == nil {
@@ -2649,7 +2652,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceProperties command in InstanceTable")
             self.getPhysicalDeviceProperties = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceProperties"),
+                getProcAddr(context, "vkGetPhysicalDeviceProperties"),
                 to: PFN_vkGetPhysicalDeviceProperties.self
             )
             if self.getPhysicalDeviceProperties == nil {
@@ -2658,7 +2661,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceQueueFamilyProperties command in InstanceTable")
             self.getPhysicalDeviceQueueFamilyProperties = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceQueueFamilyProperties"),
+                getProcAddr(context, "vkGetPhysicalDeviceQueueFamilyProperties"),
                 to: PFN_vkGetPhysicalDeviceQueueFamilyProperties.self
             )
             if self.getPhysicalDeviceQueueFamilyProperties == nil {
@@ -2667,7 +2670,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceMemoryProperties command in InstanceTable")
             self.getPhysicalDeviceMemoryProperties = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceMemoryProperties"),
+                getProcAddr(context, "vkGetPhysicalDeviceMemoryProperties"),
                 to: PFN_vkGetPhysicalDeviceMemoryProperties.self
             )
             if self.getPhysicalDeviceMemoryProperties == nil {
@@ -2676,7 +2679,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceFeatures command in InstanceTable")
             self.getPhysicalDeviceFeatures = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceFeatures"),
+                getProcAddr(context, "vkGetPhysicalDeviceFeatures"),
                 to: PFN_vkGetPhysicalDeviceFeatures.self
             )
             if self.getPhysicalDeviceFeatures == nil {
@@ -2685,7 +2688,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceFormatProperties command in InstanceTable")
             self.getPhysicalDeviceFormatProperties = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceFormatProperties"),
+                getProcAddr(context, "vkGetPhysicalDeviceFormatProperties"),
                 to: PFN_vkGetPhysicalDeviceFormatProperties.self
             )
             if self.getPhysicalDeviceFormatProperties == nil {
@@ -2694,7 +2697,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceImageFormatProperties command in InstanceTable")
             self.getPhysicalDeviceImageFormatProperties = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceImageFormatProperties"),
+                getProcAddr(context, "vkGetPhysicalDeviceImageFormatProperties"),
                 to: PFN_vkGetPhysicalDeviceImageFormatProperties.self
             )
             if self.getPhysicalDeviceImageFormatProperties == nil {
@@ -2703,7 +2706,7 @@ extension Instance {
 
             traceLog("Loading vkCreateDevice command in InstanceTable")
             self.createDevice = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkCreateDevice"),
+                getProcAddr(context, "vkCreateDevice"),
                 to: PFN_vkCreateDevice.self
             )
             if self.createDevice == nil {
@@ -2712,7 +2715,7 @@ extension Instance {
 
             traceLog("Loading vkEnumerateDeviceLayerProperties command in InstanceTable")
             self.enumerateDeviceLayerProperties = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkEnumerateDeviceLayerProperties"),
+                getProcAddr(context, "vkEnumerateDeviceLayerProperties"),
                 to: PFN_vkEnumerateDeviceLayerProperties.self
             )
             if self.enumerateDeviceLayerProperties == nil {
@@ -2721,7 +2724,7 @@ extension Instance {
 
             traceLog("Loading vkEnumerateDeviceExtensionProperties command in InstanceTable")
             self.enumerateDeviceExtensionProperties = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkEnumerateDeviceExtensionProperties"),
+                getProcAddr(context, "vkEnumerateDeviceExtensionProperties"),
                 to: PFN_vkEnumerateDeviceExtensionProperties.self
             )
             if self.enumerateDeviceExtensionProperties == nil {
@@ -2730,7 +2733,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceSparseImageFormatProperties command in InstanceTable")
             self.getPhysicalDeviceSparseImageFormatProperties = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceSparseImageFormatProperties"),
+                getProcAddr(context, "vkGetPhysicalDeviceSparseImageFormatProperties"),
                 to: PFN_vkGetPhysicalDeviceSparseImageFormatProperties.self
             )
             if self.getPhysicalDeviceSparseImageFormatProperties == nil {
@@ -2739,7 +2742,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceDisplayPropertiesKHR command in InstanceTable")
             self.getPhysicalDeviceDisplayPropertiesKHR = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceDisplayPropertiesKHR"),
+                getProcAddr(context, "vkGetPhysicalDeviceDisplayPropertiesKHR"),
                 to: PFN_vkGetPhysicalDeviceDisplayPropertiesKHR.self
             )
             if self.getPhysicalDeviceDisplayPropertiesKHR == nil {
@@ -2748,7 +2751,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceDisplayPlanePropertiesKHR command in InstanceTable")
             self.getPhysicalDeviceDisplayPlanePropertiesKHR = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceDisplayPlanePropertiesKHR"),
+                getProcAddr(context, "vkGetPhysicalDeviceDisplayPlanePropertiesKHR"),
                 to: PFN_vkGetPhysicalDeviceDisplayPlanePropertiesKHR.self
             )
             if self.getPhysicalDeviceDisplayPlanePropertiesKHR == nil {
@@ -2757,7 +2760,7 @@ extension Instance {
 
             traceLog("Loading vkGetDisplayPlaneSupportedDisplaysKHR command in InstanceTable")
             self.getDisplayPlaneSupportedDisplaysKHR = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetDisplayPlaneSupportedDisplaysKHR"),
+                getProcAddr(context, "vkGetDisplayPlaneSupportedDisplaysKHR"),
                 to: PFN_vkGetDisplayPlaneSupportedDisplaysKHR.self
             )
             if self.getDisplayPlaneSupportedDisplaysKHR == nil {
@@ -2766,7 +2769,7 @@ extension Instance {
 
             traceLog("Loading vkGetDisplayModePropertiesKHR command in InstanceTable")
             self.getDisplayModePropertiesKHR = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetDisplayModePropertiesKHR"),
+                getProcAddr(context, "vkGetDisplayModePropertiesKHR"),
                 to: PFN_vkGetDisplayModePropertiesKHR.self
             )
             if self.getDisplayModePropertiesKHR == nil {
@@ -2775,7 +2778,7 @@ extension Instance {
 
             traceLog("Loading vkCreateDisplayModeKHR command in InstanceTable")
             self.createDisplayModeKHR = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkCreateDisplayModeKHR"),
+                getProcAddr(context, "vkCreateDisplayModeKHR"),
                 to: PFN_vkCreateDisplayModeKHR.self
             )
             if self.createDisplayModeKHR == nil {
@@ -2784,7 +2787,7 @@ extension Instance {
 
             traceLog("Loading vkGetDisplayPlaneCapabilitiesKHR command in InstanceTable")
             self.getDisplayPlaneCapabilitiesKHR = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetDisplayPlaneCapabilitiesKHR"),
+                getProcAddr(context, "vkGetDisplayPlaneCapabilitiesKHR"),
                 to: PFN_vkGetDisplayPlaneCapabilitiesKHR.self
             )
             if self.getDisplayPlaneCapabilitiesKHR == nil {
@@ -2793,7 +2796,7 @@ extension Instance {
 
             traceLog("Loading vkCreateDisplayPlaneSurfaceKHR command in InstanceTable")
             self.createDisplayPlaneSurfaceKHR = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkCreateDisplayPlaneSurfaceKHR"),
+                getProcAddr(context, "vkCreateDisplayPlaneSurfaceKHR"),
                 to: PFN_vkCreateDisplayPlaneSurfaceKHR.self
             )
             if self.createDisplayPlaneSurfaceKHR == nil {
@@ -2802,7 +2805,7 @@ extension Instance {
 
             traceLog("Loading vkDestroySurfaceKHR command in InstanceTable")
             self.destroySurfaceKHR = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkDestroySurfaceKHR"),
+                getProcAddr(context, "vkDestroySurfaceKHR"),
                 to: PFN_vkDestroySurfaceKHR.self
             )
             if self.destroySurfaceKHR == nil {
@@ -2811,7 +2814,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceSurfaceSupportKHR command in InstanceTable")
             self.getPhysicalDeviceSurfaceSupportKHR = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceSurfaceSupportKHR"),
+                getProcAddr(context, "vkGetPhysicalDeviceSurfaceSupportKHR"),
                 to: PFN_vkGetPhysicalDeviceSurfaceSupportKHR.self
             )
             if self.getPhysicalDeviceSurfaceSupportKHR == nil {
@@ -2820,7 +2823,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceSurfaceCapabilitiesKHR command in InstanceTable")
             self.getPhysicalDeviceSurfaceCapabilitiesKHR = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceSurfaceCapabilitiesKHR"),
+                getProcAddr(context, "vkGetPhysicalDeviceSurfaceCapabilitiesKHR"),
                 to: PFN_vkGetPhysicalDeviceSurfaceCapabilitiesKHR.self
             )
             if self.getPhysicalDeviceSurfaceCapabilitiesKHR == nil {
@@ -2829,7 +2832,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceSurfaceFormatsKHR command in InstanceTable")
             self.getPhysicalDeviceSurfaceFormatsKHR = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceSurfaceFormatsKHR"),
+                getProcAddr(context, "vkGetPhysicalDeviceSurfaceFormatsKHR"),
                 to: PFN_vkGetPhysicalDeviceSurfaceFormatsKHR.self
             )
             if self.getPhysicalDeviceSurfaceFormatsKHR == nil {
@@ -2838,7 +2841,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceSurfacePresentModesKHR command in InstanceTable")
             self.getPhysicalDeviceSurfacePresentModesKHR = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceSurfacePresentModesKHR"),
+                getProcAddr(context, "vkGetPhysicalDeviceSurfacePresentModesKHR"),
                 to: PFN_vkGetPhysicalDeviceSurfacePresentModesKHR.self
             )
             if self.getPhysicalDeviceSurfacePresentModesKHR == nil {
@@ -2847,7 +2850,7 @@ extension Instance {
 
             traceLog("Loading vkCreateDebugReportCallbackEXT command in InstanceTable")
             self.createDebugReportCallbackEXT = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkCreateDebugReportCallbackEXT"),
+                getProcAddr(context, "vkCreateDebugReportCallbackEXT"),
                 to: PFN_vkCreateDebugReportCallbackEXT.self
             )
             if self.createDebugReportCallbackEXT == nil {
@@ -2856,7 +2859,7 @@ extension Instance {
 
             traceLog("Loading vkDestroyDebugReportCallbackEXT command in InstanceTable")
             self.destroyDebugReportCallbackEXT = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkDestroyDebugReportCallbackEXT"),
+                getProcAddr(context, "vkDestroyDebugReportCallbackEXT"),
                 to: PFN_vkDestroyDebugReportCallbackEXT.self
             )
             if self.destroyDebugReportCallbackEXT == nil {
@@ -2865,7 +2868,7 @@ extension Instance {
 
             traceLog("Loading vkDebugReportMessageEXT command in InstanceTable")
             self.debugReportMessageEXT = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkDebugReportMessageEXT"),
+                getProcAddr(context, "vkDebugReportMessageEXT"),
                 to: PFN_vkDebugReportMessageEXT.self
             )
             if self.debugReportMessageEXT == nil {
@@ -2874,7 +2877,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceExternalImageFormatPropertiesNV command in InstanceTable")
             self.getPhysicalDeviceExternalImageFormatPropertiesNV = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceExternalImageFormatPropertiesNV"),
+                getProcAddr(context, "vkGetPhysicalDeviceExternalImageFormatPropertiesNV"),
                 to: PFN_vkGetPhysicalDeviceExternalImageFormatPropertiesNV.self
             )
             if self.getPhysicalDeviceExternalImageFormatPropertiesNV == nil {
@@ -2883,7 +2886,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceFeatures2 command in InstanceTable")
             self.getPhysicalDeviceFeatures2 = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceFeatures2"),
+                getProcAddr(context, "vkGetPhysicalDeviceFeatures2"),
                 to: PFN_vkGetPhysicalDeviceFeatures2.self
             )
             if self.getPhysicalDeviceFeatures2 == nil {
@@ -2892,7 +2895,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceProperties2 command in InstanceTable")
             self.getPhysicalDeviceProperties2 = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceProperties2"),
+                getProcAddr(context, "vkGetPhysicalDeviceProperties2"),
                 to: PFN_vkGetPhysicalDeviceProperties2.self
             )
             if self.getPhysicalDeviceProperties2 == nil {
@@ -2901,7 +2904,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceFormatProperties2 command in InstanceTable")
             self.getPhysicalDeviceFormatProperties2 = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceFormatProperties2"),
+                getProcAddr(context, "vkGetPhysicalDeviceFormatProperties2"),
                 to: PFN_vkGetPhysicalDeviceFormatProperties2.self
             )
             if self.getPhysicalDeviceFormatProperties2 == nil {
@@ -2910,7 +2913,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceImageFormatProperties2 command in InstanceTable")
             self.getPhysicalDeviceImageFormatProperties2 = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceImageFormatProperties2"),
+                getProcAddr(context, "vkGetPhysicalDeviceImageFormatProperties2"),
                 to: PFN_vkGetPhysicalDeviceImageFormatProperties2.self
             )
             if self.getPhysicalDeviceImageFormatProperties2 == nil {
@@ -2919,7 +2922,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceQueueFamilyProperties2 command in InstanceTable")
             self.getPhysicalDeviceQueueFamilyProperties2 = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceQueueFamilyProperties2"),
+                getProcAddr(context, "vkGetPhysicalDeviceQueueFamilyProperties2"),
                 to: PFN_vkGetPhysicalDeviceQueueFamilyProperties2.self
             )
             if self.getPhysicalDeviceQueueFamilyProperties2 == nil {
@@ -2928,7 +2931,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceMemoryProperties2 command in InstanceTable")
             self.getPhysicalDeviceMemoryProperties2 = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceMemoryProperties2"),
+                getProcAddr(context, "vkGetPhysicalDeviceMemoryProperties2"),
                 to: PFN_vkGetPhysicalDeviceMemoryProperties2.self
             )
             if self.getPhysicalDeviceMemoryProperties2 == nil {
@@ -2937,7 +2940,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceSparseImageFormatProperties2 command in InstanceTable")
             self.getPhysicalDeviceSparseImageFormatProperties2 = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceSparseImageFormatProperties2"),
+                getProcAddr(context, "vkGetPhysicalDeviceSparseImageFormatProperties2"),
                 to: PFN_vkGetPhysicalDeviceSparseImageFormatProperties2.self
             )
             if self.getPhysicalDeviceSparseImageFormatProperties2 == nil {
@@ -2946,7 +2949,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceExternalBufferProperties command in InstanceTable")
             self.getPhysicalDeviceExternalBufferProperties = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceExternalBufferProperties"),
+                getProcAddr(context, "vkGetPhysicalDeviceExternalBufferProperties"),
                 to: PFN_vkGetPhysicalDeviceExternalBufferProperties.self
             )
             if self.getPhysicalDeviceExternalBufferProperties == nil {
@@ -2955,7 +2958,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceExternalSemaphoreProperties command in InstanceTable")
             self.getPhysicalDeviceExternalSemaphoreProperties = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceExternalSemaphoreProperties"),
+                getProcAddr(context, "vkGetPhysicalDeviceExternalSemaphoreProperties"),
                 to: PFN_vkGetPhysicalDeviceExternalSemaphoreProperties.self
             )
             if self.getPhysicalDeviceExternalSemaphoreProperties == nil {
@@ -2964,7 +2967,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceExternalFenceProperties command in InstanceTable")
             self.getPhysicalDeviceExternalFenceProperties = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceExternalFenceProperties"),
+                getProcAddr(context, "vkGetPhysicalDeviceExternalFenceProperties"),
                 to: PFN_vkGetPhysicalDeviceExternalFenceProperties.self
             )
             if self.getPhysicalDeviceExternalFenceProperties == nil {
@@ -2973,7 +2976,7 @@ extension Instance {
 
             traceLog("Loading vkReleaseDisplayEXT command in InstanceTable")
             self.releaseDisplayEXT = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkReleaseDisplayEXT"),
+                getProcAddr(context, "vkReleaseDisplayEXT"),
                 to: PFN_vkReleaseDisplayEXT.self
             )
             if self.releaseDisplayEXT == nil {
@@ -2982,7 +2985,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceSurfaceCapabilities2EXT command in InstanceTable")
             self.getPhysicalDeviceSurfaceCapabilities2EXT = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceSurfaceCapabilities2EXT"),
+                getProcAddr(context, "vkGetPhysicalDeviceSurfaceCapabilities2EXT"),
                 to: PFN_vkGetPhysicalDeviceSurfaceCapabilities2EXT.self
             )
             if self.getPhysicalDeviceSurfaceCapabilities2EXT == nil {
@@ -2991,7 +2994,7 @@ extension Instance {
 
             traceLog("Loading vkEnumeratePhysicalDeviceGroups command in InstanceTable")
             self.enumeratePhysicalDeviceGroups = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkEnumeratePhysicalDeviceGroups"),
+                getProcAddr(context, "vkEnumeratePhysicalDeviceGroups"),
                 to: PFN_vkEnumeratePhysicalDeviceGroups.self
             )
             if self.enumeratePhysicalDeviceGroups == nil {
@@ -3000,7 +3003,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceSurfaceCapabilities2KHR command in InstanceTable")
             self.getPhysicalDeviceSurfaceCapabilities2KHR = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceSurfaceCapabilities2KHR"),
+                getProcAddr(context, "vkGetPhysicalDeviceSurfaceCapabilities2KHR"),
                 to: PFN_vkGetPhysicalDeviceSurfaceCapabilities2KHR.self
             )
             if self.getPhysicalDeviceSurfaceCapabilities2KHR == nil {
@@ -3009,7 +3012,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceSurfaceFormats2KHR command in InstanceTable")
             self.getPhysicalDeviceSurfaceFormats2KHR = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceSurfaceFormats2KHR"),
+                getProcAddr(context, "vkGetPhysicalDeviceSurfaceFormats2KHR"),
                 to: PFN_vkGetPhysicalDeviceSurfaceFormats2KHR.self
             )
             if self.getPhysicalDeviceSurfaceFormats2KHR == nil {
@@ -3018,7 +3021,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceDisplayProperties2KHR command in InstanceTable")
             self.getPhysicalDeviceDisplayProperties2KHR = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceDisplayProperties2KHR"),
+                getProcAddr(context, "vkGetPhysicalDeviceDisplayProperties2KHR"),
                 to: PFN_vkGetPhysicalDeviceDisplayProperties2KHR.self
             )
             if self.getPhysicalDeviceDisplayProperties2KHR == nil {
@@ -3027,7 +3030,7 @@ extension Instance {
 
             traceLog("Loading vkGetPhysicalDeviceDisplayPlaneProperties2KHR command in InstanceTable")
             self.getPhysicalDeviceDisplayPlaneProperties2KHR = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetPhysicalDeviceDisplayPlaneProperties2KHR"),
+                getProcAddr(context, "vkGetPhysicalDeviceDisplayPlaneProperties2KHR"),
                 to: PFN_vkGetPhysicalDeviceDisplayPlaneProperties2KHR.self
             )
             if self.getPhysicalDeviceDisplayPlaneProperties2KHR == nil {
@@ -3036,7 +3039,7 @@ extension Instance {
 
             traceLog("Loading vkGetDisplayModeProperties2KHR command in InstanceTable")
             self.getDisplayModeProperties2KHR = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetDisplayModeProperties2KHR"),
+                getProcAddr(context, "vkGetDisplayModeProperties2KHR"),
                 to: PFN_vkGetDisplayModeProperties2KHR.self
             )
             if self.getDisplayModeProperties2KHR == nil {
@@ -3045,7 +3048,7 @@ extension Instance {
 
             traceLog("Loading vkGetDisplayPlaneCapabilities2KHR command in InstanceTable")
             self.getDisplayPlaneCapabilities2KHR = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetDisplayPlaneCapabilities2KHR"),
+                getProcAddr(context, "vkGetDisplayPlaneCapabilities2KHR"),
                 to: PFN_vkGetDisplayPlaneCapabilities2KHR.self
             )
             if self.getDisplayPlaneCapabilities2KHR == nil {
@@ -3054,7 +3057,7 @@ extension Instance {
 
             traceLog("Loading vkSetDebugUtilsObjectNameEXT command in InstanceTable")
             self.setDebugUtilsObjectNameEXT = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkSetDebugUtilsObjectNameEXT"),
+                getProcAddr(context, "vkSetDebugUtilsObjectNameEXT"),
                 to: PFN_vkSetDebugUtilsObjectNameEXT.self
             )
             if self.setDebugUtilsObjectNameEXT == nil {
@@ -3063,7 +3066,7 @@ extension Instance {
 
             traceLog("Loading vkSetDebugUtilsObjectTagEXT command in InstanceTable")
             self.setDebugUtilsObjectTagEXT = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkSetDebugUtilsObjectTagEXT"),
+                getProcAddr(context, "vkSetDebugUtilsObjectTagEXT"),
                 to: PFN_vkSetDebugUtilsObjectTagEXT.self
             )
             if self.setDebugUtilsObjectTagEXT == nil {
@@ -3072,7 +3075,7 @@ extension Instance {
 
             traceLog("Loading vkQueueBeginDebugUtilsLabelEXT command in InstanceTable")
             self.queueBeginDebugUtilsLabelEXT = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkQueueBeginDebugUtilsLabelEXT"),
+                getProcAddr(context, "vkQueueBeginDebugUtilsLabelEXT"),
                 to: PFN_vkQueueBeginDebugUtilsLabelEXT.self
             )
             if self.queueBeginDebugUtilsLabelEXT == nil {
@@ -3081,7 +3084,7 @@ extension Instance {
 
             traceLog("Loading vkQueueEndDebugUtilsLabelEXT command in InstanceTable")
             self.queueEndDebugUtilsLabelEXT = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkQueueEndDebugUtilsLabelEXT"),
+                getProcAddr(context, "vkQueueEndDebugUtilsLabelEXT"),
                 to: PFN_vkQueueEndDebugUtilsLabelEXT.self
             )
             if self.queueEndDebugUtilsLabelEXT == nil {
@@ -3090,7 +3093,7 @@ extension Instance {
 
             traceLog("Loading vkQueueInsertDebugUtilsLabelEXT command in InstanceTable")
             self.queueInsertDebugUtilsLabelEXT = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkQueueInsertDebugUtilsLabelEXT"),
+                getProcAddr(context, "vkQueueInsertDebugUtilsLabelEXT"),
                 to: PFN_vkQueueInsertDebugUtilsLabelEXT.self
             )
             if self.queueInsertDebugUtilsLabelEXT == nil {
@@ -3099,7 +3102,7 @@ extension Instance {
 
             traceLog("Loading vkCmdBeginDebugUtilsLabelEXT command in InstanceTable")
             self.cmdBeginDebugUtilsLabelEXT = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkCmdBeginDebugUtilsLabelEXT"),
+                getProcAddr(context, "vkCmdBeginDebugUtilsLabelEXT"),
                 to: PFN_vkCmdBeginDebugUtilsLabelEXT.self
             )
             if self.cmdBeginDebugUtilsLabelEXT == nil {
@@ -3108,7 +3111,7 @@ extension Instance {
 
             traceLog("Loading vkCmdEndDebugUtilsLabelEXT command in InstanceTable")
             self.cmdEndDebugUtilsLabelEXT = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkCmdEndDebugUtilsLabelEXT"),
+                getProcAddr(context, "vkCmdEndDebugUtilsLabelEXT"),
                 to: PFN_vkCmdEndDebugUtilsLabelEXT.self
             )
             if self.cmdEndDebugUtilsLabelEXT == nil {
@@ -3117,7 +3120,7 @@ extension Instance {
 
             traceLog("Loading vkCmdInsertDebugUtilsLabelEXT command in InstanceTable")
             self.cmdInsertDebugUtilsLabelEXT = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkCmdInsertDebugUtilsLabelEXT"),
+                getProcAddr(context, "vkCmdInsertDebugUtilsLabelEXT"),
                 to: PFN_vkCmdInsertDebugUtilsLabelEXT.self
             )
             if self.cmdInsertDebugUtilsLabelEXT == nil {
@@ -3126,7 +3129,7 @@ extension Instance {
 
             traceLog("Loading vkCreateDebugUtilsMessengerEXT command in InstanceTable")
             self.createDebugUtilsMessengerEXT = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkCreateDebugUtilsMessengerEXT"),
+                getProcAddr(context, "vkCreateDebugUtilsMessengerEXT"),
                 to: PFN_vkCreateDebugUtilsMessengerEXT.self
             )
             if self.createDebugUtilsMessengerEXT == nil {
@@ -3135,7 +3138,7 @@ extension Instance {
 
             traceLog("Loading vkDestroyDebugUtilsMessengerEXT command in InstanceTable")
             self.destroyDebugUtilsMessengerEXT = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkDestroyDebugUtilsMessengerEXT"),
+                getProcAddr(context, "vkDestroyDebugUtilsMessengerEXT"),
                 to: PFN_vkDestroyDebugUtilsMessengerEXT.self
             )
             if self.destroyDebugUtilsMessengerEXT == nil {
@@ -3144,7 +3147,7 @@ extension Instance {
 
             traceLog("Loading vkSubmitDebugUtilsMessageEXT command in InstanceTable")
             self.submitDebugUtilsMessageEXT = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkSubmitDebugUtilsMessageEXT"),
+                getProcAddr(context, "vkSubmitDebugUtilsMessageEXT"),
                 to: PFN_vkSubmitDebugUtilsMessageEXT.self
             )
             if self.submitDebugUtilsMessageEXT == nil {
@@ -3153,7 +3156,7 @@ extension Instance {
 
             traceLog("Loading vkCreateHeadlessSurfaceEXT command in InstanceTable")
             self.createHeadlessSurfaceEXT = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkCreateHeadlessSurfaceEXT"),
+                getProcAddr(context, "vkCreateHeadlessSurfaceEXT"),
                 to: PFN_vkCreateHeadlessSurfaceEXT.self
             )
             if self.createHeadlessSurfaceEXT == nil {
@@ -3162,7 +3165,7 @@ extension Instance {
 
             traceLog("Loading vkAcquireDrmDisplayEXT command in InstanceTable")
             self.acquireDrmDisplayEXT = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkAcquireDrmDisplayEXT"),
+                getProcAddr(context, "vkAcquireDrmDisplayEXT"),
                 to: PFN_vkAcquireDrmDisplayEXT.self
             )
             if self.acquireDrmDisplayEXT == nil {
@@ -3171,7 +3174,7 @@ extension Instance {
 
             traceLog("Loading vkGetDrmDisplayEXT command in InstanceTable")
             self.getDrmDisplayEXT = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetDrmDisplayEXT"),
+                getProcAddr(context, "vkGetDrmDisplayEXT"),
                 to: PFN_vkGetDrmDisplayEXT.self
             )
             if self.getDrmDisplayEXT == nil {
@@ -3181,7 +3184,7 @@ extension Instance {
             #if PlatformAndroid
                 traceLog("Loading vkCreateAndroidSurfaceKHR command in InstanceTable")
                 self.createAndroidSurfaceKHR = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateAndroidSurfaceKHR"),
+                    getProcAddr(context, "vkCreateAndroidSurfaceKHR"),
                     to: PFN_vkCreateAndroidSurfaceKHR.self
                 )
                 if self.createAndroidSurfaceKHR == nil {
@@ -3193,7 +3196,7 @@ extension Instance {
             #if PlatformDirectfb
                 traceLog("Loading vkCreateDirectFBSurfaceEXT command in InstanceTable")
                 self.createDirectFBSurfaceEXT = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateDirectFBSurfaceEXT"),
+                    getProcAddr(context, "vkCreateDirectFBSurfaceEXT"),
                     to: PFN_vkCreateDirectFBSurfaceEXT.self
                 )
                 if self.createDirectFBSurfaceEXT == nil {
@@ -3202,7 +3205,7 @@ extension Instance {
 
                 traceLog("Loading vkGetPhysicalDeviceDirectFBPresentationSupportEXT command in InstanceTable")
                 self.getPhysicalDeviceDirectFBPresentationSupportEXT = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkGetPhysicalDeviceDirectFBPresentationSupportEXT"),
+                    getProcAddr(context, "vkGetPhysicalDeviceDirectFBPresentationSupportEXT"),
                     to: PFN_vkGetPhysicalDeviceDirectFBPresentationSupportEXT.self
                 )
                 if self.getPhysicalDeviceDirectFBPresentationSupportEXT == nil {
@@ -3214,7 +3217,7 @@ extension Instance {
             #if PlatformFuchsia
                 traceLog("Loading vkCreateImagePipeSurfaceFUCHSIA command in InstanceTable")
                 self.createImagePipeSurfaceFUCHSIA = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateImagePipeSurfaceFUCHSIA"),
+                    getProcAddr(context, "vkCreateImagePipeSurfaceFUCHSIA"),
                     to: PFN_vkCreateImagePipeSurfaceFUCHSIA.self
                 )
                 if self.createImagePipeSurfaceFUCHSIA == nil {
@@ -3226,7 +3229,7 @@ extension Instance {
             #if PlatformGgp
                 traceLog("Loading vkCreateStreamDescriptorSurfaceGGP command in InstanceTable")
                 self.createStreamDescriptorSurfaceGGP = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateStreamDescriptorSurfaceGGP"),
+                    getProcAddr(context, "vkCreateStreamDescriptorSurfaceGGP"),
                     to: PFN_vkCreateStreamDescriptorSurfaceGGP.self
                 )
                 if self.createStreamDescriptorSurfaceGGP == nil {
@@ -3238,7 +3241,7 @@ extension Instance {
             #if PlatformIos
                 traceLog("Loading vkCreateIOSSurfaceMVK command in InstanceTable")
                 self.createIOSSurfaceMVK = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateIOSSurfaceMVK"),
+                    getProcAddr(context, "vkCreateIOSSurfaceMVK"),
                     to: PFN_vkCreateIOSSurfaceMVK.self
                 )
                 if self.createIOSSurfaceMVK == nil {
@@ -3250,7 +3253,7 @@ extension Instance {
             #if PlatformMacos
                 traceLog("Loading vkCreateMacOSSurfaceMVK command in InstanceTable")
                 self.createMacOSSurfaceMVK = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateMacOSSurfaceMVK"),
+                    getProcAddr(context, "vkCreateMacOSSurfaceMVK"),
                     to: PFN_vkCreateMacOSSurfaceMVK.self
                 )
                 if self.createMacOSSurfaceMVK == nil {
@@ -3262,7 +3265,7 @@ extension Instance {
             #if PlatformMetal
                 traceLog("Loading vkCreateMetalSurfaceEXT command in InstanceTable")
                 self.createMetalSurfaceEXT = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateMetalSurfaceEXT"),
+                    getProcAddr(context, "vkCreateMetalSurfaceEXT"),
                     to: PFN_vkCreateMetalSurfaceEXT.self
                 )
                 if self.createMetalSurfaceEXT == nil {
@@ -3274,7 +3277,7 @@ extension Instance {
             #if PlatformScreen
                 traceLog("Loading vkCreateScreenSurfaceQNX command in InstanceTable")
                 self.createScreenSurfaceQNX = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateScreenSurfaceQNX"),
+                    getProcAddr(context, "vkCreateScreenSurfaceQNX"),
                     to: PFN_vkCreateScreenSurfaceQNX.self
                 )
                 if self.createScreenSurfaceQNX == nil {
@@ -3283,7 +3286,7 @@ extension Instance {
 
                 traceLog("Loading vkGetPhysicalDeviceScreenPresentationSupportQNX command in InstanceTable")
                 self.getPhysicalDeviceScreenPresentationSupportQNX = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkGetPhysicalDeviceScreenPresentationSupportQNX"),
+                    getProcAddr(context, "vkGetPhysicalDeviceScreenPresentationSupportQNX"),
                     to: PFN_vkGetPhysicalDeviceScreenPresentationSupportQNX.self
                 )
                 if self.getPhysicalDeviceScreenPresentationSupportQNX == nil {
@@ -3295,7 +3298,7 @@ extension Instance {
             #if PlatformVi
                 traceLog("Loading vkCreateViSurfaceNN command in InstanceTable")
                 self.createViSurfaceNN = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateViSurfaceNN"),
+                    getProcAddr(context, "vkCreateViSurfaceNN"),
                     to: PFN_vkCreateViSurfaceNN.self
                 )
                 if self.createViSurfaceNN == nil {
@@ -3307,7 +3310,7 @@ extension Instance {
             #if PlatformWayland
                 traceLog("Loading vkCreateWaylandSurfaceKHR command in InstanceTable")
                 self.createWaylandSurfaceKHR = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateWaylandSurfaceKHR"),
+                    getProcAddr(context, "vkCreateWaylandSurfaceKHR"),
                     to: PFN_vkCreateWaylandSurfaceKHR.self
                 )
                 if self.createWaylandSurfaceKHR == nil {
@@ -3316,7 +3319,7 @@ extension Instance {
 
                 traceLog("Loading vkGetPhysicalDeviceWaylandPresentationSupportKHR command in InstanceTable")
                 self.getPhysicalDeviceWaylandPresentationSupportKHR = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkGetPhysicalDeviceWaylandPresentationSupportKHR"),
+                    getProcAddr(context, "vkGetPhysicalDeviceWaylandPresentationSupportKHR"),
                     to: PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR.self
                 )
                 if self.getPhysicalDeviceWaylandPresentationSupportKHR == nil {
@@ -3328,7 +3331,7 @@ extension Instance {
             #if PlatformWin32
                 traceLog("Loading vkCreateWin32SurfaceKHR command in InstanceTable")
                 self.createWin32SurfaceKHR = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateWin32SurfaceKHR"),
+                    getProcAddr(context, "vkCreateWin32SurfaceKHR"),
                     to: PFN_vkCreateWin32SurfaceKHR.self
                 )
                 if self.createWin32SurfaceKHR == nil {
@@ -3337,7 +3340,7 @@ extension Instance {
 
                 traceLog("Loading vkGetPhysicalDeviceWin32PresentationSupportKHR command in InstanceTable")
                 self.getPhysicalDeviceWin32PresentationSupportKHR = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkGetPhysicalDeviceWin32PresentationSupportKHR"),
+                    getProcAddr(context, "vkGetPhysicalDeviceWin32PresentationSupportKHR"),
                     to: PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR.self
                 )
                 if self.getPhysicalDeviceWin32PresentationSupportKHR == nil {
@@ -3349,7 +3352,7 @@ extension Instance {
             #if PlatformXcb
                 traceLog("Loading vkCreateXcbSurfaceKHR command in InstanceTable")
                 self.createXcbSurfaceKHR = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateXcbSurfaceKHR"),
+                    getProcAddr(context, "vkCreateXcbSurfaceKHR"),
                     to: PFN_vkCreateXcbSurfaceKHR.self
                 )
                 if self.createXcbSurfaceKHR == nil {
@@ -3358,7 +3361,7 @@ extension Instance {
 
                 traceLog("Loading vkGetPhysicalDeviceXcbPresentationSupportKHR command in InstanceTable")
                 self.getPhysicalDeviceXcbPresentationSupportKHR = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkGetPhysicalDeviceXcbPresentationSupportKHR"),
+                    getProcAddr(context, "vkGetPhysicalDeviceXcbPresentationSupportKHR"),
                     to: PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR.self
                 )
                 if self.getPhysicalDeviceXcbPresentationSupportKHR == nil {
@@ -3370,7 +3373,7 @@ extension Instance {
             #if PlatformXlib
                 traceLog("Loading vkCreateXlibSurfaceKHR command in InstanceTable")
                 self.createXlibSurfaceKHR = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateXlibSurfaceKHR"),
+                    getProcAddr(context, "vkCreateXlibSurfaceKHR"),
                     to: PFN_vkCreateXlibSurfaceKHR.self
                 )
                 if self.createXlibSurfaceKHR == nil {
@@ -3379,7 +3382,7 @@ extension Instance {
 
                 traceLog("Loading vkGetPhysicalDeviceXlibPresentationSupportKHR command in InstanceTable")
                 self.getPhysicalDeviceXlibPresentationSupportKHR = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkGetPhysicalDeviceXlibPresentationSupportKHR"),
+                    getProcAddr(context, "vkGetPhysicalDeviceXlibPresentationSupportKHR"),
                     to: PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR.self
                 )
                 if self.getPhysicalDeviceXlibPresentationSupportKHR == nil {
@@ -3391,7 +3394,7 @@ extension Instance {
             #if PlatformXlibXrandr
                 traceLog("Loading vkAcquireXlibDisplayEXT command in InstanceTable")
                 self.acquireXlibDisplayEXT = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkAcquireXlibDisplayEXT"),
+                    getProcAddr(context, "vkAcquireXlibDisplayEXT"),
                     to: PFN_vkAcquireXlibDisplayEXT.self
                 )
                 if self.acquireXlibDisplayEXT == nil {
@@ -3400,7 +3403,7 @@ extension Instance {
 
                 traceLog("Loading vkGetRandROutputDisplayEXT command in InstanceTable")
                 self.getRandROutputDisplayEXT = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkGetRandROutputDisplayEXT"),
+                    getProcAddr(context, "vkGetRandROutputDisplayEXT"),
                     to: PFN_vkGetRandROutputDisplayEXT.self
                 )
                 if self.getRandROutputDisplayEXT == nil {
