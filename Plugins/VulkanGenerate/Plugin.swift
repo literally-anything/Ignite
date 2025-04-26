@@ -104,6 +104,7 @@ extension VulkanGenerate {
         print("Parsing done!")
 
         // Run the generators
+        try generatePlatformTraits(packagePath: path, registry: registry)
         try generateFunctionTables(packagePath: path, registry: registry)
 
         print("Done!")

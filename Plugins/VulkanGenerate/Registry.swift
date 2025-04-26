@@ -9,40 +9,36 @@
 struct Registry: CustomStringConvertible {
     /// A mapping of vendor tags to their corresponding vendor names.
     var vendorTags: [String: String] = [:]
-    /// An array of platforms in the Vulkan specification.
-    var platforms: [Platform] = []
+    /// A mapping of platform names to their corresponding platform info.
+    var platforms: [String: Platform] = [:]
 
-    /// A mapping of aliases to their corresponding types.
+    /// A mapping of aliases to their corresponding types (structs, unions, enums, and handles).
     var aliases: [String: String] = [:]
-
-    /// An array of base types in the Vulkan specification.
+    /// A mapping of the name of a base type to its definition.
     /// This isn't actually exported anywhere, but it is used to find the swift type that corresponds to some vulkan types.
-    var baseTypes: [BaseType] = []
+    var baseTypes: [String: BaseType] = [:]
+    /// A mappinf of handle names to their corresponding info.
+    var handles: [String: Handle] = [:]
+    /// An array of structs in the Vulkan specification.
+    var structs: [Struct] = []
+    /// An array of unions in the Vulkan specification.
+    var unions: [Union] = []
+    /// A list of type names that are not structs, unions, or handles, but still exist and shouldn't print errors.
+    var miscTypes: [String] = []
 
     /// An array of constants in the Vulkan specification.
     var constants: [Constant] = []
     /// A mapping of constant aliases to their corresponding constants.
     var constantAliases: [String: String] = [:]
-
     /// An array of bitmasks and their associated fields in the Vulkan specification.
     var bitmasks: [Bitmask] = []
     /// An array of enums in the Vulkan specification.
     var enums: [Enum] = []
 
-    /// An array of object handles in the Vulkan specification.
-    var handles: [Handle] = []
-    /// An array of handle aliases in the Vulkan specification.
-    var handleAliases: [HandleAlias] = []
-
-    /// An array of the commands in the Vulkan specification.
+    /// An array of commands in the Vulkan specification.
     var commands: [Command] = []
-    /// An array of aliases for commands in the Vulkan specification.
+    /// A mapping of command aliases to their corresponding commands.
     var commandAliases: [String: String] = [:]
-
-    /// An array of structs in the Vulkan specification.
-    var structs: [Struct] = []
-    /// An array of unions in the Vulkan specification.
-    var unions: [Union] = []
 
     /// An array of API versions in the Vulkan specification.
     var apiVersions: [Version] = []
@@ -57,18 +53,18 @@ struct Registry: CustomStringConvertible {
                 \(vendorTags.map { "\($0.key): \($0.value)" }.joined(separator: ",\n        "))
             ],
             platforms: (\(platforms.count))[
-                \(platforms.map { "\($0.name): \($0.protect)" }.joined(separator: ",\n        "))
+                \(platforms.map { "\($0.key): \($0.value.protect)" }.joined(separator: ",\n        "))
             ],
             baseTypes: (\(baseTypes.count))[
-                \(baseTypes.map { "\($0.name): \($0.definition)" }.joined(separator: ",\n        "))
+                \(baseTypes.map { "\($0.key): \($0.value.definition)" }.joined(separator: ",\n        "))
             ],
+            handles: (\(handles.count)),
+            structs: (\(structs.count)),
+            unions: (\(unions.count)),
             constants: (\(constants.count)),
             bitmasks: (\(bitmasks.count)),
             enums: (\(enums.count)),
-            handles: (\(handles.count)),
             commands: (\(commands.count)),
-            structs: (\(structs.count)),
-            unions: (\(unions.count)),
             apiVersions: (\(apiVersions.count))[
                 \(apiVersions.map { "\($0.name): \($0.api)" }.joined(separator: ",\n        "))
             ],
@@ -89,7 +85,7 @@ extension Registry {
             return true
         }
 
-        guard let handle = handles.first(where: { $0.name == name }) else {
+        guard let handle = handles[name] else {
             return false
         }
         if handle.parent == nil {
@@ -105,18 +101,17 @@ extension Registry {
 
 /// Some common members for any component in the Vulkan specification.
 protocol APIComponent {
-    /// The API that the type is associated with.
-    /// Example: "vulkan", "vulkansc". Nil means any API.
-    var api: String? { get }
+    /// The name of the type.
+    var name: String { get }
+    /// A comment about the type.
+    var comment: String? { get }
     /// Whether the type is deprecated.
     /// This is a message about why the type is deprecated.
     var deprecated: String? { get }
-    /// A comment about the type.
-    var comment: String? { get }
-    /// The name of the type.
-    var name: String { get }
-    /// The guard that goes around the type.
-    var protect: String? { get }
+    /// The names of the extensions that provide this type.
+    var providingExtensions: [String]? { get set }
+    /// The name of the API version that provides this type.
+    var providingVersion: String? { get set }
 }
 
 /// A platform in the Vulkan specification.
@@ -127,6 +122,21 @@ struct Platform {
     var protect: String
     /// A textual comment about the platform.
     var comment: String
+
+    /// The name of the swiftpm trait that should guard anything using this platform.
+    var traitName: String {
+        let fixedName = name
+            .replacingOccurrences(of: "_", with: " ") // Use spaces instead of underscores
+            .capitalized // Capitalize the first letter of each word
+            .replacingOccurrences(of: " ", with: "") // Remove spaces to make it title case without spaces
+        if protect.starts(with: "VK_USE_PLATFORM_") {
+            return "Platform\(fixedName)"
+        } else if protect.starts(with: "VK_ENABLE_") {
+            return "Enable\(fixedName)"
+        } else {
+            return protect
+        }
+    }
 }
 
 /// A depencency of an API version or an extension in the Vulkan specification.
@@ -178,45 +188,37 @@ struct RequirementValue {
 struct Version {
     /// The name of the version as the preprocessor guard.
     var name: String
-    /// The api version name.
-    var api: String
-    /// Dependencies of the version.
+    /// The apis that support this version.
+    var api: [String]
+    /// The version number.
+    var number: String
+    /// The sort order of the version.
+    var sortorder: UInt?
+    /// The api verisions and extensions that this version depends on.
     var dependencies: Dependencies?
-    /// The requirements of the version.
-    var requirements: Requirements
 }
 
+/// An extension in the Vulkan specification.
 struct Extension {
     /// The name of the extension as the preprocessor guard.
     var name: String
-    /// The apis that this extension is known to work with.
-    var api: String?
     /// The number of the extension.
-    var number: UInt?
+    var number: UInt
     /// The sort order of the extension.
     var sortorder: UInt?
-    /// The header guard used to protect the declarations in this extension.
-    var protect: String?
     /// The platform name.
     var platform: String?
     /// The kind of extension.
     var kind: Kind
-    /// List of extensions and API versions that support this extension.
-    var supported: String?
-    /// List of extensions and API versions for which this extension has been ratified.
-    var ratified: String?
-    /// Name of the extension or API version that this extension is promoted to.
-    var promotedto: String?
-    /// Name of the extension or API version that this extension is deprecated by.
-    var deprecatedby: String?
-    /// Name of the extension or API version that this extension is obsoleted by.
-    var obsoletedby: String?
-    /// Whether the extension is provisional.
-    var provisional: Bool
-
-    /// The requirements of the extension.
-    var requirements: Requirements
-    /// The dependencies of the extension.
+    /// List of APIs that support this extension. (vulkan, vulkansc)
+    var supported: [String]
+    /// Name of the extension or API version that this extension is promoted into.
+    var promotedTo: String?
+    /// Name of the extension or API version that deprecates this extension.
+    var deprecatedBy: String?
+    /// Name of the extension or API version that obliterates this extension.
+    var obsoletedBy: String?
+    /// The extensions and api versions that this extension depends on.
     var dependencies: Dependencies?
 
     enum Kind: Equatable {
@@ -232,10 +234,10 @@ struct BaseType: APIComponent {
     /// The definition of the type.
     var definition: Definition
 
-    var api: String?
-    var deprecated: String?
     var comment: String?
-    var protect: String?
+    var deprecated: String?
+    var providingExtensions: [String]? = nil
+    var providingVersion: String? = nil
 
     /// The kind of base type.
     enum Definition {
@@ -262,10 +264,10 @@ struct Constant: APIComponent {
     /// The value of the constant.
     var value: String
 
-    var api: String?
-    var deprecated: String?
     var comment: String?
-    var protect: String? = nil
+    var deprecated: String?
+    var providingExtensions: [String]? = nil
+    var providingVersion: String? = nil
 }
 
 /// A bitmask in the Vulkan specification.
@@ -273,17 +275,17 @@ struct Bitmask: APIComponent {
     /// The name of the bitmask.
     var name: String
     /// The bit width of the bitmask.
-    var bitWidth: String
+    var bitWidth: UInt
     /// The list of bitflags in the bitmask.
     var flags: [Bitflag]
     /// Aliases for bitflags in the bitmask.
     /// For example, some extensions that have been promoted to the core API alias the old name to the new name.
     var aliases: [String: String]
 
-    var api: String?
-    var deprecated: String?
     var comment: String?
-    var protect: String? = nil
+    var deprecated: String?
+    var providingExtensions: [String]? = nil
+    var providingVersion: String? = nil
 
     /// A single flag in a bitmask.
     struct Bitflag: APIComponent {
@@ -292,56 +294,57 @@ struct Bitmask: APIComponent {
         /// The value of the bitflag.
         var value: String
 
-        var api: String?
-        var deprecated: String?
         var comment: String?
-        var protect: String?
+        var deprecated: String?
+        var providingExtensions: [String]? = nil
+        var providingVersion: String? = nil
     }
 }
 
 /// An enum in the Vulkan specification.
-struct Enum {
+struct Enum: APIComponent {
     /// The name of the enum.
     var name: String
     /// The bit width of the enum's raw value.
     var bitwidth: UInt?
-    /// A textual description of the enum.
-    var comment: String?
     /// An array of the cases in the enum.
     var cases: [Case]
     /// An array of the case aliases for the enum.
     var caseAliases: [CaseAlias]
 
+    var comment: String?
+    var deprecated: String?
+    var providingExtensions: [String]? = nil
+    var providingVersion: String? = nil
+
     /// A single case in an enum.
-    struct Case {
+    struct Case: APIComponent {
         /// The name of the case.
         var name: String
         /// The name of the case that this case extends.
         var extends: String?
         /// The value of the case.
         var value: String
-        /// The api version that this case is associated with.
-        var api: String?
-        /// The name of the c preprocessor guard that protects this case.
-        var protect: String?
-        /// A textual description of the case.
+        
         var comment: String?
+        var deprecated: String?
+        var providingExtensions: [String]? = nil
+        var providingVersion: String? = nil
     }
 
     /// An alias for a case in an enum.
-    struct CaseAlias {
+    struct CaseAlias: APIComponent {
         /// The name of the case.
         var name: String
         /// The name of the case that this case extends.
         var extends: String?
         /// The name of the case that this alias refers to.
         var alias: String
-        /// The api version that this case is associated with.
-        var api: String?
-        /// The name of the c preprocessor guard that protects this case.
-        var protect: String?
-        /// A textual description of the case.
+        
         var comment: String?
+        var deprecated: String?
+        var providingExtensions: [String]? = nil
+        var providingVersion: String? = nil
     }
 }
 
@@ -356,35 +359,14 @@ struct Handle: APIComponent {
     /// Whether this handle is a dispatchable handle.
     var dispatchable: Bool
 
-    /// The api version that this handle is associated with.
-    var api: String?
-    /// A textual description of the handle.
     var comment: String?
-    /// The name of the c preprocessor guard that protects this handle.
-    var protect: String?
-    /// Why the type is deprecated if it is.
     var deprecated: String?
-}
-
-/// A handle alias in the Vulkan specification.
-struct HandleAlias: APIComponent {
-    /// The name of the handle alias.
-    var name: String
-    /// The name of the handle that this alias refers to.
-    var alias: String
-
-    /// The api version that this handle is associated with.
-    var api: String?
-    /// A textual description of the handle alias.
-    var comment: String?
-    /// The name of the c preprocessor guard that protects this handle alias.
-    var protect: String?
-    /// Why the type is deprecated if it is.
-    var deprecated: String?
+    var providingExtensions: [String]? = nil
+    var providingVersion: String? = nil
 }
 
 /// A command in the Vulkan specification.
-struct Command {
+struct Command: APIComponent {
     /// The name of the command.
     var name: String
     /// The name of the typedef of the function type.
@@ -398,17 +380,18 @@ struct Command {
     /// The kinds of queues that this command can be submitted to.
     var queues: [String]?
     /// The possible success codes that could be returned.
-    var successcodes: [String]?
+    var successcodes: [String]
     /// The possible error codes that could be returned.
-    var errorcodes: [String]?
+    var errorcodes: [String]
     /// The levels of command buffers that this command is allowed in.
     var cmdbufferlevel: [String]?
-    /// A textual comment.
-    var comment: String?
     /// A list of other things that must be externally syncronized for this command.
     var implicitExternalSyncParams: [String]
-    /// The api version or extension that provides this command.
-    var api: String?
+    
+    var comment: String?
+    var deprecated: String?
+    var providingExtensions: [String]? = nil
+    var providingVersion: String? = nil
 
     /// The scope of a command.
     enum Scope {
@@ -428,7 +411,7 @@ struct Command {
 }
 
 /// A parameter for a command.
-struct CommandParam {
+struct CommandParam: APIComponent {
     /// The name of the parameter.
     var name: String
     /// The type of the parameter.
@@ -451,22 +434,20 @@ struct CommandParam {
     var objecttype: String?
     /// For a generic structure pointer, this is a list of all the valid structures to pass.
     var validstructs: [String]?
-    /// The api version that provides this param.
-    var api: String?
+
+    var comment: String?
+    var deprecated: String?
+    var providingExtensions: [String]? = nil
+    var providingVersion: String? = nil
 }
 
 /// A structure in the Vulkan specification.
-struct Struct {
+struct Struct: APIComponent {
     /// The name of the structure.
     var name: String
     /// The name of a struct that this struct requires.
     var requires: String?
     /// The api version that provides this struct.
-    var api: String?
-    /// A textual comment about the struct.
-    var comment: String?
-    /// If the struct is deprecated, this is the reason why.
-    var deprecated: String?
     /// Whether this struct is only ever created by the runtime and doesn't need to be created by the application.
     var returnedOnly: Bool
     /// A list of all of the structures that this struct can extend through the pNext chain.
@@ -475,10 +456,15 @@ struct Struct {
     var allowDuplicate: Bool
     /// An array of the members in the struct.
     var members: [StructMember]
+
+    var comment: String?
+    var deprecated: String?
+    var providingExtensions: [String]? = nil
+    var providingVersion: String? = nil
 }
 
 /// A member of a structure in the Vulkan specification.
-struct StructMember {
+struct StructMember: APIComponent {
     /// The name of the member.
     var name: String
     /// The type of the member.
@@ -503,18 +489,22 @@ struct StructMember {
     var selector: String?
     /// If specified, only the provided values are allowed. This is mainly used for sType members.
     var validValues: Set<String>?
-    /// The api version that provides this struct.
-    var api: String?
-    /// If the struct is deprecated, this is the reason why.
+
+    var comment: String?
     var deprecated: String?
+    var providingExtensions: [String]? = nil
+    var providingVersion: String? = nil
 }
 
 /// A union in the Vulkan specification.
-struct Union {
+struct Union: APIComponent {
     /// The name of the union.
     var name: String
-    /// A textual comment about the union.
-    var comment: String?
     /// A mapping of the names of the union cases to their info.
     var cases: [String: (type: String, selection: String?)]
+
+    var comment: String?
+    var deprecated: String?
+    var providingExtensions: [String]? = nil
+    var providingVersion: String? = nil
 }

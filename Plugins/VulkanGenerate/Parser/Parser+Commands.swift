@@ -44,10 +44,6 @@ extension Parser {
                         String($0)
                     }
                     // Cut anything that is in vulkansc
-                    let api = paramElement.attribute(forName: "api")?.stringValue
-                    if let api, api != "vulkan" {
-                        return nil
-                    }
                     return CommandParam(
                         name: name,
                         type: type,
@@ -58,7 +54,8 @@ extension Parser {
                         optional: paramElement.attribute(forName: "optional")?.stringValue?.contains("true") == true,
                         objecttype: paramElement.attribute(forName: "objecttype")?.stringValue,
                         validstructs: validstructs,
-                        api: api
+                        comment: paramElement.attribute(forName: "comment")?.stringValue,
+                        deprecated: paramElement.attribute(forName: "deprecated")?.stringValue
                     )
                 }
                 guard params.count > 0 else {
@@ -112,12 +109,6 @@ extension Parser {
                         }
                     }
 
-                // Cut anything that is in vulkansc
-                let api = element.attribute(forName: "api")?.stringValue
-                if let api, api != "vulkan" {
-                    continue
-                }
-
                 registry.commands.append(
                     Command(
                         name: name,
@@ -126,12 +117,12 @@ extension Parser {
                         returnType: returnType,
                         params: params,
                         queues: queues,
-                        successcodes: successcodes,
-                        errorcodes: errorcodes,
+                        successcodes: successcodes ?? [],
+                        errorcodes: errorcodes ?? [],
                         cmdbufferlevel: cmdbufferlevel,
-                        comment: element.attribute(forName: "comment")?.stringValue,
                         implicitExternalSyncParams: syncParams,
-                        api: api
+                        comment: element.attribute(forName: "comment")?.stringValue,
+                        deprecated: element.attribute(forName: "deprecated")?.stringValue
                     )
                 )
             }

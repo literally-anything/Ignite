@@ -65,8 +65,7 @@ public struct Loader: Sendable {
     /// The table of Vulkan function pointers for functions at the loader scope.
     public struct LoaderTable: Sendable {
         // BEGIN_GENERATE_LOADER_TABLE
-        // Generated 2025-04-22 15:23:58 +0000
-
+        // Generated 2025-04-26 04:30:18 +0000
         /// To create an instance object, call:
         /// 
         /// - Parameters:
@@ -99,7 +98,7 @@ public struct Loader: Sendable {
         /// ### Documentation
         /// - SeeAlso: [vkCreateInstance Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCreateInstance.html)
         public let createInstance: PFN_vkCreateInstance!
-
+        
         /// Function pointers for all Vulkan commands **can** be obtained by calling:
         /// 
         /// - Parameters:
@@ -135,7 +134,7 @@ public struct Loader: Sendable {
         /// ### Documentation
         /// - SeeAlso: [vkGetInstanceProcAddr Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetInstanceProcAddr.html)
         public let getInstanceProcAddr: PFN_vkGetInstanceProcAddr!
-
+        
         /// To query the version of instance-level functionality supported by the implementation, call:
         /// 
         /// - Parameters:
@@ -154,7 +153,7 @@ public struct Loader: Sendable {
         /// ### Documentation
         /// - SeeAlso: [vkEnumerateInstanceVersion Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkEnumerateInstanceVersion.html)
         public let enumerateInstanceVersion: PFN_vkEnumerateInstanceVersion!
-
+        
         /// To query the available layers, call:
         /// 
         /// - Parameters:
@@ -183,7 +182,7 @@ public struct Loader: Sendable {
         /// ### Documentation
         /// - SeeAlso: [vkEnumerateInstanceLayerProperties Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkEnumerateInstanceLayerProperties.html)
         public let enumerateInstanceLayerProperties: PFN_vkEnumerateInstanceLayerProperties!
-
+        
         /// To query the available instance extensions, call:
         /// 
         /// - Parameters:
@@ -219,56 +218,55 @@ public struct Loader: Sendable {
         /// ### Documentation
         /// - SeeAlso: [vkEnumerateInstanceExtensionProperties Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkEnumerateInstanceExtensionProperties.html)
         public let enumerateInstanceExtensionProperties: PFN_vkEnumerateInstanceExtensionProperties!
-
+        
         // END_GENERATE_LOADER_TABLE
 
         /// Load the Vulkan function pointers using the getInstanceProcAddr function.
         internal init(getInstanceProcAddr: PFN_vkGetInstanceProcAddr) {
             // BEGIN_GENERATE_LOADER_TABLE_INIT
-
-            traceLog("Loading vkCreateInstance command in InstanceTable")
+            traceLog("Loading vkCreateInstance command in LoaderTable")
             self.createInstance = unsafeBitCast(
                 getInstanceProcAddr(nil, "vkCreateInstance"),
                 to: PFN_vkCreateInstance.self
             )
             if self.createInstance == nil {
-                debugLog("Failed to load vkCreateInstance command in InstanceTable")
+                debugLog("Failed to load vkCreateInstance command in LoaderTable")
             }
-
-            traceLog("Loading vkGetInstanceProcAddr command in InstanceTable")
+            
+            traceLog("Loading vkGetInstanceProcAddr command in LoaderTable")
             self.getInstanceProcAddr = unsafeBitCast(
                 getInstanceProcAddr(nil, "vkGetInstanceProcAddr"),
                 to: PFN_vkGetInstanceProcAddr.self
             )
             if self.getInstanceProcAddr == nil {
-                debugLog("Failed to load vkGetInstanceProcAddr command in InstanceTable")
+                debugLog("Failed to load vkGetInstanceProcAddr command in LoaderTable")
             }
-
-            traceLog("Loading vkEnumerateInstanceVersion command in InstanceTable")
+            
+            traceLog("Loading vkEnumerateInstanceVersion command in LoaderTable")
             self.enumerateInstanceVersion = unsafeBitCast(
                 getInstanceProcAddr(nil, "vkEnumerateInstanceVersion"),
                 to: PFN_vkEnumerateInstanceVersion.self
             )
             if self.enumerateInstanceVersion == nil {
-                debugLog("Failed to load vkEnumerateInstanceVersion command in InstanceTable")
+                debugLog("Failed to load vkEnumerateInstanceVersion command in LoaderTable")
             }
-
-            traceLog("Loading vkEnumerateInstanceLayerProperties command in InstanceTable")
+            
+            traceLog("Loading vkEnumerateInstanceLayerProperties command in LoaderTable")
             self.enumerateInstanceLayerProperties = unsafeBitCast(
                 getInstanceProcAddr(nil, "vkEnumerateInstanceLayerProperties"),
                 to: PFN_vkEnumerateInstanceLayerProperties.self
             )
             if self.enumerateInstanceLayerProperties == nil {
-                debugLog("Failed to load vkEnumerateInstanceLayerProperties command in InstanceTable")
+                debugLog("Failed to load vkEnumerateInstanceLayerProperties command in LoaderTable")
             }
-
-            traceLog("Loading vkEnumerateInstanceExtensionProperties command in InstanceTable")
+            
+            traceLog("Loading vkEnumerateInstanceExtensionProperties command in LoaderTable")
             self.enumerateInstanceExtensionProperties = unsafeBitCast(
                 getInstanceProcAddr(nil, "vkEnumerateInstanceExtensionProperties"),
                 to: PFN_vkEnumerateInstanceExtensionProperties.self
             )
             if self.enumerateInstanceExtensionProperties == nil {
-                debugLog("Failed to load vkEnumerateInstanceExtensionProperties command in InstanceTable")
+                debugLog("Failed to load vkEnumerateInstanceExtensionProperties command in LoaderTable")
             }
             // END_GENERATE_LOADER_TABLE_INIT
         }

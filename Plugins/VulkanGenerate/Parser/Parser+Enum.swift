@@ -80,10 +80,8 @@ extension Parser {
                         name: name,
                         type: type,
                         value: value,
-                        api: element.attribute(forName: "api")?.stringValue,
-                        deprecated: element.attribute(forName: "deprecated")?.stringValue,
                         comment: element.attribute(forName: "comment")?.stringValue,
-                        protect: element.attribute(forName: "protect")?.stringValue
+                        deprecated: element.attribute(forName: "deprecated")?.stringValue
                     )
                 )
             }
@@ -110,41 +108,45 @@ extension Parser {
                 if let alias = flag.attribute(forName: "alias")?.stringValue {
                     aliases[name] = alias
                 } else {
-                    let valueString: String
-                    if let bitposString = flag.attribute(forName: "bitpos")?.stringValue, let bitpos = UInt(bitposString) {
-                        // If we have a bitpos, then be need to shift a 1 left that many bits
-                        var value: UInt = 1
-                        value <<= bitpos
-                        valueString = String(value)
-                    } else {
-                        // If we don't have a bitpos, then we need to get the value from the value attribute
-                        guard let value = flag.attribute(forName: "value")?.stringValue else {
-                            throw "bitmask flag has no value: \(flag)" as GeneratePluginError
-                        }
-                        valueString = value
-                    }
+                    let valueString = try getEnumValue(element: flag)
                     flags.append(
                         Bitmask.Bitflag(
                             name: name,
                             value: valueString,
-                            api: flag.attribute(forName: "api")?.stringValue,
-                            deprecated: flag.attribute(forName: "deprecated")?.stringValue,
                             comment: flag.attribute(forName: "comment")?.stringValue,
-                            protect: flag.attribute(forName: "protect")?.stringValue
+                            deprecated: flag.attribute(forName: "deprecated")?.stringValue
                         )
                     )
                 }
             }
+            let bitWidth = element.attribute(forName: "bitwidth")?.stringValue ?? "32"
             return Bitmask(
                 name: name,
-                bitWidth: element.attribute(forName: "bitwidth")?.stringValue ?? "32",
+                bitWidth: UInt(bitWidth) ?? 32,
                 flags: flags,
                 aliases: aliases,
-                api: element.attribute(forName: "api")?.stringValue,
-                deprecated: element.attribute(forName: "deprecated")?.stringValue,
-                comment: element.attribute(forName: "comment")?.stringValue
+                comment: element.attribute(forName: "comment")?.stringValue,
+                deprecated: element.attribute(forName: "deprecated")?.stringValue
             )
         }
+    }
+
+    /// Extract the value from the bitmask flag or enum case.
+    static func getEnumValue(element: XMLElement) throws -> String {
+        let valueString: String
+        if let bitposString = element.attribute(forName: "bitpos")?.stringValue, let bitpos = UInt(bitposString) {
+            // If we have a bitpos, then be need to shift a 1 left that many bits
+            var value: UInt = 1
+            value <<= bitpos
+            valueString = String(value)
+        } else {
+            // If we don't have a bitpos, then we need to get the value from the value attribute
+            guard let value = element.attribute(forName: "value")?.stringValue else {
+                throw "bitmask flag has no value: \(element)" as GeneratePluginError
+            }
+            valueString = value
+        }
+        return valueString
     }
 
     /// Extract the enums from the XML specification.
@@ -172,9 +174,8 @@ extension Parser {
                             name: name,
                             extends: caseElement.attribute(forName: "extends")?.stringValue,
                             alias: alias,
-                            api: caseElement.attribute(forName: "api")?.stringValue,
-                            protect: caseElement.attribute(forName: "protect")?.stringValue,
-                            comment: caseElement.attribute(forName: "comment")?.stringValue
+                            comment: caseElement.attribute(forName: "comment")?.stringValue,
+                            deprecated: caseElement.attribute(forName: "deprecated")?.stringValue
                         )
                     )
                 } else {
@@ -187,20 +188,20 @@ extension Parser {
                             name: name,
                             extends: caseElement.attribute(forName: "extends")?.stringValue,
                             value: value,
-                            api: caseElement.attribute(forName: "api")?.stringValue,
-                            protect: caseElement.attribute(forName: "protect")?.stringValue,
-                            comment: caseElement.attribute(forName: "comment")?.stringValue
+                            comment: caseElement.attribute(forName: "comment")?.stringValue,
+                            deprecated: caseElement.attribute(forName: "deprecated")?.stringValue
                         )
                     )
                 }
             }
-            
+
             return Enum(
                 name: name,
                 bitwidth: bitwidthString != nil ? UInt(bitwidthString!) : nil,
-                comment: element.attribute(forName: "comment")?.stringValue,
                 cases: cases,
-                caseAliases: caseAliases
+                caseAliases: caseAliases,
+                comment: String?(element.attribute(forName: "comment")?.stringValue ?? ""),
+                deprecated: String?(element.attribute(forName: "deprecated")?.stringValue ?? "")
             )
         }
     }

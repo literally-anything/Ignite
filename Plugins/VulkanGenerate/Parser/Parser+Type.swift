@@ -34,39 +34,48 @@ extension Parser {
             $0.attribute(forName: "alias") != nil && $0.attribute(forName: "name") != nil
         }
         let aliases = try Self.parseAliases(aliasElements: aliasTypes)
-        registry.aliases = aliases
+        registry.aliases = .init(uniqueKeysWithValues: aliases.map { ($0.name, $0.alias) })
 
-        let baseTypeElements = types.filter { $0.attribute(forName: "category")?.stringValue == "basetype" }
+        let absoluteTypes = types.filter { $0.attribute(forName: "alias") == nil }
+
+        let baseTypeElements = absoluteTypes.filter { $0.attribute(forName: "category")?.stringValue == "basetype" }
         let baseTypes = try Self.parseBaseTypes(baseTypeElements: baseTypeElements)
-        registry.baseTypes = baseTypes
+        registry.baseTypes = .init(uniqueKeysWithValues: baseTypes.map { ($0.name, $0) })
 
-        let handleElements = types.filter { $0.attribute(forName: "category")?.stringValue == "handle" }
-        let (handles, handleAliases) = try Self.parseHandleTypes(handleElements: handleElements)
-        registry.handles = handles
-        registry.handleAliases = handleAliases
+        let handleElements = absoluteTypes.filter { $0.attribute(forName: "category")?.stringValue == "handle" }
+        let handles = try Self.parseHandleTypes(handleElements: handleElements)
+        registry.handles = .init(uniqueKeysWithValues: handles.map { ($0.name, $0) })
 
-        let structElements = types.filter { $0.attribute(forName: "category")?.stringValue == "struct" }
+        let structElements = absoluteTypes.filter { $0.attribute(forName: "category")?.stringValue == "struct" }
         let structs = try parseStructs(structElements: structElements)
         registry.structs = structs
 
-        let unionElements = types.filter { $0.attribute(forName: "category")?.stringValue == "union" }
+        let unionElements = absoluteTypes.filter { $0.attribute(forName: "category")?.stringValue == "union" }
         let unions = try parseUnions(unionElements: unionElements)
         registry.unions = unions
+
+        let miscElements = absoluteTypes.filter {
+            $0.attribute(forName: "category")?.stringValue == "include" ||
+            $0.attribute(forName: "category")?.stringValue == "define" ||
+            $0.attribute(forName: "category")?.stringValue == "funcpointer" ||
+            $0.attribute(forName: "category")?.stringValue == "bitmask"
+        }
+        registry.miscTypes = miscElements.compactMap { element in
+            // Use either the name attribute or the name element
+            element.attribute(forName: "name")?.stringValue ?? element.elements(forName: "name").first?.stringValue
+        }
     }
 
     /// Extract the aliases from the XML specification.
-    private static func parseAliases(aliasElements: [XMLElement]) throws -> [String: String] {
-        try aliasElements.map {
-            guard let name = $0.attribute(forName: "name")!.stringValue else {
-                throw "alias has no name: \($0)" as GeneratePluginError
+    private static func parseAliases(aliasElements: [XMLElement]) throws -> [(name: String, alias: String)] {
+        try aliasElements.map { element in
+            guard let name = element.attribute(forName: "name")!.stringValue else {
+                throw "alias has no name: \(element)" as GeneratePluginError
             }
-            guard let alias = $0.attribute(forName: "alias")!.stringValue else {
-                throw "alias has no alias: \($0)" as GeneratePluginError
+            guard let alias = element.attribute(forName: "alias")!.stringValue else {
+                throw "alias has no alias: \(element)" as GeneratePluginError
             }
             return (name, alias)
-        }.reduce(into: [:]) { result, pair in
-            // Turn the array of tuples into a dictionary.
-            result[pair.0] = pair.1
         }
     }
 
@@ -169,64 +178,44 @@ extension Parser {
             return BaseType(
                 name: pickedName,
                 definition: pickedDefinition,
-                api: baseType.attribute(forName: "api")?.stringValue,
-                deprecated: baseType.attribute(forName: "deprecated")?.stringValue,
-                comment: baseType.attribute(forName: "comment")?.stringValue
+                comment: baseType.attribute(forName: "comment")?.stringValue,
+                deprecated: baseType.attribute(forName: "deprecated")?.stringValue
             )
         }
     }
 
     /// Parse handle types from the XML specification.
-    private static func parseHandleTypes(handleElements: [XMLElement]) throws -> ([Handle], [HandleAlias]) {
+    private static func parseHandleTypes(
+        handleElements: [XMLElement]
+    ) throws -> [Handle] {
         var handles: [Handle] = []
-        var handleAliases: [HandleAlias] = []
         for element in handleElements {
-            let api = element.attribute(forName: "api")?.stringValue
             let comment = element.attribute(forName: "comment")?.stringValue
-            let protect = element.attribute(forName: "protect")?.stringValue
             let deprecated = element.attribute(forName: "deprecated")?.stringValue
-            if let alias = element.attribute(forName: "alias")?.stringValue {
-                guard let name = element.attribute(forName: "name")?.stringValue else {
-                    throw "Handle has no name: \(element)" as GeneratePluginError
-                }
-                handleAliases.append(
-                    HandleAlias(
-                        name: name,
-                        alias: alias,
-                        api: api,
-                        comment: comment,
-                        protect: protect,
-                        deprecated: deprecated
-                    )
-                )
-            } else {
-                guard let name = element.elements(forName: "name").first?.stringValue else {
-                    throw "Handle has no name: \(element)" as GeneratePluginError
-                }
-                guard let type = element.elements(forName: "type").first?.stringValue else {
-                    throw "Handle has no type: \(element)" as GeneratePluginError
-                }
-                let dispatchable = type.trimmingCharacters(in: .whitespacesAndNewlines) == "VK_DEFINE_HANDLE"
-
-                guard let objectType = element.attribute(forName: "objtypeenum")?.stringValue else {
-                    throw "Handle has no object type: \(element)" as GeneratePluginError
-                }
-
-                handles.append(
-                    Handle(
-                        name: name,
-                        objectType: objectType,
-                        parent: element.attribute(forName: "parent")?.stringValue,
-                        dispatchable: dispatchable,
-                        api: api,
-                        comment: comment,
-                        protect: protect,
-                        deprecated: deprecated
-                    )
-                )
+            guard let name = element.elements(forName: "name").first?.stringValue else {
+                throw "Handle has no name: \(element)" as GeneratePluginError
             }
+            guard let type = element.elements(forName: "type").first?.stringValue else {
+                throw "Handle has no type: \(element)" as GeneratePluginError
+            }
+            let dispatchable = type.trimmingCharacters(in: .whitespacesAndNewlines) == "VK_DEFINE_HANDLE"
+
+            guard let objectType = element.attribute(forName: "objtypeenum")?.stringValue else {
+                throw "Handle has no object type: \(element)" as GeneratePluginError
+            }
+
+            handles.append(
+                Handle(
+                    name: name,
+                    objectType: objectType,
+                    parent: element.attribute(forName: "parent")?.stringValue,
+                    dispatchable: dispatchable,
+                    comment: comment,
+                    deprecated: deprecated
+                )
+            )
         }
-        return (handles, handleAliases)
+        return handles
     }
 
     /// Parse the structs from the XML specification.
@@ -243,7 +232,8 @@ extension Parser {
                 guard let type = memberElement.elements(forName: "type").first?.stringValue else {
                     throw "Struct member has no type: \(memberElement)" as GeneratePluginError
                 }
-                let valuesArray = element.attribute(forName: "values")?.stringValue?.split(separator: ",").map({ String($0) })
+                let valuesArray = element.attribute(forName: "values")?.stringValue?.split(separator: ",").map({ String($0) }
+                )
                 let values = valuesArray != nil ? Set(valuesArray!) : nil
 
                 return StructMember(
@@ -257,7 +247,7 @@ extension Parser {
                     objecttype: element.attribute(forName: "deprecated")?.stringValue,
                     selector: element.attribute(forName: "selector")?.stringValue,
                     validValues: values,
-                    api: element.attribute(forName: "api")?.stringValue,
+                    comment: element.attribute(forName: "comment")?.stringValue,
                     deprecated: element.attribute(forName: "deprecated")?.stringValue
                 )
             }
@@ -265,13 +255,13 @@ extension Parser {
             return Struct(
                 name: name,
                 requires: element.attribute(forName: "requires")?.stringValue,
-                api: element.attribute(forName: "api")?.stringValue,
-                comment: element.attribute(forName: "comment")?.stringValue,
-                deprecated: element.attribute(forName: "deprecated")?.stringValue,
                 returnedOnly: element.attribute(forName: "returnedonly")?.stringValue == "true",
-                extends: element.attribute(forName: "structextends")?.stringValue?.split(separator: ",").map({ String($0) }) ?? [],
+                extends: element.attribute(forName: "structextends")?.stringValue?.split(separator: ",").map({ String($0) })
+                    ?? [],
                 allowDuplicate: element.attribute(forName: "allowduplicate")?.stringValue == "true",
-                members: members
+                members: members,
+                comment: element.attribute(forName: "comment")?.stringValue,
+                deprecated: element.attribute(forName: "deprecated")?.stringValue
             )
         }
     }
@@ -302,8 +292,9 @@ extension Parser {
 
             return Union(
                 name: name,
+                cases: .init(uniqueKeysWithValues: cases),
                 comment: element.attribute(forName: "comment")?.stringValue,
-                cases: .init(uniqueKeysWithValues: cases)
+                deprecated: element.attribute(forName: "deprecated")?.stringValue
             )
         }
     }

@@ -20,6 +20,52 @@
 #include "vulkan/vk_platform.h"
 #include "vulkan/vulkan_core.h"
 
+
+// BEGIN_GENERATE_PLATFORM_DEFINES
+#if PlatformMetal
+#  define VK_USE_PLATFORM_METAL_EXT
+#endif
+#if PlatformWayland
+#  define VK_USE_PLATFORM_WAYLAND_KHR
+#endif
+#if PlatformXlib
+#  define VK_USE_PLATFORM_XLIB_KHR
+#endif
+#if PlatformGgp
+#  define VK_USE_PLATFORM_GGP
+#endif
+#if EnableProvisional
+#  define VK_ENABLE_BETA_EXTENSIONS
+#endif
+#if PlatformFuchsia
+#  define VK_USE_PLATFORM_FUCHSIA
+#endif
+#if PlatformSci
+#  define VK_USE_PLATFORM_SCI
+#endif
+#if PlatformScreen
+#  define VK_USE_PLATFORM_SCREEN_QNX
+#endif
+#if PlatformXlibXrandr
+#  define VK_USE_PLATFORM_XLIB_XRANDR_EXT
+#endif
+#if PlatformXcb
+#  define VK_USE_PLATFORM_XCB_KHR
+#endif
+#if PlatformDirectfb
+#  define VK_USE_PLATFORM_DIRECTFB_EXT
+#endif
+#if PlatformAndroid
+#  define VK_USE_PLATFORM_ANDROID_KHR
+#endif
+#if PlatformWin32
+#  define VK_USE_PLATFORM_WIN32_KHR
+#endif
+#if PlatformVi
+#  define VK_USE_PLATFORM_VI_NN
+#endif
+// END_GENERATE_PLATFORM_DEFINES
+
 // This is directly copied and modified from the Vulkan meta loader volk.
 /* Instead of directly including vulkan.h, we include platform-specific parts of the SDK manually
  * This is necessary to avoid including platform headers in some cases (which vulkan.h does unconditionally)

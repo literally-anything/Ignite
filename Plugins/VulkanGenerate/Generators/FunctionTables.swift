@@ -11,83 +11,126 @@ import Foundation
 /// Generates the function tables for Vulkan commands and inserts them into the sources of the Ignite module.
 func generateFunctionTables(packagePath: URL, registry: Registry) throws {
     print("Generating function tables...")
-    try generateLoaderFunctionTable(packagePath: packagePath, registry: registry)
+
+    let loaderFile = packagePath.appendingPathComponent("Sources/Ignite/Loader.swift")
+    print("Generating LoaderTable...")
+    try generateFunctionTable(
+        file: loaderFile, registry: registry, tableName: "LOADER", tableTypeName: "LoaderTable", scope: .loader
+    )
+
+    print("Generating InstanceTable...")
+    let instanceFile = packagePath.appendingPathComponent("Sources/Ignite/Instance/InstanceTable.swift")
+    try generateFunctionTable(
+        file: instanceFile, registry: registry, tableName: "INSTANCE", tableTypeName: "InstanceTable", scope: .instance
+    )
 }
 
-private func generateLoaderFunctionTable(packagePath: URL, registry: Registry) throws {
-    // Read the Loader.swift source file
-    let loaderFile = packagePath.appendingPathComponent("Sources/Ignite/Loader/Loader.swift").path()
-    guard FileManager.default.isReadableFile(atPath: loaderFile) else {
-        throw "Loader.swift not found at path: \(loaderFile)" as GeneratePluginError
-    }
-    var loaderFileContents = try String(
-        contentsOfFile: loaderFile, encoding: .utf8
-    ).split(separator: "\n", omittingEmptySubsequences: false)  // We want to keep blank lines
-
-    // Find the delimeters for the function table
-    let beginLine = loaderFileContents.firstIndex { $0.contains("BEGIN_GENERATE_LOADER_TABLE") }
-    guard let beginLine = beginLine else {
-        throw "BEGIN_GENERATE_LOADER_TABLE not found in \(loaderFile)" as GeneratePluginError
-    }
-    let endLine = loaderFileContents.firstIndex { $0.contains("END_GENERATE_LOADER_TABLE") }
-    guard let endLine = endLine else {
-        throw "END_GENERATE_LOADER_TABLE not found in \(loaderFile)" as GeneratePluginError
-    }
-    let indentation = loaderFileContents[beginLine][..<loaderFileContents[beginLine].firstIndex(of: "/")!]
-
-    // Generate the function table
-    let functions = registry.commands.filter { $0.scope == .loader }
-    var functionTable = functions.map { command in
-        var docs: [String] = []
-        do {
-            let symbolDocs = try DocsParser.lookupDocsFor(command: command.name)
-
-            try docs.append(contentsOf: symbolDocs.description)
-        } catch let e {
-            print("Warning: Couldn't load docs for \(command.name): \(e)")
+private func generateFunctionTable(
+    file: URL, registry: Registry, tableName: String, tableTypeName: String, scope: Command.Scope
+) throws {
+    let functions: [(command: Command, trait: String?)] = registry.commands.filter { command in
+        command.scope == scope
+    }.map { command in
+        var platformName: String? = nil
+        for extName in command.providingExtensions ?? [] {
+            let ext = registry.extensions.first { $0.name == extName }
+            if let ext {
+                platformName = ext.platform
+                break
+            }
         }
-
-        let formattedDocs = docs.map { "\(indentation)/// \($0)" }.joined(separator: "\n")
-        return "\n\(formattedDocs)\n\(indentation)public let \(command.fixedName): \(command.typeName)!"[...]
+        if let platformName, let platform = registry.platforms[platformName] {
+            return (command: command, trait: platform.traitName)
+        }
+        return (command: command, trait: nil)
     }
-    functionTable.insert("\(indentation)// Generated \(Date.now)", at: 0)
-    functionTable.append("")
 
-    // Insert it into the split file array
-    loaderFileContents[beginLine + 1..<endLine] = functionTable[...]
+    try modifyFileAtPlaceholder(file: file, markerName: "\(tableName)_TABLE") { contents in
+        // Generate the function table
+        // We only want commands that match the scope we are currently filling
+        var progress: Int = 0
+        // A dictionary mapping the name of a trait to the array of variable definitions that only exist with that trait
+        var functionTableSections: [String?: [[String]]] = [:]
+        for commandInfo in functions {
+            let command = commandInfo.command
+            print("Looking up docs for \(tableTypeName): \(Int(Double(progress) / Double(functions.count) * 100))%")
+            var docs: [String] = []
+            do {
+                let symbolDocs = try DocsParser.lookupDocsFor(command: command.name, registry: registry)
 
-    // Find the delimeters for the initializer
-    let beginInitLine = loaderFileContents.firstIndex { $0.contains("BEGIN_GENERATE_LOADER_TABLE_INIT") }
-    guard let beginInitLine = beginInitLine else {
-        throw "BEGIN_GENERATE_LOADER_TABLE_INIT not found in \(loaderFile)" as GeneratePluginError
+                try docs.append(contentsOf: symbolDocs.description)
+            } catch let e {
+                print("Warning: Couldn't load docs for \(command.name): \(e)")
+            }
+
+            let formattedDocs = docs.map { "/// \($0)" }
+            progress += 1
+            // If it's not already in the dictionary, add it
+            if !functionTableSections.keys.contains(commandInfo.trait) {
+                functionTableSections[commandInfo.trait] = []
+            }
+            var section: [String] = formattedDocs
+            section.append(
+                "public let \(command.fixedName): \(command.typeName)!"
+            )
+            functionTableSections[commandInfo.trait]!.append(section)
+        }
+        var functionTable = functionTableSections.map { (trait, defs) in
+            // Compact all the lines into a single array
+            var lines: [String] = defs.joined(separator: [""]).map { $0 }
+            if let trait {
+                // Add some extra indentation to the lines because we are putting them in a #if block
+                // Only indent if it is not already a blank line
+                lines = lines.map { $0.isEmpty ? "" : ("    \($0)") }
+                // Add the #if and #endif lines
+                lines.insert("#if \(trait)", at: 0)
+                lines.append("#endif\n")
+            }
+            return lines
+        }.joined(separator: [""]).map { $0[...] } // Concatenate each section into one single array of lines
+        functionTable.insert("// Generated \(Date.now)", at: 0)
+        functionTable.append("")
+
+        // Insert it into the split file array
+        contents[...] = functionTable[...]
     }
-    let endInitLine = loaderFileContents.firstIndex { $0.contains("END_GENERATE_LOADER_TABLE_INIT") }
-    guard let endInitLine = endInitLine else {
-        throw "END_GENERATE_LOADER_TABLE_INIT not found in \(loaderFile)" as GeneratePluginError
-    }
-    let initIndentation = loaderFileContents[beginInitLine][..<loaderFileContents[beginInitLine].firstIndex(of: "/")!]
 
-    // Generate the initializer
-    let initLines = functions.map { command in
-        return 
-            """
-            \n\
-            \(initIndentation)traceLog("Loading \(command.name) command in InstanceTable")
-            \(initIndentation)self.\(command.fixedName) = unsafeBitCast(
-            \(initIndentation)    getInstanceProcAddr(nil, "\(command.name)"),
-            \(initIndentation)    to: \(command.typeName).self
-            \(initIndentation))
-            \(initIndentation)if self.\(command.fixedName) == nil {
-            \(initIndentation)    debugLog("Failed to load \(command.name) command in InstanceTable")
-            \(initIndentation)}
-            """[...]
+    try modifyFileAtPlaceholder(file: file, markerName: "\(tableName)_TABLE_INIT") { contents in
+        // Generate the initializer
+        // A dictionary mapping the name of a trait to the array of variable assignments that only exist with that trait
+        var initLineSections: [String?: [[Substring]]] = [:]
+        for commandInfo in functions {
+            let command = commandInfo.command
+            let lines =
+                """
+                traceLog("Loading \(command.name) command in \(tableTypeName)")
+                self.\(command.fixedName) = unsafeBitCast(
+                    getInstanceProcAddr(nil, "\(command.name)"),
+                    to: \(command.typeName).self
+                )
+                if self.\(command.fixedName) == nil {
+                    debugLog("Failed to load \(command.name) command in \(tableTypeName)")
+                }
+                """.split(separator: "\n", omittingEmptySubsequences: false)
+            // If it's not already in the dictionary, add it
+            if !initLineSections.keys.contains(commandInfo.trait) {
+                initLineSections[commandInfo.trait] = []
+            }
+            initLineSections[commandInfo.trait]!.append(lines)
+        }
+        let initLines = initLineSections.map { (trait, assignments) in
+            // Compact all the assignments into a single array of lines
+            var lines = assignments.joined(separator: [""]).map { $0 }
+            if let trait {
+                // Add some extra indentation to the lines because we are putting them in a #if block
+                // Only indent if it is not already a blank line
+                lines = lines.map { $0.isEmpty ? "" : ("    \($0)") }
+                // Add the #if and #endif lines
+                lines.insert("#if \(trait)", at: 0)
+                lines.append("#endif\n")
+            }
+            return lines
+        }.joined(separator: [""[...]]).map { $0 }
+        contents[...] = initLines[...].trimmingPrefix(["\n"])
     }
-    loaderFileContents[beginInitLine + 1..<endInitLine] = initLines[...].trimmingPrefix(["\n"])
-
-    // Write the modified file back to disk
-    try loaderFileContents.joined(separator: "\n").write(
-        toFile: loaderFile,
-        atomically: true,
-        encoding: .utf8
-    )
 }
