@@ -13,14 +13,29 @@ struct DocsParser {
     /// Lookup the documentation for a symbol.
     /// - Parameter symbol: The symbol to look up.
     /// - Returns: The documentation for the symbol.
-    static func lookupDocsFor(command: String) throws -> CommandDocs {
+    static func lookupDocsFor(command: String, registry: Registry) throws -> CommandDocs {
         let baseUrl: URL = .init(string: "https://registry.khronos.org/vulkan/specs/latest/man/html/")!
-        let url = baseUrl.appendingPathComponent("\(command).html")
+        var url: URL? = nil
+        var fileContents: [String]? = nil
 
-        let fileContents = try? String(contentsOf: url, encoding: .utf8, ).split(separator: "\n").map { String($0) }
-        guard var fileContents else {
+        var possibleNames = [command]
+        let tag = registry.vendorTags.compactMap { command.hasSuffix($0.key) ? $0.key : nil }.first
+        if let tag {
+            possibleNames.append(String(command.dropLast(tag.count)))
+        }
+
+        for name in possibleNames {
+            print(name)
+            url = baseUrl.appendingPathComponent("\(name).html")
+            fileContents = try? String(contentsOf: url!, encoding: .utf8).split(separator: "\n").map { String($0) }
+            if fileContents != nil {
+                break
+            }
+        }
+        guard var fileContents, let url else {
             throw "HTML docs not found for symbol: \(command)" as GeneratePluginError
         }
+
         fileContents.removeAll { $0.contains("id=\"loading_msg\"") }
         fileContents = fileContents.map { line in
             var line = line.replacingOccurrences(of: "<br>", with: "<br/>")
@@ -69,8 +84,6 @@ struct DocsParser {
         }
 
         let joinedContents = fileContents.joined(separator: "\n")
-
-        try joinedContents.write(toFile: "\(command).html", atomically: true, encoding: .utf8)
 
         guard let root = try XMLDocument(xmlString: joinedContents).rootElement() else {
             throw "HTML docs have no content: \(url)" as GeneratePluginError
@@ -150,14 +163,10 @@ struct CommandDocs {
         }
     }
 
-    /// The parameters of the symbol (if it's a function).
-    var parameterDescriptions: [String] {
-        []
-    }
-
     /// Parses a section body into a list of strings ready to be used as documentation.
     /// - Parameter section: The section to parse.
-    /// - Parameter blockName: The name of the type of block currently being parsed. This isn't used by a consumer, but it is used internally for recursion.
+    /// - Parameter blockName: The name of the type of block currently being parsed.
+    ///                        This isn't used by a consumer, but it is used internally for recursion.
     /// - Returns: A list of strings for the documentation.
     private static func parseSection(section: XMLNode, blockName: String? = nil) throws -> [String] {
         guard let children = section.children else {
@@ -170,7 +179,8 @@ struct CommandDocs {
                 if classes?.contains("paragraph") == true {
                     // If we have a paragraph, we get the text, separate it by sentences, and add it as another part
                     let text = child.elements(forName: "p").compactMap {
-                        $0.formattedStringValue?.replacingOccurrences(of: "\n", with: " ")  // Sometimes, when downloading, the newlines are added in the middle of sentences
+                        // Sometimes, when downloading, the newlines are added in the middle of sentences
+                        $0.formattedStringValue?.replacingOccurrences(of: "\n", with: " ")
                     }.joined(separator: "\n")
                     var lines: [String] = []
                     text.enumerateSubstrings(in: text.startIndex..., options: [.bySentences]) { sentence, _, _, _ in
@@ -255,7 +265,8 @@ struct CommandDocs {
                 } else if classes?.contains("ulist") == true {
                     let listNodes = try child.nodes(forXPath: "ul/li")
                     let listItems: [String] = listNodes.compactMap {
-                        $0.formattedStringValue?.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "\n", with: " ")
+                        $0.formattedStringValue?.trimmingCharacters(in: .whitespacesAndNewlines)
+                            .replacingOccurrences(of: "\n", with: " ")
                     }
                     // Specialize for sidebarblock elements
                     if let blockName, blockName.contains("Valid Usage") {
@@ -313,11 +324,14 @@ struct CommandDocs {
                     }
                 } else if classes?.contains("dlist") == true && blockName == "Return Codes" {
                     let listTitles = child.elements(forName: "dl").flatMap { $0.elements(forName: "dt") }
-                    
+
                     var returnLines: [String] = []
-                    if let successTable = listTitles.first(where: { $0.stringValue?.contains("success") == true })?.nextSibling {
+                    if let successTable = listTitles.first(
+                        where: { $0.stringValue?.contains("success") == true }
+                    )?.nextSibling {
                         let listItems: [String] = try successTable.nodes(forXPath: "div[@class='ulist']/ul/li").compactMap {
-                            $0.formattedStringValue?.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "\n", with: " ")
+                            $0.formattedStringValue?.trimmingCharacters(in: .whitespacesAndNewlines)
+                                .replacingOccurrences(of: "\n", with: " ")
                         }
                         if !listItems.isEmpty {
                             returnLines.append("- Success Codes:")
@@ -330,7 +344,8 @@ struct CommandDocs {
                     }
                     if let errorTable = listTitles.first(where: { $0.stringValue?.contains("failure") == true })?.next {
                         let listItems: [String] = try errorTable.nodes(forXPath: "div[@class='ulist']/ul/li").compactMap {
-                            $0.formattedStringValue?.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "\n", with: " ")
+                            $0.formattedStringValue?.trimmingCharacters(in: .whitespacesAndNewlines)
+                                .replacingOccurrences(of: "\n", with: " ")
                         }
                         if !listItems.isEmpty {
                             returnLines.append("- Error Codes:")
@@ -440,7 +455,8 @@ extension XMLNode {
             }
         }
         return try! XMLElement(
-            xmlString: xmlString
+            xmlString:
+                xmlString
                 .replacingOccurrences(of: "*", with: "\\*")
                 .replacingOccurrences(of: "`", with: "\\`")
                 .replacing(codeExpr) { match in "`\(match.output.1)`\t" }

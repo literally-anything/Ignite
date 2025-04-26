@@ -14,6 +14,5 @@
     "cmake.ignoreCMakeListsMissing": true,
     "swift.swiftEnvironmentVariables": {
         "ENABLE_GENERATOR": "1"
-    },
-    "custom.taskAsLaunch": true
+    }
 }
