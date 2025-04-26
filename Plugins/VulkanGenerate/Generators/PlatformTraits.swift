@@ -20,7 +20,7 @@ func generatePlatformTraits(packagePath: URL, registry: Registry) throws {
             name: platform.traitName, description: "\(platform.comment) (\(platform.protect))", macroName: platform.protect
         )
     }.sorted { trait1, trait2 in
-        trait1.name > trait2.name
+        trait1.name < trait2.name
     }
 
     // Generate the traits

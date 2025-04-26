@@ -1759,6 +1759,286 @@ extension Instance {
         /// - SeeAlso: [vkSubmitDebugUtilsMessageEXT Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkSubmitDebugUtilsMessageEXT.html)
         public let submitDebugUtilsMessageEXT: PFN_vkSubmitDebugUtilsMessageEXT!
 
+        /// To retrieve a list of the device groups present in the system, call:
+        ///
+        /// or the equivalent command
+        ///
+        /// - Parameters:
+        ///     - instance: is a handle to a Vulkan instance previously created with [vkCreateInstance](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCreateInstance.html).
+        ///     - pPhysicalDeviceGroupCount: is a pointer to an integer related to the number of device groups available or queried, as described below.
+        ///     - pPhysicalDeviceGroupProperties: is either `NULL` or a pointer to an array of [VkPhysicalDeviceGroupProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceGroupProperties.html) structures.
+        ///
+        /// If `pPhysicalDeviceGroupProperties` is `NULL`, then the number of device groups available is returned in `pPhysicalDeviceGroupCount`.
+        /// Otherwise, `pPhysicalDeviceGroupCount` **must** point to a variable set by the application to the number of elements in the `pPhysicalDeviceGroupProperties` array, and on return the variable is overwritten with the number of structures actually written to `pPhysicalDeviceGroupProperties`.
+        /// If `pPhysicalDeviceGroupCount` is less than the number of device groups available, at most `pPhysicalDeviceGroupCount` structures will be written, and `VK_INCOMPLETE` will be returned instead of `VK_SUCCESS`, to indicate that not all the available device groups were returned.
+        ///
+        /// Every physical device **must** be in exactly one device group.
+        ///
+        /// Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `instance` **must** be a valid [VkInstance](https://registry.khronos.org/vulkan/specs/latest/man/html/VkInstance.html) handle
+        /// - Precondition: `pPhysicalDeviceGroupCount` **must** be a valid pointer to a `uint32_t` value
+        /// - Precondition: If the value referenced by `pPhysicalDeviceGroupCount` is not `0`, and `pPhysicalDeviceGroupProperties` is not `NULL`, `pPhysicalDeviceGroupProperties` **must** be a valid pointer to an array of `pPhysicalDeviceGroupCount` [VkPhysicalDeviceGroupProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceGroupProperties.html) structures
+        ///
+        /// Return Codes
+        /// ---
+        /// - Returns:
+        ///     - Success Codes:
+        ///         - `VK_SUCCESS`
+        ///         - `VK_INCOMPLETE`
+        ///
+        /// ### Documentation
+        /// - SeeAlso: [vkEnumeratePhysicalDeviceGroups Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkEnumeratePhysicalDeviceGroups.html)
+        /// - Remark: Alias for enumeratePhysicalDeviceGroups
+        public var enumeratePhysicalDeviceGroupsKHR: PFN_vkEnumeratePhysicalDeviceGroups! { enumeratePhysicalDeviceGroups }
+
+        /// To query the external handle types supported by buffers, call:
+        ///
+        /// or the equivalent command
+        ///
+        /// - Parameters:
+        ///     - physicalDevice: is the physical device from which to query the buffer capabilities.
+        ///     - pExternalBufferInfo: is a pointer to a [VkPhysicalDeviceExternalBufferInfo](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExternalBufferInfo.html) structure describing the parameters that would be consumed by [vkCreateBuffer](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCreateBuffer.html).
+        ///     - pExternalBufferProperties: is a pointer to a [VkExternalBufferProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkExternalBufferProperties.html) structure in which capabilities are returned.
+        ///
+        /// Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pExternalBufferInfo` **must** be a valid pointer to a valid [VkPhysicalDeviceExternalBufferInfo](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExternalBufferInfo.html) structure
+        /// - Precondition: `pExternalBufferProperties` **must** be a valid pointer to a [VkExternalBufferProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkExternalBufferProperties.html) structure
+        ///
+        /// ### Documentation
+        /// - SeeAlso: [vkGetPhysicalDeviceExternalBufferProperties Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceExternalBufferProperties.html)
+        /// - Remark: Alias for getPhysicalDeviceExternalBufferProperties
+        public var getPhysicalDeviceExternalBufferPropertiesKHR: PFN_vkGetPhysicalDeviceExternalBufferProperties! {
+            getPhysicalDeviceExternalBufferProperties
+        }
+
+        /// Fences **may** support import and export of their [payload](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#synchronization-fences-payloads) to external handles.
+        /// To query the external handle types supported by fences, call:
+        ///
+        /// or the equivalent command
+        ///
+        /// - Parameters:
+        ///     - physicalDevice: is the physical device from which to query the fence capabilities.
+        ///     - pExternalFenceInfo: is a pointer to a [VkPhysicalDeviceExternalFenceInfo](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExternalFenceInfo.html) structure describing the parameters that would be consumed by [vkCreateFence](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCreateFence.html).
+        ///     - pExternalFenceProperties: is a pointer to a [VkExternalFenceProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkExternalFenceProperties.html) structure in which capabilities are returned.
+        ///
+        /// Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pExternalFenceInfo` **must** be a valid pointer to a valid [VkPhysicalDeviceExternalFenceInfo](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExternalFenceInfo.html) structure
+        /// - Precondition: `pExternalFenceProperties` **must** be a valid pointer to a [VkExternalFenceProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkExternalFenceProperties.html) structure
+        ///
+        /// ### Documentation
+        /// - SeeAlso: [vkGetPhysicalDeviceExternalFenceProperties Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceExternalFenceProperties.html)
+        /// - Remark: Alias for getPhysicalDeviceExternalFenceProperties
+        public var getPhysicalDeviceExternalFencePropertiesKHR: PFN_vkGetPhysicalDeviceExternalFenceProperties! {
+            getPhysicalDeviceExternalFenceProperties
+        }
+
+        /// Semaphores **may** support import and export of their [payload](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#synchronization-semaphores-payloads) to external handles.
+        /// To query the external handle types supported by semaphores, call:
+        ///
+        /// or the equivalent command
+        ///
+        /// - Parameters:
+        ///     - physicalDevice: is the physical device from which to query the semaphore capabilities.
+        ///     - pExternalSemaphoreInfo: is a pointer to a [VkPhysicalDeviceExternalSemaphoreInfo](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExternalSemaphoreInfo.html) structure describing the parameters that would be consumed by [vkCreateSemaphore](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCreateSemaphore.html).
+        ///     - pExternalSemaphoreProperties: is a pointer to a [VkExternalSemaphoreProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkExternalSemaphoreProperties.html) structure in which capabilities are returned.
+        ///
+        /// Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pExternalSemaphoreInfo` **must** be a valid pointer to a valid [VkPhysicalDeviceExternalSemaphoreInfo](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExternalSemaphoreInfo.html) structure
+        /// - Precondition: `pExternalSemaphoreProperties` **must** be a valid pointer to a [VkExternalSemaphoreProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkExternalSemaphoreProperties.html) structure
+        ///
+        /// ### Documentation
+        /// - SeeAlso: [vkGetPhysicalDeviceExternalSemaphoreProperties Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceExternalSemaphoreProperties.html)
+        /// - Remark: Alias for getPhysicalDeviceExternalSemaphoreProperties
+        public var getPhysicalDeviceExternalSemaphorePropertiesKHR: PFN_vkGetPhysicalDeviceExternalSemaphoreProperties! {
+            getPhysicalDeviceExternalSemaphoreProperties
+        }
+
+        /// To query supported features defined by the core or extensions, call:
+        ///
+        /// or the equivalent command
+        ///
+        /// - Parameters:
+        ///     - physicalDevice: is the physical device from which to query the supported features.
+        ///     - pFeatures: is a pointer to a [VkPhysicalDeviceFeatures2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFeatures2.html) structure in which the physical device features are returned.
+        ///
+        /// Each structure in `pFeatures` and its `pNext` chain contains members corresponding to fine-grained features.
+        /// Each structure in `pFeatures` and its `pNext` chain contains [VkBool32](https://registry.khronos.org/vulkan/specs/latest/man/html/VkBool32.html) members corresponding to fine-grained features.
+        /// Each such member is returned with a `VK_TRUE` value indicating that feature is supported on this physical device, or a `VK_FALSE` value indicating it is unsupported.
+        ///
+        /// Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pFeatures` **must** be a valid pointer to a [VkPhysicalDeviceFeatures2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFeatures2.html) structure
+        ///
+        /// ### Documentation
+        /// - SeeAlso: [vkGetPhysicalDeviceFeatures2 Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceFeatures2.html)
+        /// - Remark: Alias for getPhysicalDeviceFeatures2
+        public var getPhysicalDeviceFeatures2KHR: PFN_vkGetPhysicalDeviceFeatures2! { getPhysicalDeviceFeatures2 }
+
+        /// To query supported format features which are properties of the physical device, call:
+        ///
+        /// or the equivalent command
+        ///
+        /// - Parameters:
+        ///     - physicalDevice: is the physical device from which to query the format properties.
+        ///     - format: is the format whose properties are queried.
+        ///     - pFormatProperties: is a pointer to a [VkFormatProperties2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkFormatProperties2.html) structure in which physical device properties for `format` are returned.
+        ///
+        /// `vkGetPhysicalDeviceFormatProperties2` behaves similarly to [vkGetPhysicalDeviceFormatProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceFormatProperties.html), with the ability to return extended information in a `pNext` chain of output structures.
+        ///
+        /// Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `format` **must** be a valid [VkFormat](https://registry.khronos.org/vulkan/specs/latest/man/html/VkFormat.html) value
+        /// - Precondition: `pFormatProperties` **must** be a valid pointer to a [VkFormatProperties2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkFormatProperties2.html) structure
+        ///
+        /// ### Documentation
+        /// - SeeAlso: [vkGetPhysicalDeviceFormatProperties2 Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceFormatProperties2.html)
+        /// - Remark: Alias for getPhysicalDeviceFormatProperties2
+        public var getPhysicalDeviceFormatProperties2KHR: PFN_vkGetPhysicalDeviceFormatProperties2! {
+            getPhysicalDeviceFormatProperties2
+        }
+
+        /// To query additional capabilities specific to image types, call:
+        ///
+        /// or the equivalent command
+        ///
+        /// - Parameters:
+        ///     - physicalDevice: is the physical device from which to query the image capabilities.
+        ///     - pImageFormatInfo: is a pointer to a [VkPhysicalDeviceImageFormatInfo2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageFormatInfo2.html) structure describing the parameters that would be consumed by [vkCreateImage](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCreateImage.html).
+        ///     - pImageFormatProperties: is a pointer to a [VkImageFormatProperties2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkImageFormatProperties2.html) structure in which capabilities are returned.
+        ///
+        /// `vkGetPhysicalDeviceImageFormatProperties2` behaves similarly to [vkGetPhysicalDeviceImageFormatProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceImageFormatProperties.html), with the ability to return extended information in a `pNext` chain of output structures.
+        ///
+        /// If the `pNext` chain of `pImageFormatInfo` includes a [VkVideoProfileListInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoProfileListInfoKHR.html) structure with a `profileCount` member greater than `0`, then this command returns format capabilities specific to image types used in conjunction with the specified [video profiles](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#video-profiles).
+        /// In this case, this command will return one of the [video-profile-specific error codes](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#video-profile-error-codes) if any of the profiles specified via [VkVideoProfileListInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoProfileListInfoKHR.html)::`pProfiles` are not supported.
+        /// Furthermore, if [VkPhysicalDeviceImageFormatInfo2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageFormatInfo2.html)::`usage` includes any image usage flag not supported by the specified video profiles, then this command returns `VK_ERROR_IMAGE_USAGE_NOT_SUPPORTED_KHR`.
+        ///
+        /// Valid Usage
+        /// ---
+        /// - Precondition: If the `pNext` chain of `pImageFormatProperties` includes a [VkAndroidHardwareBufferUsageANDROID](https://registry.khronos.org/vulkan/specs/latest/man/html/VkAndroidHardwareBufferUsageANDROID.html) structure, the `pNext` chain of `pImageFormatInfo` **must** include a [VkPhysicalDeviceExternalImageFormatInfo](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExternalImageFormatInfo.html) structure with `handleType` set to `VK_EXTERNAL_MEMORY_HANDLE_TYPE_ANDROID_HARDWARE_BUFFER_BIT_ANDROID`
+        /// - Precondition: If the `pNext` chain of `pImageFormatProperties` includes a [VkHostImageCopyDevicePerformanceQuery](https://registry.khronos.org/vulkan/specs/latest/man/html/VkHostImageCopyDevicePerformanceQuery.html) structure, `pImageFormatInfo->usage` **must** contain `VK_IMAGE_USAGE_HOST_TRANSFER_BIT`
+        ///
+        /// Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pImageFormatInfo` **must** be a valid pointer to a valid [VkPhysicalDeviceImageFormatInfo2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageFormatInfo2.html) structure
+        /// - Precondition: `pImageFormatProperties` **must** be a valid pointer to a [VkImageFormatProperties2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkImageFormatProperties2.html) structure
+        ///
+        /// Return Codes
+        /// ---
+        /// - Returns:
+        ///     - Success Codes:
+        ///         - `VK_SUCCESS`
+        ///
+        /// ### Documentation
+        /// - SeeAlso: [vkGetPhysicalDeviceImageFormatProperties2 Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceImageFormatProperties2.html)
+        /// - Remark: Alias for getPhysicalDeviceImageFormatProperties2
+        public var getPhysicalDeviceImageFormatProperties2KHR: PFN_vkGetPhysicalDeviceImageFormatProperties2! {
+            getPhysicalDeviceImageFormatProperties2
+        }
+
+        /// To query memory properties, call:
+        ///
+        /// or the equivalent command
+        ///
+        /// - Parameters:
+        ///     - physicalDevice: is the handle to the device to query.
+        ///     - pMemoryProperties: is a pointer to a [VkPhysicalDeviceMemoryProperties2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMemoryProperties2.html) structure in which the properties are returned.
+        ///
+        /// `vkGetPhysicalDeviceMemoryProperties2` behaves similarly to [vkGetPhysicalDeviceMemoryProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceMemoryProperties.html), with the ability to return extended information in a `pNext` chain of output structures.
+        ///
+        /// Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pMemoryProperties` **must** be a valid pointer to a [VkPhysicalDeviceMemoryProperties2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMemoryProperties2.html) structure
+        ///
+        /// ### Documentation
+        /// - SeeAlso: [vkGetPhysicalDeviceMemoryProperties2 Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceMemoryProperties2.html)
+        /// - Remark: Alias for getPhysicalDeviceMemoryProperties2
+        public var getPhysicalDeviceMemoryProperties2KHR: PFN_vkGetPhysicalDeviceMemoryProperties2! {
+            getPhysicalDeviceMemoryProperties2
+        }
+
+        /// To query general properties of physical devices once enumerated, call:
+        ///
+        /// or the equivalent command
+        ///
+        /// - Parameters:
+        ///     - physicalDevice: is the handle to the physical device whose properties will be queried.
+        ///     - pProperties: is a pointer to a [VkPhysicalDeviceProperties2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceProperties2.html) structure in which properties are returned.
+        ///
+        /// Each structure in `pProperties` and its `pNext` chain contains members corresponding to implementation-dependent properties, behaviors, or limits. `vkGetPhysicalDeviceProperties2` fills in each member to specify the corresponding value for the implementation.
+        ///
+        /// Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pProperties` **must** be a valid pointer to a [VkPhysicalDeviceProperties2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceProperties2.html) structure
+        ///
+        /// ### Documentation
+        /// - SeeAlso: [vkGetPhysicalDeviceProperties2 Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceProperties2.html)
+        /// - Remark: Alias for getPhysicalDeviceProperties2
+        public var getPhysicalDeviceProperties2KHR: PFN_vkGetPhysicalDeviceProperties2! { getPhysicalDeviceProperties2 }
+
+        /// To query properties of queues available on a physical device, call:
+        ///
+        /// or the equivalent command
+        ///
+        /// - Parameters:
+        ///     - physicalDevice: is the handle to the physical device whose properties will be queried.
+        ///     - pQueueFamilyPropertyCount: is a pointer to an integer related to the number of queue families available or queried, as described in [vkGetPhysicalDeviceQueueFamilyProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceQueueFamilyProperties.html).
+        ///     - pQueueFamilyProperties: is either `NULL` or a pointer to an array of [VkQueueFamilyProperties2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkQueueFamilyProperties2.html) structures.
+        ///
+        /// `vkGetPhysicalDeviceQueueFamilyProperties2` behaves similarly to [vkGetPhysicalDeviceQueueFamilyProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceQueueFamilyProperties.html), with the ability to return extended information in a `pNext` chain of output structures.
+        ///
+        /// Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pQueueFamilyPropertyCount` **must** be a valid pointer to a `uint32_t` value
+        /// - Precondition: If the value referenced by `pQueueFamilyPropertyCount` is not `0`, and `pQueueFamilyProperties` is not `NULL`, `pQueueFamilyProperties` **must** be a valid pointer to an array of `pQueueFamilyPropertyCount` [VkQueueFamilyProperties2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkQueueFamilyProperties2.html) structures
+        ///
+        /// ### Documentation
+        /// - SeeAlso: [vkGetPhysicalDeviceQueueFamilyProperties2 Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceQueueFamilyProperties2.html)
+        /// - Remark: Alias for getPhysicalDeviceQueueFamilyProperties2
+        public var getPhysicalDeviceQueueFamilyProperties2KHR: PFN_vkGetPhysicalDeviceQueueFamilyProperties2! {
+            getPhysicalDeviceQueueFamilyProperties2
+        }
+
+        /// `vkGetPhysicalDeviceSparseImageFormatProperties2` returns an array of [VkSparseImageFormatProperties2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkSparseImageFormatProperties2.html).
+        /// Each element describes properties for one set of image aspects that are bound simultaneously for a `VkImage` created with the provided image creation parameters.
+        /// This is usually one element for each aspect in the image, but for interleaved depth/stencil images there is only one element describing the combined aspects.
+        ///
+        /// or the equivalent command
+        ///
+        /// - Parameters:
+        ///     - physicalDevice: is the physical device from which to query the sparse image format properties.
+        ///     - pFormatInfo: is a pointer to a [VkPhysicalDeviceSparseImageFormatInfo2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceSparseImageFormatInfo2.html) structure containing input parameters to the command.
+        ///     - pPropertyCount: is a pointer to an integer related to the number of sparse format properties available or queried, as described below.
+        ///     - pProperties: is either `NULL` or a pointer to an array of [VkSparseImageFormatProperties2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkSparseImageFormatProperties2.html) structures.
+        ///
+        /// `vkGetPhysicalDeviceSparseImageFormatProperties2` behaves identically to [vkGetPhysicalDeviceSparseImageFormatProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceSparseImageFormatProperties.html), with the ability to return extended information by adding extending structures to the `pNext` chain of its `pProperties` parameter.
+        ///
+        /// Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pFormatInfo` **must** be a valid pointer to a valid [VkPhysicalDeviceSparseImageFormatInfo2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceSparseImageFormatInfo2.html) structure
+        /// - Precondition: `pPropertyCount` **must** be a valid pointer to a `uint32_t` value
+        /// - Precondition: If the value referenced by `pPropertyCount` is not `0`, and `pProperties` is not `NULL`, `pProperties` **must** be a valid pointer to an array of `pPropertyCount` [VkSparseImageFormatProperties2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkSparseImageFormatProperties2.html) structures
+        ///
+        /// ### Documentation
+        /// - SeeAlso: [vkGetPhysicalDeviceSparseImageFormatProperties2 Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceSparseImageFormatProperties2.html)
+        /// - Remark: Alias for getPhysicalDeviceSparseImageFormatProperties2
+        public var getPhysicalDeviceSparseImageFormatProperties2KHR: PFN_vkGetPhysicalDeviceSparseImageFormatProperties2! {
+            getPhysicalDeviceSparseImageFormatProperties2
+        }
+
         #if PlatformAndroid
             /// To create a `VkSurfaceKHR` object for an Android native window, call:
             ///
@@ -2349,18 +2629,6 @@ extension Instance {
         ///
         internal init(getInstanceProcAddr: PFN_vkGetInstanceProcAddr) {
             // BEGIN_GENERATE_INSTANCE_TABLE_INIT
-            #if PlatformMetal
-                traceLog("Loading vkCreateMetalSurfaceEXT command in InstanceTable")
-                self.createMetalSurfaceEXT = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateMetalSurfaceEXT"),
-                    to: PFN_vkCreateMetalSurfaceEXT.self
-                )
-                if self.createMetalSurfaceEXT == nil {
-                    debugLog("Failed to load vkCreateMetalSurfaceEXT command in InstanceTable")
-                }
-            #endif
-
-
             traceLog("Loading vkDestroyInstance command in InstanceTable")
             self.destroyInstance = unsafeBitCast(
                 getInstanceProcAddr(nil, "vkDestroyInstance"),
@@ -2910,6 +3178,51 @@ extension Instance {
                 debugLog("Failed to load vkGetDrmDisplayEXT command in InstanceTable")
             }
 
+            #if PlatformAndroid
+                traceLog("Loading vkCreateAndroidSurfaceKHR command in InstanceTable")
+                self.createAndroidSurfaceKHR = unsafeBitCast(
+                    getInstanceProcAddr(nil, "vkCreateAndroidSurfaceKHR"),
+                    to: PFN_vkCreateAndroidSurfaceKHR.self
+                )
+                if self.createAndroidSurfaceKHR == nil {
+                    debugLog("Failed to load vkCreateAndroidSurfaceKHR command in InstanceTable")
+                }
+            #endif
+
+
+            #if PlatformDirectfb
+                traceLog("Loading vkCreateDirectFBSurfaceEXT command in InstanceTable")
+                self.createDirectFBSurfaceEXT = unsafeBitCast(
+                    getInstanceProcAddr(nil, "vkCreateDirectFBSurfaceEXT"),
+                    to: PFN_vkCreateDirectFBSurfaceEXT.self
+                )
+                if self.createDirectFBSurfaceEXT == nil {
+                    debugLog("Failed to load vkCreateDirectFBSurfaceEXT command in InstanceTable")
+                }
+
+                traceLog("Loading vkGetPhysicalDeviceDirectFBPresentationSupportEXT command in InstanceTable")
+                self.getPhysicalDeviceDirectFBPresentationSupportEXT = unsafeBitCast(
+                    getInstanceProcAddr(nil, "vkGetPhysicalDeviceDirectFBPresentationSupportEXT"),
+                    to: PFN_vkGetPhysicalDeviceDirectFBPresentationSupportEXT.self
+                )
+                if self.getPhysicalDeviceDirectFBPresentationSupportEXT == nil {
+                    debugLog("Failed to load vkGetPhysicalDeviceDirectFBPresentationSupportEXT command in InstanceTable")
+                }
+            #endif
+
+
+            #if PlatformFuchsia
+                traceLog("Loading vkCreateImagePipeSurfaceFUCHSIA command in InstanceTable")
+                self.createImagePipeSurfaceFUCHSIA = unsafeBitCast(
+                    getInstanceProcAddr(nil, "vkCreateImagePipeSurfaceFUCHSIA"),
+                    to: PFN_vkCreateImagePipeSurfaceFUCHSIA.self
+                )
+                if self.createImagePipeSurfaceFUCHSIA == nil {
+                    debugLog("Failed to load vkCreateImagePipeSurfaceFUCHSIA command in InstanceTable")
+                }
+            #endif
+
+
             #if PlatformGgp
                 traceLog("Loading vkCreateStreamDescriptorSurfaceGGP command in InstanceTable")
                 self.createStreamDescriptorSurfaceGGP = unsafeBitCast(
@@ -2922,23 +3235,14 @@ extension Instance {
             #endif
 
 
-            #if PlatformXcb
-                traceLog("Loading vkCreateXcbSurfaceKHR command in InstanceTable")
-                self.createXcbSurfaceKHR = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateXcbSurfaceKHR"),
-                    to: PFN_vkCreateXcbSurfaceKHR.self
+            #if PlatformIos
+                traceLog("Loading vkCreateIOSSurfaceMVK command in InstanceTable")
+                self.createIOSSurfaceMVK = unsafeBitCast(
+                    getInstanceProcAddr(nil, "vkCreateIOSSurfaceMVK"),
+                    to: PFN_vkCreateIOSSurfaceMVK.self
                 )
-                if self.createXcbSurfaceKHR == nil {
-                    debugLog("Failed to load vkCreateXcbSurfaceKHR command in InstanceTable")
-                }
-
-                traceLog("Loading vkGetPhysicalDeviceXcbPresentationSupportKHR command in InstanceTable")
-                self.getPhysicalDeviceXcbPresentationSupportKHR = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkGetPhysicalDeviceXcbPresentationSupportKHR"),
-                    to: PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR.self
-                )
-                if self.getPhysicalDeviceXcbPresentationSupportKHR == nil {
-                    debugLog("Failed to load vkGetPhysicalDeviceXcbPresentationSupportKHR command in InstanceTable")
+                if self.createIOSSurfaceMVK == nil {
+                    debugLog("Failed to load vkCreateIOSSurfaceMVK command in InstanceTable")
                 }
             #endif
 
@@ -2955,14 +3259,47 @@ extension Instance {
             #endif
 
 
-            #if PlatformFuchsia
-                traceLog("Loading vkCreateImagePipeSurfaceFUCHSIA command in InstanceTable")
-                self.createImagePipeSurfaceFUCHSIA = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateImagePipeSurfaceFUCHSIA"),
-                    to: PFN_vkCreateImagePipeSurfaceFUCHSIA.self
+            #if PlatformMetal
+                traceLog("Loading vkCreateMetalSurfaceEXT command in InstanceTable")
+                self.createMetalSurfaceEXT = unsafeBitCast(
+                    getInstanceProcAddr(nil, "vkCreateMetalSurfaceEXT"),
+                    to: PFN_vkCreateMetalSurfaceEXT.self
                 )
-                if self.createImagePipeSurfaceFUCHSIA == nil {
-                    debugLog("Failed to load vkCreateImagePipeSurfaceFUCHSIA command in InstanceTable")
+                if self.createMetalSurfaceEXT == nil {
+                    debugLog("Failed to load vkCreateMetalSurfaceEXT command in InstanceTable")
+                }
+            #endif
+
+
+            #if PlatformScreen
+                traceLog("Loading vkCreateScreenSurfaceQNX command in InstanceTable")
+                self.createScreenSurfaceQNX = unsafeBitCast(
+                    getInstanceProcAddr(nil, "vkCreateScreenSurfaceQNX"),
+                    to: PFN_vkCreateScreenSurfaceQNX.self
+                )
+                if self.createScreenSurfaceQNX == nil {
+                    debugLog("Failed to load vkCreateScreenSurfaceQNX command in InstanceTable")
+                }
+
+                traceLog("Loading vkGetPhysicalDeviceScreenPresentationSupportQNX command in InstanceTable")
+                self.getPhysicalDeviceScreenPresentationSupportQNX = unsafeBitCast(
+                    getInstanceProcAddr(nil, "vkGetPhysicalDeviceScreenPresentationSupportQNX"),
+                    to: PFN_vkGetPhysicalDeviceScreenPresentationSupportQNX.self
+                )
+                if self.getPhysicalDeviceScreenPresentationSupportQNX == nil {
+                    debugLog("Failed to load vkGetPhysicalDeviceScreenPresentationSupportQNX command in InstanceTable")
+                }
+            #endif
+
+
+            #if PlatformVi
+                traceLog("Loading vkCreateViSurfaceNN command in InstanceTable")
+                self.createViSurfaceNN = unsafeBitCast(
+                    getInstanceProcAddr(nil, "vkCreateViSurfaceNN"),
+                    to: PFN_vkCreateViSurfaceNN.self
+                )
+                if self.createViSurfaceNN == nil {
+                    debugLog("Failed to load vkCreateViSurfaceNN command in InstanceTable")
                 }
             #endif
 
@@ -3009,6 +3346,27 @@ extension Instance {
             #endif
 
 
+            #if PlatformXcb
+                traceLog("Loading vkCreateXcbSurfaceKHR command in InstanceTable")
+                self.createXcbSurfaceKHR = unsafeBitCast(
+                    getInstanceProcAddr(nil, "vkCreateXcbSurfaceKHR"),
+                    to: PFN_vkCreateXcbSurfaceKHR.self
+                )
+                if self.createXcbSurfaceKHR == nil {
+                    debugLog("Failed to load vkCreateXcbSurfaceKHR command in InstanceTable")
+                }
+
+                traceLog("Loading vkGetPhysicalDeviceXcbPresentationSupportKHR command in InstanceTable")
+                self.getPhysicalDeviceXcbPresentationSupportKHR = unsafeBitCast(
+                    getInstanceProcAddr(nil, "vkGetPhysicalDeviceXcbPresentationSupportKHR"),
+                    to: PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR.self
+                )
+                if self.getPhysicalDeviceXcbPresentationSupportKHR == nil {
+                    debugLog("Failed to load vkGetPhysicalDeviceXcbPresentationSupportKHR command in InstanceTable")
+                }
+            #endif
+
+
             #if PlatformXlib
                 traceLog("Loading vkCreateXlibSurfaceKHR command in InstanceTable")
                 self.createXlibSurfaceKHR = unsafeBitCast(
@@ -3030,72 +3388,6 @@ extension Instance {
             #endif
 
 
-            #if PlatformAndroid
-                traceLog("Loading vkCreateAndroidSurfaceKHR command in InstanceTable")
-                self.createAndroidSurfaceKHR = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateAndroidSurfaceKHR"),
-                    to: PFN_vkCreateAndroidSurfaceKHR.self
-                )
-                if self.createAndroidSurfaceKHR == nil {
-                    debugLog("Failed to load vkCreateAndroidSurfaceKHR command in InstanceTable")
-                }
-            #endif
-
-
-            #if PlatformDirectfb
-                traceLog("Loading vkCreateDirectFBSurfaceEXT command in InstanceTable")
-                self.createDirectFBSurfaceEXT = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateDirectFBSurfaceEXT"),
-                    to: PFN_vkCreateDirectFBSurfaceEXT.self
-                )
-                if self.createDirectFBSurfaceEXT == nil {
-                    debugLog("Failed to load vkCreateDirectFBSurfaceEXT command in InstanceTable")
-                }
-
-                traceLog("Loading vkGetPhysicalDeviceDirectFBPresentationSupportEXT command in InstanceTable")
-                self.getPhysicalDeviceDirectFBPresentationSupportEXT = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkGetPhysicalDeviceDirectFBPresentationSupportEXT"),
-                    to: PFN_vkGetPhysicalDeviceDirectFBPresentationSupportEXT.self
-                )
-                if self.getPhysicalDeviceDirectFBPresentationSupportEXT == nil {
-                    debugLog("Failed to load vkGetPhysicalDeviceDirectFBPresentationSupportEXT command in InstanceTable")
-                }
-            #endif
-
-
-            #if PlatformScreen
-                traceLog("Loading vkCreateScreenSurfaceQNX command in InstanceTable")
-                self.createScreenSurfaceQNX = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateScreenSurfaceQNX"),
-                    to: PFN_vkCreateScreenSurfaceQNX.self
-                )
-                if self.createScreenSurfaceQNX == nil {
-                    debugLog("Failed to load vkCreateScreenSurfaceQNX command in InstanceTable")
-                }
-
-                traceLog("Loading vkGetPhysicalDeviceScreenPresentationSupportQNX command in InstanceTable")
-                self.getPhysicalDeviceScreenPresentationSupportQNX = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkGetPhysicalDeviceScreenPresentationSupportQNX"),
-                    to: PFN_vkGetPhysicalDeviceScreenPresentationSupportQNX.self
-                )
-                if self.getPhysicalDeviceScreenPresentationSupportQNX == nil {
-                    debugLog("Failed to load vkGetPhysicalDeviceScreenPresentationSupportQNX command in InstanceTable")
-                }
-            #endif
-
-
-            #if PlatformIos
-                traceLog("Loading vkCreateIOSSurfaceMVK command in InstanceTable")
-                self.createIOSSurfaceMVK = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateIOSSurfaceMVK"),
-                    to: PFN_vkCreateIOSSurfaceMVK.self
-                )
-                if self.createIOSSurfaceMVK == nil {
-                    debugLog("Failed to load vkCreateIOSSurfaceMVK command in InstanceTable")
-                }
-            #endif
-
-
             #if PlatformXlibXrandr
                 traceLog("Loading vkAcquireXlibDisplayEXT command in InstanceTable")
                 self.acquireXlibDisplayEXT = unsafeBitCast(
@@ -3113,18 +3405,6 @@ extension Instance {
                 )
                 if self.getRandROutputDisplayEXT == nil {
                     debugLog("Failed to load vkGetRandROutputDisplayEXT command in InstanceTable")
-                }
-            #endif
-
-
-            #if PlatformVi
-                traceLog("Loading vkCreateViSurfaceNN command in InstanceTable")
-                self.createViSurfaceNN = unsafeBitCast(
-                    getInstanceProcAddr(nil, "vkCreateViSurfaceNN"),
-                    to: PFN_vkCreateViSurfaceNN.self
-                )
-                if self.createViSurfaceNN == nil {
-                    debugLog("Failed to load vkCreateViSurfaceNN command in InstanceTable")
                 }
             #endif
 

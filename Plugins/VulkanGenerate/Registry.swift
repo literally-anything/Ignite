@@ -406,10 +406,15 @@ struct Command: APIComponent {
         case device
     }
 
-    /// The name of the command without the vk prefix.
-    var fixedName: String {
+    /// Removes the vk prefix from the name.
+    static func getFixedName(name: String) -> String {
         let name = name.trimmingPrefix("vk")
         return "\(name.first!.lowercased())\(name.dropFirst())"
+    }
+
+    /// The name of the command without the vk prefix.
+    var fixedName: String {
+        Self.getFixedName(name: name)
     }
 }
 

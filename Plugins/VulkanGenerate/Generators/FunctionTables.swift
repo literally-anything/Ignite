@@ -28,9 +28,8 @@ func generateFunctionTables(packagePath: URL, registry: Registry) throws {
 private func generateFunctionTable(
     file: URL, registry: Registry, tableName: String, tableTypeName: String, scope: Command.Scope
 ) throws {
-    let functions: [(command: Command, trait: String?)] = registry.commands.filter { command in
-        command.scope == scope
-    }.map { command in
+    /// Gets the platform for the command if it exists.
+    func getPlatform(command: Command) -> Platform? {
         var platformName: String? = nil
         for extName in command.providingExtensions ?? [] {
             let ext = registry.extensions.first { $0.name == extName }
@@ -40,20 +39,48 @@ private func generateFunctionTable(
             }
         }
         if let platformName, let platform = registry.platforms[platformName] {
-            return (command: command, trait: platform.traitName)
+            return platform
         }
-        return (command: command, trait: nil)
+        return nil
+    }
+
+    typealias CommandInfo = (name: String, typeName: String, fixedName: String, trait: String?)
+    let commands: [CommandInfo] = registry.commands.filter { command in
+        // We only want commands that match the scope we are currently filling
+        command.scope == scope
+    }.map { command in
+        if let platform = getPlatform(command: command) {
+            return (command.name, command.typeName, command.fixedName, platform.traitName)
+        }
+        return (command.name, command.typeName, command.fixedName, nil)
+    }
+    typealias CommandAliasInfo = (name: String, typeName: String, alias: String, aliasFixed: String, trait: String?)
+    let commandAliases: [CommandAliasInfo] = try registry.commandAliases.compactMap { (name, alias) in
+        guard let command = registry.commands.first(where: { $0.name == alias }) else {
+            throw "Command alias \(name) has no command" as GeneratePluginError
+        }
+        guard command.scope == scope else {
+            return nil
+        }
+        let aliasName = Command.getFixedName(name: name)
+        if let platform = getPlatform(command: command) {
+            return (aliasName, command.typeName, command.name, command.fixedName, platform.traitName)
+        }
+        return (aliasName, command.typeName, command.name, command.fixedName, nil)
     }
 
     var progress: Int = 0
     // A dictionary mapping the name of a trait to the array of variable definitions that only exist with that trait
+    var formattedDocumentationLUT: [String: [String]] = [:]
     var functionTableSections: [String?: [[String]]] = [:]
-    for commandInfo in functions.sorted(by: { $0.command.name < $1.command.name }) {
-        let command = commandInfo.command
-        print("Looking up docs for \(tableTypeName): \(Int(Double(progress) / Double(functions.count) * 100))%")
+    for command in commands.sorted(by: { $0.name < $1.name }) {
+        let progressPercent = Int(Double(progress) / Double(commands.count) * 100)
+        print("Looking up docs for \(tableTypeName): \(progressPercent)%")
         var docs: [String] = []
         do {
-            let symbolDocs = try DocsParser.lookupDocsFor(command: command.name, registry: registry)
+            let symbolDocs = try DocsParser.lookupDocsFor(
+                command: command.name, registry: registry
+            )
 
             try docs.append(contentsOf: symbolDocs.description)
         } catch let e {
@@ -63,17 +90,32 @@ private func generateFunctionTable(
         let formattedDocs = docs.map { "/// \($0)" }
         progress += 1
         // If it's not already in the dictionary, add it
-        if !functionTableSections.keys.contains(commandInfo.trait) {
-            functionTableSections[commandInfo.trait] = []
+        if !functionTableSections.keys.contains(command.trait) {
+            functionTableSections[command.trait] = []
         }
         var section: [String] = formattedDocs
         section.append(
             "public let \(command.fixedName): \(command.typeName)!"
         )
-        functionTableSections[commandInfo.trait]!.append(section)
+        functionTableSections[command.trait]!.append(section)
+
+        // Save the docs to the lookup table for use later in aliases
+        formattedDocumentationLUT[command.name] = formattedDocs
     }
-    // We only want commands that match the scope we are currently filling
+    for commandAlias in commandAliases.sorted(by: { $0.name < $1.name }) {
+        // If it's not already in the dictionary, add it
+        if !functionTableSections.keys.contains(commandAlias.trait) {
+            functionTableSections[commandAlias.trait] = []
+        }
+        var section: [String] = formattedDocumentationLUT[commandAlias.alias] ?? []
+        section.append("/// - Remark: Alias for \(commandAlias.aliasFixed)")
+        section.append(
+            "public var \(commandAlias.name): \(commandAlias.typeName)! { \(commandAlias.aliasFixed) }"
+        )
+        functionTableSections[commandAlias.trait]!.append(section)
+    }
     let functionTableSectionsSorted = functionTableSections.keys.sorted { key1, key2 in
+        // Nil is always first, but others are sorted by name
         if key1 == nil {
             return true
         } else if key2 == nil {
@@ -108,8 +150,7 @@ private func generateFunctionTable(
     // Generate the initializer
     // A dictionary mapping the name of a trait to the array of variable assignments that only exist with that trait
     var initLineSections: [String?: [[Substring]]] = [:]
-    for commandInfo in functions {
-        let command = commandInfo.command
+    for command in commands {
         let lines =
             """
             traceLog("Loading \(command.name) command in \(tableTypeName)")
@@ -122,12 +163,23 @@ private func generateFunctionTable(
             }
             """.split(separator: "\n", omittingEmptySubsequences: false)
         // If it's not already in the dictionary, add it
-        if !initLineSections.keys.contains(commandInfo.trait) {
-            initLineSections[commandInfo.trait] = []
+        if !initLineSections.keys.contains(command.trait) {
+            initLineSections[command.trait] = []
         }
-        initLineSections[commandInfo.trait]!.append(lines)
+        initLineSections[command.trait]!.append(lines)
     }
-    let initLines = initLineSections.map { (trait, assignments) in
+    let initLineSectionsSorted = initLineSections.keys.sorted { key1, key2 in
+        // Nil is always first, but others are sorted by name
+        if key1 == nil {
+            return true
+        } else if key2 == nil {
+            return false
+        } else {
+            return key1! < key2!
+        }
+    }
+    let initLines = initLineSectionsSorted.map { trait in
+        let assignments = initLineSections[trait]!
         // Compact all the assignments into a single array of lines
         var lines = assignments.joined(separator: [""]).map { $0 }
         if let trait {
