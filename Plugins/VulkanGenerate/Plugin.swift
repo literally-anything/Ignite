@@ -41,6 +41,9 @@ struct VulkanGenerate: CommandPlugin {
     }
 #endif
 
+/// The swift-format tool that is used to format the generated code.
+nonisolated(unsafe) var swiftFormat: PluginContext.Tool! = nil
+
 extension VulkanGenerate {
     /// The generic perform function that is called when the plugin is run from either SwiftPM or Xcode.
     /// - Parameters:
@@ -63,13 +66,13 @@ extension VulkanGenerate {
         let headersRepoPath = path.appending(component: ".vulkan-headers-tmp")
         if !FileManager.default.fileExists(atPath: headersRepoPath.path()) {
             print("Cloning the Vulkan-Headers repository...")
-            let _ = try git.run(
+            _ = try git.run(
                 arguments: ["clone", "https://github.com/KhronosGroup/Vulkan-Headers.git", ".vulkan-headers-tmp"],
                 cwd: path
             )
         } else {
             print("Pulling the Vulkan-Headers repository...")
-            let _ = try git.run(
+            _ = try git.run(
                 arguments: ["pull", "-C", ".vulkan-headers-tmp"],
                 cwd: path
             )
@@ -102,6 +105,9 @@ extension VulkanGenerate {
 
         print(registry)
         print("Parsing done!")
+
+        // Get the swift-format tool
+        swiftFormat = try getTool("swift-format")
 
         // Run the generators
         try generatePlatformTraits(packagePath: path, registry: registry)

@@ -45,92 +45,105 @@ private func generateFunctionTable(
         return (command: command, trait: nil)
     }
 
-    try modifyFileAtPlaceholder(file: file, markerName: "\(tableName)_TABLE") { contents in
-        // Generate the function table
-        // We only want commands that match the scope we are currently filling
-        var progress: Int = 0
-        // A dictionary mapping the name of a trait to the array of variable definitions that only exist with that trait
-        var functionTableSections: [String?: [[String]]] = [:]
-        for commandInfo in functions {
-            let command = commandInfo.command
-            print("Looking up docs for \(tableTypeName): \(Int(Double(progress) / Double(functions.count) * 100))%")
-            var docs: [String] = []
-            do {
-                let symbolDocs = try DocsParser.lookupDocsFor(command: command.name, registry: registry)
+    var progress: Int = 0
+    // A dictionary mapping the name of a trait to the array of variable definitions that only exist with that trait
+    var functionTableSections: [String?: [[String]]] = [:]
+    for commandInfo in functions.sorted(by: { $0.command.name < $1.command.name }) {
+        let command = commandInfo.command
+        print("Looking up docs for \(tableTypeName): \(Int(Double(progress) / Double(functions.count) * 100))%")
+        var docs: [String] = []
+        do {
+            let symbolDocs = try DocsParser.lookupDocsFor(command: command.name, registry: registry)
 
-                try docs.append(contentsOf: symbolDocs.description)
-            } catch let e {
-                print("Warning: Couldn't load docs for \(command.name): \(e)")
-            }
-
-            let formattedDocs = docs.map { "/// \($0)" }
-            progress += 1
-            // If it's not already in the dictionary, add it
-            if !functionTableSections.keys.contains(commandInfo.trait) {
-                functionTableSections[commandInfo.trait] = []
-            }
-            var section: [String] = formattedDocs
-            section.append(
-                "public let \(command.fixedName): \(command.typeName)!"
-            )
-            functionTableSections[commandInfo.trait]!.append(section)
+            try docs.append(contentsOf: symbolDocs.description)
+        } catch let e {
+            print("Warning: Couldn't load docs for \(command.name): \(e)")
         }
-        var functionTable = functionTableSections.map { (trait, defs) in
-            // Compact all the lines into a single array
-            var lines: [String] = defs.joined(separator: [""]).map { $0 }
-            if let trait {
-                // Add some extra indentation to the lines because we are putting them in a #if block
-                // Only indent if it is not already a blank line
-                lines = lines.map { $0.isEmpty ? "" : ("    \($0)") }
-                // Add the #if and #endif lines
-                lines.insert("#if \(trait)", at: 0)
-                lines.append("#endif\n")
-            }
-            return lines
-        }.joined(separator: [""]).map { $0[...] } // Concatenate each section into one single array of lines
-        functionTable.insert("// Generated using header version: \(registry.version)\n", at: 0)
-        functionTable.append("")
 
+        let formattedDocs = docs.map { "/// \($0)" }
+        progress += 1
+        // If it's not already in the dictionary, add it
+        if !functionTableSections.keys.contains(commandInfo.trait) {
+            functionTableSections[commandInfo.trait] = []
+        }
+        var section: [String] = formattedDocs
+        section.append(
+            "public let \(command.fixedName): \(command.typeName)!"
+        )
+        functionTableSections[commandInfo.trait]!.append(section)
+    }
+    // We only want commands that match the scope we are currently filling
+    let functionTableSectionsSorted = functionTableSections.keys.sorted { key1, key2 in
+        if key1 == nil {
+            return true
+        } else if key2 == nil {
+            return false
+        } else {
+            return key1! < key2!
+        }
+    }
+    // Generate the function table
+    var functionTable = functionTableSectionsSorted.map { trait in
+        let defs = functionTableSections[trait]!
+        // Compact all the lines into a single array
+        var lines: [String] = defs.joined(separator: [""]).map { $0 }
+        if let trait {
+            // Add some extra indentation to the lines because we are putting them in a #if block
+            // Only indent if it is not already a blank line
+            lines = lines.map { $0.isEmpty ? "" : ("    \($0)") }
+            // Add the #if and #endif lines
+            lines.insert("#if \(trait)", at: 0)
+            lines.append("#endif\n")
+        }
+        return lines
+    }.joined(separator: [""]).map { $0[...] } // Concatenate each section into one single array of lines
+    functionTable.insert("// Generated using header version: \(registry.version)\n", at: 0)
+    functionTable.append("")
+
+    try modifyFileAtPlaceholder(file: file, markerName: "\(tableName)_TABLE") { contents in
         // Insert it into the split file array
         contents[...] = functionTable[...]
     }
 
-    try modifyFileAtPlaceholder(file: file, markerName: "\(tableName)_TABLE_INIT") { contents in
-        // Generate the initializer
-        // A dictionary mapping the name of a trait to the array of variable assignments that only exist with that trait
-        var initLineSections: [String?: [[Substring]]] = [:]
-        for commandInfo in functions {
-            let command = commandInfo.command
-            let lines =
-                """
-                traceLog("Loading \(command.name) command in \(tableTypeName)")
-                self.\(command.fixedName) = unsafeBitCast(
-                    getInstanceProcAddr(nil, "\(command.name)"),
-                    to: \(command.typeName).self
-                )
-                if self.\(command.fixedName) == nil {
-                    debugLog("Failed to load \(command.name) command in \(tableTypeName)")
-                }
-                """.split(separator: "\n", omittingEmptySubsequences: false)
-            // If it's not already in the dictionary, add it
-            if !initLineSections.keys.contains(commandInfo.trait) {
-                initLineSections[commandInfo.trait] = []
+    // Generate the initializer
+    // A dictionary mapping the name of a trait to the array of variable assignments that only exist with that trait
+    var initLineSections: [String?: [[Substring]]] = [:]
+    for commandInfo in functions {
+        let command = commandInfo.command
+        let lines =
+            """
+            traceLog("Loading \(command.name) command in \(tableTypeName)")
+            self.\(command.fixedName) = unsafeBitCast(
+                getInstanceProcAddr(nil, "\(command.name)"),
+                to: \(command.typeName).self
+            )
+            if self.\(command.fixedName) == nil {
+                debugLog("Failed to load \(command.name) command in \(tableTypeName)")
             }
-            initLineSections[commandInfo.trait]!.append(lines)
+            """.split(separator: "\n", omittingEmptySubsequences: false)
+        // If it's not already in the dictionary, add it
+        if !initLineSections.keys.contains(commandInfo.trait) {
+            initLineSections[commandInfo.trait] = []
         }
-        let initLines = initLineSections.map { (trait, assignments) in
-            // Compact all the assignments into a single array of lines
-            var lines = assignments.joined(separator: [""]).map { $0 }
-            if let trait {
-                // Add some extra indentation to the lines because we are putting them in a #if block
-                // Only indent if it is not already a blank line
-                lines = lines.map { $0.isEmpty ? "" : ("    \($0)") }
-                // Add the #if and #endif lines
-                lines.insert("#if \(trait)", at: 0)
-                lines.append("#endif\n")
-            }
-            return lines
-        }.joined(separator: [""[...]]).map { $0 }
+        initLineSections[commandInfo.trait]!.append(lines)
+    }
+    let initLines = initLineSections.map { (trait, assignments) in
+        // Compact all the assignments into a single array of lines
+        var lines = assignments.joined(separator: [""]).map { $0 }
+        if let trait {
+            // Add some extra indentation to the lines because we are putting them in a #if block
+            // Only indent if it is not already a blank line
+            lines = lines.map { $0.isEmpty ? "" : ("    \($0)") }
+            // Add the #if and #endif lines
+            lines.insert("#if \(trait)", at: 0)
+            lines.append("#endif\n")
+        }
+        return lines
+    }.joined(separator: [""[...]]).map { $0 }
+
+    try modifyFileAtPlaceholder(file: file, markerName: "\(tableName)_TABLE_INIT") { contents in
         contents[...] = initLines[...].trimmingPrefix(["\n"])
     }
+
+    print("Finished generating function table for \(tableTypeName)")
 }

@@ -14,7 +14,7 @@ let cSettings: [CSetting] = [
     .headerSearchPath("../CVulkan/include")
 ]
 let linkerSettings: [LinkerSetting] = [
-    .linkedLibrary("vulkan", .when(traits: ["LinkedVulkan"])),
+    .linkedLibrary("vulkan", .when(traits: ["LinkedVulkan"]))
 ]
 
 var package = Package(
@@ -30,56 +30,56 @@ var package = Package(
         // Generated using header version: 313
 
         .trait(
-            name: "PlatformVi",
-            description: "Nintendo Vi (VK_USE_PLATFORM_VI_NN)"
-        ),
-        .trait(
-            name: "PlatformFuchsia",
-            description: "Fuchsia (VK_USE_PLATFORM_FUCHSIA)"
-        ),
-        .trait(
-            name: "PlatformMetal",
-            description: "Metal on CoreAnimation on Apple platforms (VK_USE_PLATFORM_METAL_EXT)"
+            name: "PlatformXlibXrandr",
+            description: "X Window System, Xlib client library, XRandR extension (VK_USE_PLATFORM_XLIB_XRANDR_EXT)"
         ),
         .trait(
             name: "PlatformXlib",
             description: "X Window System, Xlib client library (VK_USE_PLATFORM_XLIB_KHR)"
         ),
         .trait(
-            name: "PlatformSci",
-            description: "NVIDIA SCI (VK_USE_PLATFORM_SCI)"
-        ),
-        .trait(
             name: "PlatformXcb",
             description: "X Window System, Xcb client library (VK_USE_PLATFORM_XCB_KHR)"
-        ),
-        .trait(
-            name: "PlatformXlibXrandr",
-            description: "X Window System, Xlib client library, XRandR extension (VK_USE_PLATFORM_XLIB_XRANDR_EXT)"
         ),
         .trait(
             name: "PlatformWin32",
             description: "Microsoft Win32 API (also refers to Win64 apps) (VK_USE_PLATFORM_WIN32_KHR)"
         ),
         .trait(
-            name: "PlatformScreen",
-            description: "QNX Screen Graphics Subsystem (VK_USE_PLATFORM_SCREEN_QNX)"
-        ),
-        .trait(
             name: "PlatformWayland",
             description: "Wayland display server protocol (VK_USE_PLATFORM_WAYLAND_KHR)"
         ),
         .trait(
-            name: "PlatformAndroid",
-            description: "Android OS (VK_USE_PLATFORM_ANDROID_KHR)"
+            name: "PlatformVi",
+            description: "Nintendo Vi (VK_USE_PLATFORM_VI_NN)"
+        ),
+        .trait(
+            name: "PlatformScreen",
+            description: "QNX Screen Graphics Subsystem (VK_USE_PLATFORM_SCREEN_QNX)"
+        ),
+        .trait(
+            name: "PlatformSci",
+            description: "NVIDIA SCI (VK_USE_PLATFORM_SCI)"
+        ),
+        .trait(
+            name: "PlatformMetal",
+            description: "Metal on CoreAnimation on Apple platforms (VK_USE_PLATFORM_METAL_EXT)"
+        ),
+        .trait(
+            name: "PlatformGgp",
+            description: "Google Games Platform (VK_USE_PLATFORM_GGP)"
+        ),
+        .trait(
+            name: "PlatformFuchsia",
+            description: "Fuchsia (VK_USE_PLATFORM_FUCHSIA)"
         ),
         .trait(
             name: "PlatformDirectfb",
             description: "DirectFB library (VK_USE_PLATFORM_DIRECTFB_EXT)"
         ),
         .trait(
-            name: "PlatformGgp",
-            description: "Google Games Platform (VK_USE_PLATFORM_GGP)"
+            name: "PlatformAndroid",
+            description: "Android OS (VK_USE_PLATFORM_ANDROID_KHR)"
         ),
         .trait(
             name: "EnableProvisional",

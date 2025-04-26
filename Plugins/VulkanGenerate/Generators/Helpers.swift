@@ -1,7 +1,7 @@
 /**
  * Helpers.swift
  * Generators
- * 
+ *
  * Created by Hunter Baker on 4/25/2025
  * Copyright (C) 2025-2025, by Hunter Baker hunterbaker@me.com
  */
@@ -9,7 +9,9 @@
 import Foundation
 
 /// Reads a file and allows a closure to modify the contents between two markers.
-func modifyFileAtPlaceholder(file: URL, markerName: String, _ body: (inout ArraySlice<Substring>) throws -> Void) throws {
+func modifyFileAtPlaceholder(
+    file: URL, markerName: String, _ body: (inout ArraySlice<Substring>) throws -> Void
+) throws {
     let beginMarker = "BEGIN_GENERATE_\(markerName)"
     let endMarker = "END_GENERATE_\(markerName)"
 
@@ -35,9 +37,10 @@ func modifyFileAtPlaceholder(file: URL, markerName: String, _ body: (inout Array
     try body(&contents)
 
     // Fix indentation
-    fileContents[beginLine + 1..<endLine] = contents.map { line in
-        indentation + line
-    }[...]
+    fileContents[beginLine + 1..<endLine] =
+        contents.map { line in
+            indentation + line
+        }[...]
 
     // Write the file back to disk
     try fileContents.joined(separator: "\n").write(
@@ -45,4 +48,8 @@ func modifyFileAtPlaceholder(file: URL, markerName: String, _ body: (inout Array
         atomically: true,
         encoding: .utf8
     )
+
+    if file.pathExtension == "swift" {
+        _ = try swiftFormat.run(arguments: ["format", "-i", file.path()])
+    }
 }

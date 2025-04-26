@@ -48,6 +48,9 @@ public struct Loader: Sendable {
         }
         // Initialize the loader table with all the functions needed and get the api version.
         loaderTable = .init(getInstanceProcAddr: getInstanceProcAddr)
+
+        // Initialize the version.
+        // In version 1.0, the vkEnumerateInstanceVersion function did not exist, so we need to check if it exists.
         if let enumerateInstanceVersion = loaderTable.enumerateInstanceVersion {
             var foundVersion: UInt32 = 0
             let result = enumerateInstanceVersion(&foundVersion)
@@ -61,218 +64,8 @@ public struct Loader: Sendable {
             version = makeVkAPIVersion(1, 0)
         }
     }
-
-    /// The table of Vulkan function pointers for functions at the loader scope.
-    public struct LoaderTable: Sendable {
-        // BEGIN_GENERATE_LOADER_TABLE
-        // Generated using header version: 313
-
-        /// To create an instance object, call:
-        /// 
-        /// - Parameters:
-        ///     - pCreateInfo: is a pointer to a [VkInstanceCreateInfo](https://registry.khronos.org/vulkan/specs/latest/man/html/VkInstanceCreateInfo.html) structure controlling creation of the instance.
-        ///     - pAllocator: controls host memory allocation as described in the [Memory Allocation](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#memory-allocation) chapter.
-        ///     - pInstance: points a [VkInstance](https://registry.khronos.org/vulkan/specs/latest/man/html/VkInstance.html) handle in which the resulting instance is returned.
-        /// 
-        /// `vkCreateInstance` verifies that the requested layers exist. 
-        /// If not, `vkCreateInstance` will return `VK_ERROR_LAYER_NOT_PRESENT`. 
-        /// Next `vkCreateInstance` verifies that the requested extensions are supported (e.g. in the implementation or in any enabled instance layer) and if any requested extension is not supported, `vkCreateInstance` **must** return `VK_ERROR_EXTENSION_NOT_PRESENT`. 
-        /// After verifying and enabling the instance layers and extensions the `VkInstance` object is created and returned to the application. 
-        /// If a requested extension is only supported by a layer, both the layer and the extension need to be specified at `vkCreateInstance` time for the creation to succeed.
-        /// 
-        /// Valid Usage
-        /// ---
-        /// - Precondition: All [required extensions](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#extendingvulkan-extensions-extensiondependencies) for each extension in the [VkInstanceCreateInfo](https://registry.khronos.org/vulkan/specs/latest/man/html/VkInstanceCreateInfo.html)::`ppEnabledExtensionNames` list **must** also be present in that list
-        /// 
-        /// Valid Usage (Implicit)
-        /// ---
-        /// - Precondition: `pCreateInfo` **must** be a valid pointer to a valid [VkInstanceCreateInfo](https://registry.khronos.org/vulkan/specs/latest/man/html/VkInstanceCreateInfo.html) structure
-        /// - Precondition: If `pAllocator` is not `NULL`, `pAllocator` **must** be a valid pointer to a valid [VkAllocationCallbacks](https://registry.khronos.org/vulkan/specs/latest/man/html/VkAllocationCallbacks.html) structure
-        /// - Precondition: `pInstance` **must** be a valid pointer to a [VkInstance](https://registry.khronos.org/vulkan/specs/latest/man/html/VkInstance.html) handle
-        /// 
-        /// Return Codes
-        /// ---
-        /// - Returns:
-        ///     - Success Codes:
-        ///         - `VK_SUCCESS`
-        /// 
-        /// ### Documentation
-        /// - SeeAlso: [vkCreateInstance Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCreateInstance.html)
-        public let createInstance: PFN_vkCreateInstance!
-        
-        /// Function pointers for all Vulkan commands **can** be obtained by calling:
-        /// 
-        /// - Parameters:
-        ///     - instance: is the instance that the function pointer will be compatible with, or `NULL` for commands not dependent on any instance.
-        ///     - pName: is the name of the command to obtain.
-        /// 
-        /// `vkGetInstanceProcAddr` itself is obtained in a platform- and loader- specific manner. 
-        /// Typically, the loader library will export this command as a function symbol, so applications **can** link against the loader library, or load it dynamically and look up the symbol using platform-specific APIs.
-        /// 
-        /// The table below defines the various use cases for `vkGetInstanceProcAddr` and expected return value (“fp” is “function pointer”) for each case. 
-        /// A valid returned function pointer (“fp”) **must** not be `NULL`.
-        /// 
-        /// The returned function pointer is of type [PFN_vkVoidFunction](https://registry.khronos.org/vulkan/specs/latest/man/html/PFN_vkVoidFunction.html), and **must** be cast to the type of the command being queried before use.
-        /// 
-        /// ### Table 1. `vkGetInstanceProcAddr` behavior
-        /// `instance` | `pName` | return value
-        /// ---------- | ------- | ------------
-        /// \*1 | `NULL` | undefined
-        /// invalid non-`NULL` instance | \*1 | undefined
-        /// `NULL` | *global command* 2 | fp
-        /// `NULL` | [vkGetInstanceProcAddr](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetInstanceProcAddr.html) | fp5
-        /// instance | [vkGetInstanceProcAddr](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetInstanceProcAddr.html) | fp
-        /// instance | core *dispatchable command* | fp3
-        /// instance | enabled instance extension dispatchable command for `instance` | fp3
-        /// instance | available device extension4 dispatchable command for `instance` | fp3
-        /// any other case, not covered above|| `NULL`
-        /// 
-        /// Valid Usage (Implicit)
-        /// ---
-        /// - Precondition: If `instance` is not `NULL`, `instance` **must** be a valid [VkInstance](https://registry.khronos.org/vulkan/specs/latest/man/html/VkInstance.html) handle
-        /// - Precondition: `pName` **must** be a null-terminated UTF-8 string
-        /// 
-        /// ### Documentation
-        /// - SeeAlso: [vkGetInstanceProcAddr Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetInstanceProcAddr.html)
-        public let getInstanceProcAddr: PFN_vkGetInstanceProcAddr!
-        
-        /// To query the version of instance-level functionality supported by the implementation, call:
-        /// 
-        /// - Parameters:
-        ///     - pApiVersion: is a pointer to a `uint32_t`, which is the version of Vulkan supported by instance-level functionality, encoded as described in [https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#extendingvulkan-coreversions-versionnumbers](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#extendingvulkan-coreversions-versionnumbers).
-        /// 
-        /// Valid Usage (Implicit)
-        /// ---
-        /// - Precondition: `pApiVersion` **must** be a valid pointer to a `uint32_t` value
-        /// 
-        /// Return Codes
-        /// ---
-        /// - Returns:
-        ///     - Success Codes:
-        ///         - `VK_SUCCESS`
-        /// 
-        /// ### Documentation
-        /// - SeeAlso: [vkEnumerateInstanceVersion Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkEnumerateInstanceVersion.html)
-        public let enumerateInstanceVersion: PFN_vkEnumerateInstanceVersion!
-        
-        /// To query the available layers, call:
-        /// 
-        /// - Parameters:
-        ///     - pPropertyCount: is a pointer to an integer related to the number of layer properties available or queried, as described below.
-        ///     - pProperties: is either `NULL` or a pointer to an array of [VkLayerProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkLayerProperties.html) structures.
-        /// 
-        /// If `pProperties` is `NULL`, then the number of layer properties available is returned in `pPropertyCount`. 
-        /// Otherwise, `pPropertyCount` **must** point to a variable set by the application to the number of elements in the `pProperties` array, and on return the variable is overwritten with the number of structures actually written to `pProperties`. 
-        /// If `pPropertyCount` is less than the number of layer properties available, at most `pPropertyCount` structures will be written, and `VK_INCOMPLETE` will be returned instead of `VK_SUCCESS`, to indicate that not all the available properties were returned.
-        /// 
-        /// The list of available layers may change at any time due to actions outside of the Vulkan implementation, so two calls to `vkEnumerateInstanceLayerProperties` with the same parameters **may** return different results, or retrieve different `pPropertyCount` values or `pProperties` contents. 
-        /// Once an instance has been created, the layers enabled for that instance will continue to be enabled and valid for the lifetime of that instance, even if some of them become unavailable for future instances.
-        /// 
-        /// Valid Usage (Implicit)
-        /// ---
-        /// - Precondition: `pPropertyCount` **must** be a valid pointer to a `uint32_t` value
-        /// - Precondition: If the value referenced by `pPropertyCount` is not `0`, and `pProperties` is not `NULL`, `pProperties` **must** be a valid pointer to an array of `pPropertyCount` [VkLayerProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkLayerProperties.html) structures
-        /// 
-        /// Return Codes
-        /// ---
-        /// - Returns:
-        ///     - Success Codes:
-        ///         - `VK_SUCCESS`
-        ///         - `VK_INCOMPLETE`
-        /// 
-        /// ### Documentation
-        /// - SeeAlso: [vkEnumerateInstanceLayerProperties Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkEnumerateInstanceLayerProperties.html)
-        public let enumerateInstanceLayerProperties: PFN_vkEnumerateInstanceLayerProperties!
-        
-        /// To query the available instance extensions, call:
-        /// 
-        /// - Parameters:
-        ///     - pLayerName: is either `NULL` or a pointer to a null-terminated UTF-8 string naming the layer to retrieve extensions from.
-        ///     - pPropertyCount: is a pointer to an integer related to the number of extension properties available or queried, as described below.
-        ///     - pProperties: is either `NULL` or a pointer to an array of [VkExtensionProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkExtensionProperties.html) structures.
-        /// 
-        /// When `pLayerName` parameter is `NULL`, only extensions provided by the Vulkan implementation or by implicitly enabled layers are returned. 
-        /// When `pLayerName` is the name of a layer, the instance extensions provided by that layer are returned.
-        /// 
-        /// If `pProperties` is `NULL`, then the number of extensions properties available is returned in `pPropertyCount`. 
-        /// Otherwise, `pPropertyCount` **must** point to a variable set by the application to the number of elements in the `pProperties` array, and on return the variable is overwritten with the number of structures actually written to `pProperties`. 
-        /// If `pPropertyCount` is less than the number of extension properties available, at most `pPropertyCount` structures will be written, and `VK_INCOMPLETE` will be returned instead of `VK_SUCCESS`, to indicate that not all the available properties were returned.
-        /// 
-        /// Because the list of available layers may change externally between calls to [vkEnumerateInstanceExtensionProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/vkEnumerateInstanceExtensionProperties.html), two calls may retrieve different results if a `pLayerName` is available in one call but not in another. 
-        /// The extensions supported by a layer may also change between two calls, e.g. if the layer implementation is replaced by a different version between those calls.
-        /// 
-        /// Implementations **must** not advertise any pair of extensions that cannot be enabled together due to behavioral differences, or any extension that cannot be enabled against the advertised version.
-        /// 
-        /// Valid Usage (Implicit)
-        /// ---
-        /// - Precondition: If `pLayerName` is not `NULL`, `pLayerName` **must** be a null-terminated UTF-8 string
-        /// - Precondition: `pPropertyCount` **must** be a valid pointer to a `uint32_t` value
-        /// - Precondition: If the value referenced by `pPropertyCount` is not `0`, and `pProperties` is not `NULL`, `pProperties` **must** be a valid pointer to an array of `pPropertyCount` [VkExtensionProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkExtensionProperties.html) structures
-        /// 
-        /// Return Codes
-        /// ---
-        /// - Returns:
-        ///     - Success Codes:
-        ///         - `VK_SUCCESS`
-        ///         - `VK_INCOMPLETE`
-        /// 
-        /// ### Documentation
-        /// - SeeAlso: [vkEnumerateInstanceExtensionProperties Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkEnumerateInstanceExtensionProperties.html)
-        public let enumerateInstanceExtensionProperties: PFN_vkEnumerateInstanceExtensionProperties!
-        
-        // END_GENERATE_LOADER_TABLE
-
-        /// Load the Vulkan function pointers using the getInstanceProcAddr function.
-        internal init(getInstanceProcAddr: PFN_vkGetInstanceProcAddr) {
-            // BEGIN_GENERATE_LOADER_TABLE_INIT
-            traceLog("Loading vkCreateInstance command in LoaderTable")
-            self.createInstance = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkCreateInstance"),
-                to: PFN_vkCreateInstance.self
-            )
-            if self.createInstance == nil {
-                debugLog("Failed to load vkCreateInstance command in LoaderTable")
-            }
-            
-            traceLog("Loading vkGetInstanceProcAddr command in LoaderTable")
-            self.getInstanceProcAddr = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkGetInstanceProcAddr"),
-                to: PFN_vkGetInstanceProcAddr.self
-            )
-            if self.getInstanceProcAddr == nil {
-                debugLog("Failed to load vkGetInstanceProcAddr command in LoaderTable")
-            }
-            
-            traceLog("Loading vkEnumerateInstanceVersion command in LoaderTable")
-            self.enumerateInstanceVersion = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkEnumerateInstanceVersion"),
-                to: PFN_vkEnumerateInstanceVersion.self
-            )
-            if self.enumerateInstanceVersion == nil {
-                debugLog("Failed to load vkEnumerateInstanceVersion command in LoaderTable")
-            }
-            
-            traceLog("Loading vkEnumerateInstanceLayerProperties command in LoaderTable")
-            self.enumerateInstanceLayerProperties = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkEnumerateInstanceLayerProperties"),
-                to: PFN_vkEnumerateInstanceLayerProperties.self
-            )
-            if self.enumerateInstanceLayerProperties == nil {
-                debugLog("Failed to load vkEnumerateInstanceLayerProperties command in LoaderTable")
-            }
-            
-            traceLog("Loading vkEnumerateInstanceExtensionProperties command in LoaderTable")
-            self.enumerateInstanceExtensionProperties = unsafeBitCast(
-                getInstanceProcAddr(nil, "vkEnumerateInstanceExtensionProperties"),
-                to: PFN_vkEnumerateInstanceExtensionProperties.self
-            )
-            if self.enumerateInstanceExtensionProperties == nil {
-                debugLog("Failed to load vkEnumerateInstanceExtensionProperties command in LoaderTable")
-            }
-            // END_GENERATE_LOADER_TABLE_INIT
-        }
-    }
 }
+
 extension Loader {
     /// The paths to the Vulkan library. This is a list of paths that are searched in order.
     /// This varies by OS.
@@ -356,5 +149,219 @@ extension Loader {
     /// - Returns: `true` if the Vulkan library was loaded successfully, otherwise `false`.
     public static func checkSetup() -> Bool {
         shared != nil
+    }
+}
+
+extension Loader {
+
+    /// The table of Vulkan function pointers for functions at the loader scope.
+    public struct LoaderTable: Sendable {
+        // BEGIN_GENERATE_LOADER_TABLE
+        // Generated using header version: 313
+
+        /// To create an instance object, call:
+        ///
+        /// - Parameters:
+        ///     - pCreateInfo: is a pointer to a [VkInstanceCreateInfo](https://registry.khronos.org/vulkan/specs/latest/man/html/VkInstanceCreateInfo.html) structure controlling creation of the instance.
+        ///     - pAllocator: controls host memory allocation as described in the [Memory Allocation](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#memory-allocation) chapter.
+        ///     - pInstance: points a [VkInstance](https://registry.khronos.org/vulkan/specs/latest/man/html/VkInstance.html) handle in which the resulting instance is returned.
+        ///
+        /// `vkCreateInstance` verifies that the requested layers exist.
+        /// If not, `vkCreateInstance` will return `VK_ERROR_LAYER_NOT_PRESENT`.
+        /// Next `vkCreateInstance` verifies that the requested extensions are supported (e.g. in the implementation or in any enabled instance layer) and if any requested extension is not supported, `vkCreateInstance` **must** return `VK_ERROR_EXTENSION_NOT_PRESENT`.
+        /// After verifying and enabling the instance layers and extensions the `VkInstance` object is created and returned to the application.
+        /// If a requested extension is only supported by a layer, both the layer and the extension need to be specified at `vkCreateInstance` time for the creation to succeed.
+        ///
+        /// Valid Usage
+        /// ---
+        /// - Precondition: All [required extensions](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#extendingvulkan-extensions-extensiondependencies) for each extension in the [VkInstanceCreateInfo](https://registry.khronos.org/vulkan/specs/latest/man/html/VkInstanceCreateInfo.html)::`ppEnabledExtensionNames` list **must** also be present in that list
+        ///
+        /// Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `pCreateInfo` **must** be a valid pointer to a valid [VkInstanceCreateInfo](https://registry.khronos.org/vulkan/specs/latest/man/html/VkInstanceCreateInfo.html) structure
+        /// - Precondition: If `pAllocator` is not `NULL`, `pAllocator` **must** be a valid pointer to a valid [VkAllocationCallbacks](https://registry.khronos.org/vulkan/specs/latest/man/html/VkAllocationCallbacks.html) structure
+        /// - Precondition: `pInstance` **must** be a valid pointer to a [VkInstance](https://registry.khronos.org/vulkan/specs/latest/man/html/VkInstance.html) handle
+        ///
+        /// Return Codes
+        /// ---
+        /// - Returns:
+        ///     - Success Codes:
+        ///         - `VK_SUCCESS`
+        ///
+        /// ### Documentation
+        /// - SeeAlso: [vkCreateInstance Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCreateInstance.html)
+        public let createInstance: PFN_vkCreateInstance!
+
+        /// To query the available instance extensions, call:
+        ///
+        /// - Parameters:
+        ///     - pLayerName: is either `NULL` or a pointer to a null-terminated UTF-8 string naming the layer to retrieve extensions from.
+        ///     - pPropertyCount: is a pointer to an integer related to the number of extension properties available or queried, as described below.
+        ///     - pProperties: is either `NULL` or a pointer to an array of [VkExtensionProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkExtensionProperties.html) structures.
+        ///
+        /// When `pLayerName` parameter is `NULL`, only extensions provided by the Vulkan implementation or by implicitly enabled layers are returned.
+        /// When `pLayerName` is the name of a layer, the instance extensions provided by that layer are returned.
+        ///
+        /// If `pProperties` is `NULL`, then the number of extensions properties available is returned in `pPropertyCount`.
+        /// Otherwise, `pPropertyCount` **must** point to a variable set by the application to the number of elements in the `pProperties` array, and on return the variable is overwritten with the number of structures actually written to `pProperties`.
+        /// If `pPropertyCount` is less than the number of extension properties available, at most `pPropertyCount` structures will be written, and `VK_INCOMPLETE` will be returned instead of `VK_SUCCESS`, to indicate that not all the available properties were returned.
+        ///
+        /// Because the list of available layers may change externally between calls to [vkEnumerateInstanceExtensionProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/vkEnumerateInstanceExtensionProperties.html), two calls may retrieve different results if a `pLayerName` is available in one call but not in another.
+        /// The extensions supported by a layer may also change between two calls, e.g. if the layer implementation is replaced by a different version between those calls.
+        ///
+        /// Implementations **must** not advertise any pair of extensions that cannot be enabled together due to behavioral differences, or any extension that cannot be enabled against the advertised version.
+        ///
+        /// Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: If `pLayerName` is not `NULL`, `pLayerName` **must** be a null-terminated UTF-8 string
+        /// - Precondition: `pPropertyCount` **must** be a valid pointer to a `uint32_t` value
+        /// - Precondition: If the value referenced by `pPropertyCount` is not `0`, and `pProperties` is not `NULL`, `pProperties` **must** be a valid pointer to an array of `pPropertyCount` [VkExtensionProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkExtensionProperties.html) structures
+        ///
+        /// Return Codes
+        /// ---
+        /// - Returns:
+        ///     - Success Codes:
+        ///         - `VK_SUCCESS`
+        ///         - `VK_INCOMPLETE`
+        ///
+        /// ### Documentation
+        /// - SeeAlso: [vkEnumerateInstanceExtensionProperties Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkEnumerateInstanceExtensionProperties.html)
+        public let enumerateInstanceExtensionProperties: PFN_vkEnumerateInstanceExtensionProperties!
+
+        /// To query the available layers, call:
+        ///
+        /// - Parameters:
+        ///     - pPropertyCount: is a pointer to an integer related to the number of layer properties available or queried, as described below.
+        ///     - pProperties: is either `NULL` or a pointer to an array of [VkLayerProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkLayerProperties.html) structures.
+        ///
+        /// If `pProperties` is `NULL`, then the number of layer properties available is returned in `pPropertyCount`.
+        /// Otherwise, `pPropertyCount` **must** point to a variable set by the application to the number of elements in the `pProperties` array, and on return the variable is overwritten with the number of structures actually written to `pProperties`.
+        /// If `pPropertyCount` is less than the number of layer properties available, at most `pPropertyCount` structures will be written, and `VK_INCOMPLETE` will be returned instead of `VK_SUCCESS`, to indicate that not all the available properties were returned.
+        ///
+        /// The list of available layers may change at any time due to actions outside of the Vulkan implementation, so two calls to `vkEnumerateInstanceLayerProperties` with the same parameters **may** return different results, or retrieve different `pPropertyCount` values or `pProperties` contents.
+        /// Once an instance has been created, the layers enabled for that instance will continue to be enabled and valid for the lifetime of that instance, even if some of them become unavailable for future instances.
+        ///
+        /// Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `pPropertyCount` **must** be a valid pointer to a `uint32_t` value
+        /// - Precondition: If the value referenced by `pPropertyCount` is not `0`, and `pProperties` is not `NULL`, `pProperties` **must** be a valid pointer to an array of `pPropertyCount` [VkLayerProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkLayerProperties.html) structures
+        ///
+        /// Return Codes
+        /// ---
+        /// - Returns:
+        ///     - Success Codes:
+        ///         - `VK_SUCCESS`
+        ///         - `VK_INCOMPLETE`
+        ///
+        /// ### Documentation
+        /// - SeeAlso: [vkEnumerateInstanceLayerProperties Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkEnumerateInstanceLayerProperties.html)
+        public let enumerateInstanceLayerProperties: PFN_vkEnumerateInstanceLayerProperties!
+
+        /// To query the version of instance-level functionality supported by the implementation, call:
+        ///
+        /// - Parameters:
+        ///     - pApiVersion: is a pointer to a `uint32_t`, which is the version of Vulkan supported by instance-level functionality, encoded as described in [https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#extendingvulkan-coreversions-versionnumbers](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#extendingvulkan-coreversions-versionnumbers).
+        ///
+        /// Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `pApiVersion` **must** be a valid pointer to a `uint32_t` value
+        ///
+        /// Return Codes
+        /// ---
+        /// - Returns:
+        ///     - Success Codes:
+        ///         - `VK_SUCCESS`
+        ///
+        /// ### Documentation
+        /// - SeeAlso: [vkEnumerateInstanceVersion Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkEnumerateInstanceVersion.html)
+        public let enumerateInstanceVersion: PFN_vkEnumerateInstanceVersion!
+
+        /// Function pointers for all Vulkan commands **can** be obtained by calling:
+        ///
+        /// - Parameters:
+        ///     - instance: is the instance that the function pointer will be compatible with, or `NULL` for commands not dependent on any instance.
+        ///     - pName: is the name of the command to obtain.
+        ///
+        /// `vkGetInstanceProcAddr` itself is obtained in a platform- and loader- specific manner.
+        /// Typically, the loader library will export this command as a function symbol, so applications **can** link against the loader library, or load it dynamically and look up the symbol using platform-specific APIs.
+        ///
+        /// The table below defines the various use cases for `vkGetInstanceProcAddr` and expected return value (“fp” is “function pointer”) for each case.
+        /// A valid returned function pointer (“fp”) **must** not be `NULL`.
+        ///
+        /// The returned function pointer is of type [PFN_vkVoidFunction](https://registry.khronos.org/vulkan/specs/latest/man/html/PFN_vkVoidFunction.html), and **must** be cast to the type of the command being queried before use.
+        ///
+        /// ### Table 1. `vkGetInstanceProcAddr` behavior
+        /// `instance` | `pName` | return value
+        /// ---------- | ------- | ------------
+        /// \*1 | `NULL` | undefined
+        /// invalid non-`NULL` instance | \*1 | undefined
+        /// `NULL` | *global command* 2 | fp
+        /// `NULL` | [vkGetInstanceProcAddr](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetInstanceProcAddr.html) | fp5
+        /// instance | [vkGetInstanceProcAddr](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetInstanceProcAddr.html) | fp
+        /// instance | core *dispatchable command* | fp3
+        /// instance | enabled instance extension dispatchable command for `instance` | fp3
+        /// instance | available device extension4 dispatchable command for `instance` | fp3
+        /// any other case, not covered above|| `NULL`
+        ///
+        /// Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: If `instance` is not `NULL`, `instance` **must** be a valid [VkInstance](https://registry.khronos.org/vulkan/specs/latest/man/html/VkInstance.html) handle
+        /// - Precondition: `pName` **must** be a null-terminated UTF-8 string
+        ///
+        /// ### Documentation
+        /// - SeeAlso: [vkGetInstanceProcAddr Docs](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetInstanceProcAddr.html)
+        public let getInstanceProcAddr: PFN_vkGetInstanceProcAddr!
+
+        // END_GENERATE_LOADER_TABLE
+
+        /// Load the Vulkan function pointers using the getInstanceProcAddr function.
+        internal init(getInstanceProcAddr: PFN_vkGetInstanceProcAddr) {
+            // BEGIN_GENERATE_LOADER_TABLE_INIT
+            traceLog("Loading vkCreateInstance command in LoaderTable")
+            self.createInstance = unsafeBitCast(
+                getInstanceProcAddr(nil, "vkCreateInstance"),
+                to: PFN_vkCreateInstance.self
+            )
+            if self.createInstance == nil {
+                debugLog("Failed to load vkCreateInstance command in LoaderTable")
+            }
+
+            traceLog("Loading vkGetInstanceProcAddr command in LoaderTable")
+            self.getInstanceProcAddr = unsafeBitCast(
+                getInstanceProcAddr(nil, "vkGetInstanceProcAddr"),
+                to: PFN_vkGetInstanceProcAddr.self
+            )
+            if self.getInstanceProcAddr == nil {
+                debugLog("Failed to load vkGetInstanceProcAddr command in LoaderTable")
+            }
+
+            traceLog("Loading vkEnumerateInstanceVersion command in LoaderTable")
+            self.enumerateInstanceVersion = unsafeBitCast(
+                getInstanceProcAddr(nil, "vkEnumerateInstanceVersion"),
+                to: PFN_vkEnumerateInstanceVersion.self
+            )
+            if self.enumerateInstanceVersion == nil {
+                debugLog("Failed to load vkEnumerateInstanceVersion command in LoaderTable")
+            }
+
+            traceLog("Loading vkEnumerateInstanceLayerProperties command in LoaderTable")
+            self.enumerateInstanceLayerProperties = unsafeBitCast(
+                getInstanceProcAddr(nil, "vkEnumerateInstanceLayerProperties"),
+                to: PFN_vkEnumerateInstanceLayerProperties.self
+            )
+            if self.enumerateInstanceLayerProperties == nil {
+                debugLog("Failed to load vkEnumerateInstanceLayerProperties command in LoaderTable")
+            }
+
+            traceLog("Loading vkEnumerateInstanceExtensionProperties command in LoaderTable")
+            self.enumerateInstanceExtensionProperties = unsafeBitCast(
+                getInstanceProcAddr(nil, "vkEnumerateInstanceExtensionProperties"),
+                to: PFN_vkEnumerateInstanceExtensionProperties.self
+            )
+            if self.enumerateInstanceExtensionProperties == nil {
+                debugLog("Failed to load vkEnumerateInstanceExtensionProperties command in LoaderTable")
+            }
+            // END_GENERATE_LOADER_TABLE_INIT
+        }
     }
 }
