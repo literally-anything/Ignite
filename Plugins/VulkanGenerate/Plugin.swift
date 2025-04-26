@@ -58,9 +58,37 @@ extension VulkanGenerate {
             throw error
         }
 
-        let specUrl = URL(string: "https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/refs/heads/main/xml/vk.xml")!
+        // Clone the Vulkan-Headers repository to get the latest specification xml and headers
+        let git = try getTool("git")
+        let headersRepoPath = path.appending(component: ".vulkan-headers-tmp")
+        if !FileManager.default.fileExists(atPath: headersRepoPath.path()) {
+            print("Cloning the Vulkan-Headers repository...")
+            let _ = try git.run(
+                arguments: ["clone", "https://github.com/KhronosGroup/Vulkan-Headers.git", ".vulkan-headers-tmp"],
+                cwd: path
+            )
+        } else {
+            print("Pulling the Vulkan-Headers repository...")
+            let _ = try git.run(
+                arguments: ["pull", "-C", ".vulkan-headers-tmp"],
+                cwd: path
+            )
+        }
+        // Copy both the vulkan and vk_video headers to the include folder
+        let headersPath = headersRepoPath.appending(component: "include")
+        let dstPath = path.appending(component: "Sources/CVulkan/include")
+        for folder in ["vulkan", "vk_video"] {
+            if FileManager.default.fileExists(atPath: dstPath.appending(component: folder).path()) {
+                try FileManager.default.removeItem(atPath: dstPath.appending(component: folder).path())
+            }
+            try FileManager.default.copyItem(
+                atPath: headersPath.appending(component: folder).path(),
+                toPath: dstPath.appending(component: folder).path()
+            )
+        }
 
-        print("Downloading the Vulkan specification XML file...")
+        // Make the parser
+        let specUrl = headersRepoPath.appending(component: "registry/vk.xml")
         let parser: Parser
         do {
             parser = try Parser(specification: specUrl)
@@ -77,5 +105,7 @@ extension VulkanGenerate {
 
         // Run the generators
         try generateFunctionTables(packagePath: path, registry: registry)
+
+        print("Done!")
     }
 }

@@ -11,7 +11,7 @@ import Foundation
 import PackageDescription
 
 let cSettings: [CSetting] = [
-    .unsafeFlags(["-I", "/usr/local/include"])
+    .headerSearchPath("../CVulkan/include")
 ]
 let linkerSettings: [LinkerSetting] = [
     .linkedLibrary("vulkan", .when(traits: ["LinkedVulkan"])),
