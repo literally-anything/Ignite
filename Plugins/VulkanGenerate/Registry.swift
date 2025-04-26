@@ -7,6 +7,9 @@
  */
 
 struct Registry: CustomStringConvertible {
+    /// The version of the registry.
+    var version: String
+
     /// A mapping of vendor tags to their corresponding vendor names.
     var vendorTags: [String: String] = [:]
     /// A mapping of platform names to their corresponding platform info.

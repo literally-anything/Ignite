@@ -22,47 +22,48 @@
 
 
 // BEGIN_GENERATE_PLATFORM_DEFINES
+// Generated using header version: 313
+#if PlatformVi
+#  define VK_USE_PLATFORM_VI_NN
+#endif
+#if PlatformFuchsia
+#  define VK_USE_PLATFORM_FUCHSIA
+#endif
 #if PlatformMetal
 #  define VK_USE_PLATFORM_METAL_EXT
+#endif
+#if PlatformXlib
+#  define VK_USE_PLATFORM_XLIB_KHR
+#endif
+#if PlatformSci
+#  define VK_USE_PLATFORM_SCI
+#endif
+#if PlatformXcb
+#  define VK_USE_PLATFORM_XCB_KHR
+#endif
+#if PlatformXlibXrandr
+#  define VK_USE_PLATFORM_XLIB_XRANDR_EXT
+#endif
+#if PlatformWin32
+#  define VK_USE_PLATFORM_WIN32_KHR
+#endif
+#if PlatformScreen
+#  define VK_USE_PLATFORM_SCREEN_QNX
 #endif
 #if PlatformWayland
 #  define VK_USE_PLATFORM_WAYLAND_KHR
 #endif
-#if PlatformXlib
-#  define VK_USE_PLATFORM_XLIB_KHR
+#if PlatformAndroid
+#  define VK_USE_PLATFORM_ANDROID_KHR
+#endif
+#if PlatformDirectfb
+#  define VK_USE_PLATFORM_DIRECTFB_EXT
 #endif
 #if PlatformGgp
 #  define VK_USE_PLATFORM_GGP
 #endif
 #if EnableProvisional
 #  define VK_ENABLE_BETA_EXTENSIONS
-#endif
-#if PlatformFuchsia
-#  define VK_USE_PLATFORM_FUCHSIA
-#endif
-#if PlatformSci
-#  define VK_USE_PLATFORM_SCI
-#endif
-#if PlatformScreen
-#  define VK_USE_PLATFORM_SCREEN_QNX
-#endif
-#if PlatformXlibXrandr
-#  define VK_USE_PLATFORM_XLIB_XRANDR_EXT
-#endif
-#if PlatformXcb
-#  define VK_USE_PLATFORM_XCB_KHR
-#endif
-#if PlatformDirectfb
-#  define VK_USE_PLATFORM_DIRECTFB_EXT
-#endif
-#if PlatformAndroid
-#  define VK_USE_PLATFORM_ANDROID_KHR
-#endif
-#if PlatformWin32
-#  define VK_USE_PLATFORM_WIN32_KHR
-#endif
-#if PlatformVi
-#  define VK_USE_PLATFORM_VI_NN
 #endif
 // END_GENERATE_PLATFORM_DEFINES
 

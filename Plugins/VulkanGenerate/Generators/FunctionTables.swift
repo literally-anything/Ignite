@@ -88,7 +88,7 @@ private func generateFunctionTable(
             }
             return lines
         }.joined(separator: [""]).map { $0[...] } // Concatenate each section into one single array of lines
-        functionTable.insert("// Generated \(Date.now)", at: 0)
+        functionTable.insert("// Generated using header version: \(registry.version)\n", at: 0)
         functionTable.append("")
 
         // Insert it into the split file array

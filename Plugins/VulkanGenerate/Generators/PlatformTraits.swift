@@ -24,15 +24,16 @@ func generatePlatformTraits(packagePath: URL, registry: Registry) throws {
     // Generate the traits
     let packageFile = packagePath.appendingPathComponent("Package.swift")
     try modifyFileAtPlaceholder(file: packageFile, markerName: "PLATFORM_TRAITS") { contents in
-        contents[...] =
-            traits.flatMap { trait in
-                """
-                .trait(
-                    name: "\(trait.name)",
-                    description: "\(trait.description)"
-                ),
-                """.split(separator: "\n")
-            }[...]
+        var lines = traits.flatMap { trait in
+            """
+            .trait(
+                name: "\(trait.name)",
+                description: "\(trait.description)"
+            ),
+            """.split(separator: "\n")
+        }
+        lines.insert("// Generated using header version: \(registry.version)\n", at: 0)
+        contents[...] = lines[...]
     }
 
     // Next we have to generate the bit in c that will translate the traits into the macros for Vulkan
@@ -40,13 +41,14 @@ func generatePlatformTraits(packagePath: URL, registry: Registry) throws {
     // Generate the defines
     let headerFile = packagePath.appendingPathComponent("Sources/CVulkan/include/CVulkan.h")
     try modifyFileAtPlaceholder(file: headerFile, markerName: "PLATFORM_DEFINES") { contents in
-        let defines = traits.flatMap { trait in
+        var defines = traits.flatMap { trait in
             """
             #if \(trait.name)
             #  define \(trait.macroName)
             #endif
             """.split(separator: "\n")
         }
+        defines.insert("// Generated using header version: \(registry.version)", at: 0)
         contents[...] = defines[...]
     }
 }

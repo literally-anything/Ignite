@@ -65,7 +65,8 @@ public struct Loader: Sendable {
     /// The table of Vulkan function pointers for functions at the loader scope.
     public struct LoaderTable: Sendable {
         // BEGIN_GENERATE_LOADER_TABLE
-        // Generated 2025-04-26 04:30:18 +0000
+        // Generated using header version: 313
+
         /// To create an instance object, call:
         /// 
         /// - Parameters:
@@ -114,17 +115,17 @@ public struct Loader: Sendable {
         /// The returned function pointer is of type [PFN_vkVoidFunction](https://registry.khronos.org/vulkan/specs/latest/man/html/PFN_vkVoidFunction.html), and **must** be cast to the type of the command being queried before use.
         /// 
         /// ### Table 1. `vkGetInstanceProcAddr` behavior
-        /// `instance`  | `pName`  | return value
-        /// ----------- | -------- | ------------
-        /// \*1 | `NULL`  | undefined
+        /// `instance` | `pName` | return value
+        /// ---------- | ------- | ------------
+        /// \*1 | `NULL` | undefined
         /// invalid non-`NULL` instance | \*1 | undefined
-        /// `NULL`  | *global command* 2 | fp
-        /// `NULL`  | [vkGetInstanceProcAddr](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetInstanceProcAddr.html)  | fp5
-        /// instance | [vkGetInstanceProcAddr](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetInstanceProcAddr.html)  | fp
-        /// instance | core *dispatchable command*  | fp3
-        /// instance | enabled instance extension dispatchable command for `instance`  | fp3
-        /// instance | available device extension4 dispatchable command for `instance`  | fp3
-        /// any other case, not covered above|| `NULL` 
+        /// `NULL` | *global command* 2 | fp
+        /// `NULL` | [vkGetInstanceProcAddr](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetInstanceProcAddr.html) | fp5
+        /// instance | [vkGetInstanceProcAddr](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetInstanceProcAddr.html) | fp
+        /// instance | core *dispatchable command* | fp3
+        /// instance | enabled instance extension dispatchable command for `instance` | fp3
+        /// instance | available device extension4 dispatchable command for `instance` | fp3
+        /// any other case, not covered above|| `NULL`
         /// 
         /// Valid Usage (Implicit)
         /// ---

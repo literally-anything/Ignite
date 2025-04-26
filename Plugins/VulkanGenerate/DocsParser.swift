@@ -9,12 +9,14 @@
 import Foundation
 import RegexBuilder
 
+/// The base URL for the Vulkan documentation.
+private let baseUrl: URL = .init(string: "https://registry.khronos.org/vulkan/specs/latest/man/html/")!
+
 struct DocsParser {
     /// Lookup the documentation for a symbol.
     /// - Parameter symbol: The symbol to look up.
     /// - Returns: The documentation for the symbol.
     static func lookupDocsFor(command: String, registry: Registry) throws -> CommandDocs {
-        let baseUrl: URL = .init(string: "https://registry.khronos.org/vulkan/specs/latest/man/html/")!
         var url: URL? = nil
         var fileContents: [String]? = nil
 
@@ -127,7 +129,7 @@ struct CommandDocs {
             guard let section else {
                 throw "Symbol \(symbol) has no C specification section" as GeneratePluginError
             }
-            lines.append(contentsOf: try Self.parseSection(section: section))
+            lines.append(contentsOf: try Self.parseSection(section: section, docsUrl: url))
             lines.append("")
 
             // Find the parameters header
@@ -140,7 +142,7 @@ struct CommandDocs {
             guard let paramsSection else {
                 throw "Symbol \(symbol) has no parameters section" as GeneratePluginError
             }
-            lines.append(contentsOf: try Self.parseSection(section: paramsSection, blockName: "Parameters"))
+            lines.append(contentsOf: try Self.parseSection(section: paramsSection, docsUrl: url, blockName: "Parameters"))
 
             lines.append("")
             // Get the description section
@@ -153,7 +155,7 @@ struct CommandDocs {
             guard let descriptionSection else {
                 throw "Symbol \(symbol) has no description section" as GeneratePluginError
             }
-            lines.append(contentsOf: try Self.parseSection(section: descriptionSection))
+            lines.append(contentsOf: try Self.parseSection(section: descriptionSection, docsUrl: url))
 
             lines.append("")
             lines.append("### Documentation")
@@ -168,7 +170,7 @@ struct CommandDocs {
     /// - Parameter blockName: The name of the type of block currently being parsed.
     ///                        This isn't used by a consumer, but it is used internally for recursion.
     /// - Returns: A list of strings for the documentation.
-    private static func parseSection(section: XMLNode, blockName: String? = nil) throws -> [String] {
+    private static func parseSection(section: XMLNode, docsUrl: URL, blockName: String? = nil) throws -> [String] {
         guard let children = section.children else {
             throw "Section \"\(section)\" has no children" as GeneratePluginError
         }
@@ -180,7 +182,7 @@ struct CommandDocs {
                     // If we have a paragraph, we get the text, separate it by sentences, and add it as another part
                     let text = child.elements(forName: "p").compactMap {
                         // Sometimes, when downloading, the newlines are added in the middle of sentences
-                        $0.formattedStringValue?.replacingOccurrences(of: "\n", with: " ")
+                        $0.getFormattedStringValue(docsUrl: docsUrl)?.replacingOccurrences(of: "\n", with: " ")
                     }.joined(separator: "\n")
                     var lines: [String] = []
                     text.enumerateSubstrings(in: text.startIndex..., options: [.bySentences]) { sentence, _, _, _ in
@@ -192,7 +194,7 @@ struct CommandDocs {
                 } else if classes?.contains("title") == true {
                     parts.append(
                         [
-                            child.formattedStringValue?.replacingOccurrences(of: "\n", with: " ") ?? "",
+                            child.getFormattedStringValue(docsUrl: docsUrl)?.replacingOccurrences(of: "\n", with: " ") ?? "",
                             "---"
                         ]
                     )
@@ -204,7 +206,7 @@ struct CommandDocs {
                         continue
                     }
                     let content = try? child.nodes(forXPath: "table/tbody/tr/td[@class='content']").first as? XMLElement
-                    if let content, let contentLines = try? parseSection(section: content) {
+                    if let content, let contentLines = try? parseSection(section: content, docsUrl: docsUrl) {
                         let tagIndent = String(repeating: " ", count: tag.count)
                         var first = true
                         let formattedLines = contentLines.map {
@@ -218,16 +220,18 @@ struct CommandDocs {
                         parts.append(formattedLines)
                     }
                 } else if child.name == "table", classes?.contains("tableblock") == true {
-                    let title = child.elements(forName: "caption").first?.formattedStringValue
+                    let title = child.elements(forName: "caption").first?.getFormattedStringValue(docsUrl: docsUrl)
                     let colNames = try? child.nodes(forXPath: "thead/tr/th").compactMap {
-                        $0.formattedStringValue
+                        $0.getFormattedStringValue(docsUrl: docsUrl)?.trimmingCharacters(in: .whitespacesAndNewlines)
                     }
                     guard let colNames else { continue }
 
                     let rows = try? child.nodes(forXPath: "tbody/tr").compactMap { row in
                         try? row.nodes(forXPath: "td").compactMap {
                             (
-                                text: $0.formattedStringValue!,
+                                text: $0.getFormattedStringValue(docsUrl: docsUrl)!
+                                        .trimmingCharacters(in: .whitespacesAndNewlines)
+                                        .replacingOccurrences(of: "\n", with: ", "),
                                 span: Int(($0 as? XMLElement)?.attribute(forName: "colspan")?.stringValue ?? "1") ?? 1
                             )
                         }
@@ -265,7 +269,7 @@ struct CommandDocs {
                 } else if classes?.contains("ulist") == true {
                     let listNodes = try child.nodes(forXPath: "ul/li")
                     let listItems: [String] = listNodes.compactMap {
-                        $0.formattedStringValue?.trimmingCharacters(in: .whitespacesAndNewlines)
+                        $0.getFormattedStringValue(docsUrl: docsUrl)?.trimmingCharacters(in: .whitespacesAndNewlines)
                             .replacingOccurrences(of: "\n", with: " ")
                     }
                     // Specialize for sidebarblock elements
@@ -300,7 +304,7 @@ struct CommandDocs {
                                         .trimmingCharacters(in: .whitespacesAndNewlines)
                                         .replacing(isParamExpr, with: "", maxReplacements: 1)
                                 )
-                                let formattedText = fixedXml.formattedStringValue?
+                                let formattedText = fixedXml.getFormattedStringValue(docsUrl: docsUrl)?
                                     .trimmingCharacters(in: .whitespacesAndNewlines)
                                     .replacingOccurrences(of: "\n", with: " ")
                                 if let formattedText {
@@ -330,7 +334,8 @@ struct CommandDocs {
                         where: { $0.stringValue?.contains("success") == true }
                     )?.nextSibling {
                         let listItems: [String] = try successTable.nodes(forXPath: "div[@class='ulist']/ul/li").compactMap {
-                            $0.formattedStringValue?.trimmingCharacters(in: .whitespacesAndNewlines)
+                            $0.getFormattedStringValue(docsUrl: docsUrl)?
+                                .trimmingCharacters(in: .whitespacesAndNewlines)
                                 .replacingOccurrences(of: "\n", with: " ")
                         }
                         if !listItems.isEmpty {
@@ -344,7 +349,8 @@ struct CommandDocs {
                     }
                     if let errorTable = listTitles.first(where: { $0.stringValue?.contains("failure") == true })?.next {
                         let listItems: [String] = try errorTable.nodes(forXPath: "div[@class='ulist']/ul/li").compactMap {
-                            $0.formattedStringValue?.trimmingCharacters(in: .whitespacesAndNewlines)
+                            $0.getFormattedStringValue(docsUrl: docsUrl)?
+                                .trimmingCharacters(in: .whitespacesAndNewlines)
                                 .replacingOccurrences(of: "\n", with: " ")
                         }
                         if !listItems.isEmpty {
@@ -365,7 +371,7 @@ struct CommandDocs {
                     if let content {
                         // We can use the title to specialize the format, but otherwise we just parse the section
                         let titleRaw = try? content.nodes(forXPath: "div[@class='title']").first?.stringValue
-                        parts.append(try parseSection(section: content, blockName: titleRaw))
+                        parts.append(try parseSection(section: content, docsUrl: docsUrl, blockName: titleRaw))
                     }
                 }
             }
@@ -381,7 +387,7 @@ struct CommandDocs {
 
 extension XMLNode {
     /// Get the stringValue formatted as markdown.
-    var formattedStringValue: String? {
+    func getFormattedStringValue(docsUrl: URL?) -> String? {
         let codeExpr = Regex {
             "<code"
             Optionally {
@@ -455,8 +461,7 @@ extension XMLNode {
             }
         }
         return try! XMLElement(
-            xmlString:
-                xmlString
+            xmlString: xmlString
                 .replacingOccurrences(of: "*", with: "\\*")
                 .replacingOccurrences(of: "`", with: "\\`")
                 .replacing(codeExpr) { match in "`\(match.output.1)`\t" }
@@ -473,8 +478,10 @@ extension XMLNode {
                         let hrefAbsolute =
                             if href.starts(with: "https://") {
                                 href.description
+                            } else if let docsUrl, href.starts(with: "#") {
+                                docsUrl.absoluteString + href
                             } else {
-                                "https://registry.khronos.org/vulkan/specs/latest/man/html/\(href)"
+                                baseUrl.appending(component: href).absoluteString
                             }
                         return "[\(match.output.2)](\(hrefAbsolute))\t"
                     } else {

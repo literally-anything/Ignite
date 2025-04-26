@@ -75,14 +75,16 @@ extension Parser {
                 return nil as Extension?
             }
 
-            try Self.fillRequirements(ext: name, element: element, registry: &registry)
+            let kind: Extension.Kind = type == "instance" ? .instance : .device
+
+            try Self.fillRequirements(ext: (name, kind), element: element, registry: &registry)
 
             return Extension(
                 name: name,
                 number: number,
                 sortorder: sortorder,
                 platform: element.attribute(forName: "platform")?.stringValue,
-                kind: type == "instance" ? .instance : .device,
+                kind: kind,
                 supported: supported.map { String($0) },
                 promotedTo: element.attribute(forName: "promotedto")?.stringValue,
                 deprecatedBy: element.attribute(forName: "deprecatedby")?.stringValue,
@@ -95,7 +97,7 @@ extension Parser {
 
     /// Fill in the requirements for a version or extension in the registry.
     private static func fillRequirements(
-        version: String? = nil, ext: String? = nil, element: XMLElement, registry: inout Registry
+        version: String? = nil, ext: (name: String, kind: Extension.Kind)? = nil, element: XMLElement, registry: inout Registry
     ) throws {
         let requirementElements = element.elements(forName: "require")
         guard requirementElements.count > 0 else {
@@ -136,7 +138,13 @@ extension Parser {
                     throw "Command requirement isn't found: \(commandElement)" as GeneratePluginError
                 }
                 // Add the provider to the command
-                try updateProviders(component: &registry.commands[commandIndex], version: version, ext: ext)
+                try updateProviders(component: &registry.commands[commandIndex], version: version, ext: ext?.name)
+
+                // We need to ensure that the scope of the command is correct
+                if let ext {
+                    // Extension don't provide lodaer commands, so we don't need to check for that
+                    registry.commands[commandIndex].scope = .instance == ext.kind ? .instance : .device
+                }
             }
             // Deal with types
             for typeElement in element.elements(forName: "type") {
@@ -149,17 +157,17 @@ extension Parser {
                 }
                 // Find the specific kind of type in the registry and add the provider
                 if let baseTypeName = registry.baseTypes.keys.first(where: { $0 == name }) {
-                    try updateProviders(component: &registry.baseTypes[baseTypeName]!, version: version, ext: ext)
+                    try updateProviders(component: &registry.baseTypes[baseTypeName]!, version: version, ext: ext?.name)
                 } else if let enumIndex = registry.enums.firstIndex(where: { $0.name == name }) {
-                    try updateProviders(component: &registry.enums[enumIndex], version: version, ext: ext)
+                    try updateProviders(component: &registry.enums[enumIndex], version: version, ext: ext?.name)
                 } else if let bitmaskIndex = registry.bitmasks.firstIndex(where: { $0.name == name }) {
-                    try updateProviders(component: &registry.bitmasks[bitmaskIndex], version: version, ext: ext)
+                    try updateProviders(component: &registry.bitmasks[bitmaskIndex], version: version, ext: ext?.name)
                 } else if registry.handles.keys.contains(name) {
-                    try updateProviders(component: &registry.handles[name]!, version: version, ext: ext)
+                    try updateProviders(component: &registry.handles[name]!, version: version, ext: ext?.name)
                 } else if let structIndex = registry.structs.firstIndex(where: { $0.name == name }) {
-                    try updateProviders(component: &registry.structs[structIndex], version: version, ext: ext)
+                    try updateProviders(component: &registry.structs[structIndex], version: version, ext: ext?.name)
                 } else if let unionIndex = registry.unions.firstIndex(where: { $0.name == name }) {
-                    try updateProviders(component: &registry.unions[unionIndex], version: version, ext: ext)
+                    try updateProviders(component: &registry.unions[unionIndex], version: version, ext: ext?.name)
                 } else if !registry.miscTypes.contains(name), !registry.commands.contains(where: { $0.typeName == name }) {
                     print(registry.commands.map(\.typeName))
                     print(registry.bitmasks.map(\.name))
@@ -186,14 +194,14 @@ extension Parser {
                             try updateProviders(
                                 component: &registry.enums[enumIndex].caseAliases[caseAliasIndex],
                                 version: version,
-                                ext: ext
+                                ext: ext?.name
                             )
                         } else if let caseIndex {
                             // This is a case
                             try updateProviders(
                                 component: &registry.enums[enumIndex].cases[caseIndex],
                                 version: version,
-                                ext: ext
+                                ext: ext?.name
                             )
                         } else {
                             // This case doesn't already exist, so we need to add it

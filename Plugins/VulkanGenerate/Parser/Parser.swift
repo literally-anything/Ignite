@@ -36,7 +36,9 @@ extension Parser {
             print(children.first!.stringValue!)
         }
 
-        var registry = Registry()
+        let versionNode = try! root.nodes(forXPath: "types/type[name=\"VK_HEADER_VERSION\"]/name").first!.nextSibling!
+        let version = versionNode.stringValue!.trimmingCharacters(in: .whitespacesAndNewlines)
+        var registry = Registry(version: version)
 
         try parseTags(registry: &registry)
         try parsePlatforms(registry: &registry)
