@@ -41,7 +41,7 @@ struct Registry: CustomStringConvertible {
     /// An array of commands in the Vulkan specification.
     var commands: [Command] = []
     /// A mapping of command aliases to their corresponding commands.
-    var commandAliases: [String: String] = [:]
+    var commandAliases: [String: (alias: String, deprecated: String?, documentation: DocsParser?)] = [:]
 
     /// An array of API versions in the Vulkan specification.
     var apiVersions: [Version] = []
@@ -396,6 +396,8 @@ struct Command: APIComponent {
     var providingExtensions: [String]? = nil
     var providingVersion: String? = nil
 
+    var documentation: DocsParser? = nil
+
     /// The scope of a command.
     enum Scope {
         /// The command is used on the loader.
@@ -419,7 +421,7 @@ struct Command: APIComponent {
 }
 
 /// A parameter for a command.
-struct CommandParam: APIComponent {
+struct CommandParam {
     /// The name of the parameter.
     var name: String
     /// The type of the parameter.
@@ -445,8 +447,6 @@ struct CommandParam: APIComponent {
 
     var comment: String?
     var deprecated: String?
-    var providingExtensions: [String]? = nil
-    var providingVersion: String? = nil
 }
 
 /// A structure in the Vulkan specification.
@@ -459,7 +459,7 @@ struct Struct: APIComponent {
     /// Whether this struct is only ever created by the runtime and doesn't need to be created by the application.
     var returnedOnly: Bool
     /// A list of all of the structures that this struct can extend through the pNext chain.
-    var extends: [String]
+    var extends: [String]?
     /// Whether the pNext chain can contain multiple of this struct.
     var allowDuplicate: Bool
     /// An array of the members in the struct.
@@ -469,6 +469,21 @@ struct Struct: APIComponent {
     var deprecated: String?
     var providingExtensions: [String]? = nil
     var providingVersion: String? = nil
+
+    /// The name of the struct without the Vk prefix.
+    static func getFixedName(name: String) -> String {
+        guard name.starts(with: "Vk") else {
+            print("Error: Struct \(name) does not start with Vk. It's name will overlap with the C name.")
+            fatalError()
+        }
+        let fixed = name.trimmingPrefix("Vk")
+        return "\(fixed.first!.uppercased())\(fixed.dropFirst())"
+    }
+
+    /// The name of the swift type that corresponds to this struct.
+    var swiftTypeName: String {
+        Self.getFixedName(name: name)
+    }
 }
 
 /// A member of a structure in the Vulkan specification.
@@ -477,16 +492,18 @@ struct StructMember: APIComponent {
     var name: String
     /// The type of the member.
     var type: String
+    /// The base type of the member. (removes const and *s from the name).
+    var baseType: String
     /// If the param is an array, this specifies the length:
     ///     len may be one or more of the following things, separated by commas (one for each array indirection):
     ///     another member of that struct, 'null-terminated' for a string, '1' to indicate it is just a pointer (used for nested pointers),
     ///     or a latex equation (prefixed with 'latexmath:')
-    var length: String?
+    var length: [String]?
     /// if len has latexmath equations, this contains equivalent C99 expressions separated by commas.
-    var altlen: String?
+    var altlen: [String]?
     /// if the member is an array, stride specifies the name of another parameter containing the byte stride between consecutive
     /// elements in the array. The array is assumed to be tightly packed if omitted.
-    var stride: String?
+    var stride: [String]?
     /// Whether this parameter must be externally syncronized.
     var externalSync: Bool
     /// Whether the parameter is optional. (When it is a handle, pass VK_NULL_HANDLE, but when)
@@ -502,6 +519,25 @@ struct StructMember: APIComponent {
     var deprecated: String?
     var providingExtensions: [String]? = nil
     var providingVersion: String? = nil
+
+    /// Checks whether this member is a simple type that doesn't need an allocation elsewhere (little to no indirection).
+    var isSimple: Bool {
+        // If it has a length it can't be simple unless the length is just a 1 (which means it's a pointer).
+        (length == nil || (length!.count == 1 && length!.allSatisfy { $0 == "1" })) &&
+        // If it has a stride or an altlen, it can't be simple.
+        stride == nil && altlen == nil
+    }
+
+    /// The name of the swift property that corresponds to this struct member.
+    var fixedName: String {
+        // If the name starts with a series of p, remove them.
+        var fixed = name[...]
+        for _ in 0..<fixed.count {
+            fixed = fixed.trimmingPrefix("p")
+        }
+        // Fix caps
+        return "\(fixed.first!.lowercased())\(fixed.dropFirst())"
+    }
 }
 
 /// A union in the Vulkan specification.

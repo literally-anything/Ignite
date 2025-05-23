@@ -9,13 +9,13 @@
 import Foundation
 
 /// The name of the vulkan api when in an api attribute.
-private let vulkanApiName = "vulkan"
+private let vulkanApiName: String = "vulkan"
 
 extension Parser {
     /// Extract API version information from the XML specification.
     func parseAPIVersions(registry: inout Registry) throws {
         print("Parsing API versions...")
-        let featureElements = root.elements(forName: "feature")
+        let featureElements: [XMLElement] = root.elements(forName: "feature")
         let apiVersions = try featureElements.compactMap { element in
             guard let name = element.attribute(forName: "name")?.stringValue else {
                 throw "feature has no name: \(element)" as GeneratePluginError
@@ -26,8 +26,8 @@ extension Parser {
             guard let number = element.attribute(forName: "number")?.stringValue else {
                 throw "feature has no number: \(element)" as GeneratePluginError
             }
-            let sortOrderString = element.attribute(forName: "sortorder")?.stringValue
-            let sortorder = sortOrderString != nil ? UInt(sortOrderString!) : nil
+            let sortOrderString: String? = element.attribute(forName: "sortorder")?.stringValue
+            let sortorder: UInt? = sortOrderString != nil ? UInt(sortOrderString!) : nil
 
             // We don't want to include the vulkan sc versions
             guard name.hasPrefix("VK_VERSION_"), api.contains(vulkanApiName[...]) else {
@@ -50,8 +50,8 @@ extension Parser {
     /// Extract the extensions from the XML specification.
     func parseExtensions(registry: inout Registry) throws {
         print("Parsing extensions...")
-        let extensionElements = root.elements(forName: "extensions").flatMap { $0.elements(forName: "extension") }
-        let extensions = try extensionElements.compactMap { element in
+        let extensionElements: [XMLElement] = root.elements(forName: "extensions").flatMap { $0.elements(forName: "extension") }
+        let extensions: [Extension] = try extensionElements.compactMap { element in
             guard let name = element.attribute(forName: "name")?.stringValue else {
                 throw "extension has no name: \(element)" as GeneratePluginError
             }
@@ -79,17 +79,23 @@ extension Parser {
 
             try Self.fillRequirements(ext: (name, kind), element: element, registry: &registry)
 
+            let platform: String? = element.attribute(forName: "platform")?.stringValue
+            let promotedTo: String? = element.attribute(forName: "promotedto")?.stringValue
+            let deprecatedBy: String? = element.attribute(forName: "deprecatedby")?.stringValue
+            let obsoletedBy: String? = element.attribute(forName: "obsoletedby")?.stringValue
+            let dependencies: Dependencies? = try Self.parseDependencies(string: element.attribute(forName: "requires")?.stringValue)
+
             return Extension(
                 name: name,
                 number: number,
                 sortorder: sortorder,
-                platform: element.attribute(forName: "platform")?.stringValue,
+                platform: platform,
                 kind: kind,
                 supported: supported.map { String($0) },
-                promotedTo: element.attribute(forName: "promotedto")?.stringValue,
-                deprecatedBy: element.attribute(forName: "deprecatedby")?.stringValue,
-                obsoletedBy: element.attribute(forName: "obsoletedby")?.stringValue,
-                dependencies: try Self.parseDependencies(string: element.attribute(forName: "requires")?.stringValue)
+                promotedTo: promotedTo,
+                deprecatedBy: deprecatedBy,
+                obsoletedBy: obsoletedBy,
+                dependencies: dependencies
             )
         }
         registry.extensions = extensions
@@ -130,7 +136,7 @@ extension Parser {
                 }
                 // Resolve command aliases
                 if registry.commandAliases.keys.contains(name) {
-                    name = registry.commandAliases[name]!
+                    name = registry.commandAliases[name]!.alias
                 }
                 // Find the command in the registry
                 let commandIndex = registry.commands.firstIndex { $0.name == name }
@@ -255,7 +261,7 @@ extension Parser {
 
     /// Extract the requirements of an API version or an extension from the XML specification.
     private static func parseRequirements(element: XMLElement) throws -> Requirements {
-        let requirementElements = element.elements(forName: "require")
+        let requirementElements: [XMLElement] = element.elements(forName: "require")
         guard requirementElements.count > 0 else {
             throw "specification has no requirements" as GeneratePluginError
         }

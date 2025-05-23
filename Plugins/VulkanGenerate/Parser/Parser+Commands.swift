@@ -11,14 +11,27 @@ import Foundation
 extension Parser {
     /// Extracts the commands in the XML specification.
     func parseCommands(registry: inout Registry) throws {
-        let commandElements = root.elements(forName: "commands").flatMap { $0.elements(forName: "command") }
+        let commandElements: [XMLElement] = root.elements(forName: "commands").flatMap { $0.elements(forName: "command") }
 
+        print("Parsing commands...")
+
+        var progress: Int = 0
         for element in commandElements {
+            let progressPercent = Int(Double(progress) / Double(commandElements.count) * 100)
             if let alias = element.attribute(forName: "alias")?.stringValue {
                 guard let name = element.attribute(forName: "name")?.stringValue else {
                     throw "Command alias has no name: \(element)" as GeneratePluginError
                 }
-                registry.commandAliases[name] = alias
+
+                print("Parsing command alias \(name): \(progressPercent)%")
+
+                var documentation: DocsParser? = nil
+                do {
+                    documentation = try DocsParser(for: name, registry: registry)
+                } catch let error {
+                    print("Warning: Command alias has no documentation: \(element), \(error.localizedDescription)")
+                }
+                registry.commandAliases[name] = (alias, element.attribute(forName: "deprecated")?.stringValue, documentation)
             } else {
                 guard let proto = element.elements(forName: "proto").first else {
                     throw "Command has no prototype: \(element)" as GeneratePluginError
@@ -30,6 +43,8 @@ extension Parser {
                     throw "Command prototype has no return type: \(proto)" as GeneratePluginError
                 }
 
+                print("Parsing command \(name): \(progressPercent)%")
+
                 let paramElements = element.elements(forName: "param")
                 let params: [CommandParam] = try paramElements.compactMap { paramElement in
                     guard let name = paramElement.elements(forName: "name").first?.stringValue else {
@@ -38,24 +53,38 @@ extension Parser {
                     guard let type = paramElement.elements(forName: "type").first?.stringValue else {
                         throw "Command param has no type: \(paramElement)" as GeneratePluginError
                     }
-                    let validstructs = paramElement.attribute(
+                    let validstructs: [String]? = paramElement.attribute(
                         forName: "validstructs"
                     )?.stringValue?.split(separator: ",").map {
                         String($0)
                     }
+
+                    let length: String? = paramElement.attribute(forName: "len")?.stringValue
+                    let altlen: String? = paramElement.attribute(forName: "altlen")?.stringValue
+                    let stride: String? = paramElement.attribute(forName: "stride")?.stringValue
+                    let externalSync: Bool = paramElement.attribute(
+                        forName: "externsync"
+                    )?.stringValue == "true"
+                    let isOptional: Bool = paramElement.attribute(
+                        forName: "optional"
+                    )?.stringValue?.contains("true") == true
+                    let objecttype: String? = paramElement.attribute(forName: "objecttype")?.stringValue
+                    let comment: String? = paramElement.attribute(forName: "comment")?.stringValue
+                    let deprecated: String? = paramElement.attribute(forName: "deprecated")?.stringValue
+
                     // Cut anything that is in vulkansc
                     return CommandParam(
                         name: name,
                         type: type,
-                        length: paramElement.attribute(forName: "len")?.stringValue,
-                        altlen: paramElement.attribute(forName: "altlen")?.stringValue,
-                        stride: paramElement.attribute(forName: "stride")?.stringValue,
-                        externalSync: paramElement.attribute(forName: "externsync")?.stringValue == "true",
-                        optional: paramElement.attribute(forName: "optional")?.stringValue?.contains("true") == true,
-                        objecttype: paramElement.attribute(forName: "objecttype")?.stringValue,
+                        length: length,
+                        altlen: altlen,
+                        stride: stride,
+                        externalSync: externalSync,
+                        optional: isOptional,
+                        objecttype: objecttype,
                         validstructs: validstructs,
-                        comment: paramElement.attribute(forName: "comment")?.stringValue,
-                        deprecated: paramElement.attribute(forName: "deprecated")?.stringValue
+                        comment: comment,
+                        deprecated: deprecated
                     )
                 }
                 guard params.count > 0 else {
@@ -108,6 +137,16 @@ extension Parser {
                             .loader
                         }
                     }
+                
+                let comment: String? = element.attribute(forName: "comment")?.stringValue
+                let deprecated: String? = element.attribute(forName: "deprecated")?.stringValue
+
+                var documentation: DocsParser? = nil
+                do {
+                    documentation = try DocsParser(for: name, registry: registry)
+                } catch let error {
+                    print("Warning: Command has no documentation: \(element), \(error.localizedDescription)")
+                }
 
                 registry.commands.append(
                     Command(
@@ -121,11 +160,13 @@ extension Parser {
                         errorcodes: errorcodes ?? [],
                         cmdbufferlevel: cmdbufferlevel,
                         implicitExternalSyncParams: syncParams,
-                        comment: element.attribute(forName: "comment")?.stringValue,
-                        deprecated: element.attribute(forName: "deprecated")?.stringValue
+                        comment: comment,
+                        deprecated: deprecated,
+                        documentation: documentation
                     )
                 )
             }
+            progress += 1
         }
     }
 }

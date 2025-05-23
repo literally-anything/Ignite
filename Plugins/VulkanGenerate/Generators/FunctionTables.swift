@@ -25,6 +25,20 @@ func generateFunctionTables(packagePath: URL, registry: Registry) throws {
     )
 }
 
+extension Command {
+    /// Gets the names of the extensions that deprecate this command.
+    func getDeprecatedByExtension(registry: Registry) -> String? {
+        let providingExtensions = providingExtensions ?? []
+        let deprecatedByExtensions = providingExtensions.map { ext in
+            registry.extensions.first { $0.name == ext }!.deprecatedBy
+        }
+        guard deprecatedByExtensions.allSatisfy({ $0 != nil }) else {
+            return nil
+        }
+        return "Deprecated by extensions: " + deprecatedByExtensions.map { $0! }.joined(separator: ", ")
+    }
+}
+
 private func generateFunctionTable(
     file: URL, registry: Registry, tableName: String, tableTypeName: String, scope: Command.Scope
 ) throws {
@@ -32,7 +46,7 @@ private func generateFunctionTable(
     func getPlatform(command: Command) -> Platform? {
         var platformName: String? = nil
         for extName in command.providingExtensions ?? [] {
-            let ext = registry.extensions.first { $0.name == extName }
+            let ext: Extension? = registry.extensions.first { $0.name == extName }
             if let ext {
                 platformName = ext.platform
                 break
@@ -44,19 +58,19 @@ private func generateFunctionTable(
         return nil
     }
 
-    typealias CommandInfo = (name: String, typeName: String, fixedName: String, trait: String?)
+    typealias CommandInfo = (command: Command, trait: String?)
     let commands: [CommandInfo] = registry.commands.filter { command in
         // We only want commands that match the scope we are currently filling
         command.scope == scope
     }.map { command in
         if let platform = getPlatform(command: command) {
-            return (command.name, command.typeName, command.fixedName, platform.traitName)
+            return (command, platform.traitName)
         }
-        return (command.name, command.typeName, command.fixedName, nil)
+        return (command, nil)
     }
-    typealias CommandAliasInfo = (name: String, typeName: String, alias: String, aliasFixed: String, trait: String?)
+    typealias CommandAliasInfo = (command: Command, name: String, deprecated: String?, trait: String?)
     let commandAliases: [CommandAliasInfo] = try registry.commandAliases.compactMap { (name, alias) in
-        guard let command = registry.commands.first(where: { $0.name == alias }) else {
+        guard let command = registry.commands.first(where: { $0.name == alias.alias }) else {
             throw "Command alias \(name) has no command" as GeneratePluginError
         }
         guard command.scope == scope else {
@@ -64,57 +78,61 @@ private func generateFunctionTable(
         }
         let aliasName = Command.getFixedName(name: name)
         if let platform = getPlatform(command: command) {
-            return (aliasName, command.typeName, command.name, command.fixedName, platform.traitName)
+            return (command, aliasName, alias.deprecated, platform.traitName)
         }
-        return (aliasName, command.typeName, command.name, command.fixedName, nil)
+        return (command, aliasName, alias.deprecated, nil)
     }
 
-    var progress: Int = 0
     // A dictionary mapping the name of a trait to the array of variable definitions that only exist with that trait
     var formattedDocumentationLUT: [String: [String]] = [:]
     var functionTableSections: [String?: [[String]]] = [:]
-    for command in commands.sorted(by: { $0.name < $1.name }) {
-        let progressPercent = Int(Double(progress) / Double(commands.count) * 100)
-        print("Looking up docs for \(tableTypeName): \(progressPercent)%")
-        var docs: [String] = []
-        do {
-            let symbolDocs = try DocsParser.lookupDocsFor(
-                command: command.name, registry: registry
-            )
-
-            try docs.append(contentsOf: symbolDocs.description)
-        } catch let e {
-            print("Warning: Couldn't load docs for \(command.name): \(e)")
-        }
+    for commandInfo in commands.sorted(by: { $0.command.name < $1.command.name }) {
+        let docs: [String] = (try? commandInfo.command.documentation?.getFunctionDocs()) ?? []
 
         let formattedDocs = docs.map { "/// \($0)" }
-        progress += 1
         // If it's not already in the dictionary, add it
-        if !functionTableSections.keys.contains(command.trait) {
-            functionTableSections[command.trait] = []
+        if !functionTableSections.keys.contains(commandInfo.trait) {
+            functionTableSections[commandInfo.trait] = []
         }
         var section: [String] = formattedDocs
+        // let deprecatedByExtensions = commandInfo.command.getDeprecatedByExtension(registry: registry)
+        // if let reason = commandInfo.command.deprecated ?? deprecatedByExtensions {
+        //     section.append(
+        //         "@available(*, deprecated, message: \"\(reason)\")"
+        //     )
+        // }
+        section.append("@unsafe")
         section.append(
-            "public let \(command.fixedName): \(command.typeName)!"
+            "public let \(commandInfo.command.fixedName): \(commandInfo.command.typeName)!"
         )
-        functionTableSections[command.trait]!.append(section)
+        functionTableSections[commandInfo.trait]!.append(section)
 
         // Save the docs to the lookup table for use later in aliases
-        formattedDocumentationLUT[command.name] = formattedDocs
+        formattedDocumentationLUT[commandInfo.command.name] = formattedDocs
     }
     for commandAlias in commandAliases.sorted(by: { $0.name < $1.name }) {
         // If it's not already in the dictionary, add it
         if !functionTableSections.keys.contains(commandAlias.trait) {
             functionTableSections[commandAlias.trait] = []
         }
-        var section: [String] = formattedDocumentationLUT[commandAlias.alias] ?? []
-        section.append("/// - Remark: Alias for \(commandAlias.aliasFixed)")
+        var section: [String] = formattedDocumentationLUT[commandAlias.command.name] ?? []
+        section.append("/// - Remark: Alias for \(commandAlias.command.fixedName)")
+        // let deprecatedByExtensions = commandAlias.command.getDeprecatedByExtension(registry: registry)
+        // if var reason = commandAlias.command.deprecated ?? commandAlias.command.deprecated ?? deprecatedByExtensions {
+        //     if reason == "aliased" {
+        //         reason = "This command is aliased to \(commandAlias.name)."
+        //     }
+        //     section.append(
+        //         "@available(*, deprecated, message: \"\(reason)\")"
+        //     )
+        // }
+        section.append("@unsafe")
         section.append(
-            "public var \(commandAlias.name): \(commandAlias.typeName)! { \(commandAlias.aliasFixed) }"
+            "public var \(commandAlias.name): \(commandAlias.command.typeName)! { unsafe \(commandAlias.command.fixedName) }"
         )
         functionTableSections[commandAlias.trait]!.append(section)
     }
-    let functionTableSectionsSorted = functionTableSections.keys.sorted { key1, key2 in
+    let functionTableSectionsSorted: [String?] = functionTableSections.keys.sorted { key1, key2 in
         // Nil is always first, but others are sorted by name
         if key1 == nil {
             return true
@@ -125,7 +143,7 @@ private func generateFunctionTable(
         }
     }
     // Generate the function table
-    var functionTable = functionTableSectionsSorted.map { trait in
+    var functionTable: [String.SubSequence] = functionTableSectionsSorted.map { trait in
         let defs = functionTableSections[trait]!
         // Compact all the lines into a single array
         var lines: [String] = defs.joined(separator: [""]).map { $0 }
@@ -150,25 +168,25 @@ private func generateFunctionTable(
     // Generate the initializer
     // A dictionary mapping the name of a trait to the array of variable assignments that only exist with that trait
     var initLineSections: [String?: [[Substring]]] = [:]
-    for command in commands {
+    for commandInfo in commands {
         let lines =
             """
-            traceLog("Loading \(command.name) command in \(tableTypeName)")
-            self.\(command.fixedName) = unsafeBitCast(
-                getProcAddr(context, "\(command.name)"),
-                to: \(command.typeName).self
+            traceLog("Loading \(commandInfo.command.name) command in \(tableTypeName)")
+            unsafe self.\(commandInfo.command.fixedName) = unsafeBitCast(
+                getProcAddr(context, "\(commandInfo.command.name)"),
+                to: \(commandInfo.command.typeName).self
             )
-            if self.\(command.fixedName) == nil {
-                debugLog("Failed to load \(command.name) command in \(tableTypeName)")
+            if unsafe self.\(commandInfo.command.fixedName) == nil {
+                debugLog("Failed to load \(commandInfo.command.name) command in \(tableTypeName)")
             }
             """.split(separator: "\n", omittingEmptySubsequences: false)
         // If it's not already in the dictionary, add it
-        if !initLineSections.keys.contains(command.trait) {
-            initLineSections[command.trait] = []
+        if !initLineSections.keys.contains(commandInfo.trait) {
+            initLineSections[commandInfo.trait] = []
         }
-        initLineSections[command.trait]!.append(lines)
+        initLineSections[commandInfo.trait]!.append(lines)
     }
-    let initLineSectionsSorted = initLineSections.keys.sorted { key1, key2 in
+    let initLineSectionsSorted: [String?] = initLineSections.keys.sorted { key1, key2 in
         // Nil is always first, but others are sorted by name
         if key1 == nil {
             return true

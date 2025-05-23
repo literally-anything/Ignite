@@ -27,7 +27,7 @@ var package = Package(
     ],
     traits: [
         // BEGIN_GENERATE_PLATFORM_TRAITS
-        // Generated using header version: 313
+        // Generated using header version: 315
 
         .trait(
             name: "EnableProvisional",
@@ -89,14 +89,9 @@ var package = Package(
         .trait(
             name: "LinkedVulkan",
             description:
-                "Makes this package direcly link vulkan at compile time."
+                "Makes this package direcly link vulkan at compile time. Otherwise, it will be loaded at runtime using dlopen."
         ),
-        .trait(
-            name: "MetaLoader",
-            description:
-                "Enables the meta loader, which loads Vulkan dynamically at runtime. If this isn't enabled, the loader must be linked manually."
-        ),
-        .default(enabledTraits: ["MetaLoader"])
+        .default(enabledTraits: [])
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0")
@@ -121,6 +116,7 @@ var package = Package(
 )
 
 if ProcessInfo.processInfo.environment["ENABLE_GENERATOR"] == "1" {
+    package.platforms = [.macOS(.v15)]
     package.targets.append(
         .plugin(
             name: "VulkanGenerate",

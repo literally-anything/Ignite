@@ -55,10 +55,10 @@ extension Parser {
         registry.unions = unions
 
         let miscElements = absoluteTypes.filter {
-            $0.attribute(forName: "category")?.stringValue == "include" ||
-            $0.attribute(forName: "category")?.stringValue == "define" ||
-            $0.attribute(forName: "category")?.stringValue == "funcpointer" ||
-            $0.attribute(forName: "category")?.stringValue == "bitmask"
+            $0.attribute(forName: "category")?.stringValue == "include"
+                || $0.attribute(forName: "category")?.stringValue == "define"
+                || $0.attribute(forName: "category")?.stringValue == "funcpointer"
+                || $0.attribute(forName: "category")?.stringValue == "bitmask"
         }
         registry.miscTypes = miscElements.compactMap { element in
             // Use either the name attribute or the name element
@@ -229,39 +229,72 @@ extension Parser {
                 guard let name = memberElement.elements(forName: "name").first?.stringValue else {
                     throw "Struct member has no name: \(memberElement)" as GeneratePluginError
                 }
-                guard let type = memberElement.elements(forName: "type").first?.stringValue else {
-                    throw "Struct member has no type: \(memberElement)" as GeneratePluginError
+                let memberString = memberElement.stringValue
+                let typeEndIndex = memberString?.range(of: name)?.lowerBound
+                guard let typeEndIndex else {
+                    throw "Can't find the name of the structure again after finding it once: \(memberElement)"
+                        as GeneratePluginError
                 }
-                let valuesArray = element.attribute(forName: "values")?.stringValue?.split(separator: ",").map({ String($0) }
-                )
+                let type = String(memberString![..<typeEndIndex].trimmingCharacters(in: .whitespacesAndNewlines))
+                guard let baseType = memberElement.elements(forName: "type").first?.stringValue else {
+                    throw "Can't find the base type of the structure: \(memberElement)" as GeneratePluginError
+                }
+                let valuesArray = memberElement.attribute(forName: "values")?.stringValue?.split(separator: ",").map {
+                    String($0)
+                }
                 let values = valuesArray != nil ? Set(valuesArray!) : nil
+
+                let length: [String]? = memberElement.attribute(forName: "len")?.stringValue?.split(separator: ",").map({
+                    String($0)
+                })
+                let altlen: [String]? = memberElement.attribute(forName: "altlen")?.stringValue?.split(separator: ",").map({
+                    String($0)
+                })
+                let stride: [String]? = memberElement.attribute(forName: "stride")?.stringValue?.split(separator: ",").map({
+                    String($0)
+                })
+                let externalSync: Bool = memberElement.attribute(forName: "externsync")?.stringValue == "true"
+                let isOptional: Bool = memberElement.attribute(forName: "optional")?.stringValue == "true"
+                let objecttype: String? = memberElement.attribute(forName: "objecttype")?.stringValue
+                let selector: String? = memberElement.attribute(forName: "selector")?.stringValue
+                let comment: String? = memberElement.attribute(forName: "comment")?.stringValue
+                let deprecated: String? = memberElement.attribute(forName: "deprecated")?.stringValue
 
                 return StructMember(
                     name: name,
                     type: type,
-                    length: element.attribute(forName: "len")?.stringValue,
-                    altlen: element.attribute(forName: "altlen")?.stringValue,
-                    stride: element.attribute(forName: "stride")?.stringValue,
-                    externalSync: element.attribute(forName: "externsync")?.stringValue == "true",
-                    optional: element.attribute(forName: "optional")?.stringValue == "true",
-                    objecttype: element.attribute(forName: "deprecated")?.stringValue,
-                    selector: element.attribute(forName: "selector")?.stringValue,
+                    baseType: baseType,
+                    length: length,
+                    altlen: altlen,
+                    stride: stride,
+                    externalSync: externalSync,
+                    optional: isOptional,
+                    objecttype: objecttype,
+                    selector: selector,
                     validValues: values,
-                    comment: element.attribute(forName: "comment")?.stringValue,
-                    deprecated: element.attribute(forName: "deprecated")?.stringValue
+                    comment: comment,
+                    deprecated: deprecated
                 )
             }
 
+            let requires: String? = element.attribute(forName: "requires")?.stringValue
+            let returnedOnly: Bool = element.attribute(forName: "returnedonly")?.stringValue == "true"
+            let extends: [String]? = element.attribute(forName: "structextends")?.stringValue?.split(separator: ",").map({
+                String($0)
+            })
+            let allowDuplicate: Bool = element.attribute(forName: "allowduplicate")?.stringValue == "true"
+            let comment: String? = element.attribute(forName: "comment")?.stringValue
+            let deprecated: String? = element.attribute(forName: "deprecated")?.stringValue
+
             return Struct(
                 name: name,
-                requires: element.attribute(forName: "requires")?.stringValue,
-                returnedOnly: element.attribute(forName: "returnedonly")?.stringValue == "true",
-                extends: element.attribute(forName: "structextends")?.stringValue?.split(separator: ",").map({ String($0) })
-                    ?? [],
-                allowDuplicate: element.attribute(forName: "allowduplicate")?.stringValue == "true",
+                requires: requires,
+                returnedOnly: returnedOnly,
+                extends: extends,
+                allowDuplicate: allowDuplicate,
                 members: members,
-                comment: element.attribute(forName: "comment")?.stringValue,
-                deprecated: element.attribute(forName: "deprecated")?.stringValue
+                comment: comment,
+                deprecated: deprecated
             )
         }
     }
@@ -273,7 +306,7 @@ extension Parser {
                 throw "Union has no name: \(element)" as GeneratePluginError
             }
             let caseElements = element.elements(forName: "member")
-            let cases = try caseElements.map { caseElement in
+            let cases: [(String, (type: String, selection: String?))] = try caseElements.map { caseElement in
                 guard let name = caseElement.elements(forName: "name").first?.stringValue else {
                     throw "Union case has no name: \(caseElement)" as GeneratePluginError
                 }
@@ -290,11 +323,14 @@ extension Parser {
                 )
             }
 
+            let comment: String? = element.attribute(forName: "comment")?.stringValue
+            let deprecated: String? = element.attribute(forName: "deprecated")?.stringValue
+
             return Union(
                 name: name,
-                cases: .init(uniqueKeysWithValues: cases),
-                comment: element.attribute(forName: "comment")?.stringValue,
-                deprecated: element.attribute(forName: "deprecated")?.stringValue
+                cases: Dictionary(uniqueKeysWithValues: cases),
+                comment: comment,
+                deprecated: deprecated
             )
         }
     }

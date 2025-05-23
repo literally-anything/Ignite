@@ -81,7 +81,7 @@ extension Parser {
         guard platformElements.count > 0 else {
             throw "specification has no platforms" as GeneratePluginError
         }
-        let platforms = try platformElements.map { element in
+        let platforms: [Platform] = try platformElements.map { element in
             guard let name = element.attribute(forName: "name")?.stringValue else {
                 throw "platform has no name" as GeneratePluginError
             }
@@ -158,7 +158,7 @@ extension Parser {
         var removeCommandAliases: [String] = []
         for (name, alias) in registry.commandAliases {
             // We remove any that don't point to a command that exists in the registry
-            if !registry.commands.contains(where: { $0.name == alias }) {
+            if !registry.commands.contains(where: { $0.name == alias.alias }) {
                 removeCommandAliases.append(name)
             }
         }

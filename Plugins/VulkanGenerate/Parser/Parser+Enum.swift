@@ -31,7 +31,7 @@ extension Parser {
             print("Warning: Unknown enum types found: \(unknownTypes)")
         }
 
-        let constantsElement = enums.filter { $0.attribute(forName: "type")?.stringValue == "constants" }
+        let constantsElement: [XMLElement] = enums.filter { $0.attribute(forName: "type")?.stringValue == "constants" }
         guard constantsElement.count == 1 else {
             throw "specification should have exactly one enum with type='constants'" as GeneratePluginError
         }
@@ -39,18 +39,18 @@ extension Parser {
         registry.constants = constants
         registry.constantAliases = constantAliases
 
-        let bitmaskEnums = enums.filter { $0.attribute(forName: "type")?.stringValue == "bitmask" }
-        let bitmasks = try Self.parseBitmasks(bitmaskEnums: bitmaskEnums)
+        let bitmaskEnums: [XMLElement] = enums.filter { $0.attribute(forName: "type")?.stringValue == "bitmask" }
+        let bitmasks: [Bitmask] = try Self.parseBitmasks(bitmaskEnums: bitmaskEnums)
         registry.bitmasks = bitmasks
 
-        let realEnumElements = enums.filter { $0.attribute(forName: "type")?.stringValue == "enum" }
-        let realEnums = try Self.parseEnums(enumElements: realEnumElements)
+        let realEnumElements: [XMLElement] = enums.filter { $0.attribute(forName: "type")?.stringValue == "enum" }
+        let realEnums: [Enum] = try Self.parseEnums(enumElements: realEnumElements)
         registry.enums = realEnums
     }
 
     /// Extract the constants from the XML specification.
     private static func parseConstants(constantsElement: XMLElement) throws -> ([Constant], [String: String]) {
-        let constantElements = constantsElement.elements(forName: "enum")
+        let constantElements: [XMLElement] = constantsElement.elements(forName: "enum")
         guard constantElements.count > 0 else {
             throw "specification has no constants" as GeneratePluginError
         }
@@ -75,13 +75,17 @@ extension Parser {
                 guard let value = element.attribute(forName: "value")?.stringValue else {
                     throw "constant has no value: \(element)" as GeneratePluginError
                 }
+
+                let comment: String? = element.attribute(forName: "comment")?.stringValue
+                let deprecated: String? = element.attribute(forName: "deprecated")?.stringValue
+
                 constants.append(
                     Constant(
                         name: name,
                         type: type,
                         value: value,
-                        comment: element.attribute(forName: "comment")?.stringValue,
-                        deprecated: element.attribute(forName: "deprecated")?.stringValue
+                        comment: comment,
+                        deprecated: deprecated
                     )
                 )
             }
@@ -108,18 +112,22 @@ extension Parser {
                 if let alias = flag.attribute(forName: "alias")?.stringValue {
                     aliases[name] = alias
                 } else {
-                    let valueString = try getEnumValue(element: flag)
+                    let valueString: String = try getEnumValue(element: flag)
+
+                    let comment: String? = flag.attribute(forName: "comment")?.stringValue
+                    let deprecated: String? = flag.attribute(forName: "deprecated")?.stringValue
+
                     flags.append(
                         Bitmask.Bitflag(
                             name: name,
                             value: valueString,
-                            comment: flag.attribute(forName: "comment")?.stringValue,
-                            deprecated: flag.attribute(forName: "deprecated")?.stringValue
+                            comment: comment,
+                            deprecated: deprecated
                         )
                     )
                 }
             }
-            let bitWidth = element.attribute(forName: "bitwidth")?.stringValue ?? "32"
+            let bitWidth: String = element.attribute(forName: "bitwidth")?.stringValue ?? "32"
             return Bitmask(
                 name: name,
                 bitWidth: UInt(bitWidth) ?? 32,
@@ -159,7 +167,7 @@ extension Parser {
 
             var cases: [Enum.Case] = []
             var caseAliases: [Enum.CaseAlias] = []
-            let caseElements = element.elements(forName: "enum")
+            let caseElements: [XMLElement] = element.elements(forName: "enum")
             for caseElement in caseElements {
                 guard let name = caseElement.attribute(forName: "name")?.stringValue else {
                     throw "Enum case has no name: \(caseElement)" as GeneratePluginError
@@ -183,25 +191,33 @@ extension Parser {
                     guard let value = caseElement.attribute(forName: "value")?.stringValue else {
                         throw "Enum case has no value: \(caseElement)" as GeneratePluginError
                     }
+
+                    let extends: String? = caseElement.attribute(forName: "extends")?.stringValue
+                    let comment: String? = caseElement.attribute(forName: "comment")?.stringValue
+                    let deprecated: String? = caseElement.attribute(forName: "deprecated")?.stringValue
+
                     cases.append(
                         Enum.Case(
                             name: name,
-                            extends: caseElement.attribute(forName: "extends")?.stringValue,
+                            extends: extends,
                             value: value,
-                            comment: caseElement.attribute(forName: "comment")?.stringValue,
-                            deprecated: caseElement.attribute(forName: "deprecated")?.stringValue
+                            comment: comment,
+                            deprecated: deprecated
                         )
                     )
                 }
             }
+
+            let comment: String? = element.attribute(forName: "comment")?.stringValue
+            let deprecated: String? = element.attribute(forName: "deprecated")?.stringValue
 
             return Enum(
                 name: name,
                 bitwidth: bitwidthString != nil ? UInt(bitwidthString!) : nil,
                 cases: cases,
                 caseAliases: caseAliases,
-                comment: String?(element.attribute(forName: "comment")?.stringValue ?? ""),
-                deprecated: String?(element.attribute(forName: "deprecated")?.stringValue ?? "")
+                comment: comment,
+                deprecated: deprecated
             )
         }
     }

@@ -64,7 +64,7 @@ extension VulkanGenerate {
         // Clone the Vulkan-Headers repository to get the latest specification xml and headers
         let git = try getTool("git")
         let headersRepoPath = path.appending(component: ".vulkan-headers-tmp")
-        if !FileManager.default.fileExists(atPath: headersRepoPath.path()) {
+        if !FileManager.default.fileExists(atPath: headersRepoPath.path(percentEncoded: false)) {
             print("Cloning the Vulkan-Headers repository...")
             _ = try git.run(
                 arguments: ["clone", "https://github.com/KhronosGroup/Vulkan-Headers.git", ".vulkan-headers-tmp"],
@@ -73,21 +73,53 @@ extension VulkanGenerate {
         } else {
             print("Pulling the Vulkan-Headers repository...")
             _ = try git.run(
-                arguments: ["pull", "-C", ".vulkan-headers-tmp"],
+                arguments: ["-C", ".vulkan-headers-tmp", "pull"],
                 cwd: path
             )
         }
+
         // Copy both the vulkan and vk_video headers to the include folder
         let headersPath = headersRepoPath.appending(component: "include")
         let dstPath = path.appending(component: "Sources/CVulkan/include")
         for folder in ["vulkan", "vk_video"] {
-            if FileManager.default.fileExists(atPath: dstPath.appending(component: folder).path()) {
-                try FileManager.default.removeItem(atPath: dstPath.appending(component: folder).path())
+            if FileManager.default.fileExists(atPath: dstPath.appending(component: folder).path(percentEncoded: false)) {
+                try FileManager.default.removeItem(atPath: dstPath.appending(component: folder).path(percentEncoded: false))
             }
             try FileManager.default.copyItem(
-                atPath: headersPath.appending(component: folder).path(),
-                toPath: dstPath.appending(component: folder).path()
+                atPath: headersPath.appending(component: folder).path(percentEncoded: false),
+                toPath: dstPath.appending(component: folder).path(percentEncoded: false)
             )
+        }
+
+        let headerFolders: [String] = [
+            "vulkan",
+            "vk_video",
+        ]
+        let subpaths: [URL] = headerFolders.flatMap { folder in
+            let folderPath: URL = dstPath.appending(component: folder)
+            let folderSubpaths: [URL] = try! FileManager.default.subpathsOfDirectory(
+                atPath: folderPath.path(percentEncoded: false)
+            ).compactMap { fileName in
+                if fileName.hasSuffix(".h") {
+                    return nil
+                } else {
+                    return folderPath.appending(path: fileName)
+                }
+            }
+            return folderSubpaths
+        }
+        for subpath in subpaths {
+            #if canImport(Darwin)
+                var isDirObjc: ObjCBool = false
+                let exists = FileManager.default.fileExists(atPath: subpath.path(percentEncoded: false), isDirectory: &isDirObjc)
+                let isDir: Bool = isDirObjc.boolValue
+            #else
+                var isDir: Bool = false
+                let exists = FileManager.default.fileExists(atPath: subpath.path(percentEncoded: false), isDirectory: &isDir)
+            #endif
+            if exists && !isDir {
+                try FileManager.default.removeItem(atPath: subpath.path(percentEncoded: false))
+            }
         }
 
         // Make the parser
