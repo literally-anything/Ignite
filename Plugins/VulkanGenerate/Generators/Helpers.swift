@@ -8,6 +8,22 @@
 
 import Foundation
 
+let swiftTypeMappings: [String: String] = [
+    "int32_t": "Int32",
+    "uint32_t": "UInt32",
+    "int64_t": "Int64",
+    "uint64_t": "UInt64",
+    "VkBool": "Bool"
+]
+
+func calculateProgress(
+    current: Int, total: Int
+) -> Int {
+    guard total > 0 else { return 0 }
+    let progress = Double(current) / Double(total) * 100.0
+    return Int(progress)
+}
+
 /// Reads a file and allows a closure to modify the contents between two markers.
 func modifyFileAtPlaceholder(
     file: URL, markerName: String, _ body: (inout ArraySlice<Substring>) throws -> Void

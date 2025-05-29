@@ -12,49 +12,49 @@ extension Parser {
     /// Extract the types from the XML specification.
     func parseTypes(registry: inout Registry) throws {
         print("Parsing types...")
-        let types = (try? root.nodes(forXPath: "types/type"))?.compactMap { $0 as? XMLElement } ?? []
+        let types: [XMLElement] = (try? root.nodes(forXPath: "types/type"))?.compactMap { $0 as? XMLElement } ?? []
         guard types.count > 0 else {
             throw "specification has no types" as GeneratePluginError
         }
 
         // This doesn't functionally do anything, but it is a good sanity check to make sure we are not missing any types.
-        let knownCategories: Set<String?> = ["basetype", "handle", "struct", "union"]
-        let foundCategories: Set<String?> = .init(
+        let knownCategories: Set<String> = ["basetype", "handle", "struct", "union", "include", "define", "funcpointer", "bitmask"]
+        let foundCategories: Set<String> = .init(
             types.compactMap { typeElement in
                 typeElement.attribute(forName: "category")?.stringValue
             }
         )
-        print("Found type categories: \(foundCategories.map { $0 ?? "nil" })")
+        print("Found type categories: \(foundCategories)")
         let unknownCategories = foundCategories.subtracting(knownCategories)
         if unknownCategories.count > 0 {
-            print("Warning: Unknown type categories found: \(unknownCategories.map { $0 ?? "nil" })")
+            print("Warning: Unknown type categories found: \(unknownCategories)")
         }
 
-        let aliasTypes = types.filter {
+        let aliasTypes: [XMLElement] = types.filter {
             $0.attribute(forName: "alias") != nil && $0.attribute(forName: "name") != nil
         }
         let aliases = try Self.parseAliases(aliasElements: aliasTypes)
         registry.aliases = .init(uniqueKeysWithValues: aliases.map { ($0.name, $0.alias) })
 
-        let absoluteTypes = types.filter { $0.attribute(forName: "alias") == nil }
+        let absoluteTypes: [XMLElement] = types.filter { $0.attribute(forName: "alias") == nil }
 
-        let baseTypeElements = absoluteTypes.filter { $0.attribute(forName: "category")?.stringValue == "basetype" }
+        let baseTypeElements: [XMLElement] = absoluteTypes.filter { $0.attribute(forName: "category")?.stringValue == "basetype" }
         let baseTypes = try Self.parseBaseTypes(baseTypeElements: baseTypeElements)
         registry.baseTypes = .init(uniqueKeysWithValues: baseTypes.map { ($0.name, $0) })
 
-        let handleElements = absoluteTypes.filter { $0.attribute(forName: "category")?.stringValue == "handle" }
+        let handleElements: [XMLElement] = absoluteTypes.filter { $0.attribute(forName: "category")?.stringValue == "handle" }
         let handles = try Self.parseHandleTypes(handleElements: handleElements)
         registry.handles = .init(uniqueKeysWithValues: handles.map { ($0.name, $0) })
 
-        let structElements = absoluteTypes.filter { $0.attribute(forName: "category")?.stringValue == "struct" }
+        let structElements: [XMLElement] = absoluteTypes.filter { $0.attribute(forName: "category")?.stringValue == "struct" }
         let structs = try parseStructs(structElements: structElements)
         registry.structs = structs
 
-        let unionElements = absoluteTypes.filter { $0.attribute(forName: "category")?.stringValue == "union" }
+        let unionElements: [XMLElement] = absoluteTypes.filter { $0.attribute(forName: "category")?.stringValue == "union" }
         let unions = try parseUnions(unionElements: unionElements)
         registry.unions = unions
 
-        let miscElements = absoluteTypes.filter {
+        let miscElements: [XMLElement] = absoluteTypes.filter {
             $0.attribute(forName: "category")?.stringValue == "include"
                 || $0.attribute(forName: "category")?.stringValue == "define"
                 || $0.attribute(forName: "category")?.stringValue == "funcpointer"

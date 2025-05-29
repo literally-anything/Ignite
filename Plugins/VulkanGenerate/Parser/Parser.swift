@@ -49,6 +49,7 @@ extension Parser {
 
         try parseAPIVersions(registry: &registry)
         try parseExtensions(registry: &registry)
+        try fillVersionAndExtensionRequirements(registry: &registry)
 
         try filterUnprovided(registry: &registry)
 

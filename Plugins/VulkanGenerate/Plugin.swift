@@ -144,6 +144,7 @@ extension VulkanGenerate {
         // Run the generators
         try generatePlatformTraits(packagePath: path, registry: registry)
         try generateFunctionTables(packagePath: path, registry: registry)
+        try generateEnumWrappers(packagePath: path, registry: registry)
 
         print("Done!")
     }

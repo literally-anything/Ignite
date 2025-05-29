@@ -40,11 +40,46 @@ extension Parser {
         registry.constantAliases = constantAliases
 
         let bitmaskEnums: [XMLElement] = enums.filter { $0.attribute(forName: "type")?.stringValue == "bitmask" }
-        let bitmasks: [Bitmask] = try Self.parseBitmasks(bitmaskEnums: bitmaskEnums)
+        let bitmaskTypeNodes: [XMLElement] = (try? root.nodes(forXPath: "types/type[@category='bitmask']") as? [XMLElement]) ?? []
+        var bitmaskTypes: [(name: String, bitmask: String, type: String)] = []
+        for node in bitmaskTypeNodes {
+            guard let name = node.elements(forName: "name").first?.stringValue else {
+                continue
+            }
+            guard let requires = node.attribute(forName: "requires")?.stringValue?.split(separator: ",") else {
+                continue
+            }
+            guard let type = node.elements(forName: "type").first?.stringValue else {
+                continue
+            }
+            bitmaskTypes.append(
+                contentsOf: requires.map { require in
+                    (name: name, bitmask: String(require), type: type)
+                }
+            )
+        }
+        var bitmasks: [Bitmask] = try Self.parseBitmasks(bitmaskEnums: bitmaskEnums, registry: registry)
+        for bitmaskType in bitmaskTypes {
+            if let index = bitmasks.firstIndex(where: { $0.name == bitmaskType.bitmask }) {
+                bitmasks[index].matchedRawType = bitmaskType.bitmask
+            } else {
+                let name = bitmaskType.name
+                bitmasks.append(
+                    Bitmask(
+                        name: name,
+                        bitWidth: 32,
+                        flags: [],
+                        aliases: [],
+                        comment: nil,
+                        deprecated: nil
+                    )
+                )
+            }
+        }
         registry.bitmasks = bitmasks
 
         let realEnumElements: [XMLElement] = enums.filter { $0.attribute(forName: "type")?.stringValue == "enum" }
-        let realEnums: [Enum] = try Self.parseEnums(enumElements: realEnumElements)
+        let realEnums: [Enum] = try Self.parseEnums(enumElements: realEnumElements, registry: registry)
         registry.enums = realEnums
     }
 
@@ -94,41 +129,80 @@ extension Parser {
     }
 
     /// Extract the bitmasks from the XML specification.
-    private static func parseBitmasks(bitmaskEnums: [XMLElement]) throws -> [Bitmask] {
-        try bitmaskEnums.map { element in
+    private static func parseBitmasks(
+        bitmaskEnums: [XMLElement],
+        registry: Registry
+    ) throws -> [Bitmask] {
+        print("Parsing bitmasks...")
+
+        var progress: Int = 0
+        return try bitmaskEnums.map { element in
+            let progressPercent: Int = calculateProgress(current: progress, total: bitmaskEnums.count)
+            progress += 1
             guard let name = element.attribute(forName: "name")?.stringValue else {
                 throw "bitmask has no name: \(element)" as GeneratePluginError
             }
 
+            print("Parsing bitmask \(name): \(progressPercent)%")
+
             // Get all the flags and split them into actual flags and
-            let foundFlags = element.elements(forName: "enum")
+            let foundFlagElements = element.elements(forName: "enum")
+            let foundFlags = foundFlagElements.filter { $0.attribute(forName: "alias") == nil }
+            let foundAliases = foundFlagElements.filter { $0.attribute(forName: "alias") != nil }
             var flags: [Bitmask.Bitflag] = []
-            var aliases: [String: String] = [:]
+            var aliases: [Bitmask.BitflagAlias] = []
             for flag in foundFlags {
                 guard let name = flag.attribute(forName: "name")?.stringValue else {
                     throw "bitmask flag has no name: \(flag)" as GeneratePluginError
                 }
-                // Check if we have an alias
-                if let alias = flag.attribute(forName: "alias")?.stringValue {
-                    aliases[name] = alias
+                let value: Bitmask.Bitflag.Value
+                if let bitposString = flag.attribute(forName: "bitpos")?.stringValue, let bitpos = UInt(bitposString) {
+                    // If we have a bitpos, then be need to shift a 1 left that many bits
+                    value = .bitpos(bitpos)
                 } else {
-                    let valueString: String = try getEnumValue(element: flag)
-
-                    let comment: String? = flag.attribute(forName: "comment")?.stringValue
-                    let deprecated: String? = flag.attribute(forName: "deprecated")?.stringValue
-
-                    flags.append(
-                        Bitmask.Bitflag(
-                            name: name,
-                            value: valueString,
-                            comment: comment,
-                            deprecated: deprecated
-                        )
-                    )
+                    // If we don't have a bitpos, then we need to get the value from the value attribute
+                    guard let valueString = flag.attribute(forName: "value")?.stringValue else {
+                        throw "bitmask flag has no value: \(flag)" as GeneratePluginError
+                    }
+                    value = .value(valueString)
                 }
+
+                let comment: String? = flag.attribute(forName: "comment")?.stringValue
+                let deprecated: String? = flag.attribute(forName: "deprecated")?.stringValue
+
+                flags.append(
+                    Bitmask.Bitflag(
+                        name: name,
+                        value: value,
+                        comment: comment,
+                        deprecated: deprecated
+                    )
+                )
+            }
+            for alias in foundAliases {
+                guard let name = alias.attribute(forName: "name")?.stringValue else {
+                    throw "bitmask flag alias has no name: \(alias)" as GeneratePluginError
+                }
+                guard let aliasName = alias.attribute(forName: "alias")?.stringValue else {
+                    throw "bitmask flag alias has no alias: \(alias)" as GeneratePluginError
+                }
+
+                let flag: Bitmask.Bitflag? = flags.first { $0.name == aliasName }
+
+                guard let flag else {
+                    throw "bitmask flag alias \(name) extends unknown flag \(aliasName): \(alias)" as GeneratePluginError
+                }
+
+                aliases.append(
+                    Bitmask.BitflagAlias(
+                        name: name,
+                        flag: flag
+                    )
+                )
             }
             let bitWidth: String = element.attribute(forName: "bitwidth")?.stringValue ?? "32"
-            return Bitmask(
+
+            let mask = Bitmask(
                 name: name,
                 bitWidth: UInt(bitWidth) ?? 32,
                 flags: flags,
@@ -136,73 +210,74 @@ extension Parser {
                 comment: element.attribute(forName: "comment")?.stringValue,
                 deprecated: element.attribute(forName: "deprecated")?.stringValue
             )
-        }
-    }
-
-    /// Extract the value from the bitmask flag or enum case.
-    static func getEnumValue(element: XMLElement) throws -> String {
-        let valueString: String
-        if let bitposString = element.attribute(forName: "bitpos")?.stringValue, let bitpos = UInt(bitposString) {
-            // If we have a bitpos, then be need to shift a 1 left that many bits
-            var value: UInt = 1
-            value <<= bitpos
-            valueString = String(value)
-        } else {
-            // If we don't have a bitpos, then we need to get the value from the value attribute
-            guard let value = element.attribute(forName: "value")?.stringValue else {
-                throw "bitmask flag has no value: \(element)" as GeneratePluginError
+            do {
+                mask.documentation = try DocsParser(for: name, registry: registry)
+            } catch let error {
+                print("Warning: Enum has no documentation: \(element), \(error.localizedDescription)")
             }
-            valueString = value
+            return mask
         }
-        return valueString
     }
 
     /// Extract the enums from the XML specification.
-    private static func parseEnums(enumElements: [XMLElement]) throws -> [Enum] {
-        return try enumElements.map { element in
+    private static func parseEnums(enumElements: [XMLElement], registry: Registry) throws -> [Enum] {
+        print("Parsing enums...")
+
+        var progress: Int = 0
+        let enums: [Enum] = try enumElements.map { element in
+            let progressPercent: Int = calculateProgress(current: progress, total: enumElements.count)
+            progress += 1
             guard let name = element.attribute(forName: "name")?.stringValue else {
                 throw "Enum has no name: \(element)" as GeneratePluginError
             }
             let bitwidthString = element.attribute(forName: "bitwidth")?.stringValue
 
+            print("Parsing enum \(name): \(progressPercent)%")
+
             var cases: [Enum.Case] = []
             var caseAliases: [Enum.CaseAlias] = []
-            let caseElements: [XMLElement] = element.elements(forName: "enum")
+            let possbleCaseElements: [XMLElement] = element.elements(forName: "enum")
+            let caseElements = possbleCaseElements.filter { $0.attribute(forName: "alias") == nil }
+            let caseAliasElements = possbleCaseElements.filter { $0.attribute(forName: "alias") != nil }
             for caseElement in caseElements {
                 guard let name = caseElement.attribute(forName: "name")?.stringValue else {
                     throw "Enum case has no name: \(caseElement)" as GeneratePluginError
                 }
-                if let alias = caseElement.attribute(forName: "alias")?.stringValue {
-                    // If we have an alias, then we need to add it to the aliases array
-                    guard let name = caseElement.attribute(forName: "name")?.stringValue else {
-                        throw "Enum case alias has no name: \(caseElement)" as GeneratePluginError
-                    }
+                guard let value = caseElement.attribute(forName: "value")?.stringValue else {
+                    throw "Enum case has no value: \(caseElement)" as GeneratePluginError
+                }
+
+                let extends: String? = caseElement.attribute(forName: "extends")?.stringValue
+                let comment: String? = caseElement.attribute(forName: "comment")?.stringValue
+                let deprecated: String? = caseElement.attribute(forName: "deprecated")?.stringValue
+
+                cases.append(
+                    Enum.Case(
+                        name: name,
+                        extends: extends,
+                        value: value,
+                        comment: comment,
+                        deprecated: deprecated
+                    )
+                )
+            }
+            for caseAliasElement in caseAliasElements {
+                guard let name = caseAliasElement.attribute(forName: "name")?.stringValue else {
+                    throw "Enum case alias has no name: \(caseAliasElement)" as GeneratePluginError
+                }
+                guard let aliasName = caseAliasElement.attribute(forName: "alias")?.stringValue else {
+                    throw "Enum case alias has no alias: \(caseAliasElement)" as GeneratePluginError
+                }
+
+                guard let alias = cases.first(where: { $0.name == aliasName }) else {
+                    throw "Enum case alias \(name) points to unknown case \(aliasName): \(caseAliasElement)" as GeneratePluginError
+                }
+
+                if !caseAliases.contains(where: { $0.name == name }) {
                     caseAliases.append(
                         Enum.CaseAlias(
                             name: name,
-                            extends: caseElement.attribute(forName: "extends")?.stringValue,
-                            alias: alias,
-                            comment: caseElement.attribute(forName: "comment")?.stringValue,
-                            deprecated: caseElement.attribute(forName: "deprecated")?.stringValue
-                        )
-                    )
-                } else {
-                    // Otherwise, we need to add it to the cases array
-                    guard let value = caseElement.attribute(forName: "value")?.stringValue else {
-                        throw "Enum case has no value: \(caseElement)" as GeneratePluginError
-                    }
-
-                    let extends: String? = caseElement.attribute(forName: "extends")?.stringValue
-                    let comment: String? = caseElement.attribute(forName: "comment")?.stringValue
-                    let deprecated: String? = caseElement.attribute(forName: "deprecated")?.stringValue
-
-                    cases.append(
-                        Enum.Case(
-                            name: name,
-                            extends: extends,
-                            value: value,
-                            comment: comment,
-                            deprecated: deprecated
+                            case: alias
                         )
                     )
                 }
@@ -211,7 +286,7 @@ extension Parser {
             let comment: String? = element.attribute(forName: "comment")?.stringValue
             let deprecated: String? = element.attribute(forName: "deprecated")?.stringValue
 
-            return Enum(
+            let enumeration = Enum(
                 name: name,
                 bitwidth: bitwidthString != nil ? UInt(bitwidthString!) : nil,
                 cases: cases,
@@ -219,6 +294,13 @@ extension Parser {
                 comment: comment,
                 deprecated: deprecated
             )
+            do {
+                enumeration.documentation = try DocsParser(for: name, registry: registry)
+            } catch let error {
+                print("Warning: Enum has no documentation: \(element), \(error.localizedDescription)")
+            }
+            return enumeration
         }
+        return enums
     }
 }

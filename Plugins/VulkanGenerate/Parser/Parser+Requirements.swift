@@ -34,15 +34,15 @@ extension Parser {
                 return nil as Version?
             }
 
-            try Self.fillRequirements(version: name, element: element, registry: &registry)
-
-            return Version(
+            let version = Version(
                 name: name,
                 api: api.map { String($0) },
                 number: number,
                 sortorder: sortorder,
+                element: element,
                 dependencies: try Self.parseDependencies(string: element.attribute(forName: "requires")?.stringValue)
             )
+            return version
         }
         registry.apiVersions = apiVersions
     }
@@ -77,33 +77,58 @@ extension Parser {
 
             let kind: Extension.Kind = type == "instance" ? .instance : .device
 
-            try Self.fillRequirements(ext: (name, kind), element: element, registry: &registry)
+            let platformName: String? = element.attribute(forName: "platform")?.stringValue
+            let platform: Platform? = try platformName.map {
+                guard let platform = registry.platforms[$0] else {
+                    throw "Extension \(name) has unknown platform: \($0)" as GeneratePluginError
+                }
+                return platform
+            }
 
-            let platform: String? = element.attribute(forName: "platform")?.stringValue
             let promotedTo: String? = element.attribute(forName: "promotedto")?.stringValue
             let deprecatedBy: String? = element.attribute(forName: "deprecatedby")?.stringValue
             let obsoletedBy: String? = element.attribute(forName: "obsoletedby")?.stringValue
             let dependencies: Dependencies? = try Self.parseDependencies(string: element.attribute(forName: "requires")?.stringValue)
 
-            return Extension(
+            let ext = Extension(
                 name: name,
                 number: number,
                 sortorder: sortorder,
                 platform: platform,
                 kind: kind,
                 supported: supported.map { String($0) },
+                element: element,
                 promotedTo: promotedTo,
                 deprecatedBy: deprecatedBy,
                 obsoletedBy: obsoletedBy,
                 dependencies: dependencies
             )
+            return ext
         }
         registry.extensions = extensions
     }
 
+    func fillVersionAndExtensionRequirements(registry: inout Registry) throws {
+        print("Filling in version and extension requirements...")
+
+        for version in registry.apiVersions {
+            try Self.fillRequirements(version: version, element: version.element, registry: &registry, doAliases: false)
+        }
+        for ext in registry.extensions {
+            try Self.fillRequirements(ext: ext, element: ext.element, registry: &registry, doAliases: false)
+        }
+
+        for version in registry.apiVersions {
+            try Self.fillRequirements(version: version, element: version.element, registry: &registry, doAliases: true)
+        }
+        for ext in registry.extensions {
+            try Self.fillRequirements(ext: ext, element: ext.element, registry: &registry, doAliases: true)
+        }
+    }
+
     /// Fill in the requirements for a version or extension in the registry.
     private static func fillRequirements(
-        version: String? = nil, ext: (name: String, kind: Extension.Kind)? = nil, element: XMLElement, registry: inout Registry
+        version: Version? = nil, ext: Extension? = nil, element: XMLElement, registry: inout Registry, doAliases: Bool
     ) throws {
         let requirementElements = element.elements(forName: "require")
         guard requirementElements.count > 0 else {
@@ -112,7 +137,7 @@ extension Parser {
 
         /// Update the providers of a command or type with a version or extension.
         func updateProviders(
-            component: inout some APIComponent, version: String? = nil, ext: String? = nil
+            component: inout some APIComponent, version: Version? = nil, ext: Extension? = nil
         ) throws {
             if let version {
                 let providingVersion = component.providingVersion
@@ -129,131 +154,250 @@ extension Parser {
         }
 
         for element in requirementElements {
-            // Deal with commands
-            for commandElement in element.elements(forName: "command") {
-                guard var name = commandElement.attribute(forName: "name")?.stringValue else {
-                    throw "Command requirement has no name: \(commandElement)" as GeneratePluginError
-                }
-                // Resolve command aliases
-                if registry.commandAliases.keys.contains(name) {
-                    name = registry.commandAliases[name]!.alias
-                }
-                // Find the command in the registry
-                let commandIndex = registry.commands.firstIndex { $0.name == name }
-                guard let commandIndex else {
-                    throw "Command requirement isn't found: \(commandElement)" as GeneratePluginError
-                }
-                // Add the provider to the command
-                try updateProviders(component: &registry.commands[commandIndex], version: version, ext: ext?.name)
-
-                // We need to ensure that the scope of the command is correct
-                if let ext {
-                    // Extension don't provide lodaer commands, so we don't need to check for that
-                    registry.commands[commandIndex].scope = .instance == ext.kind ? .instance : .device
+            if let requirementApis = element.attribute(forName: "api")?.stringValue?.split(separator: ",") {
+                guard requirementApis.map({ String($0) }).contains(vulkanApiName) else {
+                    continue
                 }
             }
-            // Deal with types
-            for typeElement in element.elements(forName: "type") {
-                guard var name = typeElement.attribute(forName: "name")?.stringValue else {
-                    throw "Type requirement has no name: \(typeElement)" as GeneratePluginError
+            if !doAliases {
+                // Deal with commands
+                for commandElement in element.elements(forName: "command") {
+                    if let api = commandElement.attribute(forName: "api")?.stringValue {
+                        guard api == vulkanApiName else {
+                            continue
+                        }
+                    }
+                    guard var name = commandElement.attribute(forName: "name")?.stringValue else {
+                        throw "Command requirement has no name: \(commandElement)" as GeneratePluginError
+                    }
+                    // Resolve command aliases
+                    while registry.commandAliases.keys.contains(name) {
+                        name = registry.commandAliases[name]!.alias
+                    }
+                    // Find the command in the registry
+                    let commandIndex = registry.commands.firstIndex { $0.name == name }
+                    guard let commandIndex else {
+                        throw "Command requirement isn't found: \(commandElement)" as GeneratePluginError
+                    }
+                    // Add the provider to the command
+                    try updateProviders(component: &registry.commands[commandIndex], version: version, ext: ext)
+
+                    // We need to ensure that the scope of the command is correct
+                    if let ext {
+                        // Extension don't provide lodaer commands, so we don't need to check for that
+                        registry.commands[commandIndex].scope = .instance == ext.kind ? .instance : .device
+                    }
                 }
-                // Resolve type aliases
-                if registry.aliases.keys.contains(name) {
-                    name = registry.aliases[name]!
-                }
-                // Find the specific kind of type in the registry and add the provider
-                if let baseTypeName = registry.baseTypes.keys.first(where: { $0 == name }) {
-                    try updateProviders(component: &registry.baseTypes[baseTypeName]!, version: version, ext: ext?.name)
-                } else if let enumIndex = registry.enums.firstIndex(where: { $0.name == name }) {
-                    try updateProviders(component: &registry.enums[enumIndex], version: version, ext: ext?.name)
-                } else if let bitmaskIndex = registry.bitmasks.firstIndex(where: { $0.name == name }) {
-                    try updateProviders(component: &registry.bitmasks[bitmaskIndex], version: version, ext: ext?.name)
-                } else if registry.handles.keys.contains(name) {
-                    try updateProviders(component: &registry.handles[name]!, version: version, ext: ext?.name)
-                } else if let structIndex = registry.structs.firstIndex(where: { $0.name == name }) {
-                    try updateProviders(component: &registry.structs[structIndex], version: version, ext: ext?.name)
-                } else if let unionIndex = registry.unions.firstIndex(where: { $0.name == name }) {
-                    try updateProviders(component: &registry.unions[unionIndex], version: version, ext: ext?.name)
-                } else if !registry.miscTypes.contains(name), !registry.commands.contains(where: { $0.typeName == name }) {
-                    print(registry.commands.map(\.typeName))
-                    print(registry.bitmasks.map(\.name))
-                    // We don't do anything with misc types or commands, but if it isn't, we want an error
-                    throw "Type requirement isn't found: \(typeElement)" as GeneratePluginError
+                // Deal with types
+                for typeElement in element.elements(forName: "type") {
+                    if let api = typeElement.attribute(forName: "api")?.stringValue {
+                        guard api == vulkanApiName else {
+                            continue
+                        }
+                    }
+                    guard var name = typeElement.attribute(forName: "name")?.stringValue else {
+                        throw "Type requirement has no name: \(typeElement)" as GeneratePluginError
+                    }
+                    // Resolve tyoe aliases
+                    while registry.aliases.keys.contains(name) {
+                        name = registry.aliases[name]!
+                    }
+                    // Find the specific kind of type in the registry and add the provider
+                    if let baseTypeName = registry.baseTypes.keys.first(where: { $0 == name }) {
+                        try updateProviders(component: &registry.baseTypes[baseTypeName]!, version: version, ext: ext)
+                    } else if let enumIndex = registry.enums.firstIndex(where: { $0.name == name }) {
+                        try updateProviders(component: &registry.enums[enumIndex], version: version, ext: ext)
+                    } else if let bitmaskIndex = registry.bitmasks.firstIndex(where: { $0.name == name }) {
+                        try updateProviders(component: &registry.bitmasks[bitmaskIndex], version: version, ext: ext)
+                    } else if registry.handles.keys.contains(name) {
+                        try updateProviders(component: &registry.handles[name]!, version: version, ext: ext)
+                    } else if let structIndex = registry.structs.firstIndex(where: { $0.name == name }) {
+                        try updateProviders(component: &registry.structs[structIndex], version: version, ext: ext)
+                    } else if let unionIndex = registry.unions.firstIndex(where: { $0.name == name }) {
+                        try updateProviders(component: &registry.unions[unionIndex], version: version, ext: ext)
+                    } else if !registry.miscTypes.contains(name), !registry.commands.contains(where: { $0.typeName == name }) {
+                        print(registry.commands.map(\.typeName))
+                        print(registry.bitmasks.map(\.name))
+                        // We don't do anything with misc types or commands, but if it isn't, we want an error
+                        throw "Type requirement isn't found: \(typeElement)" as GeneratePluginError
+                    }
                 }
             }
             // Deal with enum cases
-            for enumCaseElement in element.elements(forName: "enum") {
-                guard let name = enumCaseElement.attribute(forName: "name")?.stringValue else {
-                    throw "Enum requirement has no name: \(enumCaseElement)" as GeneratePluginError
-                }
-                // let alias = enumCaseElement.attribute(forName: "alias")?.stringValue
-                if var enumName = enumCaseElement.attribute(forName: "extends")?.stringValue {
-                    // This is an enum case
-                    if registry.aliases.keys.contains(enumName) {
-                        enumName = registry.aliases[enumName]!
-                    }
-                    if let enumIndex = registry.enums.firstIndex(where: { $0.name == enumName }) {
-                        let caseAliasIndex = registry.enums[enumIndex].caseAliases.firstIndex { $0.name == name }
-                        let caseIndex = registry.enums[enumIndex].cases.firstIndex { $0.name == name }
-                        if let caseAliasIndex {
-                            // This is an alias
-                            try updateProviders(
-                                component: &registry.enums[enumIndex].caseAliases[caseAliasIndex],
-                                version: version,
-                                ext: ext?.name
-                            )
-                        } else if let caseIndex {
-                            // This is a case
-                            try updateProviders(
-                                component: &registry.enums[enumIndex].cases[caseIndex],
-                                version: version,
-                                ext: ext?.name
-                            )
-                        } else {
-                            // This case doesn't already exist, so we need to add it
-                            // if let alias {
-                            //     // This is an alias
-                            //     registry.enums[enumIndex].caseAliases.append(
-                            //         Enum.CaseAlias(
-                            //             name: name,
-                            //             alias: alias,
-                            //             comment: enumCaseElement.attribute(forName: "comment")?.stringValue,
-                            //             deprecated: enumCaseElement.attribute(forName: "deprecated")?.stringValue
-                            //         )
-                            //     )
-                            // } else {
-                            //     // This is a case
-                            //     let valueString = try Self.getEnumValue(element: enumCaseElement)
-                            //     registry.enums[enumIndex].cases.append(
-                            //         Enum.Case(
-                            //             name: name,
-                            //             value: valueString,
-                            //             comment: enumCaseElement.attribute(forName: "comment")?.stringValue,
-                            //             deprecated: enumCaseElement.attribute(forName: "deprecated")?.stringValue
-                            //         )
-                            //     )
-                            // }
+            let possibleEnumCaseElements = element.elements(forName: "enum")
+            if !doAliases {
+                let enumCasesElements: [XMLElement] = possibleEnumCaseElements.filter { $0.attribute(forName: "alias") == nil }
+                for enumCaseElement in enumCasesElements {
+                    if let api = enumCaseElement.attribute(forName: "api")?.stringValue {
+                        guard api == vulkanApiName else {
+                            continue
                         }
                     }
-                } else {
-                    // This is a constant
-                    // Ensure it doesn't already exist in the registry
-                    // guard !registry.constantAliases.keys.contains(name), !registry.constants.contains(where: { $0.name == name }) else {
-                    //     throw "Constant requirement already exists: \(enumCaseElement)" as GeneratePluginError
-                    // }
-                    // if let alias {
-                    //     registry.constantAliases[name] = alias
-                    // } else {
-                    //     registry.constants.append(
-                    //         Constant(
-                    //             name: name,
-                    //             type: String,
-                    //             value: String,
-                    //             comment: enumCaseElement.attribute(forName: "comment")?.stringValue,
-                    //             deprecated: enumCaseElement.attribute(forName: "deprecated")?.stringValue
-                    //         )
-                    //     )
-                    // }
+                    guard var name = enumCaseElement.attribute(forName: "name")?.stringValue else {
+                        throw "Enum requirement has no name: \(enumCaseElement)" as GeneratePluginError
+                    }
+                    if let enumName = enumCaseElement.attribute(forName: "extends")?.stringValue {
+                        if let enumIndex = registry.enums.firstIndex(where: { $0.name == enumName }) {
+                            // Resolve enum case aliases
+                            if let resolvedAlias = registry.enums[enumIndex].caseAliases.first(where: { $0.name == name }) {
+                                name = resolvedAlias.case.name
+                            }
+                            let caseIndex = registry.enums[enumIndex].cases.firstIndex { $0.name == name }
+                            if let caseIndex {
+                                // This is a case
+                                try updateProviders(
+                                    component: &registry.enums[enumIndex].cases[caseIndex],
+                                    version: version,
+                                    ext: ext
+                                )
+                            } else {
+                                let valueString = enumCaseElement.attribute(forName: "value")?.stringValue
+
+                                let offsetString = enumCaseElement.attribute(forName: "offset")?.stringValue
+                                let extNumberString =
+                                    enumCaseElement.attribute(forName: "extnumber")?.stringValue
+                                    ?? (ext?.number).map { String($0) }
+
+                                let value: String
+                                if let valueString {
+                                    value = valueString
+                                } else if
+                                    let offset = offsetString.map({ Int($0) }), let offset,
+                                    let extNumber = extNumberString.map({ Int($0) }), let extNumber
+                                {
+                                    var numValue = 1_000_000_000 + (1_000 * (extNumber - 1)) + offset
+                                    if enumCaseElement.attribute(forName: "dir")?.stringValue == "-" {
+                                        numValue = -numValue
+                                    }
+                                    value = String(numValue)
+                                } else {
+                                    throw "Enum case has no value or offset: \(enumCaseElement)" as GeneratePluginError
+                                }
+
+                                var enumCase = Enum.Case(
+                                    name: name,
+                                    value: value,
+                                    comment: enumCaseElement.attribute(forName: "comment")?.stringValue,
+                                    deprecated: enumCaseElement.attribute(forName: "deprecated")?.stringValue
+                                )
+                                try updateProviders(component: &enumCase, version: version, ext: ext)
+                                registry.enums[enumIndex].cases.append(enumCase)
+                            }
+                        } else if let bitmaskIndex = registry.bitmasks.firstIndex(where: { $0.name == enumName }) {
+                            // Resolve enum case aliases
+                            if let resolvedAlias = registry.bitmasks[bitmaskIndex].aliases.first(where: { $0.name == name }) {
+                                name = resolvedAlias.flag.name
+                            }
+                            let flagIndex = registry.bitmasks[bitmaskIndex].flags.firstIndex { $0.name == name }
+                            if let flagIndex {
+                                try updateProviders(
+                                    component: &registry.bitmasks[bitmaskIndex].flags[flagIndex],
+                                    version: version,
+                                    ext: ext
+                                )
+                            } else {
+                                let value: Bitmask.Bitflag.Value
+                                if 
+                                    let bitposString = enumCaseElement.attribute(forName: "bitpos")?.stringValue,
+                                    let bitpos = UInt(bitposString)
+                                {
+                                    // If we have a bitpos, then be need to shift a 1 left that many bits
+                                    value = .bitpos(bitpos)
+                                } else {
+                                    // If we don't have a bitpos, then we need to get the value from the value attribute
+                                    guard let valueString = enumCaseElement.attribute(forName: "value")?.stringValue else {
+                                        throw "bitmask flag has no value: \(enumCaseElement)" as GeneratePluginError
+                                    }
+                                    value = .value(valueString)
+                                }
+
+                                var flag = Bitmask.Bitflag(
+                                    name: name,
+                                    value: value,
+                                    comment: enumCaseElement.attribute(forName: "comment")?.stringValue,
+                                    deprecated: enumCaseElement.attribute(forName: "deprecated")?.stringValue,
+                                )
+                                try updateProviders(
+                                    component: &flag, version: version, ext: ext
+                                )
+                                registry.bitmasks[bitmaskIndex].flags.append(flag)
+                            }
+                        } else {
+                            throw "Enum requirement isn't found in enums or bitmasks: \(enumCaseElement)" as GeneratePluginError
+                        }
+                    }
+                }
+            } else {
+                let enumCaseAliasesElements: [XMLElement] = possibleEnumCaseElements.filter { $0.attribute(forName: "alias") != nil }
+                for enumCaseAliasElement in enumCaseAliasesElements {
+                    if let api = enumCaseAliasElement.attribute(forName: "api")?.stringValue {
+                        guard api == vulkanApiName else {
+                            continue
+                        }
+                    }
+                    guard let name = enumCaseAliasElement.attribute(forName: "name")?.stringValue else {
+                        throw "Enum alias requirement has no name: \(enumCaseAliasElement)" as GeneratePluginError
+                    }
+                    guard var alias = enumCaseAliasElement.attribute(forName: "alias")?.stringValue else {
+                        throw "Enum alias requirement has no alias: \(enumCaseAliasElement)" as GeneratePluginError
+                    }
+                    if let enumName = enumCaseAliasElement.attribute(forName: "extends")?.stringValue {
+                        if let enumIndex = registry.enums.firstIndex(where: { $0.name == enumName }) {
+                            // Resolve enum case aliases
+                            if let resolvedAlias = registry.enums[enumIndex].caseAliases.first(where: { $0.name == alias }) {
+                                alias = resolvedAlias.case.name
+                            }
+                            let aliasRef = registry.enums[enumIndex].cases.first { $0.name == alias }
+                            guard let aliasRef else {
+                                throw "Enum case alias ref not found: \(alias) in \(registry.enums[enumIndex].cases.map(\.name))" as GeneratePluginError
+                            }
+
+                            if
+                                !registry.enums[enumIndex].caseAliases.contains(where: {
+                                    $0.name.replacingOccurrences(of: "_", with: "") == name.replacingOccurrences(of: "_", with: "")
+                                }),
+                                !registry.enums[enumIndex].cases.contains(where: {
+                                    $0.name.replacingOccurrences(of: "_", with: "") == name.replacingOccurrences(of: "_", with: "")
+                                })
+                            {
+                                registry.enums[enumIndex].caseAliases.append(
+                                    Enum.CaseAlias(
+                                        name: name,
+                                        case: aliasRef
+                                    )
+                                )
+                            }
+                        } else if let bitmaskIndex = registry.bitmasks.firstIndex(where: { $0.name == enumName }) {
+                            // Resolve enum case aliases
+                            if let resolvedAlias = registry.bitmasks[bitmaskIndex].aliases.first(where: { $0.name == alias }) {
+                                alias = resolvedAlias.flag.name
+                            }
+                            let aliasRef = registry.bitmasks[bitmaskIndex].flags.first { $0.name == alias }
+                            guard let aliasRef else {
+                                throw "Bitmask flag alias ref not found: \(alias) in \(registry.bitmasks[bitmaskIndex].flags.map(\.name))" as GeneratePluginError
+                            }
+
+                            if
+                                !registry.bitmasks[bitmaskIndex].aliases.contains(where: {
+                                    $0.name.replacingOccurrences(of: "_", with: "") == name.replacingOccurrences(of: "_", with: "")
+                                }),
+                                !registry.bitmasks[bitmaskIndex].flags.contains(where: {
+                                    $0.name.replacingOccurrences(of: "_", with: "") == name.replacingOccurrences(of: "_", with: "")
+                                })
+                            {
+                                registry.bitmasks[bitmaskIndex].aliases.append(
+                                    Bitmask.BitflagAlias(
+                                        name: name,
+                                        flag: aliasRef
+                                    )
+                                )
+                            }
+                        } else {
+                            throw "Enum alias requirement isn't found in enums or bitmasks: \(enumCaseAliasElement)" as GeneratePluginError
+                        }
+                    } else {
+                        // handle constants
+                    }
                 }
             }
         }

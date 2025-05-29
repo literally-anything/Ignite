@@ -29,9 +29,7 @@ extension Command {
     /// Gets the names of the extensions that deprecate this command.
     func getDeprecatedByExtension(registry: Registry) -> String? {
         let providingExtensions = providingExtensions ?? []
-        let deprecatedByExtensions = providingExtensions.map { ext in
-            registry.extensions.first { $0.name == ext }!.deprecatedBy
-        }
+        let deprecatedByExtensions = providingExtensions.map(\.deprecatedBy)
         guard deprecatedByExtensions.allSatisfy({ $0 != nil }) else {
             return nil
         }
@@ -42,28 +40,12 @@ extension Command {
 private func generateFunctionTable(
     file: URL, registry: Registry, tableName: String, tableTypeName: String, scope: Command.Scope
 ) throws {
-    /// Gets the platform for the command if it exists.
-    func getPlatform(command: Command) -> Platform? {
-        var platformName: String? = nil
-        for extName in command.providingExtensions ?? [] {
-            let ext: Extension? = registry.extensions.first { $0.name == extName }
-            if let ext {
-                platformName = ext.platform
-                break
-            }
-        }
-        if let platformName, let platform = registry.platforms[platformName] {
-            return platform
-        }
-        return nil
-    }
-
     typealias CommandInfo = (command: Command, trait: String?)
     let commands: [CommandInfo] = registry.commands.filter { command in
         // We only want commands that match the scope we are currently filling
         command.scope == scope
     }.map { command in
-        if let platform = getPlatform(command: command) {
+        if let platform = command.platform {
             return (command, platform.traitName)
         }
         return (command, nil)
@@ -77,7 +59,7 @@ private func generateFunctionTable(
             return nil
         }
         let aliasName = Command.getFixedName(name: name)
-        if let platform = getPlatform(command: command) {
+        if let platform = command.platform {
             return (command, aliasName, alias.deprecated, platform.traitName)
         }
         return (command, aliasName, alias.deprecated, nil)

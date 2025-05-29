@@ -6,7 +6,9 @@
  * Copyright (C) 2025-2025, by Hunter Baker hunterbaker@me.com
  */
 
-struct Registry: CustomStringConvertible {
+import Foundation
+
+class Registry: CustomStringConvertible {
     /// The version of the registry.
     var version: String
 
@@ -75,6 +77,10 @@ struct Registry: CustomStringConvertible {
         )
         """
     }
+
+    init(version: String) {
+        self.version = version
+    }
 }
 
 extension Registry {
@@ -100,6 +106,52 @@ extension Registry {
         }
         return try isDecendent(handle.parent!, of: parent, counter: counter + 1)
     }
+
+    func getBaseBitmaskType(_ name: String, counter: UInt = 0) throws -> String {
+        guard counter < 100 else {
+            throw "Base type \(name) has a recursive loop of typedefs" as GeneratePluginError
+        }
+        if let baseType = baseTypes[name] {
+            if case .typedef(let typedef) = baseType.definition {
+                return try getBaseBitmaskType(typedef, counter: counter + 1)
+            } else {
+                return name
+            }
+        } else if let miscType = miscTypes.first(where: { $0 == name }) {
+            return miscType
+        } else if let swiftType = swiftTypeMappings[name] {
+            return swiftType
+        } else {
+            return name
+        }
+    }
+}
+
+func getFixedTypeName(name: String) -> String {
+    return String(
+        name
+        .trimmingPrefix("Vk")
+        .replacingOccurrences(of: "FlagBits", with: "Flags")
+    )
+}
+
+func nameNeedsEscaping(name: String) -> Bool {
+    // Check if the name is a keyword in Swift that needs to be escaped to be used as an identifier.
+    let escapedKeywords: Set<String> = [
+        "default", "repeat", "is", "let", "var",
+        "associatedtype", "as", "break", "case",
+        "catch", "class", "continue", "defer",
+        "deinit", "do", "else", "enum", "extension",
+        "fallthrough", "false", "fileprivate", "for",
+        "func", "guard", "if", "import", "in", "init",
+        "inout", "internal", "let", "private", "nil",
+        "operator", "precedencegroup", "protocol",
+        "public", "rethrows", "self", "static",
+        "struct", "subscript", "super", "switch",
+        "throw", "throws", "true", "try", "typealias",
+        "where", "while"
+    ]
+    return escapedKeywords.contains(name)
 }
 
 /// Some common members for any component in the Vulkan specification.
@@ -111,14 +163,26 @@ protocol APIComponent {
     /// Whether the type is deprecated.
     /// This is a message about why the type is deprecated.
     var deprecated: String? { get }
-    /// The names of the extensions that provide this type.
-    var providingExtensions: [String]? { get set }
-    /// The name of the API version that provides this type.
-    var providingVersion: String? { get set }
+    /// The extensions that provide this type.
+    var providingExtensions: [Extension]? { get set }
+    /// The API version that provides this type.
+    var providingVersion: Version? { get set }
+}
+
+extension APIComponent {
+    var platform: Platform? {
+        var platform: Platform? = nil
+        for ext in providingExtensions ?? [] {
+            if ext.platform != nil {
+                platform = ext.platform
+            }
+        }
+        return platform
+    }
 }
 
 /// A platform in the Vulkan specification.
-struct Platform {
+class Platform {
     /// The name of the platform.
     var name: String
     /// The include guard surrounding every type that requires this platform.
@@ -128,10 +192,11 @@ struct Platform {
 
     /// The name of the swiftpm trait that should guard anything using this platform.
     var traitName: String {
-        let fixedName = name
-            .replacingOccurrences(of: "_", with: " ") // Use spaces instead of underscores
-            .capitalized // Capitalize the first letter of each word
-            .replacingOccurrences(of: " ", with: "") // Remove spaces to make it title case without spaces
+        let fixedName =
+            name
+            .replacingOccurrences(of: "_", with: " ")  // Use spaces instead of underscores
+            .capitalized  // Capitalize the first letter of each word
+            .replacingOccurrences(of: " ", with: "")  // Remove spaces to make it title case without spaces
         if protect.starts(with: "VK_USE_PLATFORM_") {
             return "Platform\(fixedName)"
         } else if protect.starts(with: "VK_ENABLE_") {
@@ -139,6 +204,12 @@ struct Platform {
         } else {
             return protect
         }
+    }
+
+    init(name: String, protect: String, comment: String) {
+        self.name = name
+        self.protect = protect
+        self.comment = comment
     }
 }
 
@@ -188,21 +259,35 @@ struct RequirementValue {
 }
 
 /// An API version in the Vulkan specification.
-struct Version {
+class Version {
     /// The name of the version as the preprocessor guard.
     var name: String
     /// The apis that support this version.
     var api: [String]
     /// The version number.
     var number: String
+    /// The XML element that this version is parsed from.
+    var element: XMLElement
     /// The sort order of the version.
     var sortorder: UInt?
     /// The api verisions and extensions that this version depends on.
     var dependencies: Dependencies?
+
+    init(
+        name: String, api: [String], number: String, sortorder: UInt? = nil, element: XMLElement,
+        dependencies: Dependencies? = nil
+    ) {
+        self.name = name
+        self.api = api
+        self.number = number
+        self.sortorder = sortorder
+        self.element = element
+        self.dependencies = dependencies
+    }
 }
 
 /// An extension in the Vulkan specification.
-struct Extension {
+class Extension {
     /// The name of the extension as the preprocessor guard.
     var name: String
     /// The number of the extension.
@@ -210,11 +295,13 @@ struct Extension {
     /// The sort order of the extension.
     var sortorder: UInt?
     /// The platform name.
-    var platform: String?
+    var platform: Platform?
     /// The kind of extension.
     var kind: Kind
     /// List of APIs that support this extension. (vulkan, vulkansc)
     var supported: [String]
+    /// The XML element that this extension is parsed from.
+    var element: XMLElement
     /// Name of the extension or API version that this extension is promoted into.
     var promotedTo: String?
     /// Name of the extension or API version that deprecates this extension.
@@ -228,6 +315,24 @@ struct Extension {
         case instance
         case device
     }
+
+    init(
+        name: String, number: UInt, sortorder: UInt? = nil, platform: Platform? = nil,
+        kind: Kind, supported: [String], element: XMLElement, promotedTo: String? = nil,
+        deprecatedBy: String? = nil, obsoletedBy: String? = nil, dependencies: Dependencies? = nil
+    ) {
+        self.name = name
+        self.number = number
+        self.sortorder = sortorder
+        self.platform = platform
+        self.kind = kind
+        self.supported = supported
+        self.element = element
+        self.promotedTo = promotedTo
+        self.deprecatedBy = deprecatedBy
+        self.obsoletedBy = obsoletedBy
+        self.dependencies = dependencies
+    }
 }
 
 /// A base type in the Vulkan specification.
@@ -239,8 +344,8 @@ struct BaseType: APIComponent {
 
     var comment: String?
     var deprecated: String?
-    var providingExtensions: [String]? = nil
-    var providingVersion: String? = nil
+    var providingExtensions: [Extension]? = nil
+    var providingVersion: Version? = nil
 
     /// The kind of base type.
     enum Definition {
@@ -255,6 +360,17 @@ struct BaseType: APIComponent {
         ///   - kind: The kind of native type. (@protocol, @class, etc.)
         ///   - use: The type with extra attributes applied to it.
         case nativeObjC(actual: String, kind: String, use: String)
+
+        var name: String {
+            switch self {
+                case .typedef(let type):
+                    return type
+                case .native(let use):
+                    return use
+                case .nativeObjC(let actual, _, _):
+                    return actual
+            }
+        }
     }
 }
 
@@ -269,12 +385,12 @@ struct Constant: APIComponent {
 
     var comment: String?
     var deprecated: String?
-    var providingExtensions: [String]? = nil
-    var providingVersion: String? = nil
+    var providingExtensions: [Extension]? = nil
+    var providingVersion: Version? = nil
 }
 
 /// A bitmask in the Vulkan specification.
-struct Bitmask: APIComponent {
+class Bitmask: APIComponent {
     /// The name of the bitmask.
     var name: String
     /// The bit width of the bitmask.
@@ -283,29 +399,143 @@ struct Bitmask: APIComponent {
     var flags: [Bitflag]
     /// Aliases for bitflags in the bitmask.
     /// For example, some extensions that have been promoted to the core API alias the old name to the new name.
-    var aliases: [String: String]
+    var aliases: [BitflagAlias]
+    /// The raw type of the bitmask.
+    var matchedRawType: String?
 
     var comment: String?
     var deprecated: String?
-    var providingExtensions: [String]? = nil
-    var providingVersion: String? = nil
+    var providingExtensions: [Extension]? = nil
+    var providingVersion: Version? = nil
+
+    var documentation: DocsParser? = nil
+
+    class BitflagAlias {
+        /// The name of the alias.
+        var name: String
+        /// The bitflag that this alias refers to.
+        var flag: Bitflag
+
+        init(name: String, flag: Bitflag) {
+            self.name = name
+            self.flag = flag
+        }
+    }
 
     /// A single flag in a bitmask.
-    struct Bitflag: APIComponent {
+    class Bitflag: APIComponent {
         /// The name of the bitflag.
         var name: String
         /// The value of the bitflag.
-        var value: String
+        var value: Value
+
+        enum Value {
+            /// The value of the bitflag.
+            case value(String)
+            /// Bit position of the bitflag.
+            case bitpos(UInt)
+        }
 
         var comment: String?
         var deprecated: String?
-        var providingExtensions: [String]? = nil
-        var providingVersion: String? = nil
+        var providingExtensions: [Extension]? = nil
+        var providingVersion: Version? = nil
+
+        init(
+            name: String, value: Value,
+            comment: String? = nil, deprecated: String? = nil
+        ) {
+            self.name = name
+            self.value = value
+            self.comment = comment
+            self.deprecated = deprecated
+        }
+
+        static func getFixedName(name: String, bitmask: Bitmask, registry: Registry) -> (name: String, escaped: String) {
+            var fixedMaskName: Substring = bitmask.name[...]
+            fixedMaskName = registry.vendorTags.keys.reduce(fixedMaskName) { result, tag in
+                if result.hasSuffix(tag) {
+                    return result.dropLast(tag.count)
+                } else {
+                    return result
+                }
+            }
+            if let range = fixedMaskName.range(of: "FlagBits") {
+                fixedMaskName = fixedMaskName[..<range.lowerBound] + fixedMaskName[range.upperBound...]
+            } else {
+                fatalError("Bitmask \(bitmask.name) does not end with FlagBits, which is unexpected.")
+            }
+
+            var nameParts: [Substring] = name.lowercased().split(separator: "_")
+            if let lastPart = nameParts.last {
+                var bitIndex = nameParts.count - 1
+                if registry.vendorTags.keys.contains(lastPart.uppercased()) {
+                    nameParts[nameParts.count - 1] = "_" + lastPart.uppercased()
+                    bitIndex -= 1
+                }
+                // Only remove the "bit" part if every flag in the bitmask has it to avoid collisions with other flag names.
+                let canRemoveBit: Bool =
+                    (bitmask.flags.map(\.name) + bitmask.aliases.map(\.name)).allSatisfy { $0.contains("BIT") }
+                if !canRemoveBit {
+                    print("Warning: Bitmask \(bitmask.name) has flags that do not contain 'BIT' in their names, so the 'bit' part will not be removed from the fixed name.")
+                }
+                if canRemoveBit && nameParts[bitIndex] == "bit" {
+                    nameParts.remove(at: bitIndex)
+                }
+            }
+            var fixed: Substring = nameParts.reduce("") {
+                $0 + $1.prefix(1).uppercased() + $1.dropFirst()
+            }
+            var success: Bool = false
+            var index: Int = 0
+            while !success {
+                if index >= fixedMaskName.count {
+                    fatalError("Bitmask \(bitmask.name) field \(name) does not start with its name, which is unexpected.")
+                }
+                let endIndex = fixedMaskName.index(fixedMaskName.startIndex, offsetBy: (fixedMaskName.count - 1) - index)
+                if fixed.hasPrefix(fixedMaskName[...endIndex]) {
+                    fixed.removeFirst(fixedMaskName[...endIndex].count)
+                    success = true
+                } else {
+                    // If it doesn't start with the mask name, try to use less of the mask name.
+                    index += 1
+                }
+            }
+            fixed = fixed[fixed.startIndex].lowercased() + fixed.dropFirst()
+
+            let escaped: String =
+                if !fixed.first!.isLetter || nameNeedsEscaping(name: String(fixed)) {
+                    "`\(fixed)`"
+                } else {
+                    String(fixed)
+                }
+
+            return (String(fixed), escaped)
+        }
+    }
+
+    /// The name of the swift type that corresponds to this bitmask.
+    var fixedName: String {
+        getFixedTypeName(name: name)
+    }
+
+    init(
+        name: String, bitWidth: UInt, flags: [Bitflag],
+        aliases: [BitflagAlias] = [], matchedRawType: String? = nil,
+        comment: String? = nil, deprecated: String? = nil
+    ) {
+        self.name = name
+        self.bitWidth = bitWidth
+        self.flags = flags
+        self.aliases = aliases
+        self.matchedRawType = matchedRawType
+        self.comment = comment
+        self.deprecated = deprecated
     }
 }
 
 /// An enum in the Vulkan specification.
-struct Enum: APIComponent {
+class Enum: APIComponent {
     /// The name of the enum.
     var name: String
     /// The bit width of the enum's raw value.
@@ -317,37 +547,114 @@ struct Enum: APIComponent {
 
     var comment: String?
     var deprecated: String?
-    var providingExtensions: [String]? = nil
-    var providingVersion: String? = nil
+    var providingExtensions: [Extension]? = nil
+    var providingVersion: Version? = nil
+
+    var documentation: DocsParser? = nil
 
     /// A single case in an enum.
-    struct Case: APIComponent {
+    class Case: APIComponent {
         /// The name of the case.
         var name: String
         /// The name of the case that this case extends.
         var extends: String?
         /// The value of the case.
         var value: String
-        
+
         var comment: String?
         var deprecated: String?
-        var providingExtensions: [String]? = nil
-        var providingVersion: String? = nil
+        var providingExtensions: [Extension]? = nil
+        var providingVersion: Version? = nil
+
+        init(
+            name: String, extends: String? = nil, value: String,
+            comment: String? = nil, deprecated: String? = nil
+        ) {
+            self.name = name
+            self.extends = extends
+            self.value = value
+            self.comment = comment
+            self.deprecated = deprecated
+        }
+
+        static func getFixedName(name: String, enumeration: Enum, registry: Registry) -> (name: String, escaped: String) {
+            var fixedEnumName: Substring = enumeration.name[...]
+            fixedEnumName = registry.vendorTags.keys.reduce(fixedEnumName) { result, tag in
+                if result.hasSuffix(tag) {
+                    return result.dropLast(tag.count)
+                } else {
+                    return result
+                }
+            }
+
+            var nameParts: [Substring] = name.lowercased().split(separator: "_")
+            if let lastPart = nameParts.last {
+                var bitIndex = nameParts.count - 1
+                if registry.vendorTags.keys.contains(lastPart.uppercased()) {
+                    nameParts[nameParts.count - 1] = "_" + lastPart.uppercased()
+                    bitIndex -= 1
+                }
+            }
+            var fixed: Substring = nameParts.reduce("") {
+                $0 + $1.prefix(1).uppercased() + $1.dropFirst()
+            }
+            var success: Bool = false
+            var index: Int = 0
+            while !success {
+                if index >= fixedEnumName.count {
+                    fatalError("Enum \(enumeration.name) case \(name) does not start with its name, which is unexpected.")
+                }
+                let endIndex = fixedEnumName.index(fixedEnumName.startIndex, offsetBy: (fixedEnumName.count - 1) - index)
+                if fixed.hasPrefix(fixedEnumName[...endIndex]) {
+                    fixed.removeFirst(fixedEnumName[...endIndex].count)
+                    success = true
+                } else {
+                    // If it doesn't start with the enum name, try to use less of the enum name.
+                    index += 1
+                }
+            }
+            fixed = fixed[fixed.startIndex].lowercased() + fixed.dropFirst()
+
+            let escaped: String =
+                if !fixed.first!.isLetter || nameNeedsEscaping(name: String(fixed)) {
+                    "`\(fixed)`"
+                } else {
+                    String(fixed)
+                }
+
+            return (String(fixed), escaped)
+        }
     }
 
     /// An alias for a case in an enum.
-    struct CaseAlias: APIComponent {
+    class CaseAlias {
         /// The name of the case.
         var name: String
-        /// The name of the case that this case extends.
-        var extends: String?
-        /// The name of the case that this alias refers to.
-        var alias: String
-        
-        var comment: String?
-        var deprecated: String?
-        var providingExtensions: [String]? = nil
-        var providingVersion: String? = nil
+        /// The case that this alias refers to.
+        var `case`: Case
+
+        init(name: String, case: Case) {
+            self.name = name
+            self.case = `case`
+        }
+    }
+
+    init(
+        name: String, bitwidth: UInt? = nil, cases: [Case],
+        caseAliases: [CaseAlias] = [],
+        comment: String? = nil, deprecated: String? = nil
+    ) {
+        self.name = name
+        self.bitwidth = bitwidth
+        self.cases = cases
+        self.caseAliases = caseAliases
+        self.comment = comment
+        self.deprecated = deprecated
+    }
+
+    /// The name of the swift type that corresponds to this bitmask.
+    var fixedName: String {
+        getFixedTypeName(name: name)
     }
 }
 
@@ -364,8 +671,8 @@ struct Handle: APIComponent {
 
     var comment: String?
     var deprecated: String?
-    var providingExtensions: [String]? = nil
-    var providingVersion: String? = nil
+    var providingExtensions: [Extension]? = nil
+    var providingVersion: Version? = nil
 }
 
 /// A command in the Vulkan specification.
@@ -390,11 +697,11 @@ struct Command: APIComponent {
     var cmdbufferlevel: [String]?
     /// A list of other things that must be externally syncronized for this command.
     var implicitExternalSyncParams: [String]
-    
+
     var comment: String?
     var deprecated: String?
-    var providingExtensions: [String]? = nil
-    var providingVersion: String? = nil
+    var providingExtensions: [Extension]? = nil
+    var providingVersion: Version? = nil
 
     var documentation: DocsParser? = nil
 
@@ -467,8 +774,8 @@ struct Struct: APIComponent {
 
     var comment: String?
     var deprecated: String?
-    var providingExtensions: [String]? = nil
-    var providingVersion: String? = nil
+    var providingExtensions: [Extension]? = nil
+    var providingVersion: Version? = nil
 
     /// The name of the struct without the Vk prefix.
     static func getFixedName(name: String) -> String {
@@ -517,15 +824,15 @@ struct StructMember: APIComponent {
 
     var comment: String?
     var deprecated: String?
-    var providingExtensions: [String]? = nil
-    var providingVersion: String? = nil
+    var providingExtensions: [Extension]? = nil
+    var providingVersion: Version? = nil
 
     /// Checks whether this member is a simple type that doesn't need an allocation elsewhere (little to no indirection).
     var isSimple: Bool {
         // If it has a length it can't be simple unless the length is just a 1 (which means it's a pointer).
-        (length == nil || (length!.count == 1 && length!.allSatisfy { $0 == "1" })) &&
-        // If it has a stride or an altlen, it can't be simple.
-        stride == nil && altlen == nil
+        (length == nil || (length!.count == 1 && length!.allSatisfy { $0 == "1" }))
+            // If it has a stride or an altlen, it can't be simple.
+            && stride == nil && altlen == nil
     }
 
     /// The name of the swift property that corresponds to this struct member.
@@ -549,6 +856,6 @@ struct Union: APIComponent {
 
     var comment: String?
     var deprecated: String?
-    var providingExtensions: [String]? = nil
-    var providingVersion: String? = nil
+    var providingExtensions: [Extension]? = nil
+    var providingVersion: Version? = nil
 }

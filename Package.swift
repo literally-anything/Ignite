@@ -97,6 +97,15 @@ var package = Package(
         .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0")
     ],
     targets: [
+        .testTarget(
+            name: "ValidationTests",
+            dependencies: [
+                "Ignite",
+                "CVulkan"
+            ],
+            cSettings: cSettings,
+            linkerSettings: linkerSettings
+        ),
         .target(
             name: "Ignite",
             dependencies: [
@@ -105,11 +114,17 @@ var package = Package(
             ],
             // These need to be here because SwiftPM only seems to respect these settings in the first target that depends on the c target
             cSettings: cSettings,
+            swiftSettings: [
+                .unsafeFlags(["-strict-memory-safety"])
+            ],
             linkerSettings: linkerSettings
         ),
         .target(
             name: "CVulkan",
             cSettings: cSettings,
+            swiftSettings: [
+                .unsafeFlags(["-strict-memory-safety"])
+            ],
             linkerSettings: linkerSettings
         )
     ]

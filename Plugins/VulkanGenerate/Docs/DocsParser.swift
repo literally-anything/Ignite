@@ -359,6 +359,66 @@ class DocsParser: @unchecked Sendable {
         }
     }
 
+    var enumFullDescription: [String]? {
+        let descriptionHeader: XMLNode? = try? root
+            .nodes(forXPath: "div[@id='content']/div[@class='sect1']/h2[@id='_description']").first
+        guard let descriptionHeader else {
+            return nil
+        }
+
+        if descriptionHeader.parent!.children!.count <= 1 {
+            return nil
+        }
+        let element = try? XMLElement(xmlString: "<div>\(descriptionHeader.parent!.children![1...].map(\.xmlString).joined())</div>")
+        guard let element else {
+            return nil
+        }
+        return try? Self.parseSection(section: element, docsUrl: url)
+    }
+
+    var enumCases: [(name: String, description: String)] {
+        get throws {
+            // The docs have a section called "Description" that contains the enum cases.
+            let descriptionHeader: XMLNode? = try? root
+                .nodes(forXPath: "div[@id='content']/div[@class='sect1']/h2[@id='_description']").first
+            guard let descriptionHeader else {
+                return []
+            }
+
+            let list: [XMLNode]? = try? descriptionHeader.nextSibling!
+                .nodes(forXPath: "div[@class='ulist']").first?.nodes(forXPath: "/ul/li/p")
+            guard let list else {
+                return []
+            }
+
+            return try list.map { caseElement in
+                let xmlString = caseElement.xmlString
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                let nameMatch = xmlString
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                    .firstMatch(of: codeBlockRegex)
+                guard
+                    let nameMatch,
+                    nameMatch.range.lowerBound <= xmlString.index(xmlString.startIndex, offsetBy: 4)
+                else {
+                    throw "Failed to parse case name: \(caseElement) for \(symbol)" as GeneratePluginError
+                }
+                let fixedXmlString: Substring = xmlString[..<nameMatch.range.lowerBound] + xmlString[nameMatch.range.upperBound...]
+                let fixedXml: XMLElement = try XMLElement(
+                    xmlString: String(fixedXmlString)
+                )
+                let name = nameMatch.output.1
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                let description = fixedXml
+                    .getFormattedStringValue(docsUrl: url)?
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                    .replacingOccurrences(of: "\n", with: " ")
+                    ?? ""
+                return (name, description)
+            }
+        }
+    }
+
     // Parses a section body into a list of strings ready to be used as documentation.
     /// - Parameter section: The section to parse.
     /// - Returns: A list of strings for the documentation.
@@ -600,6 +660,30 @@ class DocsParser: @unchecked Sendable {
                     lines.append(line)
                 }
             }
+        }
+
+        let seeAlsoBlock: [String] = seeAlso
+        if !seeAlsoBlock.isEmpty {
+            lines.append("")
+            for item in seeAlsoBlock {
+                lines.append("- SeeAlso: \(item)")
+            }
+        }
+
+        return lines
+    }
+
+    func getEnumDocs() throws -> [String] {
+        var lines: [String] = []
+
+        if let shortDescription = shortDescription {
+            lines.append(contentsOf: shortDescription)
+        }
+
+        let discussionBlock: [String]? = enumFullDescription
+        if let discussionBlock {
+            lines.append("")
+            lines.append(contentsOf: discussionBlock)
         }
 
         let seeAlsoBlock: [String] = seeAlso
