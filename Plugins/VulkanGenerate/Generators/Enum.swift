@@ -8,6 +8,13 @@
 
 import Foundation
 
+private let disabledEnums: [String] = [
+    // This isn't needed because it is automatically populated in the generated wrappers for the structs
+    "VkStructureType",
+    // We don't need to generate a normal wrapper for results, because there is already a nicer VulkanResult wrapper
+    "VkResult"
+]
+
 func generateEnumWrappers(
     packagePath: URL, registry: Registry
 ) throws {
@@ -17,7 +24,8 @@ func generateEnumWrappers(
     var optionSetTestLines: [[Substring]] = []
     for bitmask in registry.bitmasks.sorted(by: { $0.name < $1.name }) {
         func makeFlagDecl(
-            value: String, flagName: (name: String, escaped: String), vulkanName: String,
+            value: String, isAlias: Bool,
+            flagName: (name: String, escaped: String), vulkanName: String,
             docs: DocsParser?, baseFlag: Bitmask.Bitflag
         ) -> (decl: String, test: String) {
             var availability: String = ""
@@ -49,7 +57,11 @@ func generateEnumWrappers(
             return (
                 """
                 \(docs.split(separator: "\n").map { "/// " + $0 }.joined(separator: "\n"))
-                \(availability)@inlinable\npublic static var \(flagName.escaped): \(bitmask.fixedName) { \(value) }
+                \(availability)@inlinable\npublic static var \(flagName.escaped): \(bitmask.fixedName) {
+                    \(isAlias ? (availabilityGuard ?? "") : "")\
+                    \(value)\
+                    \(availabilityGuard != nil && isAlias ? "\n#else\nfatalError(\"This flag is unavailable\")\n#endif" : "")
+                }
                 """,
                 """
                 \(availabilityGuard ?? "")@Test("Validate \(flagName.name)")
@@ -73,7 +85,8 @@ func generateEnumWrappers(
                         "\(bitmask.fixedName)(rawValue: 1 << \(bitpos))"
                 }
             return makeFlagDecl(
-                value: value, flagName: flagName, vulkanName: flag.name,
+                value: value, isAlias: false,
+                flagName: flagName, vulkanName: flag.name,
                 docs: bitmask.documentation, baseFlag: flag
             )
         }
@@ -81,7 +94,8 @@ func generateEnumWrappers(
             let aliasName = Bitmask.Bitflag.getFixedName(name: alias.name, bitmask: bitmask, registry: registry)
             let flagName = Bitmask.Bitflag.getFixedName(name: alias.flag.name, bitmask: bitmask, registry: registry)
             return makeFlagDecl(
-                value: "self." + flagName.escaped, flagName: aliasName, vulkanName: alias.name,
+                value: "self." + flagName.escaped, isAlias: true,
+                flagName: aliasName, vulkanName: alias.name,
                 docs: bitmask.documentation, baseFlag: alias.flag
             )
         }
@@ -143,6 +157,8 @@ func generateEnumWrappers(
             \(availabilityGuard != nil ? testPlaceholder : "")
             """.split(separator: "\n", omittingEmptySubsequences: false)
         optionSetTestLines.append(testLines)
+
+        bitmask.isGenerated = true
     }
 
     let bitmasksFile = packagePath.appending(path: "Sources/Ignite/Bitmasks.swift")
@@ -163,7 +179,7 @@ func generateEnumWrappers(
     // Now do normal enums
     var enumLines: [[Substring]] = []
     var enumTestLines: [[Substring]] = []
-    for enumeration in registry.enums.sorted(by: { $0.name < $1.name }) {
+    for enumeration in registry.enums.sorted(by: { $0.name < $1.name }).filter({ !disabledEnums.contains($0.name) }) {
         func makeCaseDecl(
             value: String, isAlias: Bool,
             caseName: (name: String, escaped: String), vulkanName: String,
@@ -196,7 +212,11 @@ func generateEnumWrappers(
                 } else {
                     """
                     \(docs.split(separator: "\n").map { "/// " + $0 }.joined(separator: "\n"))
-                    \(availability)@inlinable\npublic static var \(caseName.escaped): \(enumeration.fixedName) { \(value) }
+                    \(availability)@inlinable\npublic static var \(caseName.escaped): \(enumeration.fixedName) {\
+                        \(isAlias ? (availabilityGuard ?? "") : "")\
+                        \(value)\
+                        \(availabilityGuard != nil && isAlias ? "\n#else\nfatalError(\"This attribute is \")\n#endif" : "")
+                    }
                     """
                 }
             let testPlaceholder: String =
@@ -257,7 +277,7 @@ func generateEnumWrappers(
             """
         let lines: [Substring] =
             """
-            \((enumeration.documentation!.enumFullDescription ?? []).map { "/// " + $0 }.joined(separator: "\n") + "\n")\
+            \((enumeration.documentation?.enumFullDescription ?? []).map { "/// " + $0 }.joined(separator: "\n") + "\n")\
             \(availabilityGuard ?? "")\
             public enum \(enumeration.fixedName): CVulkan.\(enumeration.name).RawValue {
                 \(cases.map(\.decl).joined(separator: "\n\n"))
@@ -286,6 +306,8 @@ func generateEnumWrappers(
             \(availabilityGuard != nil ? testPlaceholder : "")
             """.split(separator: "\n", omittingEmptySubsequences: false)
         enumTestLines.append(testLines)
+
+        enumeration.isGenerated = true
     }
 
     let enumsFile = packagePath.appending(path: "Sources/Ignite/Enums.swift")

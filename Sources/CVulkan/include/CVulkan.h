@@ -22,7 +22,7 @@
 
 
 // BEGIN_GENERATE_PLATFORM_DEFINES
-// Generated using header version: 315
+// Generated using header version: 317
 #if EnableProvisional
 #  define VK_ENABLE_BETA_EXTENSIONS
 #endif

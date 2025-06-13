@@ -142,9 +142,14 @@ extension VulkanGenerate {
         swiftFormat = try getTool("swift-format")
 
         // Run the generators
+        try generateAPIVersions(packagePath: path, registry: registry)
+        try generateExtensions(packagePath: path, registry: registry)
         try generatePlatformTraits(packagePath: path, registry: registry)
         try generateFunctionTables(packagePath: path, registry: registry)
         try generateEnumWrappers(packagePath: path, registry: registry)
+        try generateStructWrappers(packagePath: path, registry: registry)
+        // try generateHandleWrappers(packagePath: path, registry: registry)
+        try generateResultWrappers(packagePath: path, registry: registry)
 
         print("Done!")
     }

@@ -333,6 +333,36 @@ class Extension {
         self.obsoletedBy = obsoletedBy
         self.dependencies = dependencies
     }
+
+    static func getFixedName(
+        name: String, prefix extraPrefix: String? = nil, registry: Registry
+    ) -> (name: String, escaped: String) {
+        let name = name.trimmingPrefix("VK_")
+
+        var nameParts: [Substring] = name.lowercased().split(separator: "_")
+        if let firstPart = nameParts.first {
+            if registry.vendorTags.keys.contains(firstPart.uppercased()) {
+                nameParts.removeFirst()
+                nameParts.append("_" + firstPart.uppercased())
+            }
+        }
+        var fixed: Substring = nameParts.reduce("") {
+            $0 + $1.prefix(1).uppercased() + $1.dropFirst()
+        }
+        if let extraPrefix {
+            fixed = fixed.trimmingPrefix(extraPrefix)
+        }
+        fixed = fixed[fixed.startIndex].lowercased() + fixed.dropFirst()
+
+        let escaped: String =
+            if !fixed.first!.isLetter || nameNeedsEscaping(name: String(fixed)) {
+                "`\(fixed)`"
+            } else {
+                String(fixed)
+            }
+
+        return (String(fixed), escaped)
+    }
 }
 
 /// A base type in the Vulkan specification.
@@ -409,6 +439,8 @@ class Bitmask: APIComponent {
     var providingVersion: Version? = nil
 
     var documentation: DocsParser? = nil
+
+    var isGenerated: Bool = false
 
     class BitflagAlias {
         /// The name of the alias.
@@ -552,6 +584,8 @@ class Enum: APIComponent {
 
     var documentation: DocsParser? = nil
 
+    var isGenerated: Bool = false
+
     /// A single case in an enum.
     class Case: APIComponent {
         /// The name of the case.
@@ -577,7 +611,9 @@ class Enum: APIComponent {
             self.deprecated = deprecated
         }
 
-        static func getFixedName(name: String, enumeration: Enum, registry: Registry) -> (name: String, escaped: String) {
+        static func getFixedName(
+            name: String, prefix extraPrefix: String? = nil, enumeration: Enum, registry: Registry
+        ) -> (name: String, escaped: String) {
             var fixedEnumName: Substring = enumeration.name[...]
             fixedEnumName = registry.vendorTags.keys.reduce(fixedEnumName) { result, tag in
                 if result.hasSuffix(tag) {
@@ -589,10 +625,8 @@ class Enum: APIComponent {
 
             var nameParts: [Substring] = name.lowercased().split(separator: "_")
             if let lastPart = nameParts.last {
-                var bitIndex = nameParts.count - 1
                 if registry.vendorTags.keys.contains(lastPart.uppercased()) {
                     nameParts[nameParts.count - 1] = "_" + lastPart.uppercased()
-                    bitIndex -= 1
                 }
             }
             var fixed: Substring = nameParts.reduce("") {
@@ -612,6 +646,9 @@ class Enum: APIComponent {
                     // If it doesn't start with the enum name, try to use less of the enum name.
                     index += 1
                 }
+            }
+            if let extraPrefix {
+                fixed = fixed.trimmingPrefix(extraPrefix)
             }
             fixed = fixed[fixed.startIndex].lowercased() + fixed.dropFirst()
 
@@ -757,7 +794,7 @@ struct CommandParam {
 }
 
 /// A structure in the Vulkan specification.
-struct Struct: APIComponent {
+class Struct: APIComponent {
     /// The name of the structure.
     var name: String
     /// The name of a struct that this struct requires.
@@ -777,6 +814,10 @@ struct Struct: APIComponent {
     var providingExtensions: [Extension]? = nil
     var providingVersion: Version? = nil
 
+    var documentation: DocsParser? = nil
+
+    var isGenerated: Bool = false
+
     /// The name of the struct without the Vk prefix.
     static func getFixedName(name: String) -> String {
         guard name.starts(with: "Vk") else {
@@ -791,10 +832,25 @@ struct Struct: APIComponent {
     var swiftTypeName: String {
         Self.getFixedName(name: name)
     }
+
+    init(
+        name: String, requires: String? = nil, returnedOnly: Bool = false,
+        extends: [String]? = nil, allowDuplicate: Bool = false, members: [StructMember] = [],
+        comment: String? = nil, deprecated: String? = nil
+    ) {
+        self.name = name
+        self.requires = requires
+        self.returnedOnly = returnedOnly
+        self.extends = extends
+        self.allowDuplicate = allowDuplicate
+        self.members = members
+        self.comment = comment
+        self.deprecated = deprecated
+    }
 }
 
 /// A member of a structure in the Vulkan specification.
-struct StructMember: APIComponent {
+class StructMember: APIComponent {
     /// The name of the member.
     var name: String
     /// The type of the member.
@@ -822,6 +878,8 @@ struct StructMember: APIComponent {
     /// If specified, only the provided values are allowed. This is mainly used for sType members.
     var validValues: Set<String>?
 
+    var parsedType: CType
+
     var comment: String?
     var deprecated: String?
     var providingExtensions: [Extension]? = nil
@@ -844,6 +902,31 @@ struct StructMember: APIComponent {
         }
         // Fix caps
         return "\(fixed.first!.lowercased())\(fixed.dropFirst())"
+    }
+    
+    init(
+        name: String, type: String, baseType: String,
+        length: [String]? = nil, altlen: [String]? = nil, stride: [String]? = nil,
+        externalSync: Bool = false, optional isOptional: Bool = false, objecttype: String? = nil,
+        selector: String? = nil, validValues: Set<String>? = nil,
+        comment: String? = nil, deprecated: String? = nil,
+        registry: Registry
+    ) {
+        self.name = name
+        self.type = type
+        self.baseType = baseType
+        self.length = length
+        self.altlen = altlen
+        self.stride = stride
+        self.externalSync = externalSync
+        self.optional = isOptional
+        self.objecttype = objecttype
+        self.selector = selector
+        self.validValues = validValues
+        self.comment = comment
+        self.deprecated = deprecated
+
+        self.parsedType = parseCType(type: type, lengths: length ?? [], registry: registry)
     }
 }
 

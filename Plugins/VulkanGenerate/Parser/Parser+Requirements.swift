@@ -216,10 +216,10 @@ extension Parser {
                     } else if let unionIndex = registry.unions.firstIndex(where: { $0.name == name }) {
                         try updateProviders(component: &registry.unions[unionIndex], version: version, ext: ext)
                     } else if !registry.miscTypes.contains(name), !registry.commands.contains(where: { $0.typeName == name }) {
-                        print(registry.commands.map(\.typeName))
-                        print(registry.bitmasks.map(\.name))
-                        // We don't do anything with misc types or commands, but if it isn't, we want an error
-                        throw "Type requirement isn't found: \(typeElement)" as GeneratePluginError
+                        if !structParserExcludes.contains(name) {
+                            // We don't do anything with misc types or commands, but if it isn't, we want an error
+                            throw "Type requirement isn't found: \(typeElement)" as GeneratePluginError
+                        }
                     }
                 }
             }

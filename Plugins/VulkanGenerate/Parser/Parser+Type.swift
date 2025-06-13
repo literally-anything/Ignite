@@ -8,6 +8,11 @@
 
 import Foundation
 
+let structParserExcludes: Set<String> = [
+    "VkBaseOutStructure",
+    "VkBaseInStructure"
+]
+
 extension Parser {
     /// Extract the types from the XML specification.
     func parseTypes(registry: inout Registry) throws {
@@ -36,10 +41,17 @@ extension Parser {
         let aliases = try Self.parseAliases(aliasElements: aliasTypes)
         registry.aliases = .init(uniqueKeysWithValues: aliases.map { ($0.name, $0.alias) })
 
-        let absoluteTypes: [XMLElement] = types.filter { $0.attribute(forName: "alias") == nil }
+        let absoluteTypes: [XMLElement] = types.filter {
+            $0.attribute(forName: "alias") == nil &&
+            !structParserExcludes.contains($0.attribute(forName: "name")?.stringValue ?? "")
+        }
 
         let baseTypeElements: [XMLElement] = absoluteTypes.filter { $0.attribute(forName: "category")?.stringValue == "basetype" }
-        let baseTypes = try Self.parseBaseTypes(baseTypeElements: baseTypeElements)
+        var baseTypes = try Self.parseBaseTypes(baseTypeElements: baseTypeElements)
+        let platformBaseTypes: [XMLElement] = absoluteTypes.filter {
+            $0.attribute(forName: "requires")?.stringValue?.hasSuffix(".h") ?? false
+        }
+        baseTypes.append(contentsOf: try Self.parsePlatformBaseTypes(baseTypeElements: platformBaseTypes))
         registry.baseTypes = .init(uniqueKeysWithValues: baseTypes.map { ($0.name, $0) })
 
         let handleElements: [XMLElement] = absoluteTypes.filter { $0.attribute(forName: "category")?.stringValue == "handle" }
@@ -47,7 +59,7 @@ extension Parser {
         registry.handles = .init(uniqueKeysWithValues: handles.map { ($0.name, $0) })
 
         let structElements: [XMLElement] = absoluteTypes.filter { $0.attribute(forName: "category")?.stringValue == "struct" }
-        let structs = try parseStructs(structElements: structElements)
+        let structs = try parseStructs(structElements: structElements, registry: registry)
         registry.structs = structs
 
         let unionElements: [XMLElement] = absoluteTypes.filter { $0.attribute(forName: "category")?.stringValue == "union" }
@@ -184,6 +196,24 @@ extension Parser {
         }
     }
 
+    /// Extract the platform-specific base types from the XML specification.
+    private static func parsePlatformBaseTypes(baseTypeElements: [XMLElement]) throws -> [BaseType] {
+        try baseTypeElements.map { baseType in
+            // The name is always annotated
+            let name = baseType.attribute(forName: "name")?.stringValue
+            guard let name else {
+                throw "base type has no name: \(baseType)" as GeneratePluginError
+            }
+
+            return BaseType(
+                name: name,
+                definition: .native(use: name),
+                comment: nil,
+                deprecated: nil
+            )
+        }
+    }
+
     /// Parse handle types from the XML specification.
     private static func parseHandleTypes(
         handleElements: [XMLElement]
@@ -219,7 +249,7 @@ extension Parser {
     }
 
     /// Parse the structs from the XML specification.
-    private func parseStructs(structElements: [XMLElement]) throws -> [Struct] {
+    private func parseStructs(structElements: [XMLElement], registry: Registry) throws -> [Struct] {
         try structElements.map { element in
             guard let name = element.attribute(forName: "name")?.stringValue else {
                 throw "Struct has no name: \(element)" as GeneratePluginError
@@ -229,13 +259,15 @@ extension Parser {
                 guard let name = memberElement.elements(forName: "name").first?.stringValue else {
                     throw "Struct member has no name: \(memberElement)" as GeneratePluginError
                 }
-                let memberString = memberElement.stringValue
-                let typeEndIndex = memberString?.range(of: name)?.lowerBound
-                guard let typeEndIndex else {
-                    throw "Can't find the name of the structure again after finding it once: \(memberElement)"
-                        as GeneratePluginError
+
+                let strippedMember = try! XMLElement(xmlString: memberElement.xmlString)
+                for (index, child) in strippedMember.children!.enumerated().reversed() {
+                    if child.name == "comment" || child.name == "name" {
+                        strippedMember.removeChild(at: index)
+                    }
                 }
-                let type = String(memberString![..<typeEndIndex].trimmingCharacters(in: .whitespacesAndNewlines))
+
+                let type = strippedMember.stringValue!
                 guard let baseType = memberElement.elements(forName: "type").first?.stringValue else {
                     throw "Can't find the base type of the structure: \(memberElement)" as GeneratePluginError
                 }
@@ -254,10 +286,10 @@ extension Parser {
                     String($0)
                 })
                 let externalSync: Bool = memberElement.attribute(forName: "externsync")?.stringValue == "true"
-                let isOptional: Bool = memberElement.attribute(forName: "optional")?.stringValue == "true"
+                let isOptional: Bool = memberElement.attribute(forName: "optional")?.stringValue?.contains("true") ?? false
                 let objecttype: String? = memberElement.attribute(forName: "objecttype")?.stringValue
                 let selector: String? = memberElement.attribute(forName: "selector")?.stringValue
-                let comment: String? = memberElement.attribute(forName: "comment")?.stringValue
+                let comment: String? = memberElement.elements(forName: "comment").first?.stringValue
                 let deprecated: String? = memberElement.attribute(forName: "deprecated")?.stringValue
 
                 return StructMember(
@@ -273,7 +305,8 @@ extension Parser {
                     selector: selector,
                     validValues: values,
                     comment: comment,
-                    deprecated: deprecated
+                    deprecated: deprecated,
+                    registry: registry
                 )
             }
 

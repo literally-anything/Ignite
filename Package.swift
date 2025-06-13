@@ -27,7 +27,7 @@ var package = Package(
     ],
     traits: [
         // BEGIN_GENERATE_PLATFORM_TRAITS
-        // Generated using header version: 315
+        // Generated using header version: 317
 
         .trait(
             name: "EnableProvisional",
@@ -90,8 +90,7 @@ var package = Package(
             name: "LinkedVulkan",
             description:
                 "Makes this package direcly link vulkan at compile time. Otherwise, it will be loaded at runtime using dlopen."
-        ),
-        .default(enabledTraits: [])
+        )
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0")
@@ -115,7 +114,8 @@ var package = Package(
             // These need to be here because SwiftPM only seems to respect these settings in the first target that depends on the c target
             cSettings: cSettings,
             swiftSettings: [
-                .unsafeFlags(["-strict-memory-safety"])
+                .unsafeFlags(["-strict-memory-safety"]),
+                .enableExperimentalFeature("LifetimeDependence")
             ],
             linkerSettings: linkerSettings
         ),
@@ -151,3 +151,11 @@ if ProcessInfo.processInfo.environment["ENABLE_GENERATOR"] == "1" {
         )
     )
 }
+
+#if canImport(Metal)
+    package.traits.insert(
+        .default(enabledTraits: [
+            "PlatformMetal"
+        ])
+    )
+#endif
