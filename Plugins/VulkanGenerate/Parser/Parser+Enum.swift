@@ -41,35 +41,45 @@ extension Parser {
 
         let bitmaskEnums: [XMLElement] = enums.filter { $0.attribute(forName: "type")?.stringValue == "bitmask" }
         let bitmaskTypeNodes: [XMLElement] = (try? root.nodes(forXPath: "types/type[@category='bitmask']") as? [XMLElement]) ?? []
-        var bitmaskTypes: [(name: String, bitmask: String, type: String)] = []
+        var bitmaskTypes: [(name: String, bitmask: Substring?, type: String)] = []
         for node in bitmaskTypeNodes {
+            if let api = node.attribute(forName: "api")?.stringValue, api != "vulkan" {
+                // Skip types that are not for Vulkan
+                continue
+            }
             guard let name = node.elements(forName: "name").first?.stringValue else {
                 continue
             }
-            guard let requires = node.attribute(forName: "requires")?.stringValue?.split(separator: ",") else {
-                continue
-            }
+            let requires =
+                node.attribute(forName: "requires")?.stringValue?.split(separator: ",").first ??
+                node.attribute(forName: "bitvalues")?.stringValue?.split(separator: ",").first
             guard let type = node.elements(forName: "type").first?.stringValue else {
                 continue
             }
             bitmaskTypes.append(
-                contentsOf: requires.map { require in
-                    (name: name, bitmask: String(require), type: type)
-                }
+                (name: name, bitmask: requires, type: type)
             )
         }
         var bitmasks: [Bitmask] = try Self.parseBitmasks(bitmaskEnums: bitmaskEnums, registry: registry)
         for bitmaskType in bitmaskTypes {
-            if let index = bitmasks.firstIndex(where: { $0.name == bitmaskType.bitmask }) {
-                bitmasks[index].matchedRawType = bitmaskType.bitmask
+            if
+                let index = bitmasks.firstIndex(where: {
+                    bitmaskType.bitmask != nil && $0.name == bitmaskType.bitmask!
+                }
+            ) {
+                bitmasks[index].matchedRawType = bitmaskType.name
             } else {
                 let name = bitmaskType.name
+                if name.contains("DebugUtilsMessengerCreate") {
+                    print("yaaaaa")
+                }
                 bitmasks.append(
                     Bitmask(
                         name: name,
                         bitWidth: 32,
                         flags: [],
                         aliases: [],
+                        matchedRawType: name,
                         comment: nil,
                         deprecated: nil
                     )

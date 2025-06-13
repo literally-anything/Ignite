@@ -10,7 +10,7 @@
 // These are automatically generated from the Vulkan specification.
 
 // BEGIN_GENERATE_BITMASKS
-// Generated using header version: 315
+// Generated using header version: 318
 
 
 public struct AccelerationStructureCreateFlagsKHR: OptionSet {
@@ -46,6 +46,40 @@ public struct AccelerationStructureCreateFlagsKHR: OptionSet {
 }
 
 
+public struct AccelerationStructureMotionInfoFlagsNV: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `AccelerationStructureMotionInfoFlagsNV` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+public struct AccelerationStructureMotionInstanceFlagsNV: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `AccelerationStructureMotionInstanceFlagsNV` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
 public struct AccessFlags: OptionSet {
     /// The raw value of the bitmask, represented as a UInt32.
     public let rawValue: UInt32
@@ -61,143 +95,213 @@ public struct AccessFlags: OptionSet {
 
 
     @inlinable
-    public static var indirectCommandReadBit: AccessFlags { AccessFlags(rawValue: 1 << 0) }
+    public static var indirectCommandReadBit: AccessFlags {
+        AccessFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var indexReadBit: AccessFlags { AccessFlags(rawValue: 1 << 1) }
+    public static var indexReadBit: AccessFlags {
+        AccessFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var vertexAttributeReadBit: AccessFlags { AccessFlags(rawValue: 1 << 2) }
+    public static var vertexAttributeReadBit: AccessFlags {
+        AccessFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var uniformReadBit: AccessFlags { AccessFlags(rawValue: 1 << 3) }
+    public static var uniformReadBit: AccessFlags {
+        AccessFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var inputAttachmentReadBit: AccessFlags { AccessFlags(rawValue: 1 << 4) }
+    public static var inputAttachmentReadBit: AccessFlags {
+        AccessFlags(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var shaderReadBit: AccessFlags { AccessFlags(rawValue: 1 << 5) }
+    public static var shaderReadBit: AccessFlags {
+        AccessFlags(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var shaderWriteBit: AccessFlags { AccessFlags(rawValue: 1 << 6) }
+    public static var shaderWriteBit: AccessFlags {
+        AccessFlags(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var colorAttachmentReadBit: AccessFlags { AccessFlags(rawValue: 1 << 7) }
+    public static var colorAttachmentReadBit: AccessFlags {
+        AccessFlags(rawValue: 1 << 7)
+    }
 
 
     @inlinable
-    public static var colorAttachmentWriteBit: AccessFlags { AccessFlags(rawValue: 1 << 8) }
+    public static var colorAttachmentWriteBit: AccessFlags {
+        AccessFlags(rawValue: 1 << 8)
+    }
 
 
     @inlinable
-    public static var depthStencilAttachmentReadBit: AccessFlags { AccessFlags(rawValue: 1 << 9) }
+    public static var depthStencilAttachmentReadBit: AccessFlags {
+        AccessFlags(rawValue: 1 << 9)
+    }
 
 
     @inlinable
-    public static var depthStencilAttachmentWriteBit: AccessFlags { AccessFlags(rawValue: 1 << 10) }
+    public static var depthStencilAttachmentWriteBit: AccessFlags {
+        AccessFlags(rawValue: 1 << 10)
+    }
 
 
     @inlinable
-    public static var transferReadBit: AccessFlags { AccessFlags(rawValue: 1 << 11) }
+    public static var transferReadBit: AccessFlags {
+        AccessFlags(rawValue: 1 << 11)
+    }
 
 
     @inlinable
-    public static var transferWriteBit: AccessFlags { AccessFlags(rawValue: 1 << 12) }
+    public static var transferWriteBit: AccessFlags {
+        AccessFlags(rawValue: 1 << 12)
+    }
 
 
     @inlinable
-    public static var hostReadBit: AccessFlags { AccessFlags(rawValue: 1 << 13) }
+    public static var hostReadBit: AccessFlags {
+        AccessFlags(rawValue: 1 << 13)
+    }
 
 
     @inlinable
-    public static var hostWriteBit: AccessFlags { AccessFlags(rawValue: 1 << 14) }
+    public static var hostWriteBit: AccessFlags {
+        AccessFlags(rawValue: 1 << 14)
+    }
 
 
     @inlinable
-    public static var memoryReadBit: AccessFlags { AccessFlags(rawValue: 1 << 15) }
+    public static var memoryReadBit: AccessFlags {
+        AccessFlags(rawValue: 1 << 15)
+    }
 
 
     @inlinable
-    public static var memoryWriteBit: AccessFlags { AccessFlags(rawValue: 1 << 16) }
+    public static var memoryWriteBit: AccessFlags {
+        AccessFlags(rawValue: 1 << 16)
+    }
 
 
     @inlinable
-    public static var none: AccessFlags { AccessFlags(rawValue: 0) }
+    public static var none: AccessFlags {
+        AccessFlags(rawValue: 0)
+    }
 
 
     @inlinable
-    public static var transformFeedbackWriteBit_EXT: AccessFlags { AccessFlags(rawValue: 1 << 25) }
+    public static var transformFeedbackWriteBit_EXT: AccessFlags {
+        AccessFlags(rawValue: 1 << 25)
+    }
 
 
     @inlinable
-    public static var transformFeedbackCounterReadBit_EXT: AccessFlags { AccessFlags(rawValue: 1 << 26) }
+    public static var transformFeedbackCounterReadBit_EXT: AccessFlags {
+        AccessFlags(rawValue: 1 << 26)
+    }
 
 
     @inlinable
-    public static var transformFeedbackCounterWriteBit_EXT: AccessFlags { AccessFlags(rawValue: 1 << 27) }
+    public static var transformFeedbackCounterWriteBit_EXT: AccessFlags {
+        AccessFlags(rawValue: 1 << 27)
+    }
 
 
     @inlinable
-    public static var conditionalRenderingReadBit_EXT: AccessFlags { AccessFlags(rawValue: 1 << 20) }
+    public static var conditionalRenderingReadBit_EXT: AccessFlags {
+        AccessFlags(rawValue: 1 << 20)
+    }
 
 
     @inlinable
-    public static var colorAttachmentReadNoncoherentBit_EXT: AccessFlags { AccessFlags(rawValue: 1 << 19) }
+    public static var colorAttachmentReadNoncoherentBit_EXT: AccessFlags {
+        AccessFlags(rawValue: 1 << 19)
+    }
 
 
     @inlinable
-    public static var accelerationStructureReadBit_KHR: AccessFlags { AccessFlags(rawValue: 1 << 21) }
+    public static var accelerationStructureReadBit_KHR: AccessFlags {
+        AccessFlags(rawValue: 1 << 21)
+    }
 
 
     @inlinable
-    public static var accelerationStructureWriteBit_KHR: AccessFlags { AccessFlags(rawValue: 1 << 22) }
+    public static var accelerationStructureWriteBit_KHR: AccessFlags {
+        AccessFlags(rawValue: 1 << 22)
+    }
 
 
     @inlinable
-    public static var fragmentDensityMapReadBit_EXT: AccessFlags { AccessFlags(rawValue: 1 << 24) }
+    public static var fragmentDensityMapReadBit_EXT: AccessFlags {
+        AccessFlags(rawValue: 1 << 24)
+    }
 
 
     @inlinable
-    public static var fragmentShadingRateAttachmentReadBit_KHR: AccessFlags { AccessFlags(rawValue: 1 << 23) }
+    public static var fragmentShadingRateAttachmentReadBit_KHR: AccessFlags {
+        AccessFlags(rawValue: 1 << 23)
+    }
 
 
     @inlinable
-    public static var commandPreprocessReadBit_EXT: AccessFlags { AccessFlags(rawValue: 1 << 17) }
+    public static var commandPreprocessReadBit_EXT: AccessFlags {
+        AccessFlags(rawValue: 1 << 17)
+    }
 
 
     @inlinable
-    public static var commandPreprocessWriteBit_EXT: AccessFlags { AccessFlags(rawValue: 1 << 18) }
+    public static var commandPreprocessWriteBit_EXT: AccessFlags {
+        AccessFlags(rawValue: 1 << 18)
+    }
 
 
     @inlinable
-    public static var shadingRateImageReadBit_NV: AccessFlags { self.fragmentShadingRateAttachmentReadBit_KHR }
+    public static var shadingRateImageReadBit_NV: AccessFlags {
+        self.fragmentShadingRateAttachmentReadBit_KHR
+    }
 
 
     @inlinable
-    public static var accelerationStructureReadBit_NV: AccessFlags { self.accelerationStructureReadBit_KHR }
+    public static var accelerationStructureReadBit_NV: AccessFlags {
+        self.accelerationStructureReadBit_KHR
+    }
 
 
     @inlinable
-    public static var accelerationStructureWriteBit_NV: AccessFlags { self.accelerationStructureWriteBit_KHR }
+    public static var accelerationStructureWriteBit_NV: AccessFlags {
+        self.accelerationStructureWriteBit_KHR
+    }
 
 
     @inlinable
-    public static var commandPreprocessReadBit_NV: AccessFlags { self.commandPreprocessReadBit_EXT }
+    public static var commandPreprocessReadBit_NV: AccessFlags {
+        self.commandPreprocessReadBit_EXT
+    }
 
 
     @inlinable
-    public static var commandPreprocessWriteBit_NV: AccessFlags { self.commandPreprocessWriteBit_EXT }
+    public static var commandPreprocessWriteBit_NV: AccessFlags {
+        self.commandPreprocessWriteBit_EXT
+    }
 
 
     @inlinable
-    public static var none_KHR: AccessFlags { self.none }
+    public static var none_KHR: AccessFlags {
+        self.none
+    }
 }
 
 
@@ -216,287 +320,429 @@ public struct AccessFlags2: OptionSet {
 
 
     @inlinable
-    public static var none: AccessFlags2 { AccessFlags2(rawValue: 0) }
+    public static var none: AccessFlags2 {
+        AccessFlags2(rawValue: 0)
+    }
 
 
     @inlinable
-    public static var indirectCommandReadBit: AccessFlags2 { AccessFlags2(rawValue: 1 << 0) }
+    public static var indirectCommandReadBit: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var indexReadBit: AccessFlags2 { AccessFlags2(rawValue: 1 << 1) }
+    public static var indexReadBit: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var vertexAttributeReadBit: AccessFlags2 { AccessFlags2(rawValue: 1 << 2) }
+    public static var vertexAttributeReadBit: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var uniformReadBit: AccessFlags2 { AccessFlags2(rawValue: 1 << 3) }
+    public static var uniformReadBit: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var inputAttachmentReadBit: AccessFlags2 { AccessFlags2(rawValue: 1 << 4) }
+    public static var inputAttachmentReadBit: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var shaderReadBit: AccessFlags2 { AccessFlags2(rawValue: 1 << 5) }
+    public static var shaderReadBit: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var shaderWriteBit: AccessFlags2 { AccessFlags2(rawValue: 1 << 6) }
+    public static var shaderWriteBit: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var colorAttachmentReadBit: AccessFlags2 { AccessFlags2(rawValue: 1 << 7) }
+    public static var colorAttachmentReadBit: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 7)
+    }
 
 
     @inlinable
-    public static var colorAttachmentWriteBit: AccessFlags2 { AccessFlags2(rawValue: 1 << 8) }
+    public static var colorAttachmentWriteBit: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 8)
+    }
 
 
     @inlinable
-    public static var depthStencilAttachmentReadBit: AccessFlags2 { AccessFlags2(rawValue: 1 << 9) }
+    public static var depthStencilAttachmentReadBit: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 9)
+    }
 
 
     @inlinable
-    public static var depthStencilAttachmentWriteBit: AccessFlags2 { AccessFlags2(rawValue: 1 << 10) }
+    public static var depthStencilAttachmentWriteBit: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 10)
+    }
 
 
     @inlinable
-    public static var transferReadBit: AccessFlags2 { AccessFlags2(rawValue: 1 << 11) }
+    public static var transferReadBit: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 11)
+    }
 
 
     @inlinable
-    public static var transferWriteBit: AccessFlags2 { AccessFlags2(rawValue: 1 << 12) }
+    public static var transferWriteBit: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 12)
+    }
 
 
     @inlinable
-    public static var hostReadBit: AccessFlags2 { AccessFlags2(rawValue: 1 << 13) }
+    public static var hostReadBit: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 13)
+    }
 
 
     @inlinable
-    public static var hostWriteBit: AccessFlags2 { AccessFlags2(rawValue: 1 << 14) }
+    public static var hostWriteBit: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 14)
+    }
 
 
     @inlinable
-    public static var memoryReadBit: AccessFlags2 { AccessFlags2(rawValue: 1 << 15) }
+    public static var memoryReadBit: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 15)
+    }
 
 
     @inlinable
-    public static var memoryWriteBit: AccessFlags2 { AccessFlags2(rawValue: 1 << 16) }
+    public static var memoryWriteBit: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 16)
+    }
 
 
     @inlinable
-    public static var shaderSampledReadBit: AccessFlags2 { AccessFlags2(rawValue: 1 << 32) }
+    public static var shaderSampledReadBit: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 32)
+    }
 
 
     @inlinable
-    public static var shaderStorageReadBit: AccessFlags2 { AccessFlags2(rawValue: 1 << 33) }
+    public static var shaderStorageReadBit: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 33)
+    }
 
 
     @inlinable
-    public static var shaderStorageWriteBit: AccessFlags2 { AccessFlags2(rawValue: 1 << 34) }
+    public static var shaderStorageWriteBit: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 34)
+    }
 
 
     @inlinable
-    public static var videoDecodeReadBit_KHR: AccessFlags2 { AccessFlags2(rawValue: 1 << 35) }
+    public static var videoDecodeReadBit_KHR: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 35)
+    }
 
 
     @inlinable
-    public static var videoDecodeWriteBit_KHR: AccessFlags2 { AccessFlags2(rawValue: 1 << 36) }
+    public static var videoDecodeWriteBit_KHR: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 36)
+    }
 
 
     @inlinable
-    public static var videoEncodeReadBit_KHR: AccessFlags2 { AccessFlags2(rawValue: 1 << 37) }
+    public static var videoEncodeReadBit_KHR: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 37)
+    }
 
 
     @inlinable
-    public static var videoEncodeWriteBit_KHR: AccessFlags2 { AccessFlags2(rawValue: 1 << 38) }
+    public static var videoEncodeWriteBit_KHR: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 38)
+    }
 
 
     @inlinable
-    public static var shaderTileAttachmentReadBit_QCOM: AccessFlags2 { AccessFlags2(rawValue: 1 << 51) }
+    public static var shaderTileAttachmentReadBit_QCOM: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 51)
+    }
 
 
     @inlinable
-    public static var shaderTileAttachmentWriteBit_QCOM: AccessFlags2 { AccessFlags2(rawValue: 1 << 52) }
+    public static var shaderTileAttachmentWriteBit_QCOM: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 52)
+    }
 
 
     @inlinable
-    public static var transformFeedbackWriteBit_EXT: AccessFlags2 { AccessFlags2(rawValue: 1 << 25) }
+    public static var transformFeedbackWriteBit_EXT: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 25)
+    }
 
 
     @inlinable
-    public static var transformFeedbackCounterReadBit_EXT: AccessFlags2 { AccessFlags2(rawValue: 1 << 26) }
+    public static var transformFeedbackCounterReadBit_EXT: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 26)
+    }
 
 
     @inlinable
-    public static var transformFeedbackCounterWriteBit_EXT: AccessFlags2 { AccessFlags2(rawValue: 1 << 27) }
+    public static var transformFeedbackCounterWriteBit_EXT: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 27)
+    }
 
 
     @inlinable
-    public static var conditionalRenderingReadBit_EXT: AccessFlags2 { AccessFlags2(rawValue: 1 << 20) }
+    public static var conditionalRenderingReadBit_EXT: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 20)
+    }
 
 
     @inlinable
-    public static var commandPreprocessReadBit_EXT: AccessFlags2 { AccessFlags2(rawValue: 1 << 17) }
+    public static var commandPreprocessReadBit_EXT: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 17)
+    }
 
 
     @inlinable
-    public static var commandPreprocessWriteBit_EXT: AccessFlags2 { AccessFlags2(rawValue: 1 << 18) }
+    public static var commandPreprocessWriteBit_EXT: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 18)
+    }
 
 
     @inlinable
-    public static var fragmentShadingRateAttachmentReadBit_KHR: AccessFlags2 { AccessFlags2(rawValue: 1 << 23) }
+    public static var fragmentShadingRateAttachmentReadBit_KHR: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 23)
+    }
 
 
     @inlinable
-    public static var accelerationStructureReadBit_KHR: AccessFlags2 { AccessFlags2(rawValue: 1 << 21) }
+    public static var accelerationStructureReadBit_KHR: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 21)
+    }
 
 
     @inlinable
-    public static var accelerationStructureWriteBit_KHR: AccessFlags2 { AccessFlags2(rawValue: 1 << 22) }
+    public static var accelerationStructureWriteBit_KHR: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 22)
+    }
 
 
     @inlinable
-    public static var fragmentDensityMapReadBit_EXT: AccessFlags2 { AccessFlags2(rawValue: 1 << 24) }
+    public static var fragmentDensityMapReadBit_EXT: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 24)
+    }
 
 
     @inlinable
-    public static var colorAttachmentReadNoncoherentBit_EXT: AccessFlags2 { AccessFlags2(rawValue: 1 << 19) }
+    public static var colorAttachmentReadNoncoherentBit_EXT: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 19)
+    }
 
 
     @inlinable
-    public static var descriptorBufferReadBit_EXT: AccessFlags2 { AccessFlags2(rawValue: 1 << 41) }
+    public static var descriptorBufferReadBit_EXT: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 41)
+    }
 
 
     @inlinable
-    public static var invocationMaskReadBit_HUAWEI: AccessFlags2 { AccessFlags2(rawValue: 1 << 39) }
+    public static var invocationMaskReadBit_HUAWEI: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 39)
+    }
 
 
     @inlinable
-    public static var shaderBindingTableReadBit_KHR: AccessFlags2 { AccessFlags2(rawValue: 1 << 40) }
+    public static var shaderBindingTableReadBit_KHR: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 40)
+    }
 
 
     @inlinable
-    public static var micromapReadBit_EXT: AccessFlags2 { AccessFlags2(rawValue: 1 << 44) }
+    public static var micromapReadBit_EXT: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 44)
+    }
 
 
     @inlinable
-    public static var micromapWriteBit_EXT: AccessFlags2 { AccessFlags2(rawValue: 1 << 45) }
+    public static var micromapWriteBit_EXT: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 45)
+    }
 
 
     @inlinable
-    public static var opticalFlowReadBit_NV: AccessFlags2 { AccessFlags2(rawValue: 1 << 42) }
+    public static var opticalFlowReadBit_NV: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 42)
+    }
 
 
     @inlinable
-    public static var opticalFlowWriteBit_NV: AccessFlags2 { AccessFlags2(rawValue: 1 << 43) }
+    public static var opticalFlowWriteBit_NV: AccessFlags2 {
+        AccessFlags2(rawValue: 1 << 43)
+    }
 
 
     @inlinable
-    public static var none_KHR: AccessFlags2 { self.none }
+    public static var none_KHR: AccessFlags2 {
+        self.none
+    }
 
 
     @inlinable
-    public static var indirectCommandReadBit_KHR: AccessFlags2 { self.indirectCommandReadBit }
+    public static var indirectCommandReadBit_KHR: AccessFlags2 {
+        self.indirectCommandReadBit
+    }
 
 
     @inlinable
-    public static var indexReadBit_KHR: AccessFlags2 { self.indexReadBit }
+    public static var indexReadBit_KHR: AccessFlags2 {
+        self.indexReadBit
+    }
 
 
     @inlinable
-    public static var vertexAttributeReadBit_KHR: AccessFlags2 { self.vertexAttributeReadBit }
+    public static var vertexAttributeReadBit_KHR: AccessFlags2 {
+        self.vertexAttributeReadBit
+    }
 
 
     @inlinable
-    public static var uniformReadBit_KHR: AccessFlags2 { self.uniformReadBit }
+    public static var uniformReadBit_KHR: AccessFlags2 {
+        self.uniformReadBit
+    }
 
 
     @inlinable
-    public static var inputAttachmentReadBit_KHR: AccessFlags2 { self.inputAttachmentReadBit }
+    public static var inputAttachmentReadBit_KHR: AccessFlags2 {
+        self.inputAttachmentReadBit
+    }
 
 
     @inlinable
-    public static var shaderReadBit_KHR: AccessFlags2 { self.shaderReadBit }
+    public static var shaderReadBit_KHR: AccessFlags2 {
+        self.shaderReadBit
+    }
 
 
     @inlinable
-    public static var shaderWriteBit_KHR: AccessFlags2 { self.shaderWriteBit }
+    public static var shaderWriteBit_KHR: AccessFlags2 {
+        self.shaderWriteBit
+    }
 
 
     @inlinable
-    public static var colorAttachmentReadBit_KHR: AccessFlags2 { self.colorAttachmentReadBit }
+    public static var colorAttachmentReadBit_KHR: AccessFlags2 {
+        self.colorAttachmentReadBit
+    }
 
 
     @inlinable
-    public static var colorAttachmentWriteBit_KHR: AccessFlags2 { self.colorAttachmentWriteBit }
+    public static var colorAttachmentWriteBit_KHR: AccessFlags2 {
+        self.colorAttachmentWriteBit
+    }
 
 
     @inlinable
-    public static var depthStencilAttachmentReadBit_KHR: AccessFlags2 { self.depthStencilAttachmentReadBit }
+    public static var depthStencilAttachmentReadBit_KHR: AccessFlags2 {
+        self.depthStencilAttachmentReadBit
+    }
 
 
     @inlinable
-    public static var depthStencilAttachmentWriteBit_KHR: AccessFlags2 { self.depthStencilAttachmentWriteBit }
+    public static var depthStencilAttachmentWriteBit_KHR: AccessFlags2 {
+        self.depthStencilAttachmentWriteBit
+    }
 
 
     @inlinable
-    public static var transferReadBit_KHR: AccessFlags2 { self.transferReadBit }
+    public static var transferReadBit_KHR: AccessFlags2 {
+        self.transferReadBit
+    }
 
 
     @inlinable
-    public static var transferWriteBit_KHR: AccessFlags2 { self.transferWriteBit }
+    public static var transferWriteBit_KHR: AccessFlags2 {
+        self.transferWriteBit
+    }
 
 
     @inlinable
-    public static var hostReadBit_KHR: AccessFlags2 { self.hostReadBit }
+    public static var hostReadBit_KHR: AccessFlags2 {
+        self.hostReadBit
+    }
 
 
     @inlinable
-    public static var hostWriteBit_KHR: AccessFlags2 { self.hostWriteBit }
+    public static var hostWriteBit_KHR: AccessFlags2 {
+        self.hostWriteBit
+    }
 
 
     @inlinable
-    public static var memoryReadBit_KHR: AccessFlags2 { self.memoryReadBit }
+    public static var memoryReadBit_KHR: AccessFlags2 {
+        self.memoryReadBit
+    }
 
 
     @inlinable
-    public static var memoryWriteBit_KHR: AccessFlags2 { self.memoryWriteBit }
+    public static var memoryWriteBit_KHR: AccessFlags2 {
+        self.memoryWriteBit
+    }
 
 
     @inlinable
-    public static var shaderSampledReadBit_KHR: AccessFlags2 { self.shaderSampledReadBit }
+    public static var shaderSampledReadBit_KHR: AccessFlags2 {
+        self.shaderSampledReadBit
+    }
 
 
     @inlinable
-    public static var shaderStorageReadBit_KHR: AccessFlags2 { self.shaderStorageReadBit }
+    public static var shaderStorageReadBit_KHR: AccessFlags2 {
+        self.shaderStorageReadBit
+    }
 
 
     @inlinable
-    public static var shaderStorageWriteBit_KHR: AccessFlags2 { self.shaderStorageWriteBit }
+    public static var shaderStorageWriteBit_KHR: AccessFlags2 {
+        self.shaderStorageWriteBit
+    }
 
 
     @inlinable
-    public static var commandPreprocessReadBit_NV: AccessFlags2 { self.commandPreprocessReadBit_EXT }
+    public static var commandPreprocessReadBit_NV: AccessFlags2 {
+        self.commandPreprocessReadBit_EXT
+    }
 
 
     @inlinable
-    public static var commandPreprocessWriteBit_NV: AccessFlags2 { self.commandPreprocessWriteBit_EXT }
+    public static var commandPreprocessWriteBit_NV: AccessFlags2 {
+        self.commandPreprocessWriteBit_EXT
+    }
 
 
     @inlinable
-    public static var shadingRateImageReadBit_NV: AccessFlags2 { self.fragmentShadingRateAttachmentReadBit_KHR }
+    public static var shadingRateImageReadBit_NV: AccessFlags2 {
+        self.fragmentShadingRateAttachmentReadBit_KHR
+    }
 
 
     @inlinable
-    public static var accelerationStructureReadBit_NV: AccessFlags2 { self.accelerationStructureReadBit_KHR }
+    public static var accelerationStructureReadBit_NV: AccessFlags2 {
+        self.accelerationStructureReadBit_KHR
+    }
 
 
     @inlinable
-    public static var accelerationStructureWriteBit_NV: AccessFlags2 { self.accelerationStructureWriteBit_KHR }
+    public static var accelerationStructureWriteBit_NV: AccessFlags2 {
+        self.accelerationStructureWriteBit_KHR
+    }
 }
 
 
@@ -515,7 +761,9 @@ public struct AccessFlags3KHR: OptionSet {
 
 
     @inlinable
-    public static var none_KHR: AccessFlags3KHR { AccessFlags3KHR(rawValue: 0) }
+    public static var none_KHR: AccessFlags3KHR {
+        AccessFlags3KHR(rawValue: 0)
+    }
 }
 
 
@@ -524,6 +772,26 @@ public struct AcquireProfilingLockFlagsKHR: OptionSet {
     public let rawValue: UInt32
 
     /// Initilizes an instance of `AcquireProfilingLockFlagsKHR` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+#if !PlatformAndroid
+    @available(*, unavailable, message: "This flag requires the following trait: PlatformAndroid.")
+#endif
+public struct AndroidSurfaceCreateFlagsKHR: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `AndroidSurfaceCreateFlagsKHR` using a raw value.
     /// This shouldn't normally be used directly, but is provided for completeness.
     /// Instead, use the static properties provided by this type which represent the individual flags.
     /// - Parameter rawValue: The raw value to initialize to.
@@ -551,7 +819,9 @@ public struct AttachmentDescriptionFlags: OptionSet {
 
 
     @inlinable
-    public static var mayAlias: AttachmentDescriptionFlags { AttachmentDescriptionFlags(rawValue: 1 << 0) }
+    public static var mayAlias: AttachmentDescriptionFlags {
+        AttachmentDescriptionFlags(rawValue: 1 << 0)
+    }
 }
 
 
@@ -570,39 +840,57 @@ public struct BufferCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var sparseBinding: BufferCreateFlags { BufferCreateFlags(rawValue: 1 << 0) }
+    public static var sparseBinding: BufferCreateFlags {
+        BufferCreateFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var sparseResidency: BufferCreateFlags { BufferCreateFlags(rawValue: 1 << 1) }
+    public static var sparseResidency: BufferCreateFlags {
+        BufferCreateFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var sparseAliased: BufferCreateFlags { BufferCreateFlags(rawValue: 1 << 2) }
+    public static var sparseAliased: BufferCreateFlags {
+        BufferCreateFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var protected: BufferCreateFlags { BufferCreateFlags(rawValue: 1 << 3) }
+    public static var protected: BufferCreateFlags {
+        BufferCreateFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var deviceAddressCaptureReplay: BufferCreateFlags { BufferCreateFlags(rawValue: 1 << 4) }
+    public static var deviceAddressCaptureReplay: BufferCreateFlags {
+        BufferCreateFlags(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var descriptorBufferCaptureReplay_EXT: BufferCreateFlags { BufferCreateFlags(rawValue: 1 << 5) }
+    public static var descriptorBufferCaptureReplay_EXT: BufferCreateFlags {
+        BufferCreateFlags(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var videoProfileIndependent_KHR: BufferCreateFlags { BufferCreateFlags(rawValue: 1 << 6) }
+    public static var videoProfileIndependent_KHR: BufferCreateFlags {
+        BufferCreateFlags(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var deviceAddressCaptureReplay_EXT: BufferCreateFlags { self.deviceAddressCaptureReplay }
+    public static var deviceAddressCaptureReplay_EXT: BufferCreateFlags {
+        self.deviceAddressCaptureReplay
+    }
 
 
     @inlinable
-    public static var deviceAddressCaptureReplay_KHR: BufferCreateFlags { self.deviceAddressCaptureReplay }
+    public static var deviceAddressCaptureReplay_KHR: BufferCreateFlags {
+        self.deviceAddressCaptureReplay
+    }
 }
 
 
@@ -621,126 +909,186 @@ public struct BufferUsageFlags: OptionSet {
 
 
     @inlinable
-    public static var transferSrc: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 0) }
+    public static var transferSrc: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var transferDst: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 1) }
+    public static var transferDst: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var uniformTexelBuffer: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 2) }
+    public static var uniformTexelBuffer: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var storageTexelBuffer: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 3) }
+    public static var storageTexelBuffer: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var uniformBuffer: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 4) }
+    public static var uniformBuffer: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var storageBuffer: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 5) }
+    public static var storageBuffer: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var indexBuffer: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 6) }
+    public static var indexBuffer: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var vertexBuffer: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 7) }
+    public static var vertexBuffer: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 7)
+    }
 
 
     @inlinable
-    public static var indirectBuffer: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 8) }
+    public static var indirectBuffer: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 8)
+    }
 
 
     @inlinable
-    public static var shaderDeviceAddress: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 17) }
+    public static var shaderDeviceAddress: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 17)
+    }
 
 
     @inlinable
-    public static var videoDecodeSrc_KHR: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 13) }
+    public static var videoDecodeSrc_KHR: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 13)
+    }
 
 
     @inlinable
-    public static var videoDecodeDst_KHR: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 14) }
+    public static var videoDecodeDst_KHR: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 14)
+    }
 
 
     @inlinable
-    public static var transformFeedbackBuffer_EXT: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 11) }
+    public static var transformFeedbackBuffer_EXT: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 11)
+    }
 
 
     @inlinable
-    public static var transformFeedbackCounterBuffer_EXT: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 12) }
+    public static var transformFeedbackCounterBuffer_EXT: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 12)
+    }
 
 
     @inlinable
-    public static var conditionalRendering_EXT: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 9) }
+    public static var conditionalRendering_EXT: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 9)
+    }
 
 
     #if !EnableProvisional
         @available(*, unavailable, message: "This flag requires the following trait: EnableProvisional.")
     #endif
     @inlinable
-    public static var executionGraphScratch_AMDX: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 25) }
+    public static var executionGraphScratch_AMDX: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 25)
+    }
 
 
     @inlinable
-    public static var accelerationStructureBuildInputReadOnly_KHR: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 19) }
+    public static var accelerationStructureBuildInputReadOnly_KHR: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 19)
+    }
 
 
     @inlinable
-    public static var accelerationStructureStorage_KHR: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 20) }
+    public static var accelerationStructureStorage_KHR: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 20)
+    }
 
 
     @inlinable
-    public static var shaderBindingTable_KHR: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 10) }
+    public static var shaderBindingTable_KHR: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 10)
+    }
 
 
     @inlinable
-    public static var videoEncodeDst_KHR: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 15) }
+    public static var videoEncodeDst_KHR: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 15)
+    }
 
 
     @inlinable
-    public static var videoEncodeSrc_KHR: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 16) }
+    public static var videoEncodeSrc_KHR: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 16)
+    }
 
 
     @inlinable
-    public static var samplerDescriptorBuffer_EXT: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 21) }
+    public static var samplerDescriptorBuffer_EXT: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 21)
+    }
 
 
     @inlinable
-    public static var resourceDescriptorBuffer_EXT: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 22) }
+    public static var resourceDescriptorBuffer_EXT: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 22)
+    }
 
 
     @inlinable
-    public static var pushDescriptorsDescriptorBuffer_EXT: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 26) }
+    public static var pushDescriptorsDescriptorBuffer_EXT: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 26)
+    }
 
 
     @inlinable
-    public static var micromapBuildInputReadOnly_EXT: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 23) }
+    public static var micromapBuildInputReadOnly_EXT: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 23)
+    }
 
 
     @inlinable
-    public static var micromapStorage_EXT: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 24) }
+    public static var micromapStorage_EXT: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 24)
+    }
 
 
     @inlinable
-    public static var tileMemory_QCOM: BufferUsageFlags { BufferUsageFlags(rawValue: 1 << 27) }
+    public static var tileMemory_QCOM: BufferUsageFlags {
+        BufferUsageFlags(rawValue: 1 << 27)
+    }
 
 
     @inlinable
-    public static var rayTracing_NV: BufferUsageFlags { self.shaderBindingTable_KHR }
+    public static var rayTracing_NV: BufferUsageFlags {
+        self.shaderBindingTable_KHR
+    }
 
 
     @inlinable
-    public static var shaderDeviceAddress_EXT: BufferUsageFlags { self.shaderDeviceAddress }
+    public static var shaderDeviceAddress_EXT: BufferUsageFlags {
+        self.shaderDeviceAddress
+    }
 
 
     @inlinable
-    public static var shaderDeviceAddress_KHR: BufferUsageFlags { self.shaderDeviceAddress }
+    public static var shaderDeviceAddress_KHR: BufferUsageFlags {
+        self.shaderDeviceAddress
+    }
 }
 
 
@@ -759,162 +1107,257 @@ public struct BufferUsageFlags2: OptionSet {
 
 
     @inlinable
-    public static var transferSrc: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 0) }
+    public static var transferSrc: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var transferDst: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 1) }
+    public static var transferDst: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var uniformTexelBuffer: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 2) }
+    public static var uniformTexelBuffer: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var storageTexelBuffer: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 3) }
+    public static var storageTexelBuffer: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var uniformBuffer: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 4) }
+    public static var uniformBuffer: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var storageBuffer: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 5) }
+    public static var storageBuffer: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var indexBuffer: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 6) }
+    public static var indexBuffer: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var vertexBuffer: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 7) }
+    public static var vertexBuffer: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 7)
+    }
 
 
     @inlinable
-    public static var indirectBuffer: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 8) }
+    public static var indirectBuffer: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 8)
+    }
 
 
     @inlinable
-    public static var shaderDeviceAddress: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 17) }
+    public static var shaderDeviceAddress: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 17)
+    }
 
 
     #if !EnableProvisional
         @available(*, unavailable, message: "This flag requires the following trait: EnableProvisional.")
     #endif
     @inlinable
-    public static var executionGraphScratch_AMDX: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 25) }
+    public static var executionGraphScratch_AMDX: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 25)
+    }
 
 
     @inlinable
-    public static var conditionalRendering_EXT: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 9) }
+    public static var conditionalRendering_EXT: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 9)
+    }
 
 
     @inlinable
-    public static var shaderBindingTable_KHR: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 10) }
+    public static var shaderBindingTable_KHR: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 10)
+    }
 
 
     @inlinable
-    public static var transformFeedbackBuffer_EXT: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 11) }
+    public static var transformFeedbackBuffer_EXT: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 11)
+    }
 
 
     @inlinable
-    public static var transformFeedbackCounterBuffer_EXT: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 12) }
+    public static var transformFeedbackCounterBuffer_EXT: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 12)
+    }
 
 
     @inlinable
-    public static var videoDecodeSrc_KHR: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 13) }
+    public static var videoDecodeSrc_KHR: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 13)
+    }
 
 
     @inlinable
-    public static var videoDecodeDst_KHR: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 14) }
+    public static var videoDecodeDst_KHR: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 14)
+    }
 
 
     @inlinable
-    public static var videoEncodeDst_KHR: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 15) }
+    public static var videoEncodeDst_KHR: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 15)
+    }
 
 
     @inlinable
-    public static var videoEncodeSrc_KHR: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 16) }
+    public static var videoEncodeSrc_KHR: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 16)
+    }
 
 
     @inlinable
-    public static var accelerationStructureBuildInputReadOnly_KHR: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 19) }
+    public static var accelerationStructureBuildInputReadOnly_KHR: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 19)
+    }
 
 
     @inlinable
-    public static var accelerationStructureStorage_KHR: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 20) }
+    public static var accelerationStructureStorage_KHR: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 20)
+    }
 
 
     @inlinable
-    public static var samplerDescriptorBuffer_EXT: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 21) }
+    public static var samplerDescriptorBuffer_EXT: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 21)
+    }
 
 
     @inlinable
-    public static var resourceDescriptorBuffer_EXT: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 22) }
+    public static var resourceDescriptorBuffer_EXT: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 22)
+    }
 
 
     @inlinable
-    public static var pushDescriptorsDescriptorBuffer_EXT: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 26) }
+    public static var pushDescriptorsDescriptorBuffer_EXT: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 26)
+    }
 
 
     @inlinable
-    public static var micromapBuildInputReadOnly_EXT: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 23) }
+    public static var micromapBuildInputReadOnly_EXT: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 23)
+    }
 
 
     @inlinable
-    public static var micromapStorage_EXT: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 24) }
+    public static var micromapStorage_EXT: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 24)
+    }
 
 
     @inlinable
-    public static var tileMemory_QCOM: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 27) }
+    public static var tileMemory_QCOM: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 27)
+    }
 
 
     @inlinable
-    public static var preprocessBuffer_EXT: BufferUsageFlags2 { BufferUsageFlags2(rawValue: 1 << 31) }
+    public static var preprocessBuffer_EXT: BufferUsageFlags2 {
+        BufferUsageFlags2(rawValue: 1 << 31)
+    }
 
 
     @inlinable
-    public static var transferSrc_KHR: BufferUsageFlags2 { self.transferSrc }
+    public static var transferSrc_KHR: BufferUsageFlags2 {
+        self.transferSrc
+    }
 
 
     @inlinable
-    public static var transferDst_KHR: BufferUsageFlags2 { self.transferDst }
+    public static var transferDst_KHR: BufferUsageFlags2 {
+        self.transferDst
+    }
 
 
     @inlinable
-    public static var uniformTexelBuffer_KHR: BufferUsageFlags2 { self.uniformTexelBuffer }
+    public static var uniformTexelBuffer_KHR: BufferUsageFlags2 {
+        self.uniformTexelBuffer
+    }
 
 
     @inlinable
-    public static var storageTexelBuffer_KHR: BufferUsageFlags2 { self.storageTexelBuffer }
+    public static var storageTexelBuffer_KHR: BufferUsageFlags2 {
+        self.storageTexelBuffer
+    }
 
 
     @inlinable
-    public static var uniformBuffer_KHR: BufferUsageFlags2 { self.uniformBuffer }
+    public static var uniformBuffer_KHR: BufferUsageFlags2 {
+        self.uniformBuffer
+    }
 
 
     @inlinable
-    public static var storageBuffer_KHR: BufferUsageFlags2 { self.storageBuffer }
+    public static var storageBuffer_KHR: BufferUsageFlags2 {
+        self.storageBuffer
+    }
 
 
     @inlinable
-    public static var indexBuffer_KHR: BufferUsageFlags2 { self.indexBuffer }
+    public static var indexBuffer_KHR: BufferUsageFlags2 {
+        self.indexBuffer
+    }
 
 
     @inlinable
-    public static var vertexBuffer_KHR: BufferUsageFlags2 { self.vertexBuffer }
+    public static var vertexBuffer_KHR: BufferUsageFlags2 {
+        self.vertexBuffer
+    }
 
 
     @inlinable
-    public static var indirectBuffer_KHR: BufferUsageFlags2 { self.indirectBuffer }
+    public static var indirectBuffer_KHR: BufferUsageFlags2 {
+        self.indirectBuffer
+    }
 
 
     @inlinable
-    public static var rayTracing_NV: BufferUsageFlags2 { self.shaderBindingTable_KHR }
+    public static var rayTracing_NV: BufferUsageFlags2 {
+        self.shaderBindingTable_KHR
+    }
 
 
     @inlinable
-    public static var shaderDeviceAddress_KHR: BufferUsageFlags2 { self.shaderDeviceAddress }
+    public static var shaderDeviceAddress_KHR: BufferUsageFlags2 {
+        self.shaderDeviceAddress
+    }
+}
+
+
+public struct BufferViewCreateFlags: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `BufferViewCreateFlags` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -969,19 +1412,19 @@ public struct BuildAccelerationStructureFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var allowOpacityMicromapUpdate_EXT: BuildAccelerationStructureFlagsKHR {
+    public static var allowOpacityMicromapUpdateBit_EXT: BuildAccelerationStructureFlagsKHR {
         BuildAccelerationStructureFlagsKHR(rawValue: 1 << 6)
     }
 
 
     @inlinable
-    public static var allowDisableOpacityMicromaps_EXT: BuildAccelerationStructureFlagsKHR {
+    public static var allowDisableOpacityMicromapsBit_EXT: BuildAccelerationStructureFlagsKHR {
         BuildAccelerationStructureFlagsKHR(rawValue: 1 << 7)
     }
 
 
     @inlinable
-    public static var allowOpacityMicromapDataUpdate_EXT: BuildAccelerationStructureFlagsKHR {
+    public static var allowOpacityMicromapDataUpdateBit_EXT: BuildAccelerationStructureFlagsKHR {
         BuildAccelerationStructureFlagsKHR(rawValue: 1 << 8)
     }
 
@@ -990,35 +1433,82 @@ public struct BuildAccelerationStructureFlagsKHR: OptionSet {
         @available(*, unavailable, message: "This flag requires the following trait: EnableProvisional.")
     #endif
     @inlinable
-    public static var allowDisplacementMicromapUpdate_NV: BuildAccelerationStructureFlagsKHR {
+    public static var allowDisplacementMicromapUpdateBit_NV: BuildAccelerationStructureFlagsKHR {
         BuildAccelerationStructureFlagsKHR(rawValue: 1 << 9)
     }
 
 
     @inlinable
-    public static var allowDataAccess_KHR: BuildAccelerationStructureFlagsKHR {
+    public static var allowDataAccessBit_KHR: BuildAccelerationStructureFlagsKHR {
         BuildAccelerationStructureFlagsKHR(rawValue: 1 << 11)
     }
 
 
     @inlinable
-    public static var allowUpdateBit_NV: BuildAccelerationStructureFlagsKHR { self.allowUpdateBit_KHR }
+    public static var allowUpdateBit_NV: BuildAccelerationStructureFlagsKHR {
+        self.allowUpdateBit_KHR
+    }
 
 
     @inlinable
-    public static var allowCompactionBit_NV: BuildAccelerationStructureFlagsKHR { self.allowCompactionBit_KHR }
+    public static var allowCompactionBit_NV: BuildAccelerationStructureFlagsKHR {
+        self.allowCompactionBit_KHR
+    }
 
 
     @inlinable
-    public static var preferFastTraceBit_NV: BuildAccelerationStructureFlagsKHR { self.preferFastTraceBit_KHR }
+    public static var preferFastTraceBit_NV: BuildAccelerationStructureFlagsKHR {
+        self.preferFastTraceBit_KHR
+    }
 
 
     @inlinable
-    public static var preferFastBuildBit_NV: BuildAccelerationStructureFlagsKHR { self.preferFastBuildBit_KHR }
+    public static var preferFastBuildBit_NV: BuildAccelerationStructureFlagsKHR {
+        self.preferFastBuildBit_KHR
+    }
 
 
     @inlinable
-    public static var lowMemoryBit_NV: BuildAccelerationStructureFlagsKHR { self.lowMemoryBit_KHR }
+    public static var lowMemoryBit_NV: BuildAccelerationStructureFlagsKHR {
+        self.lowMemoryBit_KHR
+    }
+
+
+    @inlinable
+    public static var allowOpacityMicromapUpdate_EXT: BuildAccelerationStructureFlagsKHR {
+        self.allowOpacityMicromapUpdateBit_EXT
+    }
+
+
+    @inlinable
+    public static var allowDisableOpacityMicromaps_EXT: BuildAccelerationStructureFlagsKHR {
+        self.allowDisableOpacityMicromapsBit_EXT
+    }
+
+
+    @inlinable
+    public static var allowOpacityMicromapDataUpdate_EXT: BuildAccelerationStructureFlagsKHR {
+        self.allowOpacityMicromapDataUpdateBit_EXT
+    }
+
+
+    #if !EnableProvisional
+        @available(*, unavailable, message: "This flag requires the following trait: EnableProvisional.")
+    #endif
+    @inlinable
+    public static var allowDisplacementMicromapUpdate_NV: BuildAccelerationStructureFlagsKHR {
+        #if EnableProvisional
+            self.allowDisplacementMicromapUpdateBit_NV
+        #else
+            fatalError("This flag is unavailable")
+        #endif
+    }
+
+
+    @inlinable
+    public static var allowDataAccess_KHR: BuildAccelerationStructureFlagsKHR {
+        self.allowDataAccessBit_KHR
+    }
 }
 
 
@@ -1037,15 +1527,21 @@ public struct BuildMicromapFlagsEXT: OptionSet {
 
 
     @inlinable
-    public static var preferFastTrace_EXT: BuildMicromapFlagsEXT { BuildMicromapFlagsEXT(rawValue: 1 << 0) }
+    public static var preferFastTrace_EXT: BuildMicromapFlagsEXT {
+        BuildMicromapFlagsEXT(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var preferFastBuild_EXT: BuildMicromapFlagsEXT { BuildMicromapFlagsEXT(rawValue: 1 << 1) }
+    public static var preferFastBuild_EXT: BuildMicromapFlagsEXT {
+        BuildMicromapFlagsEXT(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var allowCompaction_EXT: BuildMicromapFlagsEXT { BuildMicromapFlagsEXT(rawValue: 1 << 2) }
+    public static var allowCompaction_EXT: BuildMicromapFlagsEXT {
+        BuildMicromapFlagsEXT(rawValue: 1 << 2)
+    }
 }
 
 
@@ -1202,19 +1698,27 @@ public struct ColorComponentFlags: OptionSet {
 
 
     @inlinable
-    public static var r: ColorComponentFlags { ColorComponentFlags(rawValue: 1 << 0) }
+    public static var r: ColorComponentFlags {
+        ColorComponentFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var g: ColorComponentFlags { ColorComponentFlags(rawValue: 1 << 1) }
+    public static var g: ColorComponentFlags {
+        ColorComponentFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var b: ColorComponentFlags { ColorComponentFlags(rawValue: 1 << 2) }
+    public static var b: ColorComponentFlags {
+        ColorComponentFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var a: ColorComponentFlags { ColorComponentFlags(rawValue: 1 << 3) }
+    public static var a: ColorComponentFlags {
+        ColorComponentFlags(rawValue: 1 << 3)
+    }
 }
 
 
@@ -1233,7 +1737,9 @@ public struct CommandBufferResetFlags: OptionSet {
 
 
     @inlinable
-    public static var releaseResources: CommandBufferResetFlags { CommandBufferResetFlags(rawValue: 1 << 0) }
+    public static var releaseResources: CommandBufferResetFlags {
+        CommandBufferResetFlags(rawValue: 1 << 0)
+    }
 }
 
 
@@ -1252,15 +1758,21 @@ public struct CommandBufferUsageFlags: OptionSet {
 
 
     @inlinable
-    public static var oneTimeSubmit: CommandBufferUsageFlags { CommandBufferUsageFlags(rawValue: 1 << 0) }
+    public static var oneTimeSubmit: CommandBufferUsageFlags {
+        CommandBufferUsageFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var renderPassContinue: CommandBufferUsageFlags { CommandBufferUsageFlags(rawValue: 1 << 1) }
+    public static var renderPassContinue: CommandBufferUsageFlags {
+        CommandBufferUsageFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var simultaneousUse: CommandBufferUsageFlags { CommandBufferUsageFlags(rawValue: 1 << 2) }
+    public static var simultaneousUse: CommandBufferUsageFlags {
+        CommandBufferUsageFlags(rawValue: 1 << 2)
+    }
 }
 
 
@@ -1279,15 +1791,21 @@ public struct CommandPoolCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var transient: CommandPoolCreateFlags { CommandPoolCreateFlags(rawValue: 1 << 0) }
+    public static var transient: CommandPoolCreateFlags {
+        CommandPoolCreateFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var resetCommandBuffer: CommandPoolCreateFlags { CommandPoolCreateFlags(rawValue: 1 << 1) }
+    public static var resetCommandBuffer: CommandPoolCreateFlags {
+        CommandPoolCreateFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var protected: CommandPoolCreateFlags { CommandPoolCreateFlags(rawValue: 1 << 2) }
+    public static var protected: CommandPoolCreateFlags {
+        CommandPoolCreateFlags(rawValue: 1 << 2)
+    }
 }
 
 
@@ -1306,7 +1824,26 @@ public struct CommandPoolResetFlags: OptionSet {
 
 
     @inlinable
-    public static var releaseResources: CommandPoolResetFlags { CommandPoolResetFlags(rawValue: 1 << 0) }
+    public static var releaseResources: CommandPoolResetFlags {
+        CommandPoolResetFlags(rawValue: 1 << 0)
+    }
+}
+
+
+public struct CommandPoolTrimFlags: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `CommandPoolTrimFlags` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -1325,19 +1862,27 @@ public struct CompositeAlphaFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var opaque_KHR: CompositeAlphaFlagsKHR { CompositeAlphaFlagsKHR(rawValue: 1 << 0) }
+    public static var opaque_KHR: CompositeAlphaFlagsKHR {
+        CompositeAlphaFlagsKHR(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var preMultiplied_KHR: CompositeAlphaFlagsKHR { CompositeAlphaFlagsKHR(rawValue: 1 << 1) }
+    public static var preMultiplied_KHR: CompositeAlphaFlagsKHR {
+        CompositeAlphaFlagsKHR(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var postMultiplied_KHR: CompositeAlphaFlagsKHR { CompositeAlphaFlagsKHR(rawValue: 1 << 2) }
+    public static var postMultiplied_KHR: CompositeAlphaFlagsKHR {
+        CompositeAlphaFlagsKHR(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var inherit_KHR: CompositeAlphaFlagsKHR { CompositeAlphaFlagsKHR(rawValue: 1 << 3) }
+    public static var inherit_KHR: CompositeAlphaFlagsKHR {
+        CompositeAlphaFlagsKHR(rawValue: 1 << 3)
+    }
 }
 
 
@@ -1356,7 +1901,9 @@ public struct ConditionalRenderingFlagsEXT: OptionSet {
 
 
     @inlinable
-    public static var inverted_EXT: ConditionalRenderingFlagsEXT { ConditionalRenderingFlagsEXT(rawValue: 1 << 0) }
+    public static var inverted_EXT: ConditionalRenderingFlagsEXT {
+        ConditionalRenderingFlagsEXT(rawValue: 1 << 0)
+    }
 }
 
 
@@ -1375,19 +1922,27 @@ public struct CullModeFlags: OptionSet {
 
 
     @inlinable
-    public static var none: CullModeFlags { CullModeFlags(rawValue: 0) }
+    public static var none: CullModeFlags {
+        CullModeFlags(rawValue: 0)
+    }
 
 
     @inlinable
-    public static var frontBit: CullModeFlags { CullModeFlags(rawValue: 1 << 0) }
+    public static var frontBit: CullModeFlags {
+        CullModeFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var backBit: CullModeFlags { CullModeFlags(rawValue: 1 << 1) }
+    public static var backBit: CullModeFlags {
+        CullModeFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var frontAndBack: CullModeFlags { CullModeFlags(rawValue: 0x0000_0003) }
+    public static var frontAndBack: CullModeFlags {
+        CullModeFlags(rawValue: 0x0000_0003)
+    }
 }
 
 
@@ -1406,23 +1961,33 @@ public struct DebugReportFlagsEXT: OptionSet {
 
 
     @inlinable
-    public static var information_EXT: DebugReportFlagsEXT { DebugReportFlagsEXT(rawValue: 1 << 0) }
+    public static var information_EXT: DebugReportFlagsEXT {
+        DebugReportFlagsEXT(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var warning_EXT: DebugReportFlagsEXT { DebugReportFlagsEXT(rawValue: 1 << 1) }
+    public static var warning_EXT: DebugReportFlagsEXT {
+        DebugReportFlagsEXT(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var performanceWarning_EXT: DebugReportFlagsEXT { DebugReportFlagsEXT(rawValue: 1 << 2) }
+    public static var performanceWarning_EXT: DebugReportFlagsEXT {
+        DebugReportFlagsEXT(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var error_EXT: DebugReportFlagsEXT { DebugReportFlagsEXT(rawValue: 1 << 3) }
+    public static var error_EXT: DebugReportFlagsEXT {
+        DebugReportFlagsEXT(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var debug_EXT: DebugReportFlagsEXT { DebugReportFlagsEXT(rawValue: 1 << 4) }
+    public static var debug_EXT: DebugReportFlagsEXT {
+        DebugReportFlagsEXT(rawValue: 1 << 4)
+    }
 }
 
 
@@ -1441,19 +2006,27 @@ public struct DebugUtilsMessageSeverityFlagsEXT: OptionSet {
 
 
     @inlinable
-    public static var verbose_EXT: DebugUtilsMessageSeverityFlagsEXT { DebugUtilsMessageSeverityFlagsEXT(rawValue: 1 << 0) }
+    public static var verbose_EXT: DebugUtilsMessageSeverityFlagsEXT {
+        DebugUtilsMessageSeverityFlagsEXT(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var info_EXT: DebugUtilsMessageSeverityFlagsEXT { DebugUtilsMessageSeverityFlagsEXT(rawValue: 1 << 4) }
+    public static var info_EXT: DebugUtilsMessageSeverityFlagsEXT {
+        DebugUtilsMessageSeverityFlagsEXT(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var warning_EXT: DebugUtilsMessageSeverityFlagsEXT { DebugUtilsMessageSeverityFlagsEXT(rawValue: 1 << 8) }
+    public static var warning_EXT: DebugUtilsMessageSeverityFlagsEXT {
+        DebugUtilsMessageSeverityFlagsEXT(rawValue: 1 << 8)
+    }
 
 
     @inlinable
-    public static var error_EXT: DebugUtilsMessageSeverityFlagsEXT { DebugUtilsMessageSeverityFlagsEXT(rawValue: 1 << 12) }
+    public static var error_EXT: DebugUtilsMessageSeverityFlagsEXT {
+        DebugUtilsMessageSeverityFlagsEXT(rawValue: 1 << 12)
+    }
 }
 
 
@@ -1472,21 +2045,61 @@ public struct DebugUtilsMessageTypeFlagsEXT: OptionSet {
 
 
     @inlinable
-    public static var general_EXT: DebugUtilsMessageTypeFlagsEXT { DebugUtilsMessageTypeFlagsEXT(rawValue: 1 << 0) }
+    public static var general_EXT: DebugUtilsMessageTypeFlagsEXT {
+        DebugUtilsMessageTypeFlagsEXT(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var validation_EXT: DebugUtilsMessageTypeFlagsEXT { DebugUtilsMessageTypeFlagsEXT(rawValue: 1 << 1) }
+    public static var validation_EXT: DebugUtilsMessageTypeFlagsEXT {
+        DebugUtilsMessageTypeFlagsEXT(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var performance_EXT: DebugUtilsMessageTypeFlagsEXT { DebugUtilsMessageTypeFlagsEXT(rawValue: 1 << 2) }
+    public static var performance_EXT: DebugUtilsMessageTypeFlagsEXT {
+        DebugUtilsMessageTypeFlagsEXT(rawValue: 1 << 2)
+    }
 
 
     @inlinable
     public static var deviceAddressBinding_EXT: DebugUtilsMessageTypeFlagsEXT {
         DebugUtilsMessageTypeFlagsEXT(rawValue: 1 << 3)
     }
+}
+
+
+public struct DebugUtilsMessengerCallbackDataFlagsEXT: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `DebugUtilsMessengerCallbackDataFlagsEXT` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+public struct DebugUtilsMessengerCreateFlagsEXT: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `DebugUtilsMessengerCreateFlagsEXT` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -1505,31 +2118,51 @@ public struct DependencyFlags: OptionSet {
 
 
     @inlinable
-    public static var byRegion: DependencyFlags { DependencyFlags(rawValue: 1 << 0) }
+    public static var byRegion: DependencyFlags {
+        DependencyFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var deviceGroup: DependencyFlags { DependencyFlags(rawValue: 1 << 2) }
+    public static var deviceGroup: DependencyFlags {
+        DependencyFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var viewLocal: DependencyFlags { DependencyFlags(rawValue: 1 << 1) }
+    public static var viewLocal: DependencyFlags {
+        DependencyFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var feedbackLoop_EXT: DependencyFlags { DependencyFlags(rawValue: 1 << 3) }
+    public static var feedbackLoop_EXT: DependencyFlags {
+        DependencyFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var queueFamilyOwnershipTransferUseAllStages_KHR: DependencyFlags { DependencyFlags(rawValue: 1 << 5) }
+    public static var queueFamilyOwnershipTransferUseAllStages_KHR: DependencyFlags {
+        DependencyFlags(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var viewLocal_KHR: DependencyFlags { self.viewLocal }
+    public static var asymmetricEvent_KHR: DependencyFlags {
+        DependencyFlags(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var deviceGroup_KHR: DependencyFlags { self.deviceGroup }
+    public static var viewLocal_KHR: DependencyFlags {
+        self.viewLocal
+    }
+
+
+    @inlinable
+    public static var deviceGroup_KHR: DependencyFlags {
+        self.deviceGroup
+    }
 }
 
 
@@ -1548,35 +2181,51 @@ public struct DescriptorBindingFlags: OptionSet {
 
 
     @inlinable
-    public static var updateAfterBind: DescriptorBindingFlags { DescriptorBindingFlags(rawValue: 1 << 0) }
+    public static var updateAfterBind: DescriptorBindingFlags {
+        DescriptorBindingFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var updateUnusedWhilePending: DescriptorBindingFlags { DescriptorBindingFlags(rawValue: 1 << 1) }
+    public static var updateUnusedWhilePending: DescriptorBindingFlags {
+        DescriptorBindingFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var partiallyBound: DescriptorBindingFlags { DescriptorBindingFlags(rawValue: 1 << 2) }
+    public static var partiallyBound: DescriptorBindingFlags {
+        DescriptorBindingFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var variableDescriptorCount: DescriptorBindingFlags { DescriptorBindingFlags(rawValue: 1 << 3) }
+    public static var variableDescriptorCount: DescriptorBindingFlags {
+        DescriptorBindingFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var updateAfterBind_EXT: DescriptorBindingFlags { self.updateAfterBind }
+    public static var updateAfterBind_EXT: DescriptorBindingFlags {
+        self.updateAfterBind
+    }
 
 
     @inlinable
-    public static var updateUnusedWhilePending_EXT: DescriptorBindingFlags { self.updateUnusedWhilePending }
+    public static var updateUnusedWhilePending_EXT: DescriptorBindingFlags {
+        self.updateUnusedWhilePending
+    }
 
 
     @inlinable
-    public static var partiallyBound_EXT: DescriptorBindingFlags { self.partiallyBound }
+    public static var partiallyBound_EXT: DescriptorBindingFlags {
+        self.partiallyBound
+    }
 
 
     @inlinable
-    public static var variableDescriptorCount_EXT: DescriptorBindingFlags { self.variableDescriptorCount }
+    public static var variableDescriptorCount_EXT: DescriptorBindingFlags {
+        self.variableDescriptorCount
+    }
 }
 
 
@@ -1595,31 +2244,62 @@ public struct DescriptorPoolCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var freeDescriptorSet: DescriptorPoolCreateFlags { DescriptorPoolCreateFlags(rawValue: 1 << 0) }
+    public static var freeDescriptorSet: DescriptorPoolCreateFlags {
+        DescriptorPoolCreateFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var updateAfterBind: DescriptorPoolCreateFlags { DescriptorPoolCreateFlags(rawValue: 1 << 1) }
+    public static var updateAfterBind: DescriptorPoolCreateFlags {
+        DescriptorPoolCreateFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var hostOnly_EXT: DescriptorPoolCreateFlags { DescriptorPoolCreateFlags(rawValue: 1 << 2) }
+    public static var hostOnly_EXT: DescriptorPoolCreateFlags {
+        DescriptorPoolCreateFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var allowOverallocationSets_NV: DescriptorPoolCreateFlags { DescriptorPoolCreateFlags(rawValue: 1 << 3) }
+    public static var allowOverallocationSets_NV: DescriptorPoolCreateFlags {
+        DescriptorPoolCreateFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var allowOverallocationPools_NV: DescriptorPoolCreateFlags { DescriptorPoolCreateFlags(rawValue: 1 << 4) }
+    public static var allowOverallocationPools_NV: DescriptorPoolCreateFlags {
+        DescriptorPoolCreateFlags(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var updateAfterBind_EXT: DescriptorPoolCreateFlags { self.updateAfterBind }
+    public static var updateAfterBind_EXT: DescriptorPoolCreateFlags {
+        self.updateAfterBind
+    }
 
 
     @inlinable
-    public static var hostOnly_VALVE: DescriptorPoolCreateFlags { self.hostOnly_EXT }
+    public static var hostOnly_VALVE: DescriptorPoolCreateFlags {
+        self.hostOnly_EXT
+    }
+}
+
+
+public struct DescriptorPoolResetFlags: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `DescriptorPoolResetFlags` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -1644,7 +2324,9 @@ public struct DescriptorSetLayoutCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var pushDescriptor: DescriptorSetLayoutCreateFlags { DescriptorSetLayoutCreateFlags(rawValue: 1 << 0) }
+    public static var pushDescriptor: DescriptorSetLayoutCreateFlags {
+        DescriptorSetLayoutCreateFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
@@ -1666,23 +2348,50 @@ public struct DescriptorSetLayoutCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var hostOnlyPool_EXT: DescriptorSetLayoutCreateFlags { DescriptorSetLayoutCreateFlags(rawValue: 1 << 2) }
+    public static var hostOnlyPool_EXT: DescriptorSetLayoutCreateFlags {
+        DescriptorSetLayoutCreateFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var perStage_NV: DescriptorSetLayoutCreateFlags { DescriptorSetLayoutCreateFlags(rawValue: 1 << 6) }
+    public static var perStage_NV: DescriptorSetLayoutCreateFlags {
+        DescriptorSetLayoutCreateFlags(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var pushDescriptor_KHR: DescriptorSetLayoutCreateFlags { self.pushDescriptor }
+    public static var pushDescriptor_KHR: DescriptorSetLayoutCreateFlags {
+        self.pushDescriptor
+    }
 
 
     @inlinable
-    public static var updateAfterBindPool_EXT: DescriptorSetLayoutCreateFlags { self.updateAfterBindPool }
+    public static var updateAfterBindPool_EXT: DescriptorSetLayoutCreateFlags {
+        self.updateAfterBindPool
+    }
 
 
     @inlinable
-    public static var hostOnlyPool_VALVE: DescriptorSetLayoutCreateFlags { self.hostOnlyPool_EXT }
+    public static var hostOnlyPool_VALVE: DescriptorSetLayoutCreateFlags {
+        self.hostOnlyPool_EXT
+    }
+}
+
+
+public struct DescriptorUpdateTemplateCreateFlags: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `DescriptorUpdateTemplateCreateFlags` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -1701,7 +2410,26 @@ public struct DeviceAddressBindingFlagsEXT: OptionSet {
 
 
     @inlinable
-    public static var internalObject_EXT: DeviceAddressBindingFlagsEXT { DeviceAddressBindingFlagsEXT(rawValue: 1 << 0) }
+    public static var internalObject_EXT: DeviceAddressBindingFlagsEXT {
+        DeviceAddressBindingFlagsEXT(rawValue: 1 << 0)
+    }
+}
+
+
+public struct DeviceCreateFlags: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `DeviceCreateFlags` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -1759,21 +2487,44 @@ public struct DeviceGroupPresentModeFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var local_KHR: DeviceGroupPresentModeFlagsKHR { DeviceGroupPresentModeFlagsKHR(rawValue: 1 << 0) }
+    public static var local_KHR: DeviceGroupPresentModeFlagsKHR {
+        DeviceGroupPresentModeFlagsKHR(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var remote_KHR: DeviceGroupPresentModeFlagsKHR { DeviceGroupPresentModeFlagsKHR(rawValue: 1 << 1) }
+    public static var remote_KHR: DeviceGroupPresentModeFlagsKHR {
+        DeviceGroupPresentModeFlagsKHR(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var sum_KHR: DeviceGroupPresentModeFlagsKHR { DeviceGroupPresentModeFlagsKHR(rawValue: 1 << 2) }
+    public static var sum_KHR: DeviceGroupPresentModeFlagsKHR {
+        DeviceGroupPresentModeFlagsKHR(rawValue: 1 << 2)
+    }
 
 
     @inlinable
     public static var localMultiDevice_KHR: DeviceGroupPresentModeFlagsKHR {
         DeviceGroupPresentModeFlagsKHR(rawValue: 1 << 3)
     }
+}
+
+
+public struct DeviceMemoryReportFlagsEXT: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `DeviceMemoryReportFlagsEXT` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -1792,7 +2543,63 @@ public struct DeviceQueueCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var protected: DeviceQueueCreateFlags { DeviceQueueCreateFlags(rawValue: 1 << 0) }
+    public static var protected: DeviceQueueCreateFlags {
+        DeviceQueueCreateFlags(rawValue: 1 << 0)
+    }
+}
+
+
+public struct DirectDriverLoadingFlagsLUNARG: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `DirectDriverLoadingFlagsLUNARG` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+#if !PlatformDirectfb
+    @available(*, unavailable, message: "This flag requires the following trait: PlatformDirectfb.")
+#endif
+public struct DirectFBSurfaceCreateFlagsEXT: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `DirectFBSurfaceCreateFlagsEXT` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+public struct DisplayModeCreateFlagsKHR: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `DisplayModeCreateFlagsKHR` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -1811,19 +2618,44 @@ public struct DisplayPlaneAlphaFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var opaque_KHR: DisplayPlaneAlphaFlagsKHR { DisplayPlaneAlphaFlagsKHR(rawValue: 1 << 0) }
+    public static var opaque_KHR: DisplayPlaneAlphaFlagsKHR {
+        DisplayPlaneAlphaFlagsKHR(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var global_KHR: DisplayPlaneAlphaFlagsKHR { DisplayPlaneAlphaFlagsKHR(rawValue: 1 << 1) }
+    public static var global_KHR: DisplayPlaneAlphaFlagsKHR {
+        DisplayPlaneAlphaFlagsKHR(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var perPixel_KHR: DisplayPlaneAlphaFlagsKHR { DisplayPlaneAlphaFlagsKHR(rawValue: 1 << 2) }
+    public static var perPixel_KHR: DisplayPlaneAlphaFlagsKHR {
+        DisplayPlaneAlphaFlagsKHR(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var perPixelPremultiplied_KHR: DisplayPlaneAlphaFlagsKHR { DisplayPlaneAlphaFlagsKHR(rawValue: 1 << 3) }
+    public static var perPixelPremultiplied_KHR: DisplayPlaneAlphaFlagsKHR {
+        DisplayPlaneAlphaFlagsKHR(rawValue: 1 << 3)
+    }
+}
+
+
+public struct DisplaySurfaceCreateFlagsKHR: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `DisplaySurfaceCreateFlagsKHR` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -1842,11 +2674,15 @@ public struct EventCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var deviceOnly: EventCreateFlags { EventCreateFlags(rawValue: 1 << 0) }
+    public static var deviceOnly: EventCreateFlags {
+        EventCreateFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var deviceOnly_KHR: EventCreateFlags { self.deviceOnly }
+    public static var deviceOnly_KHR: EventCreateFlags {
+        self.deviceOnly
+    }
 }
 
 
@@ -1868,7 +2704,9 @@ public struct ExportMetalObjectTypeFlagsEXT: OptionSet {
 
 
     @inlinable
-    public static var metalDevice_EXT: ExportMetalObjectTypeFlagsEXT { ExportMetalObjectTypeFlagsEXT(rawValue: 1 << 0) }
+    public static var metalDevice_EXT: ExportMetalObjectTypeFlagsEXT {
+        ExportMetalObjectTypeFlagsEXT(rawValue: 1 << 0)
+    }
 
 
     @inlinable
@@ -1878,19 +2716,27 @@ public struct ExportMetalObjectTypeFlagsEXT: OptionSet {
 
 
     @inlinable
-    public static var metalBuffer_EXT: ExportMetalObjectTypeFlagsEXT { ExportMetalObjectTypeFlagsEXT(rawValue: 1 << 2) }
+    public static var metalBuffer_EXT: ExportMetalObjectTypeFlagsEXT {
+        ExportMetalObjectTypeFlagsEXT(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var metalTexture_EXT: ExportMetalObjectTypeFlagsEXT { ExportMetalObjectTypeFlagsEXT(rawValue: 1 << 3) }
+    public static var metalTexture_EXT: ExportMetalObjectTypeFlagsEXT {
+        ExportMetalObjectTypeFlagsEXT(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var metalIosurface_EXT: ExportMetalObjectTypeFlagsEXT { ExportMetalObjectTypeFlagsEXT(rawValue: 1 << 4) }
+    public static var metalIosurface_EXT: ExportMetalObjectTypeFlagsEXT {
+        ExportMetalObjectTypeFlagsEXT(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var metalSharedEvent_EXT: ExportMetalObjectTypeFlagsEXT { ExportMetalObjectTypeFlagsEXT(rawValue: 1 << 5) }
+    public static var metalSharedEvent_EXT: ExportMetalObjectTypeFlagsEXT {
+        ExportMetalObjectTypeFlagsEXT(rawValue: 1 << 5)
+    }
 }
 
 
@@ -1909,19 +2755,27 @@ public struct ExternalFenceFeatureFlags: OptionSet {
 
 
     @inlinable
-    public static var exportable: ExternalFenceFeatureFlags { ExternalFenceFeatureFlags(rawValue: 1 << 0) }
+    public static var exportable: ExternalFenceFeatureFlags {
+        ExternalFenceFeatureFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var importable: ExternalFenceFeatureFlags { ExternalFenceFeatureFlags(rawValue: 1 << 1) }
+    public static var importable: ExternalFenceFeatureFlags {
+        ExternalFenceFeatureFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var exportable_KHR: ExternalFenceFeatureFlags { self.exportable }
+    public static var exportable_KHR: ExternalFenceFeatureFlags {
+        self.exportable
+    }
 
 
     @inlinable
-    public static var importable_KHR: ExternalFenceFeatureFlags { self.importable }
+    public static var importable_KHR: ExternalFenceFeatureFlags {
+        self.importable
+    }
 }
 
 
@@ -1940,35 +2794,51 @@ public struct ExternalFenceHandleTypeFlags: OptionSet {
 
 
     @inlinable
-    public static var opaqueFd: ExternalFenceHandleTypeFlags { ExternalFenceHandleTypeFlags(rawValue: 1 << 0) }
+    public static var opaqueFd: ExternalFenceHandleTypeFlags {
+        ExternalFenceHandleTypeFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var opaqueWin32: ExternalFenceHandleTypeFlags { ExternalFenceHandleTypeFlags(rawValue: 1 << 1) }
+    public static var opaqueWin32: ExternalFenceHandleTypeFlags {
+        ExternalFenceHandleTypeFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var opaqueWin32Kmt: ExternalFenceHandleTypeFlags { ExternalFenceHandleTypeFlags(rawValue: 1 << 2) }
+    public static var opaqueWin32Kmt: ExternalFenceHandleTypeFlags {
+        ExternalFenceHandleTypeFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var syncFd: ExternalFenceHandleTypeFlags { ExternalFenceHandleTypeFlags(rawValue: 1 << 3) }
+    public static var syncFd: ExternalFenceHandleTypeFlags {
+        ExternalFenceHandleTypeFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var opaqueFd_KHR: ExternalFenceHandleTypeFlags { self.opaqueFd }
+    public static var opaqueFd_KHR: ExternalFenceHandleTypeFlags {
+        self.opaqueFd
+    }
 
 
     @inlinable
-    public static var opaqueWin32_KHR: ExternalFenceHandleTypeFlags { self.opaqueWin32 }
+    public static var opaqueWin32_KHR: ExternalFenceHandleTypeFlags {
+        self.opaqueWin32
+    }
 
 
     @inlinable
-    public static var opaqueWin32Kmt_KHR: ExternalFenceHandleTypeFlags { self.opaqueWin32Kmt }
+    public static var opaqueWin32Kmt_KHR: ExternalFenceHandleTypeFlags {
+        self.opaqueWin32Kmt
+    }
 
 
     @inlinable
-    public static var syncFd_KHR: ExternalFenceHandleTypeFlags { self.syncFd }
+    public static var syncFd_KHR: ExternalFenceHandleTypeFlags {
+        self.syncFd
+    }
 }
 
 
@@ -1987,27 +2857,39 @@ public struct ExternalMemoryFeatureFlags: OptionSet {
 
 
     @inlinable
-    public static var dedicatedOnly: ExternalMemoryFeatureFlags { ExternalMemoryFeatureFlags(rawValue: 1 << 0) }
+    public static var dedicatedOnly: ExternalMemoryFeatureFlags {
+        ExternalMemoryFeatureFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var exportable: ExternalMemoryFeatureFlags { ExternalMemoryFeatureFlags(rawValue: 1 << 1) }
+    public static var exportable: ExternalMemoryFeatureFlags {
+        ExternalMemoryFeatureFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var importable: ExternalMemoryFeatureFlags { ExternalMemoryFeatureFlags(rawValue: 1 << 2) }
+    public static var importable: ExternalMemoryFeatureFlags {
+        ExternalMemoryFeatureFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var dedicatedOnly_KHR: ExternalMemoryFeatureFlags { self.dedicatedOnly }
+    public static var dedicatedOnly_KHR: ExternalMemoryFeatureFlags {
+        self.dedicatedOnly
+    }
 
 
     @inlinable
-    public static var exportable_KHR: ExternalMemoryFeatureFlags { self.exportable }
+    public static var exportable_KHR: ExternalMemoryFeatureFlags {
+        self.exportable
+    }
 
 
     @inlinable
-    public static var importable_KHR: ExternalMemoryFeatureFlags { self.importable }
+    public static var importable_KHR: ExternalMemoryFeatureFlags {
+        self.importable
+    }
 }
 
 
@@ -2026,15 +2908,21 @@ public struct ExternalMemoryFeatureFlagsNV: OptionSet {
 
 
     @inlinable
-    public static var dedicatedOnly_NV: ExternalMemoryFeatureFlagsNV { ExternalMemoryFeatureFlagsNV(rawValue: 1 << 0) }
+    public static var dedicatedOnly_NV: ExternalMemoryFeatureFlagsNV {
+        ExternalMemoryFeatureFlagsNV(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var exportable_NV: ExternalMemoryFeatureFlagsNV { ExternalMemoryFeatureFlagsNV(rawValue: 1 << 1) }
+    public static var exportable_NV: ExternalMemoryFeatureFlagsNV {
+        ExternalMemoryFeatureFlagsNV(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var importable_NV: ExternalMemoryFeatureFlagsNV { ExternalMemoryFeatureFlagsNV(rawValue: 1 << 2) }
+    public static var importable_NV: ExternalMemoryFeatureFlagsNV {
+        ExternalMemoryFeatureFlagsNV(rawValue: 1 << 2)
+    }
 }
 
 
@@ -2053,35 +2941,51 @@ public struct ExternalMemoryHandleTypeFlags: OptionSet {
 
 
     @inlinable
-    public static var opaqueFd: ExternalMemoryHandleTypeFlags { ExternalMemoryHandleTypeFlags(rawValue: 1 << 0) }
+    public static var opaqueFd: ExternalMemoryHandleTypeFlags {
+        ExternalMemoryHandleTypeFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var opaqueWin32: ExternalMemoryHandleTypeFlags { ExternalMemoryHandleTypeFlags(rawValue: 1 << 1) }
+    public static var opaqueWin32: ExternalMemoryHandleTypeFlags {
+        ExternalMemoryHandleTypeFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var opaqueWin32Kmt: ExternalMemoryHandleTypeFlags { ExternalMemoryHandleTypeFlags(rawValue: 1 << 2) }
+    public static var opaqueWin32Kmt: ExternalMemoryHandleTypeFlags {
+        ExternalMemoryHandleTypeFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var d3d11Texture: ExternalMemoryHandleTypeFlags { ExternalMemoryHandleTypeFlags(rawValue: 1 << 3) }
+    public static var d3d11Texture: ExternalMemoryHandleTypeFlags {
+        ExternalMemoryHandleTypeFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var d3d11TextureKmt: ExternalMemoryHandleTypeFlags { ExternalMemoryHandleTypeFlags(rawValue: 1 << 4) }
+    public static var d3d11TextureKmt: ExternalMemoryHandleTypeFlags {
+        ExternalMemoryHandleTypeFlags(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var d3d12Heap: ExternalMemoryHandleTypeFlags { ExternalMemoryHandleTypeFlags(rawValue: 1 << 5) }
+    public static var d3d12Heap: ExternalMemoryHandleTypeFlags {
+        ExternalMemoryHandleTypeFlags(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var d3d12Resource: ExternalMemoryHandleTypeFlags { ExternalMemoryHandleTypeFlags(rawValue: 1 << 6) }
+    public static var d3d12Resource: ExternalMemoryHandleTypeFlags {
+        ExternalMemoryHandleTypeFlags(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var dmaBuf_EXT: ExternalMemoryHandleTypeFlags { ExternalMemoryHandleTypeFlags(rawValue: 1 << 9) }
+    public static var dmaBuf_EXT: ExternalMemoryHandleTypeFlags {
+        ExternalMemoryHandleTypeFlags(rawValue: 1 << 9)
+    }
 
 
     #if !PlatformAndroid
@@ -2094,7 +2998,9 @@ public struct ExternalMemoryHandleTypeFlags: OptionSet {
 
 
     @inlinable
-    public static var hostAllocation_EXT: ExternalMemoryHandleTypeFlags { ExternalMemoryHandleTypeFlags(rawValue: 1 << 7) }
+    public static var hostAllocation_EXT: ExternalMemoryHandleTypeFlags {
+        ExternalMemoryHandleTypeFlags(rawValue: 1 << 7)
+    }
 
 
     @inlinable
@@ -2107,67 +3013,93 @@ public struct ExternalMemoryHandleTypeFlags: OptionSet {
         @available(*, unavailable, message: "This flag requires the following trait: PlatformFuchsia.")
     #endif
     @inlinable
-    public static var zirconVmo_FUCHSIA: ExternalMemoryHandleTypeFlags { ExternalMemoryHandleTypeFlags(rawValue: 1 << 11) }
+    public static var zirconVmo_FUCHSIA: ExternalMemoryHandleTypeFlags {
+        ExternalMemoryHandleTypeFlags(rawValue: 1 << 11)
+    }
 
 
     @inlinable
-    public static var rdmaAddress_NV: ExternalMemoryHandleTypeFlags { ExternalMemoryHandleTypeFlags(rawValue: 1 << 12) }
+    public static var rdmaAddress_NV: ExternalMemoryHandleTypeFlags {
+        ExternalMemoryHandleTypeFlags(rawValue: 1 << 12)
+    }
 
 
     #if !PlatformScreen
         @available(*, unavailable, message: "This flag requires the following trait: PlatformScreen.")
     #endif
     @inlinable
-    public static var screenBuffer_QNX: ExternalMemoryHandleTypeFlags { ExternalMemoryHandleTypeFlags(rawValue: 1 << 14) }
+    public static var screenBuffer_QNX: ExternalMemoryHandleTypeFlags {
+        ExternalMemoryHandleTypeFlags(rawValue: 1 << 14)
+    }
 
 
     #if !PlatformMetal
         @available(*, unavailable, message: "This flag requires the following trait: PlatformMetal.")
     #endif
     @inlinable
-    public static var mtlbuffer_EXT: ExternalMemoryHandleTypeFlags { ExternalMemoryHandleTypeFlags(rawValue: 1 << 16) }
+    public static var mtlbuffer_EXT: ExternalMemoryHandleTypeFlags {
+        ExternalMemoryHandleTypeFlags(rawValue: 1 << 16)
+    }
 
 
     #if !PlatformMetal
         @available(*, unavailable, message: "This flag requires the following trait: PlatformMetal.")
     #endif
     @inlinable
-    public static var mtltexture_EXT: ExternalMemoryHandleTypeFlags { ExternalMemoryHandleTypeFlags(rawValue: 1 << 17) }
+    public static var mtltexture_EXT: ExternalMemoryHandleTypeFlags {
+        ExternalMemoryHandleTypeFlags(rawValue: 1 << 17)
+    }
 
 
     #if !PlatformMetal
         @available(*, unavailable, message: "This flag requires the following trait: PlatformMetal.")
     #endif
     @inlinable
-    public static var mtlheap_EXT: ExternalMemoryHandleTypeFlags { ExternalMemoryHandleTypeFlags(rawValue: 1 << 18) }
+    public static var mtlheap_EXT: ExternalMemoryHandleTypeFlags {
+        ExternalMemoryHandleTypeFlags(rawValue: 1 << 18)
+    }
 
 
     @inlinable
-    public static var opaqueFd_KHR: ExternalMemoryHandleTypeFlags { self.opaqueFd }
+    public static var opaqueFd_KHR: ExternalMemoryHandleTypeFlags {
+        self.opaqueFd
+    }
 
 
     @inlinable
-    public static var opaqueWin32_KHR: ExternalMemoryHandleTypeFlags { self.opaqueWin32 }
+    public static var opaqueWin32_KHR: ExternalMemoryHandleTypeFlags {
+        self.opaqueWin32
+    }
 
 
     @inlinable
-    public static var opaqueWin32Kmt_KHR: ExternalMemoryHandleTypeFlags { self.opaqueWin32Kmt }
+    public static var opaqueWin32Kmt_KHR: ExternalMemoryHandleTypeFlags {
+        self.opaqueWin32Kmt
+    }
 
 
     @inlinable
-    public static var d3d11Texture_KHR: ExternalMemoryHandleTypeFlags { self.d3d11Texture }
+    public static var d3d11Texture_KHR: ExternalMemoryHandleTypeFlags {
+        self.d3d11Texture
+    }
 
 
     @inlinable
-    public static var d3d11TextureKmt_KHR: ExternalMemoryHandleTypeFlags { self.d3d11TextureKmt }
+    public static var d3d11TextureKmt_KHR: ExternalMemoryHandleTypeFlags {
+        self.d3d11TextureKmt
+    }
 
 
     @inlinable
-    public static var d3d12Heap_KHR: ExternalMemoryHandleTypeFlags { self.d3d12Heap }
+    public static var d3d12Heap_KHR: ExternalMemoryHandleTypeFlags {
+        self.d3d12Heap
+    }
 
 
     @inlinable
-    public static var d3d12Resource_KHR: ExternalMemoryHandleTypeFlags { self.d3d12Resource }
+    public static var d3d12Resource_KHR: ExternalMemoryHandleTypeFlags {
+        self.d3d12Resource
+    }
 }
 
 
@@ -2186,7 +3118,9 @@ public struct ExternalMemoryHandleTypeFlagsNV: OptionSet {
 
 
     @inlinable
-    public static var opaqueWin32_NV: ExternalMemoryHandleTypeFlagsNV { ExternalMemoryHandleTypeFlagsNV(rawValue: 1 << 0) }
+    public static var opaqueWin32_NV: ExternalMemoryHandleTypeFlagsNV {
+        ExternalMemoryHandleTypeFlagsNV(rawValue: 1 << 0)
+    }
 
 
     @inlinable
@@ -2196,11 +3130,15 @@ public struct ExternalMemoryHandleTypeFlagsNV: OptionSet {
 
 
     @inlinable
-    public static var d3d11Image_NV: ExternalMemoryHandleTypeFlagsNV { ExternalMemoryHandleTypeFlagsNV(rawValue: 1 << 2) }
+    public static var d3d11Image_NV: ExternalMemoryHandleTypeFlagsNV {
+        ExternalMemoryHandleTypeFlagsNV(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var d3d11ImageKmt_NV: ExternalMemoryHandleTypeFlagsNV { ExternalMemoryHandleTypeFlagsNV(rawValue: 1 << 3) }
+    public static var d3d11ImageKmt_NV: ExternalMemoryHandleTypeFlagsNV {
+        ExternalMemoryHandleTypeFlagsNV(rawValue: 1 << 3)
+    }
 }
 
 
@@ -2219,19 +3157,27 @@ public struct ExternalSemaphoreFeatureFlags: OptionSet {
 
 
     @inlinable
-    public static var exportable: ExternalSemaphoreFeatureFlags { ExternalSemaphoreFeatureFlags(rawValue: 1 << 0) }
+    public static var exportable: ExternalSemaphoreFeatureFlags {
+        ExternalSemaphoreFeatureFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var importable: ExternalSemaphoreFeatureFlags { ExternalSemaphoreFeatureFlags(rawValue: 1 << 1) }
+    public static var importable: ExternalSemaphoreFeatureFlags {
+        ExternalSemaphoreFeatureFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var exportable_KHR: ExternalSemaphoreFeatureFlags { self.exportable }
+    public static var exportable_KHR: ExternalSemaphoreFeatureFlags {
+        self.exportable
+    }
 
 
     @inlinable
-    public static var importable_KHR: ExternalSemaphoreFeatureFlags { self.importable }
+    public static var importable_KHR: ExternalSemaphoreFeatureFlags {
+        self.importable
+    }
 }
 
 
@@ -2250,23 +3196,33 @@ public struct ExternalSemaphoreHandleTypeFlags: OptionSet {
 
 
     @inlinable
-    public static var opaqueFd: ExternalSemaphoreHandleTypeFlags { ExternalSemaphoreHandleTypeFlags(rawValue: 1 << 0) }
+    public static var opaqueFd: ExternalSemaphoreHandleTypeFlags {
+        ExternalSemaphoreHandleTypeFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var opaqueWin32: ExternalSemaphoreHandleTypeFlags { ExternalSemaphoreHandleTypeFlags(rawValue: 1 << 1) }
+    public static var opaqueWin32: ExternalSemaphoreHandleTypeFlags {
+        ExternalSemaphoreHandleTypeFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var opaqueWin32Kmt: ExternalSemaphoreHandleTypeFlags { ExternalSemaphoreHandleTypeFlags(rawValue: 1 << 2) }
+    public static var opaqueWin32Kmt: ExternalSemaphoreHandleTypeFlags {
+        ExternalSemaphoreHandleTypeFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var d3d12Fence: ExternalSemaphoreHandleTypeFlags { ExternalSemaphoreHandleTypeFlags(rawValue: 1 << 3) }
+    public static var d3d12Fence: ExternalSemaphoreHandleTypeFlags {
+        ExternalSemaphoreHandleTypeFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var syncFd: ExternalSemaphoreHandleTypeFlags { ExternalSemaphoreHandleTypeFlags(rawValue: 1 << 4) }
+    public static var syncFd: ExternalSemaphoreHandleTypeFlags {
+        ExternalSemaphoreHandleTypeFlags(rawValue: 1 << 4)
+    }
 
 
     #if !PlatformFuchsia
@@ -2279,27 +3235,39 @@ public struct ExternalSemaphoreHandleTypeFlags: OptionSet {
 
 
     @inlinable
-    public static var d3d11Fence: ExternalSemaphoreHandleTypeFlags { self.d3d12Fence }
+    public static var d3d11Fence: ExternalSemaphoreHandleTypeFlags {
+        self.d3d12Fence
+    }
 
 
     @inlinable
-    public static var opaqueFd_KHR: ExternalSemaphoreHandleTypeFlags { self.opaqueFd }
+    public static var opaqueFd_KHR: ExternalSemaphoreHandleTypeFlags {
+        self.opaqueFd
+    }
 
 
     @inlinable
-    public static var opaqueWin32_KHR: ExternalSemaphoreHandleTypeFlags { self.opaqueWin32 }
+    public static var opaqueWin32_KHR: ExternalSemaphoreHandleTypeFlags {
+        self.opaqueWin32
+    }
 
 
     @inlinable
-    public static var opaqueWin32Kmt_KHR: ExternalSemaphoreHandleTypeFlags { self.opaqueWin32Kmt }
+    public static var opaqueWin32Kmt_KHR: ExternalSemaphoreHandleTypeFlags {
+        self.opaqueWin32Kmt
+    }
 
 
     @inlinable
-    public static var d3d12Fence_KHR: ExternalSemaphoreHandleTypeFlags { self.d3d12Fence }
+    public static var d3d12Fence_KHR: ExternalSemaphoreHandleTypeFlags {
+        self.d3d12Fence
+    }
 
 
     @inlinable
-    public static var syncFd_KHR: ExternalSemaphoreHandleTypeFlags { self.syncFd }
+    public static var syncFd_KHR: ExternalSemaphoreHandleTypeFlags {
+        self.syncFd
+    }
 }
 
 
@@ -2318,7 +3286,9 @@ public struct FenceCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var signaled: FenceCreateFlags { FenceCreateFlags(rawValue: 1 << 0) }
+    public static var signaled: FenceCreateFlags {
+        FenceCreateFlags(rawValue: 1 << 0)
+    }
 }
 
 
@@ -2337,11 +3307,15 @@ public struct FenceImportFlags: OptionSet {
 
 
     @inlinable
-    public static var temporary: FenceImportFlags { FenceImportFlags(rawValue: 1 << 0) }
+    public static var temporary: FenceImportFlags {
+        FenceImportFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var temporary_KHR: FenceImportFlags { self.temporary }
+    public static var temporary_KHR: FenceImportFlags {
+        self.temporary
+    }
 }
 
 
@@ -2360,71 +3334,105 @@ public struct FormatFeatureFlags: OptionSet {
 
 
     @inlinable
-    public static var sampledImage: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 0) }
+    public static var sampledImage: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var storageImage: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 1) }
+    public static var storageImage: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var storageImageAtomic: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 2) }
+    public static var storageImageAtomic: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var uniformTexelBuffer: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 3) }
+    public static var uniformTexelBuffer: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var storageTexelBuffer: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 4) }
+    public static var storageTexelBuffer: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var storageTexelBufferAtomic: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 5) }
+    public static var storageTexelBufferAtomic: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var vertexBuffer: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 6) }
+    public static var vertexBuffer: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var colorAttachment: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 7) }
+    public static var colorAttachment: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 7)
+    }
 
 
     @inlinable
-    public static var colorAttachmentBlend: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 8) }
+    public static var colorAttachmentBlend: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 8)
+    }
 
 
     @inlinable
-    public static var depthStencilAttachment: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 9) }
+    public static var depthStencilAttachment: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 9)
+    }
 
 
     @inlinable
-    public static var blitSrc: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 10) }
+    public static var blitSrc: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 10)
+    }
 
 
     @inlinable
-    public static var blitDst: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 11) }
+    public static var blitDst: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 11)
+    }
 
 
     @inlinable
-    public static var sampledImageFilterLinear: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 12) }
+    public static var sampledImageFilterLinear: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 12)
+    }
 
 
     @inlinable
-    public static var transferSrc: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 14) }
+    public static var transferSrc: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 14)
+    }
 
 
     @inlinable
-    public static var transferDst: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 15) }
+    public static var transferDst: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 15)
+    }
 
 
     @inlinable
-    public static var midpointChromaSamples: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 17) }
+    public static var midpointChromaSamples: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 17)
+    }
 
 
     @inlinable
-    public static var sampledImageYcbcrConversionLinearFilter: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 18) }
+    public static var sampledImageYcbcrConversionLinearFilter: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 18)
+    }
 
 
     @inlinable
@@ -2446,67 +3454,99 @@ public struct FormatFeatureFlags: OptionSet {
 
 
     @inlinable
-    public static var disjoint: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 22) }
+    public static var disjoint: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 22)
+    }
 
 
     @inlinable
-    public static var cositedChromaSamples: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 23) }
+    public static var cositedChromaSamples: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 23)
+    }
 
 
     @inlinable
-    public static var sampledImageFilterMinmax: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 16) }
+    public static var sampledImageFilterMinmax: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 16)
+    }
 
 
     @inlinable
-    public static var videoDecodeOutput_KHR: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 25) }
+    public static var videoDecodeOutput_KHR: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 25)
+    }
 
 
     @inlinable
-    public static var videoDecodeDpb_KHR: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 26) }
+    public static var videoDecodeDpb_KHR: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 26)
+    }
 
 
     @inlinable
-    public static var accelerationStructureVertexBuffer_KHR: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 29) }
+    public static var accelerationStructureVertexBuffer_KHR: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 29)
+    }
 
 
     @inlinable
-    public static var sampledImageFilterCubic_EXT: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 13) }
+    public static var sampledImageFilterCubic_EXT: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 13)
+    }
 
 
     @inlinable
-    public static var fragmentDensityMap_EXT: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 24) }
+    public static var fragmentDensityMap_EXT: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 24)
+    }
 
 
     @inlinable
-    public static var fragmentShadingRateAttachment_KHR: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 30) }
+    public static var fragmentShadingRateAttachment_KHR: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 30)
+    }
 
 
     @inlinable
-    public static var videoEncodeInput_KHR: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 27) }
+    public static var videoEncodeInput_KHR: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 27)
+    }
 
 
     @inlinable
-    public static var videoEncodeDpb_KHR: FormatFeatureFlags { FormatFeatureFlags(rawValue: 1 << 28) }
+    public static var videoEncodeDpb_KHR: FormatFeatureFlags {
+        FormatFeatureFlags(rawValue: 1 << 28)
+    }
 
 
     @inlinable
-    public static var sampledImageFilterCubic_IMG: FormatFeatureFlags { self.sampledImageFilterCubic_EXT }
+    public static var sampledImageFilterCubic_IMG: FormatFeatureFlags {
+        self.sampledImageFilterCubic_EXT
+    }
 
 
     @inlinable
-    public static var transferSrc_KHR: FormatFeatureFlags { self.transferSrc }
+    public static var transferSrc_KHR: FormatFeatureFlags {
+        self.transferSrc
+    }
 
 
     @inlinable
-    public static var transferDst_KHR: FormatFeatureFlags { self.transferDst }
+    public static var transferDst_KHR: FormatFeatureFlags {
+        self.transferDst
+    }
 
 
     @inlinable
-    public static var sampledImageFilterMinmax_EXT: FormatFeatureFlags { self.sampledImageFilterMinmax }
+    public static var sampledImageFilterMinmax_EXT: FormatFeatureFlags {
+        self.sampledImageFilterMinmax
+    }
 
 
     @inlinable
-    public static var midpointChromaSamples_KHR: FormatFeatureFlags { self.midpointChromaSamples }
+    public static var midpointChromaSamples_KHR: FormatFeatureFlags {
+        self.midpointChromaSamples
+    }
 
 
     @inlinable
@@ -2534,11 +3574,15 @@ public struct FormatFeatureFlags: OptionSet {
 
 
     @inlinable
-    public static var disjoint_KHR: FormatFeatureFlags { self.disjoint }
+    public static var disjoint_KHR: FormatFeatureFlags {
+        self.disjoint
+    }
 
 
     @inlinable
-    public static var cositedChromaSamples_KHR: FormatFeatureFlags { self.cositedChromaSamples }
+    public static var cositedChromaSamples_KHR: FormatFeatureFlags {
+        self.cositedChromaSamples
+    }
 }
 
 
@@ -2557,75 +3601,111 @@ public struct FormatFeatureFlags2: OptionSet {
 
 
     @inlinable
-    public static var sampledImage: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 0) }
+    public static var sampledImage: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var storageImage: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 1) }
+    public static var storageImage: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var storageImageAtomic: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 2) }
+    public static var storageImageAtomic: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var uniformTexelBuffer: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 3) }
+    public static var uniformTexelBuffer: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var storageTexelBuffer: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 4) }
+    public static var storageTexelBuffer: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var storageTexelBufferAtomic: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 5) }
+    public static var storageTexelBufferAtomic: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var vertexBuffer: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 6) }
+    public static var vertexBuffer: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var colorAttachment: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 7) }
+    public static var colorAttachment: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 7)
+    }
 
 
     @inlinable
-    public static var colorAttachmentBlend: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 8) }
+    public static var colorAttachmentBlend: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 8)
+    }
 
 
     @inlinable
-    public static var depthStencilAttachment: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 9) }
+    public static var depthStencilAttachment: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 9)
+    }
 
 
     @inlinable
-    public static var blitSrc: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 10) }
+    public static var blitSrc: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 10)
+    }
 
 
     @inlinable
-    public static var blitDst: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 11) }
+    public static var blitDst: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 11)
+    }
 
 
     @inlinable
-    public static var sampledImageFilterLinear: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 12) }
+    public static var sampledImageFilterLinear: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 12)
+    }
 
 
     @inlinable
-    public static var transferSrc: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 14) }
+    public static var transferSrc: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 14)
+    }
 
 
     @inlinable
-    public static var transferDst: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 15) }
+    public static var transferDst: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 15)
+    }
 
 
     @inlinable
-    public static var sampledImageFilterMinmax: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 16) }
+    public static var sampledImageFilterMinmax: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 16)
+    }
 
 
     @inlinable
-    public static var midpointChromaSamples: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 17) }
+    public static var midpointChromaSamples: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 17)
+    }
 
 
     @inlinable
-    public static var sampledImageYcbcrConversionLinearFilter: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 18) }
+    public static var sampledImageYcbcrConversionLinearFilter: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 18)
+    }
 
 
     @inlinable
@@ -2647,171 +3727,267 @@ public struct FormatFeatureFlags2: OptionSet {
 
 
     @inlinable
-    public static var disjoint: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 22) }
+    public static var disjoint: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 22)
+    }
 
 
     @inlinable
-    public static var cositedChromaSamples: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 23) }
+    public static var cositedChromaSamples: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 23)
+    }
 
 
     @inlinable
-    public static var storageReadWithoutFormat: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 31) }
+    public static var storageReadWithoutFormat: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 31)
+    }
 
 
     @inlinable
-    public static var storageWriteWithoutFormat: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 32) }
+    public static var storageWriteWithoutFormat: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 32)
+    }
 
 
     @inlinable
-    public static var sampledImageDepthComparison: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 33) }
+    public static var sampledImageDepthComparison: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 33)
+    }
 
 
     @inlinable
-    public static var sampledImageFilterCubic: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 13) }
+    public static var sampledImageFilterCubic: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 13)
+    }
 
 
     @inlinable
-    public static var hostImageTransfer: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 46) }
+    public static var hostImageTransfer: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 46)
+    }
 
 
     @inlinable
-    public static var videoDecodeOutput_KHR: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 25) }
+    public static var videoDecodeOutput_KHR: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 25)
+    }
 
 
     @inlinable
-    public static var videoDecodeDpb_KHR: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 26) }
+    public static var videoDecodeDpb_KHR: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 26)
+    }
 
 
     @inlinable
-    public static var accelerationStructureVertexBuffer_KHR: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 29) }
+    public static var accelerationStructureVertexBuffer_KHR: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 29)
+    }
 
 
     @inlinable
-    public static var fragmentDensityMap_EXT: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 24) }
+    public static var fragmentDensityMap_EXT: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 24)
+    }
 
 
     @inlinable
-    public static var fragmentShadingRateAttachment_KHR: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 30) }
+    public static var fragmentShadingRateAttachment_KHR: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 30)
+    }
 
 
     @inlinable
-    public static var videoEncodeInput_KHR: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 27) }
+    public static var videoEncodeInput_KHR: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 27)
+    }
 
 
     @inlinable
-    public static var videoEncodeDpb_KHR: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 28) }
+    public static var videoEncodeDpb_KHR: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 28)
+    }
 
 
     @inlinable
-    public static var accelerationStructureRadiusBuffer_NV: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 51) }
+    public static var accelerationStructureRadiusBuffer_NV: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 51)
+    }
 
 
     @inlinable
-    public static var linearColorAttachment_NV: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 38) }
+    public static var linearColorAttachment_NV: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 38)
+    }
 
 
     @inlinable
-    public static var weightImage_QCOM: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 34) }
+    public static var weightImage_QCOM: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 34)
+    }
 
 
     @inlinable
-    public static var weightSampledImage_QCOM: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 35) }
+    public static var weightSampledImage_QCOM: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 35)
+    }
 
 
     @inlinable
-    public static var blockMatching_QCOM: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 36) }
+    public static var blockMatching_QCOM: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 36)
+    }
 
 
     @inlinable
-    public static var boxFilterSampled_QCOM: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 37) }
+    public static var boxFilterSampled_QCOM: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 37)
+    }
 
 
     @inlinable
-    public static var opticalFlowImage_NV: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 40) }
+    public static var tensorShader_ARM: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 39)
+    }
 
 
     @inlinable
-    public static var opticalFlowVector_NV: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 41) }
+    public static var tensorImageAliasing_ARM: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 43)
+    }
 
 
     @inlinable
-    public static var opticalFlowCost_NV: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 42) }
+    public static var opticalFlowImage_NV: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 40)
+    }
 
 
     @inlinable
-    public static var videoEncodeQuantizationDeltaMap_KHR: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 49) }
+    public static var opticalFlowVector_NV: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 41)
+    }
 
 
     @inlinable
-    public static var videoEncodeEmphasisMap_KHR: FormatFeatureFlags2 { FormatFeatureFlags2(rawValue: 1 << 50) }
+    public static var opticalFlowCost_NV: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 42)
+    }
 
 
     @inlinable
-    public static var hostImageTransfer_EXT: FormatFeatureFlags2 { self.hostImageTransfer }
+    public static var videoEncodeQuantizationDeltaMap_KHR: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 49)
+    }
 
 
     @inlinable
-    public static var sampledImage_KHR: FormatFeatureFlags2 { self.sampledImage }
+    public static var videoEncodeEmphasisMap_KHR: FormatFeatureFlags2 {
+        FormatFeatureFlags2(rawValue: 1 << 50)
+    }
 
 
     @inlinable
-    public static var storageImage_KHR: FormatFeatureFlags2 { self.storageImage }
+    public static var hostImageTransfer_EXT: FormatFeatureFlags2 {
+        self.hostImageTransfer
+    }
 
 
     @inlinable
-    public static var storageImageAtomic_KHR: FormatFeatureFlags2 { self.storageImageAtomic }
+    public static var sampledImage_KHR: FormatFeatureFlags2 {
+        self.sampledImage
+    }
 
 
     @inlinable
-    public static var uniformTexelBuffer_KHR: FormatFeatureFlags2 { self.uniformTexelBuffer }
+    public static var storageImage_KHR: FormatFeatureFlags2 {
+        self.storageImage
+    }
 
 
     @inlinable
-    public static var storageTexelBuffer_KHR: FormatFeatureFlags2 { self.storageTexelBuffer }
+    public static var storageImageAtomic_KHR: FormatFeatureFlags2 {
+        self.storageImageAtomic
+    }
 
 
     @inlinable
-    public static var storageTexelBufferAtomic_KHR: FormatFeatureFlags2 { self.storageTexelBufferAtomic }
+    public static var uniformTexelBuffer_KHR: FormatFeatureFlags2 {
+        self.uniformTexelBuffer
+    }
 
 
     @inlinable
-    public static var vertexBuffer_KHR: FormatFeatureFlags2 { self.vertexBuffer }
+    public static var storageTexelBuffer_KHR: FormatFeatureFlags2 {
+        self.storageTexelBuffer
+    }
 
 
     @inlinable
-    public static var colorAttachment_KHR: FormatFeatureFlags2 { self.colorAttachment }
+    public static var storageTexelBufferAtomic_KHR: FormatFeatureFlags2 {
+        self.storageTexelBufferAtomic
+    }
 
 
     @inlinable
-    public static var colorAttachmentBlend_KHR: FormatFeatureFlags2 { self.colorAttachmentBlend }
+    public static var vertexBuffer_KHR: FormatFeatureFlags2 {
+        self.vertexBuffer
+    }
 
 
     @inlinable
-    public static var depthStencilAttachment_KHR: FormatFeatureFlags2 { self.depthStencilAttachment }
+    public static var colorAttachment_KHR: FormatFeatureFlags2 {
+        self.colorAttachment
+    }
 
 
     @inlinable
-    public static var blitSrc_KHR: FormatFeatureFlags2 { self.blitSrc }
+    public static var colorAttachmentBlend_KHR: FormatFeatureFlags2 {
+        self.colorAttachmentBlend
+    }
 
 
     @inlinable
-    public static var blitDst_KHR: FormatFeatureFlags2 { self.blitDst }
+    public static var depthStencilAttachment_KHR: FormatFeatureFlags2 {
+        self.depthStencilAttachment
+    }
 
 
     @inlinable
-    public static var sampledImageFilterLinear_KHR: FormatFeatureFlags2 { self.sampledImageFilterLinear }
+    public static var blitSrc_KHR: FormatFeatureFlags2 {
+        self.blitSrc
+    }
 
 
     @inlinable
-    public static var transferSrc_KHR: FormatFeatureFlags2 { self.transferSrc }
+    public static var blitDst_KHR: FormatFeatureFlags2 {
+        self.blitDst
+    }
 
 
     @inlinable
-    public static var transferDst_KHR: FormatFeatureFlags2 { self.transferDst }
+    public static var sampledImageFilterLinear_KHR: FormatFeatureFlags2 {
+        self.sampledImageFilterLinear
+    }
 
 
     @inlinable
-    public static var midpointChromaSamples_KHR: FormatFeatureFlags2 { self.midpointChromaSamples }
+    public static var transferSrc_KHR: FormatFeatureFlags2 {
+        self.transferSrc
+    }
+
+
+    @inlinable
+    public static var transferDst_KHR: FormatFeatureFlags2 {
+        self.transferDst
+    }
+
+
+    @inlinable
+    public static var midpointChromaSamples_KHR: FormatFeatureFlags2 {
+        self.midpointChromaSamples
+    }
 
 
     @inlinable
@@ -2839,31 +4015,45 @@ public struct FormatFeatureFlags2: OptionSet {
 
 
     @inlinable
-    public static var disjoint_KHR: FormatFeatureFlags2 { self.disjoint }
+    public static var disjoint_KHR: FormatFeatureFlags2 {
+        self.disjoint
+    }
 
 
     @inlinable
-    public static var cositedChromaSamples_KHR: FormatFeatureFlags2 { self.cositedChromaSamples }
+    public static var cositedChromaSamples_KHR: FormatFeatureFlags2 {
+        self.cositedChromaSamples
+    }
 
 
     @inlinable
-    public static var storageReadWithoutFormat_KHR: FormatFeatureFlags2 { self.storageReadWithoutFormat }
+    public static var storageReadWithoutFormat_KHR: FormatFeatureFlags2 {
+        self.storageReadWithoutFormat
+    }
 
 
     @inlinable
-    public static var storageWriteWithoutFormat_KHR: FormatFeatureFlags2 { self.storageWriteWithoutFormat }
+    public static var storageWriteWithoutFormat_KHR: FormatFeatureFlags2 {
+        self.storageWriteWithoutFormat
+    }
 
 
     @inlinable
-    public static var sampledImageDepthComparison_KHR: FormatFeatureFlags2 { self.sampledImageDepthComparison }
+    public static var sampledImageDepthComparison_KHR: FormatFeatureFlags2 {
+        self.sampledImageDepthComparison
+    }
 
 
     @inlinable
-    public static var sampledImageFilterMinmax_KHR: FormatFeatureFlags2 { self.sampledImageFilterMinmax }
+    public static var sampledImageFilterMinmax_KHR: FormatFeatureFlags2 {
+        self.sampledImageFilterMinmax
+    }
 
 
     @inlinable
-    public static var sampledImageFilterCubic_EXT: FormatFeatureFlags2 { self.sampledImageFilterCubic }
+    public static var sampledImageFilterCubic_EXT: FormatFeatureFlags2 {
+        self.sampledImageFilterCubic
+    }
 }
 
 
@@ -2882,7 +4072,9 @@ public struct FrameBoundaryFlagsEXT: OptionSet {
 
 
     @inlinable
-    public static var frameEnd_EXT: FrameBoundaryFlagsEXT { FrameBoundaryFlagsEXT(rawValue: 1 << 0) }
+    public static var frameEnd_EXT: FrameBoundaryFlagsEXT {
+        FrameBoundaryFlagsEXT(rawValue: 1 << 0)
+    }
 }
 
 
@@ -2901,11 +4093,15 @@ public struct FramebufferCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var imageless: FramebufferCreateFlags { FramebufferCreateFlags(rawValue: 1 << 0) }
+    public static var imageless: FramebufferCreateFlags {
+        FramebufferCreateFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var imageless_KHR: FramebufferCreateFlags { self.imageless }
+    public static var imageless_KHR: FramebufferCreateFlags {
+        self.imageless
+    }
 }
 
 
@@ -2924,19 +4120,27 @@ public struct GeometryFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var opaque_KHR: GeometryFlagsKHR { GeometryFlagsKHR(rawValue: 1 << 0) }
+    public static var opaque_KHR: GeometryFlagsKHR {
+        GeometryFlagsKHR(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var noDuplicateAnyHitInvocation_KHR: GeometryFlagsKHR { GeometryFlagsKHR(rawValue: 1 << 1) }
+    public static var noDuplicateAnyHitInvocation_KHR: GeometryFlagsKHR {
+        GeometryFlagsKHR(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var opaque_NV: GeometryFlagsKHR { self.opaque_KHR }
+    public static var opaque_NV: GeometryFlagsKHR {
+        self.opaque_KHR
+    }
 
 
     @inlinable
-    public static var noDuplicateAnyHitInvocation_NV: GeometryFlagsKHR { self.noDuplicateAnyHitInvocation_KHR }
+    public static var noDuplicateAnyHitInvocation_NV: GeometryFlagsKHR {
+        self.noDuplicateAnyHitInvocation_KHR
+    }
 }
 
 
@@ -2961,43 +4165,75 @@ public struct GeometryInstanceFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var triangleFlipFacingBit_KHR: GeometryInstanceFlagsKHR { GeometryInstanceFlagsKHR(rawValue: 1 << 1) }
+    public static var triangleFlipFacingBit_KHR: GeometryInstanceFlagsKHR {
+        GeometryInstanceFlagsKHR(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var forceOpaqueBit_KHR: GeometryInstanceFlagsKHR { GeometryInstanceFlagsKHR(rawValue: 1 << 2) }
+    public static var forceOpaqueBit_KHR: GeometryInstanceFlagsKHR {
+        GeometryInstanceFlagsKHR(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var forceNoOpaqueBit_KHR: GeometryInstanceFlagsKHR { GeometryInstanceFlagsKHR(rawValue: 1 << 3) }
+    public static var forceNoOpaqueBit_KHR: GeometryInstanceFlagsKHR {
+        GeometryInstanceFlagsKHR(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var forceOpacityMicromap2State_EXT: GeometryInstanceFlagsKHR { GeometryInstanceFlagsKHR(rawValue: 1 << 4) }
+    public static var forceOpacityMicromap2StateBit_EXT: GeometryInstanceFlagsKHR {
+        GeometryInstanceFlagsKHR(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var disableOpacityMicromaps_EXT: GeometryInstanceFlagsKHR { GeometryInstanceFlagsKHR(rawValue: 1 << 5) }
+    public static var disableOpacityMicromapsBit_EXT: GeometryInstanceFlagsKHR {
+        GeometryInstanceFlagsKHR(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var triangleFrontCounterclockwiseBit_KHR: GeometryInstanceFlagsKHR { self.triangleFlipFacingBit_KHR }
+    public static var triangleFrontCounterclockwiseBit_KHR: GeometryInstanceFlagsKHR {
+        self.triangleFlipFacingBit_KHR
+    }
 
 
     @inlinable
-    public static var triangleCullDisableBit_NV: GeometryInstanceFlagsKHR { self.triangleFacingCullDisableBit_KHR }
+    public static var triangleCullDisableBit_NV: GeometryInstanceFlagsKHR {
+        self.triangleFacingCullDisableBit_KHR
+    }
 
 
     @inlinable
-    public static var triangleFrontCounterclockwiseBit_NV: GeometryInstanceFlagsKHR { self.triangleFlipFacingBit_KHR }
+    public static var triangleFrontCounterclockwiseBit_NV: GeometryInstanceFlagsKHR {
+        self.triangleFlipFacingBit_KHR
+    }
 
 
     @inlinable
-    public static var forceOpaqueBit_NV: GeometryInstanceFlagsKHR { self.forceOpaqueBit_KHR }
+    public static var forceOpaqueBit_NV: GeometryInstanceFlagsKHR {
+        self.forceOpaqueBit_KHR
+    }
 
 
     @inlinable
-    public static var forceNoOpaqueBit_NV: GeometryInstanceFlagsKHR { self.forceNoOpaqueBit_KHR }
+    public static var forceNoOpaqueBit_NV: GeometryInstanceFlagsKHR {
+        self.forceNoOpaqueBit_KHR
+    }
+
+
+    @inlinable
+    public static var forceOpacityMicromap2State_EXT: GeometryInstanceFlagsKHR {
+        self.forceOpacityMicromap2StateBit_EXT
+    }
+
+
+    @inlinable
+    public static var disableOpacityMicromaps_EXT: GeometryInstanceFlagsKHR {
+        self.disableOpacityMicromapsBit_EXT
+    }
 }
 
 
@@ -3040,6 +4276,23 @@ public struct GraphicsPipelineLibraryFlagsEXT: OptionSet {
 }
 
 
+public struct HeadlessSurfaceCreateFlagsEXT: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `HeadlessSurfaceCreateFlagsEXT` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
 public struct HostImageCopyFlags: OptionSet {
     /// The raw value of the bitmask, represented as a UInt32.
     public let rawValue: UInt32
@@ -3055,11 +4308,47 @@ public struct HostImageCopyFlags: OptionSet {
 
 
     @inlinable
-    public static var memcpy: HostImageCopyFlags { HostImageCopyFlags(rawValue: 1 << 0) }
+    public static var memcpyBit: HostImageCopyFlags {
+        HostImageCopyFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var memcpy_EXT: HostImageCopyFlags { self.memcpy }
+    public static var memcpy: HostImageCopyFlags {
+        self.memcpyBit
+    }
+
+
+    @inlinable
+    public static var memcpyBit_EXT: HostImageCopyFlags {
+        self.memcpyBit
+    }
+
+
+    @inlinable
+    public static var memcpy_EXT: HostImageCopyFlags {
+        self.memcpyBit
+    }
+}
+
+
+#if !PlatformIos
+    @available(*, unavailable, message: "This flag requires the following trait: PlatformIos.")
+#endif
+public struct IOSSurfaceCreateFlagsMVK: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `IOSSurfaceCreateFlagsMVK` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -3078,67 +4367,99 @@ public struct ImageAspectFlags: OptionSet {
 
 
     @inlinable
-    public static var colorBit: ImageAspectFlags { ImageAspectFlags(rawValue: 1 << 0) }
+    public static var colorBit: ImageAspectFlags {
+        ImageAspectFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var depthBit: ImageAspectFlags { ImageAspectFlags(rawValue: 1 << 1) }
+    public static var depthBit: ImageAspectFlags {
+        ImageAspectFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var stencilBit: ImageAspectFlags { ImageAspectFlags(rawValue: 1 << 2) }
+    public static var stencilBit: ImageAspectFlags {
+        ImageAspectFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var metadataBit: ImageAspectFlags { ImageAspectFlags(rawValue: 1 << 3) }
+    public static var metadataBit: ImageAspectFlags {
+        ImageAspectFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var plane0Bit: ImageAspectFlags { ImageAspectFlags(rawValue: 1 << 4) }
+    public static var plane0Bit: ImageAspectFlags {
+        ImageAspectFlags(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var plane1Bit: ImageAspectFlags { ImageAspectFlags(rawValue: 1 << 5) }
+    public static var plane1Bit: ImageAspectFlags {
+        ImageAspectFlags(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var plane2Bit: ImageAspectFlags { ImageAspectFlags(rawValue: 1 << 6) }
+    public static var plane2Bit: ImageAspectFlags {
+        ImageAspectFlags(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var none: ImageAspectFlags { ImageAspectFlags(rawValue: 0) }
+    public static var none: ImageAspectFlags {
+        ImageAspectFlags(rawValue: 0)
+    }
 
 
     @inlinable
-    public static var memoryPlane0Bit_EXT: ImageAspectFlags { ImageAspectFlags(rawValue: 1 << 7) }
+    public static var memoryPlane0Bit_EXT: ImageAspectFlags {
+        ImageAspectFlags(rawValue: 1 << 7)
+    }
 
 
     @inlinable
-    public static var memoryPlane1Bit_EXT: ImageAspectFlags { ImageAspectFlags(rawValue: 1 << 8) }
+    public static var memoryPlane1Bit_EXT: ImageAspectFlags {
+        ImageAspectFlags(rawValue: 1 << 8)
+    }
 
 
     @inlinable
-    public static var memoryPlane2Bit_EXT: ImageAspectFlags { ImageAspectFlags(rawValue: 1 << 9) }
+    public static var memoryPlane2Bit_EXT: ImageAspectFlags {
+        ImageAspectFlags(rawValue: 1 << 9)
+    }
 
 
     @inlinable
-    public static var memoryPlane3Bit_EXT: ImageAspectFlags { ImageAspectFlags(rawValue: 1 << 10) }
+    public static var memoryPlane3Bit_EXT: ImageAspectFlags {
+        ImageAspectFlags(rawValue: 1 << 10)
+    }
 
 
     @inlinable
-    public static var plane0Bit_KHR: ImageAspectFlags { self.plane0Bit }
+    public static var plane0Bit_KHR: ImageAspectFlags {
+        self.plane0Bit
+    }
 
 
     @inlinable
-    public static var plane1Bit_KHR: ImageAspectFlags { self.plane1Bit }
+    public static var plane1Bit_KHR: ImageAspectFlags {
+        self.plane1Bit
+    }
 
 
     @inlinable
-    public static var plane2Bit_KHR: ImageAspectFlags { self.plane2Bit }
+    public static var plane2Bit_KHR: ImageAspectFlags {
+        self.plane2Bit
+    }
 
 
     @inlinable
-    public static var none_KHR: ImageAspectFlags { self.none }
+    public static var none_KHR: ImageAspectFlags {
+        self.none
+    }
 }
 
 
@@ -3157,7 +4478,9 @@ public struct ImageCompressionFixedRateFlagsEXT: OptionSet {
 
 
     @inlinable
-    public static var none_EXT: ImageCompressionFixedRateFlagsEXT { ImageCompressionFixedRateFlagsEXT(rawValue: 0) }
+    public static var none_EXT: ImageCompressionFixedRateFlagsEXT {
+        ImageCompressionFixedRateFlagsEXT(rawValue: 0)
+    }
 
 
     @inlinable
@@ -3320,19 +4643,27 @@ public struct ImageCompressionFlagsEXT: OptionSet {
 
 
     @inlinable
-    public static var default_EXT: ImageCompressionFlagsEXT { ImageCompressionFlagsEXT(rawValue: 0) }
+    public static var default_EXT: ImageCompressionFlagsEXT {
+        ImageCompressionFlagsEXT(rawValue: 0)
+    }
 
 
     @inlinable
-    public static var fixedRateDefault_EXT: ImageCompressionFlagsEXT { ImageCompressionFlagsEXT(rawValue: 1 << 0) }
+    public static var fixedRateDefault_EXT: ImageCompressionFlagsEXT {
+        ImageCompressionFlagsEXT(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var fixedRateExplicit_EXT: ImageCompressionFlagsEXT { ImageCompressionFlagsEXT(rawValue: 1 << 1) }
+    public static var fixedRateExplicit_EXT: ImageCompressionFlagsEXT {
+        ImageCompressionFlagsEXT(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var disabled_EXT: ImageCompressionFlagsEXT { ImageCompressionFlagsEXT(rawValue: 1 << 2) }
+    public static var disabled_EXT: ImageCompressionFlagsEXT {
+        ImageCompressionFlagsEXT(rawValue: 1 << 2)
+    }
 }
 
 
@@ -3399,111 +4730,205 @@ public struct ImageCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var sparseBinding: ImageCreateFlags { ImageCreateFlags(rawValue: 1 << 0) }
+    public static var sparseBinding: ImageCreateFlags {
+        ImageCreateFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var sparseResidency: ImageCreateFlags { ImageCreateFlags(rawValue: 1 << 1) }
+    public static var sparseResidency: ImageCreateFlags {
+        ImageCreateFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var sparseAliased: ImageCreateFlags { ImageCreateFlags(rawValue: 1 << 2) }
+    public static var sparseAliased: ImageCreateFlags {
+        ImageCreateFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var mutableFormat: ImageCreateFlags { ImageCreateFlags(rawValue: 1 << 3) }
+    public static var mutableFormat: ImageCreateFlags {
+        ImageCreateFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var cubeCompatible: ImageCreateFlags { ImageCreateFlags(rawValue: 1 << 4) }
+    public static var cubeCompatible: ImageCreateFlags {
+        ImageCreateFlags(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var alias: ImageCreateFlags { ImageCreateFlags(rawValue: 1 << 10) }
+    public static var alias: ImageCreateFlags {
+        ImageCreateFlags(rawValue: 1 << 10)
+    }
 
 
     @inlinable
-    public static var splitInstanceBindRegions: ImageCreateFlags { ImageCreateFlags(rawValue: 1 << 6) }
+    public static var splitInstanceBindRegions: ImageCreateFlags {
+        ImageCreateFlags(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var `2dArrayCompatible`: ImageCreateFlags { ImageCreateFlags(rawValue: 1 << 5) }
+    public static var `2dArrayCompatible`: ImageCreateFlags {
+        ImageCreateFlags(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var blockTexelViewCompatible: ImageCreateFlags { ImageCreateFlags(rawValue: 1 << 7) }
+    public static var blockTexelViewCompatible: ImageCreateFlags {
+        ImageCreateFlags(rawValue: 1 << 7)
+    }
 
 
     @inlinable
-    public static var extendedUsage: ImageCreateFlags { ImageCreateFlags(rawValue: 1 << 8) }
+    public static var extendedUsage: ImageCreateFlags {
+        ImageCreateFlags(rawValue: 1 << 8)
+    }
 
 
     @inlinable
-    public static var protected: ImageCreateFlags { ImageCreateFlags(rawValue: 1 << 11) }
+    public static var protected: ImageCreateFlags {
+        ImageCreateFlags(rawValue: 1 << 11)
+    }
 
 
     @inlinable
-    public static var disjoint: ImageCreateFlags { ImageCreateFlags(rawValue: 1 << 9) }
+    public static var disjoint: ImageCreateFlags {
+        ImageCreateFlags(rawValue: 1 << 9)
+    }
 
 
     @inlinable
-    public static var cornerSampled_NV: ImageCreateFlags { ImageCreateFlags(rawValue: 1 << 13) }
+    public static var cornerSampled_NV: ImageCreateFlags {
+        ImageCreateFlags(rawValue: 1 << 13)
+    }
 
 
     @inlinable
-    public static var sampleLocationsCompatibleDepth_EXT: ImageCreateFlags { ImageCreateFlags(rawValue: 1 << 12) }
+    public static var sampleLocationsCompatibleDepth_EXT: ImageCreateFlags {
+        ImageCreateFlags(rawValue: 1 << 12)
+    }
 
 
     @inlinable
-    public static var subsampled_EXT: ImageCreateFlags { ImageCreateFlags(rawValue: 1 << 14) }
+    public static var subsampled_EXT: ImageCreateFlags {
+        ImageCreateFlags(rawValue: 1 << 14)
+    }
 
 
     @inlinable
-    public static var descriptorBufferCaptureReplay_EXT: ImageCreateFlags { ImageCreateFlags(rawValue: 1 << 16) }
+    public static var descriptorBufferCaptureReplay_EXT: ImageCreateFlags {
+        ImageCreateFlags(rawValue: 1 << 16)
+    }
 
 
     @inlinable
-    public static var multisampledRenderToSingleSampled_EXT: ImageCreateFlags { ImageCreateFlags(rawValue: 1 << 18) }
+    public static var multisampledRenderToSingleSampled_EXT: ImageCreateFlags {
+        ImageCreateFlags(rawValue: 1 << 18)
+    }
 
 
     @inlinable
-    public static var `2dViewCompatible_EXT`: ImageCreateFlags { ImageCreateFlags(rawValue: 1 << 17) }
+    public static var `2dViewCompatible_EXT`: ImageCreateFlags {
+        ImageCreateFlags(rawValue: 1 << 17)
+    }
 
 
     @inlinable
-    public static var videoProfileIndependent_KHR: ImageCreateFlags { ImageCreateFlags(rawValue: 1 << 20) }
+    public static var videoProfileIndependent_KHR: ImageCreateFlags {
+        ImageCreateFlags(rawValue: 1 << 20)
+    }
 
 
     @inlinable
-    public static var fragmentDensityMapOffset_EXT: ImageCreateFlags { ImageCreateFlags(rawValue: 1 << 15) }
+    public static var fragmentDensityMapOffset_EXT: ImageCreateFlags {
+        ImageCreateFlags(rawValue: 1 << 15)
+    }
 
 
     @inlinable
-    public static var splitInstanceBindRegions_KHR: ImageCreateFlags { self.splitInstanceBindRegions }
+    public static var splitInstanceBindRegions_KHR: ImageCreateFlags {
+        self.splitInstanceBindRegions
+    }
 
 
     @inlinable
-    public static var `2dArrayCompatible_KHR`: ImageCreateFlags { self.`2dArrayCompatible` }
+    public static var `2dArrayCompatible_KHR`: ImageCreateFlags {
+        self.`2dArrayCompatible`
+    }
 
 
     @inlinable
-    public static var blockTexelViewCompatible_KHR: ImageCreateFlags { self.blockTexelViewCompatible }
+    public static var blockTexelViewCompatible_KHR: ImageCreateFlags {
+        self.blockTexelViewCompatible
+    }
 
 
     @inlinable
-    public static var extendedUsage_KHR: ImageCreateFlags { self.extendedUsage }
+    public static var extendedUsage_KHR: ImageCreateFlags {
+        self.extendedUsage
+    }
 
 
     @inlinable
-    public static var disjoint_KHR: ImageCreateFlags { self.disjoint }
+    public static var disjoint_KHR: ImageCreateFlags {
+        self.disjoint
+    }
 
 
     @inlinable
-    public static var alias_KHR: ImageCreateFlags { self.alias }
+    public static var alias_KHR: ImageCreateFlags {
+        self.alias
+    }
 
 
     @inlinable
-    public static var fragmentDensityMapOffset_QCOM: ImageCreateFlags { self.fragmentDensityMapOffset_EXT }
+    public static var fragmentDensityMapOffset_QCOM: ImageCreateFlags {
+        self.fragmentDensityMapOffset_EXT
+    }
+}
+
+
+#if !PlatformFuchsia
+    @available(*, unavailable, message: "This flag requires the following trait: PlatformFuchsia.")
+#endif
+public struct ImageFormatConstraintsFlagsFUCHSIA: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `ImageFormatConstraintsFlagsFUCHSIA` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+#if !PlatformFuchsia
+    @available(*, unavailable, message: "This flag requires the following trait: PlatformFuchsia.")
+#endif
+public struct ImagePipeSurfaceCreateFlagsFUCHSIA: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `ImagePipeSurfaceCreateFlagsFUCHSIA` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -3522,107 +4947,165 @@ public struct ImageUsageFlags: OptionSet {
 
 
     @inlinable
-    public static var transferSrc: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 0) }
+    public static var transferSrc: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var transferDst: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 1) }
+    public static var transferDst: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var sampled: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 2) }
+    public static var sampled: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var storage: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 3) }
+    public static var storage: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var colorAttachment: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 4) }
+    public static var colorAttachment: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var depthStencilAttachment: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 5) }
+    public static var depthStencilAttachment: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var transientAttachment: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 6) }
+    public static var transientAttachment: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var inputAttachment: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 7) }
+    public static var inputAttachment: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 7)
+    }
 
 
     @inlinable
-    public static var hostTransfer: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 22) }
+    public static var hostTransfer: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 22)
+    }
 
 
     @inlinable
-    public static var videoDecodeDst_KHR: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 10) }
+    public static var videoDecodeDst_KHR: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 10)
+    }
 
 
     @inlinable
-    public static var videoDecodeSrc_KHR: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 11) }
+    public static var videoDecodeSrc_KHR: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 11)
+    }
 
 
     @inlinable
-    public static var videoDecodeDpb_KHR: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 12) }
+    public static var videoDecodeDpb_KHR: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 12)
+    }
 
 
     @inlinable
-    public static var fragmentDensityMap_EXT: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 9) }
+    public static var fragmentDensityMap_EXT: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 9)
+    }
 
 
     @inlinable
-    public static var fragmentShadingRateAttachment_KHR: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 8) }
+    public static var fragmentShadingRateAttachment_KHR: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 8)
+    }
 
 
     @inlinable
-    public static var videoEncodeDst_KHR: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 13) }
+    public static var videoEncodeDst_KHR: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 13)
+    }
 
 
     @inlinable
-    public static var videoEncodeSrc_KHR: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 14) }
+    public static var videoEncodeSrc_KHR: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 14)
+    }
 
 
     @inlinable
-    public static var videoEncodeDpb_KHR: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 15) }
+    public static var videoEncodeDpb_KHR: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 15)
+    }
 
 
     @inlinable
-    public static var attachmentFeedbackLoop_EXT: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 19) }
+    public static var attachmentFeedbackLoop_EXT: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 19)
+    }
 
 
     @inlinable
-    public static var invocationMask_HUAWEI: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 18) }
+    public static var invocationMask_HUAWEI: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 18)
+    }
 
 
     @inlinable
-    public static var sampleWeight_QCOM: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 20) }
+    public static var sampleWeight_QCOM: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 20)
+    }
 
 
     @inlinable
-    public static var sampleBlockMatch_QCOM: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 21) }
+    public static var sampleBlockMatch_QCOM: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 21)
+    }
 
 
     @inlinable
-    public static var tileMemory_QCOM: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 27) }
+    public static var tensorAliasing_ARM: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 23)
+    }
 
 
     @inlinable
-    public static var videoEncodeQuantizationDeltaMap_KHR: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 25) }
+    public static var tileMemory_QCOM: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 27)
+    }
 
 
     @inlinable
-    public static var videoEncodeEmphasisMap_KHR: ImageUsageFlags { ImageUsageFlags(rawValue: 1 << 26) }
+    public static var videoEncodeQuantizationDeltaMap_KHR: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 25)
+    }
 
 
     @inlinable
-    public static var shadingRateImage_NV: ImageUsageFlags { self.fragmentShadingRateAttachment_KHR }
+    public static var videoEncodeEmphasisMap_KHR: ImageUsageFlags {
+        ImageUsageFlags(rawValue: 1 << 26)
+    }
 
 
     @inlinable
-    public static var hostTransfer_EXT: ImageUsageFlags { self.hostTransfer }
+    public static var shadingRateImage_NV: ImageUsageFlags {
+        self.fragmentShadingRateAttachment_KHR
+    }
+
+
+    @inlinable
+    public static var hostTransfer_EXT: ImageUsageFlags {
+        self.hostTransfer
+    }
 }
 
 
@@ -3641,15 +5124,21 @@ public struct ImageViewCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var fragmentDensityMapDynamic_EXT: ImageViewCreateFlags { ImageViewCreateFlags(rawValue: 1 << 0) }
+    public static var fragmentDensityMapDynamic_EXT: ImageViewCreateFlags {
+        ImageViewCreateFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var descriptorBufferCaptureReplay_EXT: ImageViewCreateFlags { ImageViewCreateFlags(rawValue: 1 << 2) }
+    public static var descriptorBufferCaptureReplay_EXT: ImageViewCreateFlags {
+        ImageViewCreateFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var fragmentDensityMapDeferred_EXT: ImageViewCreateFlags { ImageViewCreateFlags(rawValue: 1 << 1) }
+    public static var fragmentDensityMapDeferred_EXT: ImageViewCreateFlags {
+        ImageViewCreateFlags(rawValue: 1 << 1)
+    }
 }
 
 
@@ -3755,7 +5244,9 @@ public struct IndirectStateFlagsNV: OptionSet {
 
 
     @inlinable
-    public static var flagFrontface_NV: IndirectStateFlagsNV { IndirectStateFlagsNV(rawValue: 1 << 0) }
+    public static var flagFrontface_NV: IndirectStateFlagsNV {
+        IndirectStateFlagsNV(rawValue: 1 << 0)
+    }
 }
 
 
@@ -3774,7 +5265,29 @@ public struct InstanceCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var enumeratePortability_KHR: InstanceCreateFlags { InstanceCreateFlags(rawValue: 1 << 0) }
+    public static var enumeratePortability_KHR: InstanceCreateFlags {
+        InstanceCreateFlags(rawValue: 1 << 0)
+    }
+}
+
+
+#if !PlatformMacos
+    @available(*, unavailable, message: "This flag requires the following trait: PlatformMacos.")
+#endif
+public struct MacOSSurfaceCreateFlagsMVK: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `MacOSSurfaceCreateFlagsMVK` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -3793,31 +5306,45 @@ public struct MemoryAllocateFlags: OptionSet {
 
 
     @inlinable
-    public static var deviceMask: MemoryAllocateFlags { MemoryAllocateFlags(rawValue: 1 << 0) }
+    public static var deviceMask: MemoryAllocateFlags {
+        MemoryAllocateFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var deviceAddress: MemoryAllocateFlags { MemoryAllocateFlags(rawValue: 1 << 1) }
+    public static var deviceAddress: MemoryAllocateFlags {
+        MemoryAllocateFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var deviceAddressCaptureReplay: MemoryAllocateFlags { MemoryAllocateFlags(rawValue: 1 << 2) }
+    public static var deviceAddressCaptureReplay: MemoryAllocateFlags {
+        MemoryAllocateFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var zeroInitialize_EXT: MemoryAllocateFlags { MemoryAllocateFlags(rawValue: 1 << 3) }
+    public static var zeroInitialize_EXT: MemoryAllocateFlags {
+        MemoryAllocateFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var deviceMask_KHR: MemoryAllocateFlags { self.deviceMask }
+    public static var deviceMask_KHR: MemoryAllocateFlags {
+        self.deviceMask
+    }
 
 
     @inlinable
-    public static var deviceAddress_KHR: MemoryAllocateFlags { self.deviceAddress }
+    public static var deviceAddress_KHR: MemoryAllocateFlags {
+        self.deviceAddress
+    }
 
 
     @inlinable
-    public static var deviceAddressCaptureReplay_KHR: MemoryAllocateFlags { self.deviceAddressCaptureReplay }
+    public static var deviceAddressCaptureReplay_KHR: MemoryAllocateFlags {
+        self.deviceAddressCaptureReplay
+    }
 }
 
 
@@ -3836,7 +5363,9 @@ public struct MemoryDecompressionMethodFlagsNV: OptionSet {
 
 
     @inlinable
-    public static var gdeflate10_NV: MemoryDecompressionMethodFlagsNV { MemoryDecompressionMethodFlagsNV(rawValue: 1 << 0) }
+    public static var gdeflate10_NV: MemoryDecompressionMethodFlagsNV {
+        MemoryDecompressionMethodFlagsNV(rawValue: 1 << 0)
+    }
 }
 
 
@@ -3855,19 +5384,27 @@ public struct MemoryHeapFlags: OptionSet {
 
 
     @inlinable
-    public static var deviceLocal: MemoryHeapFlags { MemoryHeapFlags(rawValue: 1 << 0) }
+    public static var deviceLocal: MemoryHeapFlags {
+        MemoryHeapFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var multiInstance: MemoryHeapFlags { MemoryHeapFlags(rawValue: 1 << 1) }
+    public static var multiInstance: MemoryHeapFlags {
+        MemoryHeapFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var tileMemory_QCOM: MemoryHeapFlags { MemoryHeapFlags(rawValue: 1 << 3) }
+    public static var tileMemory_QCOM: MemoryHeapFlags {
+        MemoryHeapFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var multiInstance_KHR: MemoryHeapFlags { self.multiInstance }
+    public static var multiInstance_KHR: MemoryHeapFlags {
+        self.multiInstance
+    }
 }
 
 
@@ -3886,7 +5423,9 @@ public struct MemoryMapFlags: OptionSet {
 
 
     @inlinable
-    public static var placed_EXT: MemoryMapFlags { MemoryMapFlags(rawValue: 1 << 0) }
+    public static var placed_EXT: MemoryMapFlags {
+        MemoryMapFlags(rawValue: 1 << 0)
+    }
 }
 
 
@@ -3905,39 +5444,57 @@ public struct MemoryPropertyFlags: OptionSet {
 
 
     @inlinable
-    public static var deviceLocal: MemoryPropertyFlags { MemoryPropertyFlags(rawValue: 1 << 0) }
+    public static var deviceLocal: MemoryPropertyFlags {
+        MemoryPropertyFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var hostVisible: MemoryPropertyFlags { MemoryPropertyFlags(rawValue: 1 << 1) }
+    public static var hostVisible: MemoryPropertyFlags {
+        MemoryPropertyFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var hostCoherent: MemoryPropertyFlags { MemoryPropertyFlags(rawValue: 1 << 2) }
+    public static var hostCoherent: MemoryPropertyFlags {
+        MemoryPropertyFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var hostCached: MemoryPropertyFlags { MemoryPropertyFlags(rawValue: 1 << 3) }
+    public static var hostCached: MemoryPropertyFlags {
+        MemoryPropertyFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var lazilyAllocated: MemoryPropertyFlags { MemoryPropertyFlags(rawValue: 1 << 4) }
+    public static var lazilyAllocated: MemoryPropertyFlags {
+        MemoryPropertyFlags(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var protected: MemoryPropertyFlags { MemoryPropertyFlags(rawValue: 1 << 5) }
+    public static var protected: MemoryPropertyFlags {
+        MemoryPropertyFlags(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var deviceCoherent_AMD: MemoryPropertyFlags { MemoryPropertyFlags(rawValue: 1 << 6) }
+    public static var deviceCoherent_AMD: MemoryPropertyFlags {
+        MemoryPropertyFlags(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var deviceUncached_AMD: MemoryPropertyFlags { MemoryPropertyFlags(rawValue: 1 << 7) }
+    public static var deviceUncached_AMD: MemoryPropertyFlags {
+        MemoryPropertyFlags(rawValue: 1 << 7)
+    }
 
 
     @inlinable
-    public static var rdmaCapable_NV: MemoryPropertyFlags { MemoryPropertyFlags(rawValue: 1 << 8) }
+    public static var rdmaCapable_NV: MemoryPropertyFlags {
+        MemoryPropertyFlags(rawValue: 1 << 8)
+    }
 }
 
 
@@ -3956,7 +5513,29 @@ public struct MemoryUnmapFlags: OptionSet {
 
 
     @inlinable
-    public static var reserve_EXT: MemoryUnmapFlags { MemoryUnmapFlags(rawValue: 1 << 0) }
+    public static var reserve_EXT: MemoryUnmapFlags {
+        MemoryUnmapFlags(rawValue: 1 << 0)
+    }
+}
+
+
+#if !PlatformMetal
+    @available(*, unavailable, message: "This flag requires the following trait: PlatformMetal.")
+#endif
+public struct MetalSurfaceCreateFlagsEXT: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `MetalSurfaceCreateFlagsEXT` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -3975,7 +5554,9 @@ public struct MicromapCreateFlagsEXT: OptionSet {
 
 
     @inlinable
-    public static var deviceAddressCaptureReplay_EXT: MicromapCreateFlagsEXT { MicromapCreateFlagsEXT(rawValue: 1 << 0) }
+    public static var deviceAddressCaptureReplay_EXT: MicromapCreateFlagsEXT {
+        MicromapCreateFlagsEXT(rawValue: 1 << 0)
+    }
 }
 
 
@@ -3994,7 +5575,9 @@ public struct OpticalFlowExecuteFlagsNV: OptionSet {
 
 
     @inlinable
-    public static var disableTemporalHints_NV: OpticalFlowExecuteFlagsNV { OpticalFlowExecuteFlagsNV(rawValue: 1 << 0) }
+    public static var disableTemporalHints_NV: OpticalFlowExecuteFlagsNV {
+        OpticalFlowExecuteFlagsNV(rawValue: 1 << 0)
+    }
 }
 
 
@@ -4013,23 +5596,33 @@ public struct OpticalFlowGridSizeFlagsNV: OptionSet {
 
 
     @inlinable
-    public static var unknown_NV: OpticalFlowGridSizeFlagsNV { OpticalFlowGridSizeFlagsNV(rawValue: 0) }
+    public static var unknown_NV: OpticalFlowGridSizeFlagsNV {
+        OpticalFlowGridSizeFlagsNV(rawValue: 0)
+    }
 
 
     @inlinable
-    public static var `1x1Bit_NV`: OpticalFlowGridSizeFlagsNV { OpticalFlowGridSizeFlagsNV(rawValue: 1 << 0) }
+    public static var `1x1Bit_NV`: OpticalFlowGridSizeFlagsNV {
+        OpticalFlowGridSizeFlagsNV(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var `2x2Bit_NV`: OpticalFlowGridSizeFlagsNV { OpticalFlowGridSizeFlagsNV(rawValue: 1 << 1) }
+    public static var `2x2Bit_NV`: OpticalFlowGridSizeFlagsNV {
+        OpticalFlowGridSizeFlagsNV(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var `4x4Bit_NV`: OpticalFlowGridSizeFlagsNV { OpticalFlowGridSizeFlagsNV(rawValue: 1 << 2) }
+    public static var `4x4Bit_NV`: OpticalFlowGridSizeFlagsNV {
+        OpticalFlowGridSizeFlagsNV(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var `8x8Bit_NV`: OpticalFlowGridSizeFlagsNV { OpticalFlowGridSizeFlagsNV(rawValue: 1 << 3) }
+    public static var `8x8Bit_NV`: OpticalFlowGridSizeFlagsNV {
+        OpticalFlowGridSizeFlagsNV(rawValue: 1 << 3)
+    }
 }
 
 
@@ -4048,11 +5641,15 @@ public struct OpticalFlowSessionCreateFlagsNV: OptionSet {
 
 
     @inlinable
-    public static var enableHint_NV: OpticalFlowSessionCreateFlagsNV { OpticalFlowSessionCreateFlagsNV(rawValue: 1 << 0) }
+    public static var enableHint_NV: OpticalFlowSessionCreateFlagsNV {
+        OpticalFlowSessionCreateFlagsNV(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var enableCost_NV: OpticalFlowSessionCreateFlagsNV { OpticalFlowSessionCreateFlagsNV(rawValue: 1 << 1) }
+    public static var enableCost_NV: OpticalFlowSessionCreateFlagsNV {
+        OpticalFlowSessionCreateFlagsNV(rawValue: 1 << 1)
+    }
 
 
     @inlinable
@@ -4062,7 +5659,9 @@ public struct OpticalFlowSessionCreateFlagsNV: OptionSet {
 
 
     @inlinable
-    public static var allowRegions_NV: OpticalFlowSessionCreateFlagsNV { OpticalFlowSessionCreateFlagsNV(rawValue: 1 << 3) }
+    public static var allowRegions_NV: OpticalFlowSessionCreateFlagsNV {
+        OpticalFlowSessionCreateFlagsNV(rawValue: 1 << 3)
+    }
 
 
     @inlinable
@@ -4087,27 +5686,39 @@ public struct OpticalFlowUsageFlagsNV: OptionSet {
 
 
     @inlinable
-    public static var unknown_NV: OpticalFlowUsageFlagsNV { OpticalFlowUsageFlagsNV(rawValue: 0) }
+    public static var unknown_NV: OpticalFlowUsageFlagsNV {
+        OpticalFlowUsageFlagsNV(rawValue: 0)
+    }
 
 
     @inlinable
-    public static var inputBit_NV: OpticalFlowUsageFlagsNV { OpticalFlowUsageFlagsNV(rawValue: 1 << 0) }
+    public static var inputBit_NV: OpticalFlowUsageFlagsNV {
+        OpticalFlowUsageFlagsNV(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var outputBit_NV: OpticalFlowUsageFlagsNV { OpticalFlowUsageFlagsNV(rawValue: 1 << 1) }
+    public static var outputBit_NV: OpticalFlowUsageFlagsNV {
+        OpticalFlowUsageFlagsNV(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var hintBit_NV: OpticalFlowUsageFlagsNV { OpticalFlowUsageFlagsNV(rawValue: 1 << 2) }
+    public static var hintBit_NV: OpticalFlowUsageFlagsNV {
+        OpticalFlowUsageFlagsNV(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var costBit_NV: OpticalFlowUsageFlagsNV { OpticalFlowUsageFlagsNV(rawValue: 1 << 3) }
+    public static var costBit_NV: OpticalFlowUsageFlagsNV {
+        OpticalFlowUsageFlagsNV(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var globalFlowBit_NV: OpticalFlowUsageFlagsNV { OpticalFlowUsageFlagsNV(rawValue: 1 << 4) }
+    public static var globalFlowBit_NV: OpticalFlowUsageFlagsNV {
+        OpticalFlowUsageFlagsNV(rawValue: 1 << 4)
+    }
 }
 
 
@@ -4171,35 +5782,51 @@ public struct PeerMemoryFeatureFlags: OptionSet {
 
 
     @inlinable
-    public static var copySrc: PeerMemoryFeatureFlags { PeerMemoryFeatureFlags(rawValue: 1 << 0) }
+    public static var copySrc: PeerMemoryFeatureFlags {
+        PeerMemoryFeatureFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var copyDst: PeerMemoryFeatureFlags { PeerMemoryFeatureFlags(rawValue: 1 << 1) }
+    public static var copyDst: PeerMemoryFeatureFlags {
+        PeerMemoryFeatureFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var genericSrc: PeerMemoryFeatureFlags { PeerMemoryFeatureFlags(rawValue: 1 << 2) }
+    public static var genericSrc: PeerMemoryFeatureFlags {
+        PeerMemoryFeatureFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var genericDst: PeerMemoryFeatureFlags { PeerMemoryFeatureFlags(rawValue: 1 << 3) }
+    public static var genericDst: PeerMemoryFeatureFlags {
+        PeerMemoryFeatureFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var copySrc_KHR: PeerMemoryFeatureFlags { self.copySrc }
+    public static var copySrc_KHR: PeerMemoryFeatureFlags {
+        self.copySrc
+    }
 
 
     @inlinable
-    public static var copyDst_KHR: PeerMemoryFeatureFlags { self.copyDst }
+    public static var copyDst_KHR: PeerMemoryFeatureFlags {
+        self.copyDst
+    }
 
 
     @inlinable
-    public static var genericSrc_KHR: PeerMemoryFeatureFlags { self.genericSrc }
+    public static var genericSrc_KHR: PeerMemoryFeatureFlags {
+        self.genericSrc
+    }
 
 
     @inlinable
-    public static var genericDst_KHR: PeerMemoryFeatureFlags { self.genericDst }
+    public static var genericDst_KHR: PeerMemoryFeatureFlags {
+        self.genericDst
+    }
 }
 
 
@@ -4230,11 +5857,15 @@ public struct PerformanceCounterDescriptionFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var performanceImpacting_KHR: PerformanceCounterDescriptionFlagsKHR { self.performanceImpactingBit_KHR }
+    public static var performanceImpacting_KHR: PerformanceCounterDescriptionFlagsKHR {
+        self.performanceImpactingBit_KHR
+    }
 
 
     @inlinable
-    public static var concurrentlyImpacted_KHR: PerformanceCounterDescriptionFlagsKHR { self.concurrentlyImpactedBit_KHR }
+    public static var concurrentlyImpacted_KHR: PerformanceCounterDescriptionFlagsKHR {
+        self.concurrentlyImpactedBit_KHR
+    }
 }
 
 
@@ -4274,7 +5905,9 @@ public struct PipelineCacheCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var externallySynchronized: PipelineCacheCreateFlags { PipelineCacheCreateFlags(rawValue: 1 << 0) }
+    public static var externallySynchronized: PipelineCacheCreateFlags {
+        PipelineCacheCreateFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
@@ -4284,7 +5917,9 @@ public struct PipelineCacheCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var externallySynchronized_EXT: PipelineCacheCreateFlags { self.externallySynchronized }
+    public static var externallySynchronized_EXT: PipelineCacheCreateFlags {
+        self.externallySynchronized
+    }
 }
 
 
@@ -4332,6 +5967,57 @@ public struct PipelineCompilerControlFlagsAMD: OptionSet {
 }
 
 
+public struct PipelineCoverageModulationStateCreateFlagsNV: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `PipelineCoverageModulationStateCreateFlagsNV` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+public struct PipelineCoverageReductionStateCreateFlagsNV: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `PipelineCoverageReductionStateCreateFlagsNV` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+public struct PipelineCoverageToColorStateCreateFlagsNV: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `PipelineCoverageToColorStateCreateFlagsNV` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
 public struct PipelineCreateFlags: OptionSet {
     /// The raw value of the bitmask, represented as a UInt32.
     public let rawValue: UInt32
@@ -4347,43 +6033,63 @@ public struct PipelineCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var disableOptimizationBit: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 0) }
+    public static var disableOptimizationBit: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var allowDerivativesBit: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 1) }
+    public static var allowDerivativesBit: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var derivativeBit: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 2) }
+    public static var derivativeBit: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var viewIndexFromDeviceIndexBit: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 3) }
+    public static var viewIndexFromDeviceIndexBit: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var dispatchBaseBit: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 4) }
+    public static var dispatchBaseBit: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var failOnPipelineCompileRequiredBit: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 8) }
+    public static var failOnPipelineCompileRequiredBit: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 8)
+    }
 
 
     @inlinable
-    public static var earlyReturnOnFailureBit: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 9) }
+    public static var earlyReturnOnFailureBit: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 9)
+    }
 
 
     @inlinable
-    public static var noProtectedAccessBit: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 27) }
+    public static var noProtectedAccessBit: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 27)
+    }
 
 
     @inlinable
-    public static var protectedAccessOnlyBit: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 30) }
+    public static var protectedAccessOnlyBit: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 30)
+    }
 
 
     @inlinable
-    public static var rayTracingNoNullAnyHitShadersBit_KHR: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 14) }
+    public static var rayTracingNoNullAnyHitShadersBit_KHR: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 14)
+    }
 
 
     @inlinable
@@ -4393,7 +6099,9 @@ public struct PipelineCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var rayTracingNoNullMissShadersBit_KHR: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 16) }
+    public static var rayTracingNoNullMissShadersBit_KHR: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 16)
+    }
 
 
     @inlinable
@@ -4403,11 +6111,15 @@ public struct PipelineCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var rayTracingSkipTrianglesBit_KHR: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 12) }
+    public static var rayTracingSkipTrianglesBit_KHR: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 12)
+    }
 
 
     @inlinable
-    public static var rayTracingSkipAabbsBit_KHR: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 13) }
+    public static var rayTracingSkipAabbsBit_KHR: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 13)
+    }
 
 
     @inlinable
@@ -4417,7 +6129,9 @@ public struct PipelineCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var deferCompileBit_NV: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 5) }
+    public static var deferCompileBit_NV: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 5)
+    }
 
 
     @inlinable
@@ -4433,39 +6147,57 @@ public struct PipelineCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var captureStatisticsBit_KHR: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 6) }
+    public static var captureStatisticsBit_KHR: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var captureInternalRepresentationsBit_KHR: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 7) }
+    public static var captureInternalRepresentationsBit_KHR: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 7)
+    }
 
 
     @inlinable
-    public static var indirectBindableBit_NV: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 18) }
+    public static var indirectBindableBit_NV: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 18)
+    }
 
 
     @inlinable
-    public static var libraryBit_KHR: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 11) }
+    public static var libraryBit_KHR: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 11)
+    }
 
 
     @inlinable
-    public static var descriptorBufferBit_EXT: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 29) }
+    public static var descriptorBufferBit_EXT: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 29)
+    }
 
 
     @inlinable
-    public static var retainLinkTimeOptimizationInfoBit_EXT: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 23) }
+    public static var retainLinkTimeOptimizationInfoBit_EXT: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 23)
+    }
 
 
     @inlinable
-    public static var linkTimeOptimizationBit_EXT: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 10) }
+    public static var linkTimeOptimizationBit_EXT: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 10)
+    }
 
 
     @inlinable
-    public static var rayTracingAllowMotionBit_NV: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 20) }
+    public static var rayTracingAllowMotionBit_NV: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 20)
+    }
 
 
     @inlinable
-    public static var colorAttachmentFeedbackLoopBit_EXT: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 25) }
+    public static var colorAttachmentFeedbackLoopBit_EXT: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 25)
+    }
 
 
     @inlinable
@@ -4475,26 +6207,42 @@ public struct PipelineCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var rayTracingOpacityMicromapBit_EXT: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 24) }
+    public static var rayTracingOpacityMicromapBit_EXT: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 24)
+    }
 
 
     #if !EnableProvisional
         @available(*, unavailable, message: "This flag requires the following trait: EnableProvisional.")
     #endif
     @inlinable
-    public static var rayTracingDisplacementMicromapBit_NV: PipelineCreateFlags { PipelineCreateFlags(rawValue: 1 << 28) }
+    public static var rayTracingDisplacementMicromapBit_NV: PipelineCreateFlags {
+        PipelineCreateFlags(rawValue: 1 << 28)
+    }
 
 
     @inlinable
-    public static var dispatchBase: PipelineCreateFlags { self.dispatchBaseBit }
+    public static var dispatchBase: PipelineCreateFlags {
+        self.dispatchBaseBit
+    }
 
 
     @inlinable
-    public static var viewIndexFromDeviceIndexBit_KHR: PipelineCreateFlags { self.viewIndexFromDeviceIndexBit }
+    public static var viewIndexFromDeviceIndexBit_KHR: PipelineCreateFlags {
+        self.viewIndexFromDeviceIndexBit
+    }
 
 
     @inlinable
-    public static var dispatchBase_KHR: PipelineCreateFlags { self.dispatchBaseBit }
+    public static var dispatchBaseBit_KHR: PipelineCreateFlags {
+        self.dispatchBaseBit
+    }
+
+
+    @inlinable
+    public static var dispatchBase_KHR: PipelineCreateFlags {
+        self.dispatchBaseBit
+    }
 
 
     @inlinable
@@ -4510,19 +6258,27 @@ public struct PipelineCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var failOnPipelineCompileRequiredBit_EXT: PipelineCreateFlags { self.failOnPipelineCompileRequiredBit }
+    public static var failOnPipelineCompileRequiredBit_EXT: PipelineCreateFlags {
+        self.failOnPipelineCompileRequiredBit
+    }
 
 
     @inlinable
-    public static var earlyReturnOnFailureBit_EXT: PipelineCreateFlags { self.earlyReturnOnFailureBit }
+    public static var earlyReturnOnFailureBit_EXT: PipelineCreateFlags {
+        self.earlyReturnOnFailureBit
+    }
 
 
     @inlinable
-    public static var noProtectedAccessBit_EXT: PipelineCreateFlags { self.noProtectedAccessBit }
+    public static var noProtectedAccessBit_EXT: PipelineCreateFlags {
+        self.noProtectedAccessBit
+    }
 
 
     @inlinable
-    public static var protectedAccessOnlyBit_EXT: PipelineCreateFlags { self.protectedAccessOnlyBit }
+    public static var protectedAccessOnlyBit_EXT: PipelineCreateFlags {
+        self.protectedAccessOnlyBit
+    }
 }
 
 
@@ -4541,46 +6297,66 @@ public struct PipelineCreateFlags2: OptionSet {
 
 
     @inlinable
-    public static var disableOptimization: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 0) }
+    public static var disableOptimization: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var allowDerivatives: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 1) }
+    public static var allowDerivatives: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var derivative: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 2) }
+    public static var derivative: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var viewIndexFromDeviceIndex: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 3) }
+    public static var viewIndexFromDeviceIndex: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var dispatchBase: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 4) }
+    public static var dispatchBase: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var failOnPipelineCompileRequired: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 8) }
+    public static var failOnPipelineCompileRequired: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 8)
+    }
 
 
     @inlinable
-    public static var earlyReturnOnFailure: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 9) }
+    public static var earlyReturnOnFailure: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 9)
+    }
 
 
     @inlinable
-    public static var noProtectedAccess: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 27) }
+    public static var noProtectedAccess: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 27)
+    }
 
 
     @inlinable
-    public static var protectedAccessOnly: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 30) }
+    public static var protectedAccessOnly: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 30)
+    }
 
 
     #if !EnableProvisional
         @available(*, unavailable, message: "This flag requires the following trait: EnableProvisional.")
     #endif
     @inlinable
-    public static var executionGraph_AMDX: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 32) }
+    public static var executionGraph_AMDX: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 32)
+    }
 
 
     @inlinable
@@ -4590,51 +6366,75 @@ public struct PipelineCreateFlags2: OptionSet {
 
 
     @inlinable
-    public static var enableLegacyDithering_EXT: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 34) }
+    public static var enableLegacyDithering_EXT: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 34)
+    }
 
 
     @inlinable
-    public static var deferCompile_NV: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 5) }
+    public static var deferCompile_NV: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var captureStatistics_KHR: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 6) }
+    public static var captureStatistics_KHR: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var captureInternalRepresentations_KHR: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 7) }
+    public static var captureInternalRepresentations_KHR: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 7)
+    }
 
 
     @inlinable
-    public static var linkTimeOptimization_EXT: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 10) }
+    public static var linkTimeOptimization_EXT: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 10)
+    }
 
 
     @inlinable
-    public static var retainLinkTimeOptimizationInfo_EXT: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 23) }
+    public static var retainLinkTimeOptimizationInfo_EXT: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 23)
+    }
 
 
     @inlinable
-    public static var library_KHR: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 11) }
+    public static var library_KHR: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 11)
+    }
 
 
     @inlinable
-    public static var rayTracingSkipTriangles_KHR: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 12) }
+    public static var rayTracingSkipTriangles_KHR: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 12)
+    }
 
 
     @inlinable
-    public static var rayTracingSkipAabbs_KHR: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 13) }
+    public static var rayTracingSkipAabbs_KHR: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 13)
+    }
 
 
     @inlinable
-    public static var rayTracingNoNullAnyHitShaders_KHR: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 14) }
+    public static var rayTracingNoNullAnyHitShaders_KHR: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 14)
+    }
 
 
     @inlinable
-    public static var rayTracingNoNullClosestHitShaders_KHR: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 15) }
+    public static var rayTracingNoNullClosestHitShaders_KHR: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 15)
+    }
 
 
     @inlinable
-    public static var rayTracingNoNullMissShaders_KHR: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 16) }
+    public static var rayTracingNoNullMissShaders_KHR: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 16)
+    }
 
 
     @inlinable
@@ -4650,11 +6450,15 @@ public struct PipelineCreateFlags2: OptionSet {
 
 
     @inlinable
-    public static var indirectBindable_NV: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 18) }
+    public static var indirectBindable_NV: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 18)
+    }
 
 
     @inlinable
-    public static var rayTracingAllowMotion_NV: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 20) }
+    public static var rayTracingAllowMotion_NV: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 20)
+    }
 
 
     @inlinable
@@ -4670,11 +6474,15 @@ public struct PipelineCreateFlags2: OptionSet {
 
 
     @inlinable
-    public static var rayTracingOpacityMicromap_EXT: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 24) }
+    public static var rayTracingOpacityMicromap_EXT: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 24)
+    }
 
 
     @inlinable
-    public static var colorAttachmentFeedbackLoop_EXT: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 25) }
+    public static var colorAttachmentFeedbackLoop_EXT: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 25)
+    }
 
 
     @inlinable
@@ -4684,63 +6492,99 @@ public struct PipelineCreateFlags2: OptionSet {
 
 
     @inlinable
-    public static var rayTracingDisplacementMicromap_NV: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 28) }
+    public static var rayTracingDisplacementMicromap_NV: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 28)
+    }
 
 
     @inlinable
-    public static var descriptorBuffer_EXT: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 29) }
+    public static var descriptorBuffer_EXT: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 29)
+    }
 
 
     @inlinable
-    public static var disallowOpacityMicromap_ARM: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 37) }
+    public static var disallowOpacityMicromap_ARM: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 37)
+    }
 
 
     @inlinable
-    public static var captureData_KHR: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 31) }
+    public static var captureData_KHR: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 31)
+    }
 
 
     @inlinable
-    public static var indirectBindable_EXT: PipelineCreateFlags2 { PipelineCreateFlags2(rawValue: 1 << 38) }
+    public static var indirectBindable_EXT: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 38)
+    }
 
 
     @inlinable
-    public static var rayTracingSkipBuiltInPrimitives_KHR: PipelineCreateFlags2 { self.rayTracingSkipTriangles_KHR }
+    public static var perLayerFragmentDensity_VALVE: PipelineCreateFlags2 {
+        PipelineCreateFlags2(rawValue: 1 << 40)
+    }
 
 
     @inlinable
-    public static var disableOptimization_KHR: PipelineCreateFlags2 { self.disableOptimization }
+    public static var rayTracingSkipBuiltInPrimitives_KHR: PipelineCreateFlags2 {
+        self.rayTracingSkipTriangles_KHR
+    }
 
 
     @inlinable
-    public static var allowDerivatives_KHR: PipelineCreateFlags2 { self.allowDerivatives }
+    public static var disableOptimization_KHR: PipelineCreateFlags2 {
+        self.disableOptimization
+    }
 
 
     @inlinable
-    public static var derivative_KHR: PipelineCreateFlags2 { self.derivative }
+    public static var allowDerivatives_KHR: PipelineCreateFlags2 {
+        self.allowDerivatives
+    }
 
 
     @inlinable
-    public static var viewIndexFromDeviceIndex_KHR: PipelineCreateFlags2 { self.viewIndexFromDeviceIndex }
+    public static var derivative_KHR: PipelineCreateFlags2 {
+        self.derivative
+    }
 
 
     @inlinable
-    public static var dispatchBase_KHR: PipelineCreateFlags2 { self.dispatchBase }
+    public static var viewIndexFromDeviceIndex_KHR: PipelineCreateFlags2 {
+        self.viewIndexFromDeviceIndex
+    }
 
 
     @inlinable
-    public static var failOnPipelineCompileRequired_KHR: PipelineCreateFlags2 { self.failOnPipelineCompileRequired }
+    public static var dispatchBase_KHR: PipelineCreateFlags2 {
+        self.dispatchBase
+    }
 
 
     @inlinable
-    public static var earlyReturnOnFailure_KHR: PipelineCreateFlags2 { self.earlyReturnOnFailure }
+    public static var failOnPipelineCompileRequired_KHR: PipelineCreateFlags2 {
+        self.failOnPipelineCompileRequired
+    }
 
 
     @inlinable
-    public static var noProtectedAccess_EXT: PipelineCreateFlags2 { self.noProtectedAccess }
+    public static var earlyReturnOnFailure_KHR: PipelineCreateFlags2 {
+        self.earlyReturnOnFailure
+    }
 
 
     @inlinable
-    public static var protectedAccessOnly_EXT: PipelineCreateFlags2 { self.protectedAccessOnly }
+    public static var noProtectedAccess_EXT: PipelineCreateFlags2 {
+        self.noProtectedAccess
+    }
+
+
+    @inlinable
+    public static var protectedAccessOnly_EXT: PipelineCreateFlags2 {
+        self.protectedAccessOnly
+    }
 }
 
 
@@ -4759,7 +6603,9 @@ public struct PipelineCreationFeedbackFlags: OptionSet {
 
 
     @inlinable
-    public static var valid: PipelineCreationFeedbackFlags { PipelineCreationFeedbackFlags(rawValue: 1 << 0) }
+    public static var valid: PipelineCreationFeedbackFlags {
+        PipelineCreationFeedbackFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
@@ -4775,15 +6621,21 @@ public struct PipelineCreationFeedbackFlags: OptionSet {
 
 
     @inlinable
-    public static var valid_EXT: PipelineCreationFeedbackFlags { self.valid }
+    public static var valid_EXT: PipelineCreationFeedbackFlags {
+        self.valid
+    }
 
 
     @inlinable
-    public static var applicationPipelineCacheHit_EXT: PipelineCreationFeedbackFlags { self.applicationPipelineCacheHit }
+    public static var applicationPipelineCacheHit_EXT: PipelineCreationFeedbackFlags {
+        self.applicationPipelineCacheHit
+    }
 
 
     @inlinable
-    public static var basePipelineAcceleration_EXT: PipelineCreationFeedbackFlags { self.basePipelineAcceleration }
+    public static var basePipelineAcceleration_EXT: PipelineCreationFeedbackFlags {
+        self.basePipelineAcceleration
+    }
 }
 
 
@@ -4826,6 +6678,57 @@ public struct PipelineDepthStencilStateCreateFlags: OptionSet {
 }
 
 
+public struct PipelineDiscardRectangleStateCreateFlagsEXT: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `PipelineDiscardRectangleStateCreateFlagsEXT` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+public struct PipelineDynamicStateCreateFlags: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `PipelineDynamicStateCreateFlags` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+public struct PipelineInputAssemblyStateCreateFlags: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `PipelineInputAssemblyStateCreateFlags` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
 public struct PipelineLayoutCreateFlags: OptionSet {
     /// The raw value of the bitmask, represented as a UInt32.
     public let rawValue: UInt32
@@ -4841,7 +6744,94 @@ public struct PipelineLayoutCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var independentSets_EXT: PipelineLayoutCreateFlags { PipelineLayoutCreateFlags(rawValue: 1 << 1) }
+    public static var independentSets_EXT: PipelineLayoutCreateFlags {
+        PipelineLayoutCreateFlags(rawValue: 1 << 1)
+    }
+}
+
+
+public struct PipelineMultisampleStateCreateFlags: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `PipelineMultisampleStateCreateFlags` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+public struct PipelineRasterizationConservativeStateCreateFlagsEXT: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `PipelineRasterizationConservativeStateCreateFlagsEXT` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+public struct PipelineRasterizationDepthClipStateCreateFlagsEXT: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `PipelineRasterizationDepthClipStateCreateFlagsEXT` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+public struct PipelineRasterizationStateCreateFlags: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `PipelineRasterizationStateCreateFlags` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+public struct PipelineRasterizationStateStreamCreateFlagsEXT: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `PipelineRasterizationStateStreamCreateFlagsEXT` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -4872,11 +6862,15 @@ public struct PipelineShaderStageCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var allowVaryingSubgroupSize_EXT: PipelineShaderStageCreateFlags { self.allowVaryingSubgroupSize }
+    public static var allowVaryingSubgroupSize_EXT: PipelineShaderStageCreateFlags {
+        self.allowVaryingSubgroupSize
+    }
 
 
     @inlinable
-    public static var requireFullSubgroups_EXT: PipelineShaderStageCreateFlags { self.requireFullSubgroups }
+    public static var requireFullSubgroups_EXT: PipelineShaderStageCreateFlags {
+        self.requireFullSubgroups
+    }
 }
 
 
@@ -4895,139 +6889,207 @@ public struct PipelineStageFlags: OptionSet {
 
 
     @inlinable
-    public static var topOfPipeBit: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 0) }
+    public static var topOfPipeBit: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var drawIndirectBit: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 1) }
+    public static var drawIndirectBit: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var vertexInputBit: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 2) }
+    public static var vertexInputBit: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var vertexShaderBit: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 3) }
+    public static var vertexShaderBit: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var tessellationControlShaderBit: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 4) }
+    public static var tessellationControlShaderBit: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var tessellationEvaluationShaderBit: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 5) }
+    public static var tessellationEvaluationShaderBit: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var geometryShaderBit: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 6) }
+    public static var geometryShaderBit: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var fragmentShaderBit: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 7) }
+    public static var fragmentShaderBit: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 7)
+    }
 
 
     @inlinable
-    public static var earlyFragmentTestsBit: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 8) }
+    public static var earlyFragmentTestsBit: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 8)
+    }
 
 
     @inlinable
-    public static var lateFragmentTestsBit: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 9) }
+    public static var lateFragmentTestsBit: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 9)
+    }
 
 
     @inlinable
-    public static var colorAttachmentOutputBit: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 10) }
+    public static var colorAttachmentOutputBit: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 10)
+    }
 
 
     @inlinable
-    public static var computeShaderBit: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 11) }
+    public static var computeShaderBit: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 11)
+    }
 
 
     @inlinable
-    public static var transferBit: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 12) }
+    public static var transferBit: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 12)
+    }
 
 
     @inlinable
-    public static var bottomOfPipeBit: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 13) }
+    public static var bottomOfPipeBit: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 13)
+    }
 
 
     @inlinable
-    public static var hostBit: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 14) }
+    public static var hostBit: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 14)
+    }
 
 
     @inlinable
-    public static var allGraphicsBit: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 15) }
+    public static var allGraphicsBit: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 15)
+    }
 
 
     @inlinable
-    public static var allCommandsBit: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 16) }
+    public static var allCommandsBit: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 16)
+    }
 
 
     @inlinable
-    public static var none: PipelineStageFlags { PipelineStageFlags(rawValue: 0) }
+    public static var none: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 0)
+    }
 
 
     @inlinable
-    public static var transformFeedbackBit_EXT: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 24) }
+    public static var transformFeedbackBit_EXT: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 24)
+    }
 
 
     @inlinable
-    public static var conditionalRenderingBit_EXT: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 18) }
+    public static var conditionalRenderingBit_EXT: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 18)
+    }
 
 
     @inlinable
-    public static var accelerationStructureBuildBit_KHR: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 25) }
+    public static var accelerationStructureBuildBit_KHR: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 25)
+    }
 
 
     @inlinable
-    public static var rayTracingShaderBit_KHR: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 21) }
+    public static var rayTracingShaderBit_KHR: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 21)
+    }
 
 
     @inlinable
-    public static var fragmentDensityProcessBit_EXT: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 23) }
+    public static var fragmentDensityProcessBit_EXT: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 23)
+    }
 
 
     @inlinable
-    public static var fragmentShadingRateAttachmentBit_KHR: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 22) }
+    public static var fragmentShadingRateAttachmentBit_KHR: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 22)
+    }
 
 
     @inlinable
-    public static var taskShaderBit_EXT: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 19) }
+    public static var taskShaderBit_EXT: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 19)
+    }
 
 
     @inlinable
-    public static var meshShaderBit_EXT: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 20) }
+    public static var meshShaderBit_EXT: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 20)
+    }
 
 
     @inlinable
-    public static var commandPreprocessBit_EXT: PipelineStageFlags { PipelineStageFlags(rawValue: 1 << 17) }
+    public static var commandPreprocessBit_EXT: PipelineStageFlags {
+        PipelineStageFlags(rawValue: 1 << 17)
+    }
 
 
     @inlinable
-    public static var shadingRateImageBit_NV: PipelineStageFlags { self.fragmentShadingRateAttachmentBit_KHR }
+    public static var shadingRateImageBit_NV: PipelineStageFlags {
+        self.fragmentShadingRateAttachmentBit_KHR
+    }
 
 
     @inlinable
-    public static var rayTracingShaderBit_NV: PipelineStageFlags { self.rayTracingShaderBit_KHR }
+    public static var rayTracingShaderBit_NV: PipelineStageFlags {
+        self.rayTracingShaderBit_KHR
+    }
 
 
     @inlinable
-    public static var accelerationStructureBuildBit_NV: PipelineStageFlags { self.accelerationStructureBuildBit_KHR }
+    public static var accelerationStructureBuildBit_NV: PipelineStageFlags {
+        self.accelerationStructureBuildBit_KHR
+    }
 
 
     @inlinable
-    public static var taskShaderBit_NV: PipelineStageFlags { self.taskShaderBit_EXT }
+    public static var taskShaderBit_NV: PipelineStageFlags {
+        self.taskShaderBit_EXT
+    }
 
 
     @inlinable
-    public static var meshShaderBit_NV: PipelineStageFlags { self.meshShaderBit_EXT }
+    public static var meshShaderBit_NV: PipelineStageFlags {
+        self.meshShaderBit_EXT
+    }
 
 
     @inlinable
-    public static var commandPreprocessBit_NV: PipelineStageFlags { self.commandPreprocessBit_EXT }
+    public static var commandPreprocessBit_NV: PipelineStageFlags {
+        self.commandPreprocessBit_EXT
+    }
 
 
     @inlinable
-    public static var none_KHR: PipelineStageFlags { self.none }
+    public static var none_KHR: PipelineStageFlags {
+        self.none
+    }
 }
 
 
@@ -5046,311 +7108,533 @@ public struct PipelineStageFlags2: OptionSet {
 
 
     @inlinable
-    public static var none: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 0) }
+    public static var none: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 0)
+    }
 
 
     @inlinable
-    public static var topOfPipeBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 0) }
+    public static var topOfPipeBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var drawIndirectBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 1) }
+    public static var drawIndirectBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var vertexInputBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 2) }
+    public static var vertexInputBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var vertexShaderBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 3) }
+    public static var vertexShaderBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var tessellationControlShaderBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 4) }
+    public static var tessellationControlShaderBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var tessellationEvaluationShaderBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 5) }
+    public static var tessellationEvaluationShaderBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var geometryShaderBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 6) }
+    public static var geometryShaderBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var fragmentShaderBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 7) }
+    public static var fragmentShaderBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 7)
+    }
 
 
     @inlinable
-    public static var earlyFragmentTestsBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 8) }
+    public static var earlyFragmentTestsBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 8)
+    }
 
 
     @inlinable
-    public static var lateFragmentTestsBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 9) }
+    public static var lateFragmentTestsBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 9)
+    }
 
 
     @inlinable
-    public static var colorAttachmentOutputBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 10) }
+    public static var colorAttachmentOutputBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 10)
+    }
 
 
     @inlinable
-    public static var computeShaderBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 11) }
+    public static var computeShaderBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 11)
+    }
 
 
     @inlinable
-    public static var allTransferBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 12) }
+    public static var allTransferBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 12)
+    }
 
 
     @inlinable
-    public static var bottomOfPipeBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 13) }
+    public static var bottomOfPipeBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 13)
+    }
 
 
     @inlinable
-    public static var hostBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 14) }
+    public static var hostBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 14)
+    }
 
 
     @inlinable
-    public static var allGraphicsBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 15) }
+    public static var allGraphicsBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 15)
+    }
 
 
     @inlinable
-    public static var allCommandsBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 16) }
+    public static var allCommandsBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 16)
+    }
 
 
     @inlinable
-    public static var copyBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 32) }
+    public static var copyBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 32)
+    }
 
 
     @inlinable
-    public static var resolveBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 33) }
+    public static var resolveBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 33)
+    }
 
 
     @inlinable
-    public static var blitBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 34) }
+    public static var blitBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 34)
+    }
 
 
     @inlinable
-    public static var clearBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 35) }
+    public static var clearBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 35)
+    }
 
 
     @inlinable
-    public static var indexInputBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 36) }
+    public static var indexInputBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 36)
+    }
 
 
     @inlinable
-    public static var vertexAttributeInputBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 37) }
+    public static var vertexAttributeInputBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 37)
+    }
 
 
     @inlinable
-    public static var preRasterizationShadersBit: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 38) }
+    public static var preRasterizationShadersBit: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 38)
+    }
 
 
     @inlinable
-    public static var videoDecodeBit_KHR: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 26) }
+    public static var videoDecodeBit_KHR: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 26)
+    }
 
 
     @inlinable
-    public static var videoEncodeBit_KHR: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 27) }
+    public static var videoEncodeBit_KHR: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 27)
+    }
 
 
     @inlinable
-    public static var transformFeedbackBit_EXT: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 24) }
+    public static var transformFeedbackBit_EXT: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 24)
+    }
 
 
     @inlinable
-    public static var conditionalRenderingBit_EXT: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 18) }
+    public static var conditionalRenderingBit_EXT: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 18)
+    }
 
 
     @inlinable
-    public static var commandPreprocessBit_EXT: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 17) }
+    public static var commandPreprocessBit_EXT: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 17)
+    }
 
 
     @inlinable
-    public static var fragmentShadingRateAttachmentBit_KHR: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 22) }
+    public static var fragmentShadingRateAttachmentBit_KHR: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 22)
+    }
 
 
     @inlinable
-    public static var accelerationStructureBuildBit_KHR: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 25) }
+    public static var accelerationStructureBuildBit_KHR: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 25)
+    }
 
 
     @inlinable
-    public static var rayTracingShaderBit_KHR: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 21) }
+    public static var rayTracingShaderBit_KHR: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 21)
+    }
 
 
     @inlinable
-    public static var fragmentDensityProcessBit_EXT: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 23) }
+    public static var fragmentDensityProcessBit_EXT: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 23)
+    }
 
 
     @inlinable
-    public static var taskShaderBit_EXT: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 19) }
+    public static var taskShaderBit_EXT: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 19)
+    }
 
 
     @inlinable
-    public static var meshShaderBit_EXT: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 20) }
+    public static var meshShaderBit_EXT: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 20)
+    }
 
 
     @inlinable
-    public static var subpassShaderBit_HUAWEI: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 39) }
+    public static var subpassShaderBit_HUAWEI: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 39)
+    }
 
 
     @inlinable
-    public static var invocationMaskBit_HUAWEI: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 40) }
+    public static var invocationMaskBit_HUAWEI: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 40)
+    }
 
 
     @inlinable
-    public static var accelerationStructureCopyBit_KHR: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 28) }
+    public static var accelerationStructureCopyBit_KHR: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 28)
+    }
 
 
     @inlinable
-    public static var micromapBuildBit_EXT: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 30) }
+    public static var micromapBuildBit_EXT: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 30)
+    }
 
 
     @inlinable
-    public static var clusterCullingShaderBit_HUAWEI: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 41) }
+    public static var clusterCullingShaderBit_HUAWEI: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 41)
+    }
 
 
     @inlinable
-    public static var opticalFlowBit_NV: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 29) }
+    public static var opticalFlowBit_NV: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 29)
+    }
 
 
     @inlinable
-    public static var convertCooperativeVectorMatrixBit_NV: PipelineStageFlags2 { PipelineStageFlags2(rawValue: 1 << 44) }
+    public static var convertCooperativeVectorMatrixBit_NV: PipelineStageFlags2 {
+        PipelineStageFlags2(rawValue: 1 << 44)
+    }
 
 
     @inlinable
-    public static var transferBit: PipelineStageFlags2 { self.allTransferBit }
+    public static var transferBit: PipelineStageFlags2 {
+        self.allTransferBit
+    }
 
 
     @inlinable
-    public static var none_KHR: PipelineStageFlags2 { self.none }
+    public static var none_KHR: PipelineStageFlags2 {
+        self.none
+    }
 
 
     @inlinable
-    public static var topOfPipeBit_KHR: PipelineStageFlags2 { self.topOfPipeBit }
+    public static var topOfPipeBit_KHR: PipelineStageFlags2 {
+        self.topOfPipeBit
+    }
 
 
     @inlinable
-    public static var drawIndirectBit_KHR: PipelineStageFlags2 { self.drawIndirectBit }
+    public static var drawIndirectBit_KHR: PipelineStageFlags2 {
+        self.drawIndirectBit
+    }
 
 
     @inlinable
-    public static var vertexInputBit_KHR: PipelineStageFlags2 { self.vertexInputBit }
+    public static var vertexInputBit_KHR: PipelineStageFlags2 {
+        self.vertexInputBit
+    }
 
 
     @inlinable
-    public static var vertexShaderBit_KHR: PipelineStageFlags2 { self.vertexShaderBit }
+    public static var vertexShaderBit_KHR: PipelineStageFlags2 {
+        self.vertexShaderBit
+    }
 
 
     @inlinable
-    public static var tessellationControlShaderBit_KHR: PipelineStageFlags2 { self.tessellationControlShaderBit }
+    public static var tessellationControlShaderBit_KHR: PipelineStageFlags2 {
+        self.tessellationControlShaderBit
+    }
 
 
     @inlinable
-    public static var tessellationEvaluationShaderBit_KHR: PipelineStageFlags2 { self.tessellationEvaluationShaderBit }
+    public static var tessellationEvaluationShaderBit_KHR: PipelineStageFlags2 {
+        self.tessellationEvaluationShaderBit
+    }
 
 
     @inlinable
-    public static var geometryShaderBit_KHR: PipelineStageFlags2 { self.geometryShaderBit }
+    public static var geometryShaderBit_KHR: PipelineStageFlags2 {
+        self.geometryShaderBit
+    }
 
 
     @inlinable
-    public static var fragmentShaderBit_KHR: PipelineStageFlags2 { self.fragmentShaderBit }
+    public static var fragmentShaderBit_KHR: PipelineStageFlags2 {
+        self.fragmentShaderBit
+    }
 
 
     @inlinable
-    public static var earlyFragmentTestsBit_KHR: PipelineStageFlags2 { self.earlyFragmentTestsBit }
+    public static var earlyFragmentTestsBit_KHR: PipelineStageFlags2 {
+        self.earlyFragmentTestsBit
+    }
 
 
     @inlinable
-    public static var lateFragmentTestsBit_KHR: PipelineStageFlags2 { self.lateFragmentTestsBit }
+    public static var lateFragmentTestsBit_KHR: PipelineStageFlags2 {
+        self.lateFragmentTestsBit
+    }
 
 
     @inlinable
-    public static var colorAttachmentOutputBit_KHR: PipelineStageFlags2 { self.colorAttachmentOutputBit }
+    public static var colorAttachmentOutputBit_KHR: PipelineStageFlags2 {
+        self.colorAttachmentOutputBit
+    }
 
 
     @inlinable
-    public static var computeShaderBit_KHR: PipelineStageFlags2 { self.computeShaderBit }
+    public static var computeShaderBit_KHR: PipelineStageFlags2 {
+        self.computeShaderBit
+    }
 
 
     @inlinable
-    public static var allTransferBit_KHR: PipelineStageFlags2 { self.allTransferBit }
+    public static var allTransferBit_KHR: PipelineStageFlags2 {
+        self.allTransferBit
+    }
 
 
     @inlinable
-    public static var transferBit_KHR: PipelineStageFlags2 { self.allTransferBit }
+    public static var transferBit_KHR: PipelineStageFlags2 {
+        self.allTransferBit
+    }
 
 
     @inlinable
-    public static var bottomOfPipeBit_KHR: PipelineStageFlags2 { self.bottomOfPipeBit }
+    public static var bottomOfPipeBit_KHR: PipelineStageFlags2 {
+        self.bottomOfPipeBit
+    }
 
 
     @inlinable
-    public static var hostBit_KHR: PipelineStageFlags2 { self.hostBit }
+    public static var hostBit_KHR: PipelineStageFlags2 {
+        self.hostBit
+    }
 
 
     @inlinable
-    public static var allGraphicsBit_KHR: PipelineStageFlags2 { self.allGraphicsBit }
+    public static var allGraphicsBit_KHR: PipelineStageFlags2 {
+        self.allGraphicsBit
+    }
 
 
     @inlinable
-    public static var allCommandsBit_KHR: PipelineStageFlags2 { self.allCommandsBit }
+    public static var allCommandsBit_KHR: PipelineStageFlags2 {
+        self.allCommandsBit
+    }
 
 
     @inlinable
-    public static var copyBit_KHR: PipelineStageFlags2 { self.copyBit }
+    public static var copyBit_KHR: PipelineStageFlags2 {
+        self.copyBit
+    }
 
 
     @inlinable
-    public static var resolveBit_KHR: PipelineStageFlags2 { self.resolveBit }
+    public static var resolveBit_KHR: PipelineStageFlags2 {
+        self.resolveBit
+    }
 
 
     @inlinable
-    public static var blitBit_KHR: PipelineStageFlags2 { self.blitBit }
+    public static var blitBit_KHR: PipelineStageFlags2 {
+        self.blitBit
+    }
 
 
     @inlinable
-    public static var clearBit_KHR: PipelineStageFlags2 { self.clearBit }
+    public static var clearBit_KHR: PipelineStageFlags2 {
+        self.clearBit
+    }
 
 
     @inlinable
-    public static var indexInputBit_KHR: PipelineStageFlags2 { self.indexInputBit }
+    public static var indexInputBit_KHR: PipelineStageFlags2 {
+        self.indexInputBit
+    }
 
 
     @inlinable
-    public static var vertexAttributeInputBit_KHR: PipelineStageFlags2 { self.vertexAttributeInputBit }
+    public static var vertexAttributeInputBit_KHR: PipelineStageFlags2 {
+        self.vertexAttributeInputBit
+    }
 
 
     @inlinable
-    public static var preRasterizationShadersBit_KHR: PipelineStageFlags2 { self.preRasterizationShadersBit }
+    public static var preRasterizationShadersBit_KHR: PipelineStageFlags2 {
+        self.preRasterizationShadersBit
+    }
 
 
     @inlinable
-    public static var commandPreprocessBit_NV: PipelineStageFlags2 { self.commandPreprocessBit_EXT }
+    public static var commandPreprocessBit_NV: PipelineStageFlags2 {
+        self.commandPreprocessBit_EXT
+    }
 
 
     @inlinable
-    public static var shadingRateImageBit_NV: PipelineStageFlags2 { self.fragmentShadingRateAttachmentBit_KHR }
+    public static var shadingRateImageBit_NV: PipelineStageFlags2 {
+        self.fragmentShadingRateAttachmentBit_KHR
+    }
 
 
     @inlinable
-    public static var rayTracingShaderBit_NV: PipelineStageFlags2 { self.rayTracingShaderBit_KHR }
+    public static var rayTracingShaderBit_NV: PipelineStageFlags2 {
+        self.rayTracingShaderBit_KHR
+    }
 
 
     @inlinable
-    public static var accelerationStructureBuildBit_NV: PipelineStageFlags2 { self.accelerationStructureBuildBit_KHR }
+    public static var accelerationStructureBuildBit_NV: PipelineStageFlags2 {
+        self.accelerationStructureBuildBit_KHR
+    }
 
 
     @inlinable
-    public static var taskShaderBit_NV: PipelineStageFlags2 { self.taskShaderBit_EXT }
+    public static var taskShaderBit_NV: PipelineStageFlags2 {
+        self.taskShaderBit_EXT
+    }
 
 
     @inlinable
-    public static var meshShaderBit_NV: PipelineStageFlags2 { self.meshShaderBit_EXT }
+    public static var meshShaderBit_NV: PipelineStageFlags2 {
+        self.meshShaderBit_EXT
+    }
 
 
     @inlinable
-    public static var subpassShadingBit_HUAWEI: PipelineStageFlags2 { self.subpassShaderBit_HUAWEI }
+    public static var subpassShadingBit_HUAWEI: PipelineStageFlags2 {
+        self.subpassShaderBit_HUAWEI
+    }
+}
+
+
+public struct PipelineTessellationStateCreateFlags: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `PipelineTessellationStateCreateFlags` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+public struct PipelineVertexInputStateCreateFlags: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `PipelineVertexInputStateCreateFlags` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+public struct PipelineViewportStateCreateFlags: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `PipelineViewportStateCreateFlags` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+public struct PipelineViewportSwizzleStateCreateFlagsNV: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `PipelineViewportSwizzleStateCreateFlagsNV` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -5369,15 +7653,21 @@ public struct PresentGravityFlagsEXT: OptionSet {
 
 
     @inlinable
-    public static var min_EXT: PresentGravityFlagsEXT { PresentGravityFlagsEXT(rawValue: 1 << 0) }
+    public static var min_EXT: PresentGravityFlagsEXT {
+        PresentGravityFlagsEXT(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var max_EXT: PresentGravityFlagsEXT { PresentGravityFlagsEXT(rawValue: 1 << 1) }
+    public static var max_EXT: PresentGravityFlagsEXT {
+        PresentGravityFlagsEXT(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var centered_EXT: PresentGravityFlagsEXT { PresentGravityFlagsEXT(rawValue: 1 << 2) }
+    public static var centered_EXT: PresentGravityFlagsEXT {
+        PresentGravityFlagsEXT(rawValue: 1 << 2)
+    }
 }
 
 
@@ -5396,15 +7686,38 @@ public struct PresentScalingFlagsEXT: OptionSet {
 
 
     @inlinable
-    public static var oneToOne_EXT: PresentScalingFlagsEXT { PresentScalingFlagsEXT(rawValue: 1 << 0) }
+    public static var oneToOne_EXT: PresentScalingFlagsEXT {
+        PresentScalingFlagsEXT(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var aspectRatioStretch_EXT: PresentScalingFlagsEXT { PresentScalingFlagsEXT(rawValue: 1 << 1) }
+    public static var aspectRatioStretch_EXT: PresentScalingFlagsEXT {
+        PresentScalingFlagsEXT(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var stretch_EXT: PresentScalingFlagsEXT { PresentScalingFlagsEXT(rawValue: 1 << 2) }
+    public static var stretch_EXT: PresentScalingFlagsEXT {
+        PresentScalingFlagsEXT(rawValue: 1 << 2)
+    }
+}
+
+
+public struct PrivateDataSlotCreateFlags: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `PrivateDataSlotCreateFlags` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -5423,7 +7736,9 @@ public struct QueryControlFlags: OptionSet {
 
 
     @inlinable
-    public static var precise: QueryControlFlags { QueryControlFlags(rawValue: 1 << 0) }
+    public static var precise: QueryControlFlags {
+        QueryControlFlags(rawValue: 1 << 0)
+    }
 }
 
 
@@ -5442,15 +7757,21 @@ public struct QueryPipelineStatisticFlags: OptionSet {
 
 
     @inlinable
-    public static var inputAssemblyVertices: QueryPipelineStatisticFlags { QueryPipelineStatisticFlags(rawValue: 1 << 0) }
+    public static var inputAssemblyVertices: QueryPipelineStatisticFlags {
+        QueryPipelineStatisticFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var inputAssemblyPrimitives: QueryPipelineStatisticFlags { QueryPipelineStatisticFlags(rawValue: 1 << 1) }
+    public static var inputAssemblyPrimitives: QueryPipelineStatisticFlags {
+        QueryPipelineStatisticFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var vertexShaderInvocations: QueryPipelineStatisticFlags { QueryPipelineStatisticFlags(rawValue: 1 << 2) }
+    public static var vertexShaderInvocations: QueryPipelineStatisticFlags {
+        QueryPipelineStatisticFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
@@ -5460,15 +7781,21 @@ public struct QueryPipelineStatisticFlags: OptionSet {
 
 
     @inlinable
-    public static var geometryShaderPrimitives: QueryPipelineStatisticFlags { QueryPipelineStatisticFlags(rawValue: 1 << 4) }
+    public static var geometryShaderPrimitives: QueryPipelineStatisticFlags {
+        QueryPipelineStatisticFlags(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var clippingInvocations: QueryPipelineStatisticFlags { QueryPipelineStatisticFlags(rawValue: 1 << 5) }
+    public static var clippingInvocations: QueryPipelineStatisticFlags {
+        QueryPipelineStatisticFlags(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var clippingPrimitives: QueryPipelineStatisticFlags { QueryPipelineStatisticFlags(rawValue: 1 << 6) }
+    public static var clippingPrimitives: QueryPipelineStatisticFlags {
+        QueryPipelineStatisticFlags(rawValue: 1 << 6)
+    }
 
 
     @inlinable
@@ -5514,6 +7841,27 @@ public struct QueryPipelineStatisticFlags: OptionSet {
 }
 
 
+public struct QueryPoolCreateFlags: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `QueryPoolCreateFlags` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+    @inlinable
+    public static var reset_KHR: QueryPoolCreateFlags {
+        QueryPoolCreateFlags(rawValue: 1 << 0)
+    }
+}
+
+
 public struct QueryResultFlags: OptionSet {
     /// The raw value of the bitmask, represented as a UInt32.
     public let rawValue: UInt32
@@ -5529,23 +7877,33 @@ public struct QueryResultFlags: OptionSet {
 
 
     @inlinable
-    public static var `64`: QueryResultFlags { QueryResultFlags(rawValue: 1 << 0) }
+    public static var `64`: QueryResultFlags {
+        QueryResultFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var wait: QueryResultFlags { QueryResultFlags(rawValue: 1 << 1) }
+    public static var wait: QueryResultFlags {
+        QueryResultFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var withAvailability: QueryResultFlags { QueryResultFlags(rawValue: 1 << 2) }
+    public static var withAvailability: QueryResultFlags {
+        QueryResultFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var partial: QueryResultFlags { QueryResultFlags(rawValue: 1 << 3) }
+    public static var partial: QueryResultFlags {
+        QueryResultFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var withStatus_KHR: QueryResultFlags { QueryResultFlags(rawValue: 1 << 4) }
+    public static var withStatus_KHR: QueryResultFlags {
+        QueryResultFlags(rawValue: 1 << 4)
+    }
 }
 
 
@@ -5564,35 +7922,51 @@ public struct QueueFlags: OptionSet {
 
 
     @inlinable
-    public static var graphics: QueueFlags { QueueFlags(rawValue: 1 << 0) }
+    public static var graphics: QueueFlags {
+        QueueFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var compute: QueueFlags { QueueFlags(rawValue: 1 << 1) }
+    public static var compute: QueueFlags {
+        QueueFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var transfer: QueueFlags { QueueFlags(rawValue: 1 << 2) }
+    public static var transfer: QueueFlags {
+        QueueFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var sparseBinding: QueueFlags { QueueFlags(rawValue: 1 << 3) }
+    public static var sparseBinding: QueueFlags {
+        QueueFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var protected: QueueFlags { QueueFlags(rawValue: 1 << 4) }
+    public static var protected: QueueFlags {
+        QueueFlags(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var videoDecode_KHR: QueueFlags { QueueFlags(rawValue: 1 << 5) }
+    public static var videoDecode_KHR: QueueFlags {
+        QueueFlags(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var videoEncode_KHR: QueueFlags { QueueFlags(rawValue: 1 << 6) }
+    public static var videoEncode_KHR: QueueFlags {
+        QueueFlags(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var opticalFlow_NV: QueueFlags { QueueFlags(rawValue: 1 << 8) }
+    public static var opticalFlow_NV: QueueFlags {
+        QueueFlags(rawValue: 1 << 8)
+    }
 }
 
 
@@ -5611,7 +7985,15 @@ public struct RenderPassCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var transform_QCOM: RenderPassCreateFlags { RenderPassCreateFlags(rawValue: 1 << 1) }
+    public static var transform_QCOM: RenderPassCreateFlags {
+        RenderPassCreateFlags(rawValue: 1 << 1)
+    }
+
+
+    @inlinable
+    public static var perLayerFragmentDensity_VALVE: RenderPassCreateFlags {
+        RenderPassCreateFlags(rawValue: 1 << 2)
+    }
 }
 
 
@@ -5630,39 +8012,63 @@ public struct RenderingFlags: OptionSet {
 
 
     @inlinable
-    public static var contentsSecondaryCommandBuffers: RenderingFlags { RenderingFlags(rawValue: 1 << 0) }
+    public static var contentsSecondaryCommandBuffers: RenderingFlags {
+        RenderingFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var suspending: RenderingFlags { RenderingFlags(rawValue: 1 << 1) }
+    public static var suspending: RenderingFlags {
+        RenderingFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var resuming: RenderingFlags { RenderingFlags(rawValue: 1 << 2) }
+    public static var resuming: RenderingFlags {
+        RenderingFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var enableLegacyDithering_EXT: RenderingFlags { RenderingFlags(rawValue: 1 << 3) }
+    public static var enableLegacyDithering_EXT: RenderingFlags {
+        RenderingFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var contentsInline_KHR: RenderingFlags { RenderingFlags(rawValue: 1 << 4) }
+    public static var contentsInline_KHR: RenderingFlags {
+        RenderingFlags(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var contentsSecondaryCommandBuffers_KHR: RenderingFlags { self.contentsSecondaryCommandBuffers }
+    public static var perLayerFragmentDensity_VALVE: RenderingFlags {
+        RenderingFlags(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var suspending_KHR: RenderingFlags { self.suspending }
+    public static var contentsSecondaryCommandBuffers_KHR: RenderingFlags {
+        self.contentsSecondaryCommandBuffers
+    }
 
 
     @inlinable
-    public static var resuming_KHR: RenderingFlags { self.resuming }
+    public static var suspending_KHR: RenderingFlags {
+        self.suspending
+    }
 
 
     @inlinable
-    public static var contentsInline_EXT: RenderingFlags { self.contentsInline_KHR }
+    public static var resuming_KHR: RenderingFlags {
+        self.resuming
+    }
+
+
+    @inlinable
+    public static var contentsInline_EXT: RenderingFlags {
+        self.contentsInline_KHR
+    }
 }
 
 
@@ -5681,50 +8087,85 @@ public struct ResolveModeFlags: OptionSet {
 
 
     @inlinable
-    public static var none: ResolveModeFlags { ResolveModeFlags(rawValue: 0) }
+    public static var none: ResolveModeFlags {
+        ResolveModeFlags(rawValue: 0)
+    }
 
 
     @inlinable
-    public static var sampleZeroBit: ResolveModeFlags { ResolveModeFlags(rawValue: 1 << 0) }
+    public static var sampleZeroBit: ResolveModeFlags {
+        ResolveModeFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var averageBit: ResolveModeFlags { ResolveModeFlags(rawValue: 1 << 1) }
+    public static var averageBit: ResolveModeFlags {
+        ResolveModeFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var minBit: ResolveModeFlags { ResolveModeFlags(rawValue: 1 << 2) }
+    public static var minBit: ResolveModeFlags {
+        ResolveModeFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var maxBit: ResolveModeFlags { ResolveModeFlags(rawValue: 1 << 3) }
+    public static var maxBit: ResolveModeFlags {
+        ResolveModeFlags(rawValue: 1 << 3)
+    }
 
 
     #if !PlatformAndroid
         @available(*, unavailable, message: "This flag requires the following trait: PlatformAndroid.")
     #endif
     @inlinable
-    public static var externalFormatDownsample_ANDROID: ResolveModeFlags { ResolveModeFlags(rawValue: 1 << 4) }
+    public static var externalFormatDownsampleBit_ANDROID: ResolveModeFlags {
+        ResolveModeFlags(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var none_KHR: ResolveModeFlags { self.none }
+    public static var none_KHR: ResolveModeFlags {
+        self.none
+    }
 
 
     @inlinable
-    public static var sampleZeroBit_KHR: ResolveModeFlags { self.sampleZeroBit }
+    public static var sampleZeroBit_KHR: ResolveModeFlags {
+        self.sampleZeroBit
+    }
 
 
     @inlinable
-    public static var averageBit_KHR: ResolveModeFlags { self.averageBit }
+    public static var averageBit_KHR: ResolveModeFlags {
+        self.averageBit
+    }
 
 
     @inlinable
-    public static var minBit_KHR: ResolveModeFlags { self.minBit }
+    public static var minBit_KHR: ResolveModeFlags {
+        self.minBit
+    }
 
 
     @inlinable
-    public static var maxBit_KHR: ResolveModeFlags { self.maxBit }
+    public static var maxBit_KHR: ResolveModeFlags {
+        self.maxBit
+    }
+
+
+    #if !PlatformAndroid
+        @available(*, unavailable, message: "This flag requires the following trait: PlatformAndroid.")
+    #endif
+    @inlinable
+    public static var externalFormatDownsample_ANDROID: ResolveModeFlags {
+        #if PlatformAndroid
+            self.externalFormatDownsampleBit_ANDROID
+        #else
+            fatalError("This flag is unavailable")
+        #endif
+    }
 }
 
 
@@ -5743,31 +8184,45 @@ public struct SampleCountFlags: OptionSet {
 
 
     @inlinable
-    public static var `1`: SampleCountFlags { SampleCountFlags(rawValue: 1 << 0) }
+    public static var `1`: SampleCountFlags {
+        SampleCountFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var `2`: SampleCountFlags { SampleCountFlags(rawValue: 1 << 1) }
+    public static var `2`: SampleCountFlags {
+        SampleCountFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var `4`: SampleCountFlags { SampleCountFlags(rawValue: 1 << 2) }
+    public static var `4`: SampleCountFlags {
+        SampleCountFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var `8`: SampleCountFlags { SampleCountFlags(rawValue: 1 << 3) }
+    public static var `8`: SampleCountFlags {
+        SampleCountFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var `16`: SampleCountFlags { SampleCountFlags(rawValue: 1 << 4) }
+    public static var `16`: SampleCountFlags {
+        SampleCountFlags(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var `32`: SampleCountFlags { SampleCountFlags(rawValue: 1 << 5) }
+    public static var `32`: SampleCountFlags {
+        SampleCountFlags(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var `64`: SampleCountFlags { SampleCountFlags(rawValue: 1 << 6) }
+    public static var `64`: SampleCountFlags {
+        SampleCountFlags(rawValue: 1 << 6)
+    }
 }
 
 
@@ -5786,23 +8241,70 @@ public struct SamplerCreateFlags: OptionSet {
 
 
     @inlinable
-    public static var subsampled_EXT: SamplerCreateFlags { SamplerCreateFlags(rawValue: 1 << 0) }
+    public static var subsampled_EXT: SamplerCreateFlags {
+        SamplerCreateFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var subsampledCoarseReconstruction_EXT: SamplerCreateFlags { SamplerCreateFlags(rawValue: 1 << 1) }
+    public static var subsampledCoarseReconstruction_EXT: SamplerCreateFlags {
+        SamplerCreateFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var descriptorBufferCaptureReplay_EXT: SamplerCreateFlags { SamplerCreateFlags(rawValue: 1 << 3) }
+    public static var descriptorBufferCaptureReplay_EXT: SamplerCreateFlags {
+        SamplerCreateFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var nonSeamlessCubeMap_EXT: SamplerCreateFlags { SamplerCreateFlags(rawValue: 1 << 2) }
+    public static var nonSeamlessCubeMap_EXT: SamplerCreateFlags {
+        SamplerCreateFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var imageProcessing_QCOM: SamplerCreateFlags { SamplerCreateFlags(rawValue: 1 << 4) }
+    public static var imageProcessing_QCOM: SamplerCreateFlags {
+        SamplerCreateFlags(rawValue: 1 << 4)
+    }
+}
+
+
+#if !PlatformScreen
+    @available(*, unavailable, message: "This flag requires the following trait: PlatformScreen.")
+#endif
+public struct ScreenSurfaceCreateFlagsQNX: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `ScreenSurfaceCreateFlagsQNX` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+public struct SemaphoreCreateFlags: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `SemaphoreCreateFlags` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -5821,11 +8323,15 @@ public struct SemaphoreImportFlags: OptionSet {
 
 
     @inlinable
-    public static var temporary: SemaphoreImportFlags { SemaphoreImportFlags(rawValue: 1 << 0) }
+    public static var temporary: SemaphoreImportFlags {
+        SemaphoreImportFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var temporary_KHR: SemaphoreImportFlags { self.temporary }
+    public static var temporary_KHR: SemaphoreImportFlags {
+        self.temporary
+    }
 }
 
 
@@ -5844,11 +8350,15 @@ public struct SemaphoreWaitFlags: OptionSet {
 
 
     @inlinable
-    public static var any: SemaphoreWaitFlags { SemaphoreWaitFlags(rawValue: 1 << 0) }
+    public static var any: SemaphoreWaitFlags {
+        SemaphoreWaitFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var any_KHR: SemaphoreWaitFlags { self.any }
+    public static var any_KHR: SemaphoreWaitFlags {
+        self.any
+    }
 }
 
 
@@ -5884,35 +8394,68 @@ public struct ShaderCreateFlagsEXT: OptionSet {
 
 
     @inlinable
-    public static var linkStage_EXT: ShaderCreateFlagsEXT { ShaderCreateFlagsEXT(rawValue: 1 << 0) }
+    public static var linkStage_EXT: ShaderCreateFlagsEXT {
+        ShaderCreateFlagsEXT(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var allowVaryingSubgroupSize_EXT: ShaderCreateFlagsEXT { ShaderCreateFlagsEXT(rawValue: 1 << 1) }
+    public static var allowVaryingSubgroupSize_EXT: ShaderCreateFlagsEXT {
+        ShaderCreateFlagsEXT(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var requireFullSubgroups_EXT: ShaderCreateFlagsEXT { ShaderCreateFlagsEXT(rawValue: 1 << 2) }
+    public static var requireFullSubgroups_EXT: ShaderCreateFlagsEXT {
+        ShaderCreateFlagsEXT(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var noTaskShader_EXT: ShaderCreateFlagsEXT { ShaderCreateFlagsEXT(rawValue: 1 << 3) }
+    public static var noTaskShader_EXT: ShaderCreateFlagsEXT {
+        ShaderCreateFlagsEXT(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var dispatchBase_EXT: ShaderCreateFlagsEXT { ShaderCreateFlagsEXT(rawValue: 1 << 4) }
+    public static var dispatchBase_EXT: ShaderCreateFlagsEXT {
+        ShaderCreateFlagsEXT(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var fragmentShadingRateAttachment_EXT: ShaderCreateFlagsEXT { ShaderCreateFlagsEXT(rawValue: 1 << 5) }
+    public static var fragmentShadingRateAttachment_EXT: ShaderCreateFlagsEXT {
+        ShaderCreateFlagsEXT(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var fragmentDensityMapAttachment_EXT: ShaderCreateFlagsEXT { ShaderCreateFlagsEXT(rawValue: 1 << 6) }
+    public static var fragmentDensityMapAttachment_EXT: ShaderCreateFlagsEXT {
+        ShaderCreateFlagsEXT(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var indirectBindable_EXT: ShaderCreateFlagsEXT { ShaderCreateFlagsEXT(rawValue: 1 << 7) }
+    public static var indirectBindable_EXT: ShaderCreateFlagsEXT {
+        ShaderCreateFlagsEXT(rawValue: 1 << 7)
+    }
+}
+
+
+public struct ShaderModuleCreateFlags: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `ShaderModuleCreateFlags` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -5931,107 +8474,159 @@ public struct ShaderStageFlags: OptionSet {
 
 
     @inlinable
-    public static var vertexBit: ShaderStageFlags { ShaderStageFlags(rawValue: 1 << 0) }
+    public static var vertexBit: ShaderStageFlags {
+        ShaderStageFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var tessellationControlBit: ShaderStageFlags { ShaderStageFlags(rawValue: 1 << 1) }
+    public static var tessellationControlBit: ShaderStageFlags {
+        ShaderStageFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var tessellationEvaluationBit: ShaderStageFlags { ShaderStageFlags(rawValue: 1 << 2) }
+    public static var tessellationEvaluationBit: ShaderStageFlags {
+        ShaderStageFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var geometryBit: ShaderStageFlags { ShaderStageFlags(rawValue: 1 << 3) }
+    public static var geometryBit: ShaderStageFlags {
+        ShaderStageFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var fragmentBit: ShaderStageFlags { ShaderStageFlags(rawValue: 1 << 4) }
+    public static var fragmentBit: ShaderStageFlags {
+        ShaderStageFlags(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var computeBit: ShaderStageFlags { ShaderStageFlags(rawValue: 1 << 5) }
+    public static var computeBit: ShaderStageFlags {
+        ShaderStageFlags(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var allGraphics: ShaderStageFlags { ShaderStageFlags(rawValue: 0x0000_001F) }
+    public static var allGraphics: ShaderStageFlags {
+        ShaderStageFlags(rawValue: 0x0000_001F)
+    }
 
 
     @inlinable
-    public static var all: ShaderStageFlags { ShaderStageFlags(rawValue: 0x7FFF_FFFF) }
+    public static var all: ShaderStageFlags {
+        ShaderStageFlags(rawValue: 0x7FFF_FFFF)
+    }
 
 
     @inlinable
-    public static var raygenBit_KHR: ShaderStageFlags { ShaderStageFlags(rawValue: 1 << 8) }
+    public static var raygenBit_KHR: ShaderStageFlags {
+        ShaderStageFlags(rawValue: 1 << 8)
+    }
 
 
     @inlinable
-    public static var anyHitBit_KHR: ShaderStageFlags { ShaderStageFlags(rawValue: 1 << 9) }
+    public static var anyHitBit_KHR: ShaderStageFlags {
+        ShaderStageFlags(rawValue: 1 << 9)
+    }
 
 
     @inlinable
-    public static var closestHitBit_KHR: ShaderStageFlags { ShaderStageFlags(rawValue: 1 << 10) }
+    public static var closestHitBit_KHR: ShaderStageFlags {
+        ShaderStageFlags(rawValue: 1 << 10)
+    }
 
 
     @inlinable
-    public static var missBit_KHR: ShaderStageFlags { ShaderStageFlags(rawValue: 1 << 11) }
+    public static var missBit_KHR: ShaderStageFlags {
+        ShaderStageFlags(rawValue: 1 << 11)
+    }
 
 
     @inlinable
-    public static var intersectionBit_KHR: ShaderStageFlags { ShaderStageFlags(rawValue: 1 << 12) }
+    public static var intersectionBit_KHR: ShaderStageFlags {
+        ShaderStageFlags(rawValue: 1 << 12)
+    }
 
 
     @inlinable
-    public static var callableBit_KHR: ShaderStageFlags { ShaderStageFlags(rawValue: 1 << 13) }
+    public static var callableBit_KHR: ShaderStageFlags {
+        ShaderStageFlags(rawValue: 1 << 13)
+    }
 
 
     @inlinable
-    public static var taskBit_EXT: ShaderStageFlags { ShaderStageFlags(rawValue: 1 << 6) }
+    public static var taskBit_EXT: ShaderStageFlags {
+        ShaderStageFlags(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var meshBit_EXT: ShaderStageFlags { ShaderStageFlags(rawValue: 1 << 7) }
+    public static var meshBit_EXT: ShaderStageFlags {
+        ShaderStageFlags(rawValue: 1 << 7)
+    }
 
 
     @inlinable
-    public static var subpassShadingBit_HUAWEI: ShaderStageFlags { ShaderStageFlags(rawValue: 1 << 14) }
+    public static var subpassShadingBit_HUAWEI: ShaderStageFlags {
+        ShaderStageFlags(rawValue: 1 << 14)
+    }
 
 
     @inlinable
-    public static var clusterCullingBit_HUAWEI: ShaderStageFlags { ShaderStageFlags(rawValue: 1 << 19) }
+    public static var clusterCullingBit_HUAWEI: ShaderStageFlags {
+        ShaderStageFlags(rawValue: 1 << 19)
+    }
 
 
     @inlinable
-    public static var raygenBit_NV: ShaderStageFlags { self.raygenBit_KHR }
+    public static var raygenBit_NV: ShaderStageFlags {
+        self.raygenBit_KHR
+    }
 
 
     @inlinable
-    public static var anyHitBit_NV: ShaderStageFlags { self.anyHitBit_KHR }
+    public static var anyHitBit_NV: ShaderStageFlags {
+        self.anyHitBit_KHR
+    }
 
 
     @inlinable
-    public static var closestHitBit_NV: ShaderStageFlags { self.closestHitBit_KHR }
+    public static var closestHitBit_NV: ShaderStageFlags {
+        self.closestHitBit_KHR
+    }
 
 
     @inlinable
-    public static var missBit_NV: ShaderStageFlags { self.missBit_KHR }
+    public static var missBit_NV: ShaderStageFlags {
+        self.missBit_KHR
+    }
 
 
     @inlinable
-    public static var intersectionBit_NV: ShaderStageFlags { self.intersectionBit_KHR }
+    public static var intersectionBit_NV: ShaderStageFlags {
+        self.intersectionBit_KHR
+    }
 
 
     @inlinable
-    public static var callableBit_NV: ShaderStageFlags { self.callableBit_KHR }
+    public static var callableBit_NV: ShaderStageFlags {
+        self.callableBit_KHR
+    }
 
 
     @inlinable
-    public static var taskBit_NV: ShaderStageFlags { self.taskBit_EXT }
+    public static var taskBit_NV: ShaderStageFlags {
+        self.taskBit_EXT
+    }
 
 
     @inlinable
-    public static var meshBit_NV: ShaderStageFlags { self.meshBit_EXT }
+    public static var meshBit_NV: ShaderStageFlags {
+        self.meshBit_EXT
+    }
 }
 
 
@@ -6050,15 +8645,21 @@ public struct SparseImageFormatFlags: OptionSet {
 
 
     @inlinable
-    public static var singleMiptail: SparseImageFormatFlags { SparseImageFormatFlags(rawValue: 1 << 0) }
+    public static var singleMiptail: SparseImageFormatFlags {
+        SparseImageFormatFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var alignedMipSize: SparseImageFormatFlags { SparseImageFormatFlags(rawValue: 1 << 1) }
+    public static var alignedMipSize: SparseImageFormatFlags {
+        SparseImageFormatFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var nonstandardBlockSize: SparseImageFormatFlags { SparseImageFormatFlags(rawValue: 1 << 2) }
+    public static var nonstandardBlockSize: SparseImageFormatFlags {
+        SparseImageFormatFlags(rawValue: 1 << 2)
+    }
 }
 
 
@@ -6077,7 +8678,9 @@ public struct SparseMemoryBindFlags: OptionSet {
 
 
     @inlinable
-    public static var metadata: SparseMemoryBindFlags { SparseMemoryBindFlags(rawValue: 1 << 0) }
+    public static var metadata: SparseMemoryBindFlags {
+        SparseMemoryBindFlags(rawValue: 1 << 0)
+    }
 }
 
 
@@ -6096,19 +8699,47 @@ public struct StencilFaceFlags: OptionSet {
 
 
     @inlinable
-    public static var frontBit: StencilFaceFlags { StencilFaceFlags(rawValue: 1 << 0) }
+    public static var frontBit: StencilFaceFlags {
+        StencilFaceFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var backBit: StencilFaceFlags { StencilFaceFlags(rawValue: 1 << 1) }
+    public static var backBit: StencilFaceFlags {
+        StencilFaceFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var frontAndBack: StencilFaceFlags { StencilFaceFlags(rawValue: 0x0000_0003) }
+    public static var frontAndBack: StencilFaceFlags {
+        StencilFaceFlags(rawValue: 0x0000_0003)
+    }
 
 
     @inlinable
-    public static var rontAndBack: StencilFaceFlags { self.frontAndBack }
+    public static var rontAndBack: StencilFaceFlags {
+        self.frontAndBack
+    }
+}
+
+
+#if !PlatformGgp
+    @available(*, unavailable, message: "This flag requires the following trait: PlatformGgp.")
+#endif
+public struct StreamDescriptorSurfaceCreateFlagsGGP: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `StreamDescriptorSurfaceCreateFlagsGGP` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -6127,55 +8758,81 @@ public struct SubgroupFeatureFlags: OptionSet {
 
 
     @inlinable
-    public static var basic: SubgroupFeatureFlags { SubgroupFeatureFlags(rawValue: 1 << 0) }
+    public static var basic: SubgroupFeatureFlags {
+        SubgroupFeatureFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var vote: SubgroupFeatureFlags { SubgroupFeatureFlags(rawValue: 1 << 1) }
+    public static var vote: SubgroupFeatureFlags {
+        SubgroupFeatureFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var arithmetic: SubgroupFeatureFlags { SubgroupFeatureFlags(rawValue: 1 << 2) }
+    public static var arithmetic: SubgroupFeatureFlags {
+        SubgroupFeatureFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var ballot: SubgroupFeatureFlags { SubgroupFeatureFlags(rawValue: 1 << 3) }
+    public static var ballot: SubgroupFeatureFlags {
+        SubgroupFeatureFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var shuffle: SubgroupFeatureFlags { SubgroupFeatureFlags(rawValue: 1 << 4) }
+    public static var shuffle: SubgroupFeatureFlags {
+        SubgroupFeatureFlags(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var shuffleRelative: SubgroupFeatureFlags { SubgroupFeatureFlags(rawValue: 1 << 5) }
+    public static var shuffleRelative: SubgroupFeatureFlags {
+        SubgroupFeatureFlags(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var clustered: SubgroupFeatureFlags { SubgroupFeatureFlags(rawValue: 1 << 6) }
+    public static var clustered: SubgroupFeatureFlags {
+        SubgroupFeatureFlags(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var quad: SubgroupFeatureFlags { SubgroupFeatureFlags(rawValue: 1 << 7) }
+    public static var quad: SubgroupFeatureFlags {
+        SubgroupFeatureFlags(rawValue: 1 << 7)
+    }
 
 
     @inlinable
-    public static var rotate: SubgroupFeatureFlags { SubgroupFeatureFlags(rawValue: 1 << 9) }
+    public static var rotate: SubgroupFeatureFlags {
+        SubgroupFeatureFlags(rawValue: 1 << 9)
+    }
 
 
     @inlinable
-    public static var rotateClustered: SubgroupFeatureFlags { SubgroupFeatureFlags(rawValue: 1 << 10) }
+    public static var rotateClustered: SubgroupFeatureFlags {
+        SubgroupFeatureFlags(rawValue: 1 << 10)
+    }
 
 
     @inlinable
-    public static var partitioned_NV: SubgroupFeatureFlags { SubgroupFeatureFlags(rawValue: 1 << 8) }
+    public static var partitioned_NV: SubgroupFeatureFlags {
+        SubgroupFeatureFlags(rawValue: 1 << 8)
+    }
 
 
     @inlinable
-    public static var rotate_KHR: SubgroupFeatureFlags { self.rotate }
+    public static var rotate_KHR: SubgroupFeatureFlags {
+        self.rotate
+    }
 
 
     @inlinable
-    public static var rotateClustered_KHR: SubgroupFeatureFlags { self.rotateClustered }
+    public static var rotateClustered_KHR: SubgroupFeatureFlags {
+        self.rotateClustered
+    }
 }
 
 
@@ -6194,11 +8851,15 @@ public struct SubmitFlags: OptionSet {
 
 
     @inlinable
-    public static var protected: SubmitFlags { SubmitFlags(rawValue: 1 << 0) }
+    public static var protected: SubmitFlags {
+        SubmitFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var protected_KHR: SubmitFlags { self.protected }
+    public static var protected_KHR: SubmitFlags {
+        self.protected
+    }
 }
 
 
@@ -6217,23 +8878,33 @@ public struct SubpassDescriptionFlags: OptionSet {
 
 
     @inlinable
-    public static var perViewAttributes_NVX: SubpassDescriptionFlags { SubpassDescriptionFlags(rawValue: 1 << 0) }
+    public static var perViewAttributes_NVX: SubpassDescriptionFlags {
+        SubpassDescriptionFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var perViewPositionXOnly_NVX: SubpassDescriptionFlags { SubpassDescriptionFlags(rawValue: 1 << 1) }
+    public static var perViewPositionXOnly_NVX: SubpassDescriptionFlags {
+        SubpassDescriptionFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var fragmentRegion_QCOM: SubpassDescriptionFlags { SubpassDescriptionFlags(rawValue: 1 << 2) }
+    public static var fragmentRegion_QCOM: SubpassDescriptionFlags {
+        SubpassDescriptionFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var shaderResolve_QCOM: SubpassDescriptionFlags { SubpassDescriptionFlags(rawValue: 1 << 3) }
+    public static var shaderResolve_QCOM: SubpassDescriptionFlags {
+        SubpassDescriptionFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var tileShadingApron_QCOM: SubpassDescriptionFlags { SubpassDescriptionFlags(rawValue: 1 << 8) }
+    public static var tileShadingApron_QCOM: SubpassDescriptionFlags {
+        SubpassDescriptionFlags(rawValue: 1 << 8)
+    }
 
 
     @inlinable
@@ -6255,7 +8926,9 @@ public struct SubpassDescriptionFlags: OptionSet {
 
 
     @inlinable
-    public static var enableLegacyDithering_EXT: SubpassDescriptionFlags { SubpassDescriptionFlags(rawValue: 1 << 7) }
+    public static var enableLegacyDithering_EXT: SubpassDescriptionFlags {
+        SubpassDescriptionFlags(rawValue: 1 << 7)
+    }
 
 
     @inlinable
@@ -6292,11 +8965,35 @@ public struct SurfaceCounterFlagsEXT: OptionSet {
 
 
     @inlinable
-    public static var vblankBit_EXT: SurfaceCounterFlagsEXT { SurfaceCounterFlagsEXT(rawValue: 1 << 0) }
+    public static var vblankBit_EXT: SurfaceCounterFlagsEXT {
+        SurfaceCounterFlagsEXT(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var vblank_EXT: SurfaceCounterFlagsEXT { self.vblankBit_EXT }
+    public static var vblank_EXT: SurfaceCounterFlagsEXT {
+        self.vblankBit_EXT
+    }
+}
+
+
+#if !PlatformOhos
+    @available(*, unavailable, message: "This flag requires the following trait: PlatformOhos.")
+#endif
+public struct SurfaceCreateFlagsOHOS: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `SurfaceCreateFlagsOHOS` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -6315,39 +9012,57 @@ public struct SurfaceTransformFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var identity_KHR: SurfaceTransformFlagsKHR { SurfaceTransformFlagsKHR(rawValue: 1 << 0) }
+    public static var identity_KHR: SurfaceTransformFlagsKHR {
+        SurfaceTransformFlagsKHR(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var rotate90_KHR: SurfaceTransformFlagsKHR { SurfaceTransformFlagsKHR(rawValue: 1 << 1) }
+    public static var rotate90_KHR: SurfaceTransformFlagsKHR {
+        SurfaceTransformFlagsKHR(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var rotate180_KHR: SurfaceTransformFlagsKHR { SurfaceTransformFlagsKHR(rawValue: 1 << 2) }
+    public static var rotate180_KHR: SurfaceTransformFlagsKHR {
+        SurfaceTransformFlagsKHR(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var rotate270_KHR: SurfaceTransformFlagsKHR { SurfaceTransformFlagsKHR(rawValue: 1 << 3) }
+    public static var rotate270_KHR: SurfaceTransformFlagsKHR {
+        SurfaceTransformFlagsKHR(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var horizontalMirror_KHR: SurfaceTransformFlagsKHR { SurfaceTransformFlagsKHR(rawValue: 1 << 4) }
+    public static var horizontalMirror_KHR: SurfaceTransformFlagsKHR {
+        SurfaceTransformFlagsKHR(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var horizontalMirrorRotate90_KHR: SurfaceTransformFlagsKHR { SurfaceTransformFlagsKHR(rawValue: 1 << 5) }
+    public static var horizontalMirrorRotate90_KHR: SurfaceTransformFlagsKHR {
+        SurfaceTransformFlagsKHR(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var horizontalMirrorRotate180_KHR: SurfaceTransformFlagsKHR { SurfaceTransformFlagsKHR(rawValue: 1 << 6) }
+    public static var horizontalMirrorRotate180_KHR: SurfaceTransformFlagsKHR {
+        SurfaceTransformFlagsKHR(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var horizontalMirrorRotate270_KHR: SurfaceTransformFlagsKHR { SurfaceTransformFlagsKHR(rawValue: 1 << 7) }
+    public static var horizontalMirrorRotate270_KHR: SurfaceTransformFlagsKHR {
+        SurfaceTransformFlagsKHR(rawValue: 1 << 7)
+    }
 
 
     @inlinable
-    public static var inherit_KHR: SurfaceTransformFlagsKHR { SurfaceTransformFlagsKHR(rawValue: 1 << 8) }
+    public static var inherit_KHR: SurfaceTransformFlagsKHR {
+        SurfaceTransformFlagsKHR(rawValue: 1 << 8)
+    }
 }
 
 
@@ -6366,19 +9081,132 @@ public struct SwapchainCreateFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var splitInstanceBindRegions_KHR: SwapchainCreateFlagsKHR { SwapchainCreateFlagsKHR(rawValue: 1 << 0) }
+    public static var splitInstanceBindRegions_KHR: SwapchainCreateFlagsKHR {
+        SwapchainCreateFlagsKHR(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var protected_KHR: SwapchainCreateFlagsKHR { SwapchainCreateFlagsKHR(rawValue: 1 << 1) }
+    public static var protected_KHR: SwapchainCreateFlagsKHR {
+        SwapchainCreateFlagsKHR(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var mutableFormat_KHR: SwapchainCreateFlagsKHR { SwapchainCreateFlagsKHR(rawValue: 1 << 2) }
+    public static var mutableFormat_KHR: SwapchainCreateFlagsKHR {
+        SwapchainCreateFlagsKHR(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var deferredMemoryAllocation_EXT: SwapchainCreateFlagsKHR { SwapchainCreateFlagsKHR(rawValue: 1 << 3) }
+    public static var deferredMemoryAllocation_EXT: SwapchainCreateFlagsKHR {
+        SwapchainCreateFlagsKHR(rawValue: 1 << 3)
+    }
+
+
+    @inlinable
+    public static var presentId2_KHR: SwapchainCreateFlagsKHR {
+        SwapchainCreateFlagsKHR(rawValue: 1 << 6)
+    }
+
+
+    @inlinable
+    public static var presentWait2_KHR: SwapchainCreateFlagsKHR {
+        SwapchainCreateFlagsKHR(rawValue: 1 << 7)
+    }
+}
+
+
+public struct TensorCreateFlagsARM: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt64.
+    public let rawValue: UInt64
+
+    /// Initilizes an instance of `TensorCreateFlagsARM` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt64) {
+        self.rawValue = rawValue
+    }
+
+
+    @inlinable
+    public static var mutableFormat_ARM: TensorCreateFlagsARM {
+        TensorCreateFlagsARM(rawValue: 1 << 0)
+    }
+
+
+    @inlinable
+    public static var protected_ARM: TensorCreateFlagsARM {
+        TensorCreateFlagsARM(rawValue: 1 << 1)
+    }
+
+
+    @inlinable
+    public static var descriptorBufferCaptureReplay_ARM: TensorCreateFlagsARM {
+        TensorCreateFlagsARM(rawValue: 1 << 2)
+    }
+}
+
+
+public struct TensorUsageFlagsARM: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt64.
+    public let rawValue: UInt64
+
+    /// Initilizes an instance of `TensorUsageFlagsARM` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt64) {
+        self.rawValue = rawValue
+    }
+
+
+    @inlinable
+    public static var shader_ARM: TensorUsageFlagsARM {
+        TensorUsageFlagsARM(rawValue: 1 << 1)
+    }
+
+
+    @inlinable
+    public static var transferSrc_ARM: TensorUsageFlagsARM {
+        TensorUsageFlagsARM(rawValue: 1 << 2)
+    }
+
+
+    @inlinable
+    public static var transferDst_ARM: TensorUsageFlagsARM {
+        TensorUsageFlagsARM(rawValue: 1 << 3)
+    }
+
+
+    @inlinable
+    public static var imageAliasing_ARM: TensorUsageFlagsARM {
+        TensorUsageFlagsARM(rawValue: 1 << 4)
+    }
+}
+
+
+public struct TensorViewCreateFlagsARM: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt64.
+    public let rawValue: UInt64
+
+    /// Initilizes an instance of `TensorViewCreateFlagsARM` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt64) {
+        self.rawValue = rawValue
+    }
+
+
+    @inlinable
+    public static var descriptorBufferCaptureReplay_ARM: TensorViewCreateFlagsARM {
+        TensorViewCreateFlagsARM(rawValue: 1 << 0)
+    }
 }
 
 
@@ -6397,7 +9225,9 @@ public struct TileShadingRenderPassFlagsQCOM: OptionSet {
 
 
     @inlinable
-    public static var enable_QCOM: TileShadingRenderPassFlagsQCOM { TileShadingRenderPassFlagsQCOM(rawValue: 1 << 0) }
+    public static var enable_QCOM: TileShadingRenderPassFlagsQCOM {
+        TileShadingRenderPassFlagsQCOM(rawValue: 1 << 0)
+    }
 
 
     @inlinable
@@ -6422,51 +9252,129 @@ public struct ToolPurposeFlags: OptionSet {
 
 
     @inlinable
-    public static var validation: ToolPurposeFlags { ToolPurposeFlags(rawValue: 1 << 0) }
+    public static var validation: ToolPurposeFlags {
+        ToolPurposeFlags(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var profiling: ToolPurposeFlags { ToolPurposeFlags(rawValue: 1 << 1) }
+    public static var profiling: ToolPurposeFlags {
+        ToolPurposeFlags(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var tracing: ToolPurposeFlags { ToolPurposeFlags(rawValue: 1 << 2) }
+    public static var tracing: ToolPurposeFlags {
+        ToolPurposeFlags(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var additionalFeatures: ToolPurposeFlags { ToolPurposeFlags(rawValue: 1 << 3) }
+    public static var additionalFeatures: ToolPurposeFlags {
+        ToolPurposeFlags(rawValue: 1 << 3)
+    }
 
 
     @inlinable
-    public static var modifyingFeatures: ToolPurposeFlags { ToolPurposeFlags(rawValue: 1 << 4) }
+    public static var modifyingFeatures: ToolPurposeFlags {
+        ToolPurposeFlags(rawValue: 1 << 4)
+    }
 
 
     @inlinable
-    public static var debugReporting_EXT: ToolPurposeFlags { ToolPurposeFlags(rawValue: 1 << 5) }
+    public static var debugReporting_EXT: ToolPurposeFlags {
+        ToolPurposeFlags(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var debugMarkers_EXT: ToolPurposeFlags { ToolPurposeFlags(rawValue: 1 << 6) }
+    public static var debugMarkers_EXT: ToolPurposeFlags {
+        ToolPurposeFlags(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var validation_EXT: ToolPurposeFlags { self.validation }
+    public static var validation_EXT: ToolPurposeFlags {
+        self.validation
+    }
 
 
     @inlinable
-    public static var profiling_EXT: ToolPurposeFlags { self.profiling }
+    public static var profiling_EXT: ToolPurposeFlags {
+        self.profiling
+    }
 
 
     @inlinable
-    public static var tracing_EXT: ToolPurposeFlags { self.tracing }
+    public static var tracing_EXT: ToolPurposeFlags {
+        self.tracing
+    }
 
 
     @inlinable
-    public static var additionalFeatures_EXT: ToolPurposeFlags { self.additionalFeatures }
+    public static var additionalFeatures_EXT: ToolPurposeFlags {
+        self.additionalFeatures
+    }
 
 
     @inlinable
-    public static var modifyingFeatures_EXT: ToolPurposeFlags { self.modifyingFeatures }
+    public static var modifyingFeatures_EXT: ToolPurposeFlags {
+        self.modifyingFeatures
+    }
+}
+
+
+public struct ValidationCacheCreateFlagsEXT: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `ValidationCacheCreateFlagsEXT` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+#if !PlatformVi
+    @available(*, unavailable, message: "This flag requires the following trait: PlatformVi.")
+#endif
+public struct ViSurfaceCreateFlagsNN: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `ViSurfaceCreateFlagsNN` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+public struct VideoBeginCodingFlagsKHR: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `VideoBeginCodingFlagsKHR` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -6485,11 +9393,15 @@ public struct VideoCapabilityFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var protectedContent_KHR: VideoCapabilityFlagsKHR { VideoCapabilityFlagsKHR(rawValue: 1 << 0) }
+    public static var protectedContent_KHR: VideoCapabilityFlagsKHR {
+        VideoCapabilityFlagsKHR(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var separateReferenceImages_KHR: VideoCapabilityFlagsKHR { VideoCapabilityFlagsKHR(rawValue: 1 << 1) }
+    public static var separateReferenceImages_KHR: VideoCapabilityFlagsKHR {
+        VideoCapabilityFlagsKHR(rawValue: 1 << 1)
+    }
 }
 
 
@@ -6508,23 +9420,33 @@ public struct VideoChromaSubsamplingFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var invalid_KHR: VideoChromaSubsamplingFlagsKHR { VideoChromaSubsamplingFlagsKHR(rawValue: 0) }
+    public static var invalid_KHR: VideoChromaSubsamplingFlagsKHR {
+        VideoChromaSubsamplingFlagsKHR(rawValue: 0)
+    }
 
 
     @inlinable
-    public static var monochromeBit_KHR: VideoChromaSubsamplingFlagsKHR { VideoChromaSubsamplingFlagsKHR(rawValue: 1 << 0) }
+    public static var monochromeBit_KHR: VideoChromaSubsamplingFlagsKHR {
+        VideoChromaSubsamplingFlagsKHR(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var `420Bit_KHR`: VideoChromaSubsamplingFlagsKHR { VideoChromaSubsamplingFlagsKHR(rawValue: 1 << 1) }
+    public static var `420Bit_KHR`: VideoChromaSubsamplingFlagsKHR {
+        VideoChromaSubsamplingFlagsKHR(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var `422Bit_KHR`: VideoChromaSubsamplingFlagsKHR { VideoChromaSubsamplingFlagsKHR(rawValue: 1 << 2) }
+    public static var `422Bit_KHR`: VideoChromaSubsamplingFlagsKHR {
+        VideoChromaSubsamplingFlagsKHR(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var `444Bit_KHR`: VideoChromaSubsamplingFlagsKHR { VideoChromaSubsamplingFlagsKHR(rawValue: 1 << 3) }
+    public static var `444Bit_KHR`: VideoChromaSubsamplingFlagsKHR {
+        VideoChromaSubsamplingFlagsKHR(rawValue: 1 << 3)
+    }
 }
 
 
@@ -6543,31 +9465,51 @@ public struct VideoCodecOperationFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var none_KHR: VideoCodecOperationFlagsKHR { VideoCodecOperationFlagsKHR(rawValue: 0) }
+    public static var none_KHR: VideoCodecOperationFlagsKHR {
+        VideoCodecOperationFlagsKHR(rawValue: 0)
+    }
 
 
     @inlinable
-    public static var encodeH264Bit_KHR: VideoCodecOperationFlagsKHR { VideoCodecOperationFlagsKHR(rawValue: 1 << 16) }
+    public static var encodeH264Bit_KHR: VideoCodecOperationFlagsKHR {
+        VideoCodecOperationFlagsKHR(rawValue: 1 << 16)
+    }
 
 
     @inlinable
-    public static var encodeH265Bit_KHR: VideoCodecOperationFlagsKHR { VideoCodecOperationFlagsKHR(rawValue: 1 << 17) }
+    public static var encodeH265Bit_KHR: VideoCodecOperationFlagsKHR {
+        VideoCodecOperationFlagsKHR(rawValue: 1 << 17)
+    }
 
 
     @inlinable
-    public static var decodeH264Bit_KHR: VideoCodecOperationFlagsKHR { VideoCodecOperationFlagsKHR(rawValue: 1 << 0) }
+    public static var decodeH264Bit_KHR: VideoCodecOperationFlagsKHR {
+        VideoCodecOperationFlagsKHR(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var decodeH265Bit_KHR: VideoCodecOperationFlagsKHR { VideoCodecOperationFlagsKHR(rawValue: 1 << 1) }
+    public static var decodeH265Bit_KHR: VideoCodecOperationFlagsKHR {
+        VideoCodecOperationFlagsKHR(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var decodeAv1Bit_KHR: VideoCodecOperationFlagsKHR { VideoCodecOperationFlagsKHR(rawValue: 1 << 2) }
+    public static var decodeAv1Bit_KHR: VideoCodecOperationFlagsKHR {
+        VideoCodecOperationFlagsKHR(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var encodeAv1Bit_KHR: VideoCodecOperationFlagsKHR { VideoCodecOperationFlagsKHR(rawValue: 1 << 18) }
+    public static var encodeAv1Bit_KHR: VideoCodecOperationFlagsKHR {
+        VideoCodecOperationFlagsKHR(rawValue: 1 << 18)
+    }
+
+
+    @inlinable
+    public static var decodeVp9Bit_KHR: VideoCodecOperationFlagsKHR {
+        VideoCodecOperationFlagsKHR(rawValue: 1 << 3)
+    }
 }
 
 
@@ -6586,15 +9528,21 @@ public struct VideoCodingControlFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var reset_KHR: VideoCodingControlFlagsKHR { VideoCodingControlFlagsKHR(rawValue: 1 << 0) }
+    public static var reset_KHR: VideoCodingControlFlagsKHR {
+        VideoCodingControlFlagsKHR(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var encodeRateControl_KHR: VideoCodingControlFlagsKHR { VideoCodingControlFlagsKHR(rawValue: 1 << 1) }
+    public static var encodeRateControl_KHR: VideoCodingControlFlagsKHR {
+        VideoCodingControlFlagsKHR(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var encodeQualityLevel_KHR: VideoCodingControlFlagsKHR { VideoCodingControlFlagsKHR(rawValue: 1 << 2) }
+    public static var encodeQualityLevel_KHR: VideoCodingControlFlagsKHR {
+        VideoCodingControlFlagsKHR(rawValue: 1 << 2)
+    }
 }
 
 
@@ -6613,19 +9561,27 @@ public struct VideoComponentBitDepthFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var invalid_KHR: VideoComponentBitDepthFlagsKHR { VideoComponentBitDepthFlagsKHR(rawValue: 0) }
+    public static var invalid_KHR: VideoComponentBitDepthFlagsKHR {
+        VideoComponentBitDepthFlagsKHR(rawValue: 0)
+    }
 
 
     @inlinable
-    public static var `8_KHR`: VideoComponentBitDepthFlagsKHR { VideoComponentBitDepthFlagsKHR(rawValue: 1 << 0) }
+    public static var `8_KHR`: VideoComponentBitDepthFlagsKHR {
+        VideoComponentBitDepthFlagsKHR(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var `10_KHR`: VideoComponentBitDepthFlagsKHR { VideoComponentBitDepthFlagsKHR(rawValue: 1 << 2) }
+    public static var `10_KHR`: VideoComponentBitDepthFlagsKHR {
+        VideoComponentBitDepthFlagsKHR(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var `12_KHR`: VideoComponentBitDepthFlagsKHR { VideoComponentBitDepthFlagsKHR(rawValue: 1 << 4) }
+    public static var `12_KHR`: VideoComponentBitDepthFlagsKHR {
+        VideoComponentBitDepthFlagsKHR(rawValue: 1 << 4)
+    }
 }
 
 
@@ -6653,6 +9609,23 @@ public struct VideoDecodeCapabilityFlagsKHR: OptionSet {
     public static var dpbAndOutputDistinct_KHR: VideoDecodeCapabilityFlagsKHR {
         VideoDecodeCapabilityFlagsKHR(rawValue: 1 << 1)
     }
+}
+
+
+public struct VideoDecodeFlagsKHR: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `VideoDecodeFlagsKHR` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -6704,19 +9677,27 @@ public struct VideoDecodeUsageFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var default_KHR: VideoDecodeUsageFlagsKHR { VideoDecodeUsageFlagsKHR(rawValue: 0) }
+    public static var default_KHR: VideoDecodeUsageFlagsKHR {
+        VideoDecodeUsageFlagsKHR(rawValue: 0)
+    }
 
 
     @inlinable
-    public static var transcodingBit_KHR: VideoDecodeUsageFlagsKHR { VideoDecodeUsageFlagsKHR(rawValue: 1 << 0) }
+    public static var transcodingBit_KHR: VideoDecodeUsageFlagsKHR {
+        VideoDecodeUsageFlagsKHR(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var offlineBit_KHR: VideoDecodeUsageFlagsKHR { VideoDecodeUsageFlagsKHR(rawValue: 1 << 1) }
+    public static var offlineBit_KHR: VideoDecodeUsageFlagsKHR {
+        VideoDecodeUsageFlagsKHR(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var streamingBit_KHR: VideoDecodeUsageFlagsKHR { VideoDecodeUsageFlagsKHR(rawValue: 1 << 2) }
+    public static var streamingBit_KHR: VideoDecodeUsageFlagsKHR {
+        VideoDecodeUsageFlagsKHR(rawValue: 1 << 2)
+    }
 }
 
 
@@ -6831,11 +9812,15 @@ public struct VideoEncodeAV1StdFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var v1StdPrimaryRefFrame_KHR: VideoEncodeAV1StdFlagsKHR { VideoEncodeAV1StdFlagsKHR(rawValue: 1 << 2) }
+    public static var v1StdPrimaryRefFrame_KHR: VideoEncodeAV1StdFlagsKHR {
+        VideoEncodeAV1StdFlagsKHR(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var v1StdDeltaQ_KHR: VideoEncodeAV1StdFlagsKHR { VideoEncodeAV1StdFlagsKHR(rawValue: 1 << 3) }
+    public static var v1StdDeltaQ_KHR: VideoEncodeAV1StdFlagsKHR {
+        VideoEncodeAV1StdFlagsKHR(rawValue: 1 << 3)
+    }
 }
 
 
@@ -6899,7 +9884,9 @@ public struct VideoEncodeCapabilityFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var emphasisMap_KHR: VideoEncodeCapabilityFlagsKHR { VideoEncodeCapabilityFlagsKHR(rawValue: 1 << 3) }
+    public static var emphasisMap_KHR: VideoEncodeCapabilityFlagsKHR {
+        VideoEncodeCapabilityFlagsKHR(rawValue: 1 << 3)
+    }
 }
 
 
@@ -6918,19 +9905,27 @@ public struct VideoEncodeContentFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var default_KHR: VideoEncodeContentFlagsKHR { VideoEncodeContentFlagsKHR(rawValue: 0) }
+    public static var default_KHR: VideoEncodeContentFlagsKHR {
+        VideoEncodeContentFlagsKHR(rawValue: 0)
+    }
 
 
     @inlinable
-    public static var cameraBit_KHR: VideoEncodeContentFlagsKHR { VideoEncodeContentFlagsKHR(rawValue: 1 << 0) }
+    public static var cameraBit_KHR: VideoEncodeContentFlagsKHR {
+        VideoEncodeContentFlagsKHR(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var desktopBit_KHR: VideoEncodeContentFlagsKHR { VideoEncodeContentFlagsKHR(rawValue: 1 << 1) }
+    public static var desktopBit_KHR: VideoEncodeContentFlagsKHR {
+        VideoEncodeContentFlagsKHR(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var renderedBit_KHR: VideoEncodeContentFlagsKHR { VideoEncodeContentFlagsKHR(rawValue: 1 << 2) }
+    public static var renderedBit_KHR: VideoEncodeContentFlagsKHR {
+        VideoEncodeContentFlagsKHR(rawValue: 1 << 2)
+    }
 }
 
 
@@ -6982,11 +9977,15 @@ public struct VideoEncodeFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var withQuantizationDeltaMap_KHR: VideoEncodeFlagsKHR { VideoEncodeFlagsKHR(rawValue: 1 << 0) }
+    public static var withQuantizationDeltaMap_KHR: VideoEncodeFlagsKHR {
+        VideoEncodeFlagsKHR(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var withEmphasisMap_KHR: VideoEncodeFlagsKHR { VideoEncodeFlagsKHR(rawValue: 1 << 1) }
+    public static var withEmphasisMap_KHR: VideoEncodeFlagsKHR {
+        VideoEncodeFlagsKHR(rawValue: 1 << 1)
+    }
 }
 
 
@@ -7143,7 +10142,9 @@ public struct VideoEncodeH264StdFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var chromaQpIndexOffset_KHR: VideoEncodeH264StdFlagsKHR { VideoEncodeH264StdFlagsKHR(rawValue: 1 << 3) }
+    public static var chromaQpIndexOffset_KHR: VideoEncodeH264StdFlagsKHR {
+        VideoEncodeH264StdFlagsKHR(rawValue: 1 << 3)
+    }
 
 
     @inlinable
@@ -7153,11 +10154,15 @@ public struct VideoEncodeH264StdFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var picInitQpMinus26_KHR: VideoEncodeH264StdFlagsKHR { VideoEncodeH264StdFlagsKHR(rawValue: 1 << 5) }
+    public static var picInitQpMinus26_KHR: VideoEncodeH264StdFlagsKHR {
+        VideoEncodeH264StdFlagsKHR(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var weightedPredFlagSet_KHR: VideoEncodeH264StdFlagsKHR { VideoEncodeH264StdFlagsKHR(rawValue: 1 << 6) }
+    public static var weightedPredFlagSet_KHR: VideoEncodeH264StdFlagsKHR {
+        VideoEncodeH264StdFlagsKHR(rawValue: 1 << 6)
+    }
 
 
     @inlinable
@@ -7227,11 +10232,15 @@ public struct VideoEncodeH264StdFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var sliceQpDelta_KHR: VideoEncodeH264StdFlagsKHR { VideoEncodeH264StdFlagsKHR(rawValue: 1 << 19) }
+    public static var sliceQpDelta_KHR: VideoEncodeH264StdFlagsKHR {
+        VideoEncodeH264StdFlagsKHR(rawValue: 1 << 19)
+    }
 
 
     @inlinable
-    public static var differentSliceQpDelta_KHR: VideoEncodeH264StdFlagsKHR { VideoEncodeH264StdFlagsKHR(rawValue: 1 << 20) }
+    public static var differentSliceQpDelta_KHR: VideoEncodeH264StdFlagsKHR {
+        VideoEncodeH264StdFlagsKHR(rawValue: 1 << 20)
+    }
 }
 
 
@@ -7331,15 +10340,21 @@ public struct VideoEncodeH265CtbSizeFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var `16_KHR`: VideoEncodeH265CtbSizeFlagsKHR { VideoEncodeH265CtbSizeFlagsKHR(rawValue: 1 << 0) }
+    public static var `16_KHR`: VideoEncodeH265CtbSizeFlagsKHR {
+        VideoEncodeH265CtbSizeFlagsKHR(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var `32_KHR`: VideoEncodeH265CtbSizeFlagsKHR { VideoEncodeH265CtbSizeFlagsKHR(rawValue: 1 << 1) }
+    public static var `32_KHR`: VideoEncodeH265CtbSizeFlagsKHR {
+        VideoEncodeH265CtbSizeFlagsKHR(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var `64_KHR`: VideoEncodeH265CtbSizeFlagsKHR { VideoEncodeH265CtbSizeFlagsKHR(rawValue: 1 << 2) }
+    public static var `64_KHR`: VideoEncodeH265CtbSizeFlagsKHR {
+        VideoEncodeH265CtbSizeFlagsKHR(rawValue: 1 << 2)
+    }
 }
 
 
@@ -7421,7 +10436,9 @@ public struct VideoEncodeH265StdFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var pcmEnabledFlagSet_KHR: VideoEncodeH265StdFlagsKHR { VideoEncodeH265StdFlagsKHR(rawValue: 1 << 3) }
+    public static var pcmEnabledFlagSet_KHR: VideoEncodeH265StdFlagsKHR {
+        VideoEncodeH265StdFlagsKHR(rawValue: 1 << 3)
+    }
 
 
     @inlinable
@@ -7431,15 +10448,21 @@ public struct VideoEncodeH265StdFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var initQpMinus26_KHR: VideoEncodeH265StdFlagsKHR { VideoEncodeH265StdFlagsKHR(rawValue: 1 << 5) }
+    public static var initQpMinus26_KHR: VideoEncodeH265StdFlagsKHR {
+        VideoEncodeH265StdFlagsKHR(rawValue: 1 << 5)
+    }
 
 
     @inlinable
-    public static var weightedPredFlagSet_KHR: VideoEncodeH265StdFlagsKHR { VideoEncodeH265StdFlagsKHR(rawValue: 1 << 6) }
+    public static var weightedPredFlagSet_KHR: VideoEncodeH265StdFlagsKHR {
+        VideoEncodeH265StdFlagsKHR(rawValue: 1 << 6)
+    }
 
 
     @inlinable
-    public static var weightedBipredFlagSet_KHR: VideoEncodeH265StdFlagsKHR { VideoEncodeH265StdFlagsKHR(rawValue: 1 << 7) }
+    public static var weightedBipredFlagSet_KHR: VideoEncodeH265StdFlagsKHR {
+        VideoEncodeH265StdFlagsKHR(rawValue: 1 << 7)
+    }
 
 
     @inlinable
@@ -7509,11 +10532,15 @@ public struct VideoEncodeH265StdFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var sliceQpDelta_KHR: VideoEncodeH265StdFlagsKHR { VideoEncodeH265StdFlagsKHR(rawValue: 1 << 19) }
+    public static var sliceQpDelta_KHR: VideoEncodeH265StdFlagsKHR {
+        VideoEncodeH265StdFlagsKHR(rawValue: 1 << 19)
+    }
 
 
     @inlinable
-    public static var differentSliceQpDelta_KHR: VideoEncodeH265StdFlagsKHR { VideoEncodeH265StdFlagsKHR(rawValue: 1 << 20) }
+    public static var differentSliceQpDelta_KHR: VideoEncodeH265StdFlagsKHR {
+        VideoEncodeH265StdFlagsKHR(rawValue: 1 << 20)
+    }
 }
 
 
@@ -7556,6 +10583,23 @@ public struct VideoEncodeH265TransformBlockSizeFlagsKHR: OptionSet {
 }
 
 
+public struct VideoEncodeRateControlFlagsKHR: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `VideoEncodeRateControlFlagsKHR` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
 public struct VideoEncodeRateControlModeFlagsKHR: OptionSet {
     /// The raw value of the bitmask, represented as a UInt32.
     public let rawValue: UInt32
@@ -7571,7 +10615,9 @@ public struct VideoEncodeRateControlModeFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var default_KHR: VideoEncodeRateControlModeFlagsKHR { VideoEncodeRateControlModeFlagsKHR(rawValue: 0) }
+    public static var default_KHR: VideoEncodeRateControlModeFlagsKHR {
+        VideoEncodeRateControlModeFlagsKHR(rawValue: 0)
+    }
 
 
     @inlinable
@@ -7581,11 +10627,15 @@ public struct VideoEncodeRateControlModeFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var cbrBit_KHR: VideoEncodeRateControlModeFlagsKHR { VideoEncodeRateControlModeFlagsKHR(rawValue: 1 << 1) }
+    public static var cbrBit_KHR: VideoEncodeRateControlModeFlagsKHR {
+        VideoEncodeRateControlModeFlagsKHR(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var vbrBit_KHR: VideoEncodeRateControlModeFlagsKHR { VideoEncodeRateControlModeFlagsKHR(rawValue: 1 << 2) }
+    public static var vbrBit_KHR: VideoEncodeRateControlModeFlagsKHR {
+        VideoEncodeRateControlModeFlagsKHR(rawValue: 1 << 2)
+    }
 }
 
 
@@ -7604,23 +10654,50 @@ public struct VideoEncodeUsageFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var default_KHR: VideoEncodeUsageFlagsKHR { VideoEncodeUsageFlagsKHR(rawValue: 0) }
+    public static var default_KHR: VideoEncodeUsageFlagsKHR {
+        VideoEncodeUsageFlagsKHR(rawValue: 0)
+    }
 
 
     @inlinable
-    public static var transcodingBit_KHR: VideoEncodeUsageFlagsKHR { VideoEncodeUsageFlagsKHR(rawValue: 1 << 0) }
+    public static var transcodingBit_KHR: VideoEncodeUsageFlagsKHR {
+        VideoEncodeUsageFlagsKHR(rawValue: 1 << 0)
+    }
 
 
     @inlinable
-    public static var streamingBit_KHR: VideoEncodeUsageFlagsKHR { VideoEncodeUsageFlagsKHR(rawValue: 1 << 1) }
+    public static var streamingBit_KHR: VideoEncodeUsageFlagsKHR {
+        VideoEncodeUsageFlagsKHR(rawValue: 1 << 1)
+    }
 
 
     @inlinable
-    public static var recordingBit_KHR: VideoEncodeUsageFlagsKHR { VideoEncodeUsageFlagsKHR(rawValue: 1 << 2) }
+    public static var recordingBit_KHR: VideoEncodeUsageFlagsKHR {
+        VideoEncodeUsageFlagsKHR(rawValue: 1 << 2)
+    }
 
 
     @inlinable
-    public static var conferencingBit_KHR: VideoEncodeUsageFlagsKHR { VideoEncodeUsageFlagsKHR(rawValue: 1 << 3) }
+    public static var conferencingBit_KHR: VideoEncodeUsageFlagsKHR {
+        VideoEncodeUsageFlagsKHR(rawValue: 1 << 3)
+    }
+}
+
+
+public struct VideoEndCodingFlagsKHR: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `VideoEndCodingFlagsKHR` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 
@@ -7639,7 +10716,9 @@ public struct VideoSessionCreateFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var protectedContent_KHR: VideoSessionCreateFlagsKHR { VideoSessionCreateFlagsKHR(rawValue: 1 << 0) }
+    public static var protectedContent_KHR: VideoSessionCreateFlagsKHR {
+        VideoSessionCreateFlagsKHR(rawValue: 1 << 0)
+    }
 
 
     @inlinable
@@ -7649,7 +10728,9 @@ public struct VideoSessionCreateFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var inlineQueries_KHR: VideoSessionCreateFlagsKHR { VideoSessionCreateFlagsKHR(rawValue: 1 << 2) }
+    public static var inlineQueries_KHR: VideoSessionCreateFlagsKHR {
+        VideoSessionCreateFlagsKHR(rawValue: 1 << 2)
+    }
 
 
     @inlinable
@@ -7659,7 +10740,9 @@ public struct VideoSessionCreateFlagsKHR: OptionSet {
 
 
     @inlinable
-    public static var allowEncodeEmphasisMap_KHR: VideoSessionCreateFlagsKHR { VideoSessionCreateFlagsKHR(rawValue: 1 << 4) }
+    public static var allowEncodeEmphasisMap_KHR: VideoSessionCreateFlagsKHR {
+        VideoSessionCreateFlagsKHR(rawValue: 1 << 4)
+    }
 
 
     @inlinable
@@ -7687,6 +10770,86 @@ public struct VideoSessionParametersCreateFlagsKHR: OptionSet {
     public static var quantizationMapCompatible_KHR: VideoSessionParametersCreateFlagsKHR {
         VideoSessionParametersCreateFlagsKHR(rawValue: 1 << 0)
     }
+}
+
+
+#if !PlatformWayland
+    @available(*, unavailable, message: "This flag requires the following trait: PlatformWayland.")
+#endif
+public struct WaylandSurfaceCreateFlagsKHR: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `WaylandSurfaceCreateFlagsKHR` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+#if !PlatformWin32
+    @available(*, unavailable, message: "This flag requires the following trait: PlatformWin32.")
+#endif
+public struct Win32SurfaceCreateFlagsKHR: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `Win32SurfaceCreateFlagsKHR` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+#if !PlatformXcb
+    @available(*, unavailable, message: "This flag requires the following trait: PlatformXcb.")
+#endif
+public struct XcbSurfaceCreateFlagsKHR: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `XcbSurfaceCreateFlagsKHR` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
+}
+
+
+#if !PlatformXlib
+    @available(*, unavailable, message: "This flag requires the following trait: PlatformXlib.")
+#endif
+public struct XlibSurfaceCreateFlagsKHR: OptionSet {
+    /// The raw value of the bitmask, represented as a UInt32.
+    public let rawValue: UInt32
+
+    /// Initilizes an instance of `XlibSurfaceCreateFlagsKHR` using a raw value.
+    /// This shouldn't normally be used directly, but is provided for completeness.
+    /// Instead, use the static properties provided by this type which represent the individual flags.
+    /// - Parameter rawValue: The raw value to initialize to.
+    @inlinable
+    public init(rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+
 }
 
 // END_GENERATE_BITMASKS

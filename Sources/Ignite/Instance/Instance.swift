@@ -32,16 +32,16 @@ public enum InstanceCreateError: Error {
 @safe
 public final class Instance: @unchecked Sendable {
     /// The Vulkan instance handle.
-    public let instance: VkInstance
-    /// The Vulkan instance table.
+    public let handle: VkInstance
+    /// The table of Vulkan functions for this instance.
     public let table: InstanceTable
 
     /// Creates a new instance from an existing Vulkan instance handle.
     /// - Parameter instance: The Vulkan instance handle to wrap.
     @unsafe
     public init(instance: consuming VkInstance) {
-        unsafe self.instance = instance
-        unsafe self.table = InstanceTable(getInstanceProcAddr: Loader.shared.table.getInstanceProcAddr, instance: instance)
+        unsafe self.handle = instance
+        self.table = unsafe InstanceTable(getInstanceProcAddr: Loader.shared.table.getInstanceProcAddr, instance: instance)
     }
 
     /// Creates a new Vulkan instance.
@@ -67,6 +67,14 @@ public final class Instance: @unchecked Sendable {
         guard Loader.checkSetup() else {
             throw .loaderFailed
         }
+
+        #if DEBUG
+            // In debug builds, we always try to enable the validation layer.
+            var layers = layers
+            if Loader.shared.availableLayers.contains(where: { $0.name == "VK_LAYER_KHRONOS_validation" }) {
+                layers.insert("VK_LAYER_KHRONOS_validation")
+            }
+        #endif
 
         // Convet layer names to a C-compatible format.
         let cLayerNames: [UnsafePointer<CChar>?] = unsafe layers.map { layerName in
@@ -171,7 +179,7 @@ public final class Instance: @unchecked Sendable {
             }
         }
         
-        unsafe self.instance = instance!
-        unsafe self.table = InstanceTable(getInstanceProcAddr: Loader.shared.table.getInstanceProcAddr, instance: instance!)
+        unsafe self.handle = instance!
+        self.table = unsafe InstanceTable(getInstanceProcAddr: Loader.shared.table.getInstanceProcAddr, instance: instance!)
     }
 }

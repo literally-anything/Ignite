@@ -25,7 +25,7 @@ public struct InstanceExtension: Hashable {
     }
 
     // BEGIN_GENERATE_INSTANCE_EXTENSIONS
-    // Generated using header version: 317
+    // Generated using header version: 318
 
     /// Equivalent to Vulkan's VK_KHR_surface.
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VK_KHR_surface.html)
@@ -373,6 +373,16 @@ public struct InstanceExtension: Hashable {
     @inlinable
     public static var displayStereo_NV: InstanceExtension {
         InstanceExtension(name: "VK_NV_display_stereo")
+    }
+
+    /// Equivalent to Vulkan's VK_OHOS_surface.
+    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VK_OHOS_surface.html)
+    #if !PlatformOhos
+        @available(*, unavailable, message: "VK_OHOS_surface is only available when the PlatformOhos trait is enabled")
+    #endif
+    @inlinable
+    public static var surface_OHOS: InstanceExtension {
+        InstanceExtension(name: "VK_OHOS_surface")
     }
 
     // END_GENERATE_INSTANCE_EXTENSIONS

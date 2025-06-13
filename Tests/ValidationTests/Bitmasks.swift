@@ -17,7 +17,7 @@ import Testing
 @Suite("Bitmasks")
 public struct BitmaskTests {
     // BEGIN_GENERATE_BITMASK_TESTS
-    // Generated using header version: 315
+    // Generated using header version: 318
 
     /// Tests for the AccelerationStructureCreateFlagsKHR bitmask.
     @Suite("AccelerationStructureCreateFlagsKHR")
@@ -45,6 +45,20 @@ public struct BitmaskTests {
                     == CVulkan.VK_ACCELERATION_STRUCTURE_CREATE_MOTION_BIT_NV.rawValue
             )
         }
+    }
+
+
+    /// Tests for the AccelerationStructureMotionInfoFlagsNV bitmask.
+    @Suite("AccelerationStructureMotionInfoFlagsNV")
+    public struct AccelerationStructureMotionInfoFlagsNVTests {
+
+    }
+
+
+    /// Tests for the AccelerationStructureMotionInstanceFlagsNV bitmask.
+    @Suite("AccelerationStructureMotionInstanceFlagsNV")
+    public struct AccelerationStructureMotionInstanceFlagsNVTests {
+
     }
 
 
@@ -862,6 +876,20 @@ public struct BitmaskTests {
     }
 
 
+    #if PlatformAndroid
+        /// Tests for the AndroidSurfaceCreateFlagsKHR bitmask.
+        @Suite("AndroidSurfaceCreateFlagsKHR")
+        public struct AndroidSurfaceCreateFlagsKHRTests {
+
+        }
+    #else
+        @Suite(
+            "AndroidSurfaceCreateFlagsKHR",
+            .disabled("This bitmask is only available when the following trait is enabled: PlatformAndroid."))
+        public struct AndroidSurfaceCreateFlagsKHRTests {}
+    #endif
+
+
     /// Tests for the AttachmentDescriptionFlags bitmask.
     @Suite("AttachmentDescriptionFlags")
     public struct AttachmentDescriptionFlagsTests {
@@ -1490,6 +1518,13 @@ public struct BitmaskTests {
     }
 
 
+    /// Tests for the BufferViewCreateFlags bitmask.
+    @Suite("BufferViewCreateFlags")
+    public struct BufferViewCreateFlagsTests {
+
+    }
+
+
     /// Tests for the BuildAccelerationStructureFlagsKHR bitmask.
     @Suite("BuildAccelerationStructureFlagsKHR")
     public struct BuildAccelerationStructureFlagsKHRTests {
@@ -1541,6 +1576,93 @@ public struct BitmaskTests {
             )
         }
 
+        @Test("Validate allowOpacityMicromapUpdateBit_EXT")
+        public func validate_allowOpacityMicromapUpdateBit_EXT() {
+            #expect(
+                Ignite.BuildAccelerationStructureFlagsKHR.allowOpacityMicromapUpdateBit_EXT.rawValue
+                    == CVulkan.VK_BUILD_ACCELERATION_STRUCTURE_ALLOW_OPACITY_MICROMAP_UPDATE_BIT_EXT.rawValue
+            )
+        }
+
+        @Test("Validate allowDisableOpacityMicromapsBit_EXT")
+        public func validate_allowDisableOpacityMicromapsBit_EXT() {
+            #expect(
+                Ignite.BuildAccelerationStructureFlagsKHR.allowDisableOpacityMicromapsBit_EXT.rawValue
+                    == CVulkan.VK_BUILD_ACCELERATION_STRUCTURE_ALLOW_DISABLE_OPACITY_MICROMAPS_BIT_EXT.rawValue
+            )
+        }
+
+        @Test("Validate allowOpacityMicromapDataUpdateBit_EXT")
+        public func validate_allowOpacityMicromapDataUpdateBit_EXT() {
+            #expect(
+                Ignite.BuildAccelerationStructureFlagsKHR.allowOpacityMicromapDataUpdateBit_EXT.rawValue
+                    == CVulkan.VK_BUILD_ACCELERATION_STRUCTURE_ALLOW_OPACITY_MICROMAP_DATA_UPDATE_BIT_EXT.rawValue
+            )
+        }
+
+        #if EnableProvisional
+            @Test("Validate allowDisplacementMicromapUpdateBit_NV")
+            public func validate_allowDisplacementMicromapUpdateBit_NV() {
+                #expect(
+                    Ignite.BuildAccelerationStructureFlagsKHR.allowDisplacementMicromapUpdateBit_NV.rawValue
+                        == CVulkan.VK_BUILD_ACCELERATION_STRUCTURE_ALLOW_DISPLACEMENT_MICROMAP_UPDATE_BIT_NV.rawValue
+                )
+            }
+        #else
+            @Test(
+                "Validate allowDisplacementMicromapUpdateBit_NV",
+                .disabled("This flag is only available when the following trait is enabled: unknown."))
+            public func validate_allowDisplacementMicromapUpdateBit_NV() {}
+        #endif
+
+        @Test("Validate allowDataAccessBit_KHR")
+        public func validate_allowDataAccessBit_KHR() {
+            #expect(
+                Ignite.BuildAccelerationStructureFlagsKHR.allowDataAccessBit_KHR.rawValue
+                    == CVulkan.VK_BUILD_ACCELERATION_STRUCTURE_ALLOW_DATA_ACCESS_BIT_KHR.rawValue
+            )
+        }
+
+        @Test("Validate allowUpdateBit_NV")
+        public func validate_allowUpdateBit_NV() {
+            #expect(
+                Ignite.BuildAccelerationStructureFlagsKHR.allowUpdateBit_NV.rawValue
+                    == CVulkan.VK_BUILD_ACCELERATION_STRUCTURE_ALLOW_UPDATE_BIT_NV.rawValue
+            )
+        }
+
+        @Test("Validate allowCompactionBit_NV")
+        public func validate_allowCompactionBit_NV() {
+            #expect(
+                Ignite.BuildAccelerationStructureFlagsKHR.allowCompactionBit_NV.rawValue
+                    == CVulkan.VK_BUILD_ACCELERATION_STRUCTURE_ALLOW_COMPACTION_BIT_NV.rawValue
+            )
+        }
+
+        @Test("Validate preferFastTraceBit_NV")
+        public func validate_preferFastTraceBit_NV() {
+            #expect(
+                Ignite.BuildAccelerationStructureFlagsKHR.preferFastTraceBit_NV.rawValue
+                    == CVulkan.VK_BUILD_ACCELERATION_STRUCTURE_PREFER_FAST_TRACE_BIT_NV.rawValue
+            )
+        }
+
+        @Test("Validate preferFastBuildBit_NV")
+        public func validate_preferFastBuildBit_NV() {
+            #expect(
+                Ignite.BuildAccelerationStructureFlagsKHR.preferFastBuildBit_NV.rawValue
+                    == CVulkan.VK_BUILD_ACCELERATION_STRUCTURE_PREFER_FAST_BUILD_BIT_NV.rawValue
+            )
+        }
+
+        @Test("Validate lowMemoryBit_NV")
+        public func validate_lowMemoryBit_NV() {
+            #expect(
+                Ignite.BuildAccelerationStructureFlagsKHR.lowMemoryBit_NV.rawValue
+                    == CVulkan.VK_BUILD_ACCELERATION_STRUCTURE_LOW_MEMORY_BIT_NV.rawValue
+            )
+        }
+
         @Test("Validate allowOpacityMicromapUpdate_EXT")
         public func validate_allowOpacityMicromapUpdate_EXT() {
             #expect(
@@ -1585,46 +1707,6 @@ public struct BitmaskTests {
             #expect(
                 Ignite.BuildAccelerationStructureFlagsKHR.allowDataAccess_KHR.rawValue
                     == CVulkan.VK_BUILD_ACCELERATION_STRUCTURE_ALLOW_DATA_ACCESS_KHR.rawValue
-            )
-        }
-
-        @Test("Validate allowUpdateBit_NV")
-        public func validate_allowUpdateBit_NV() {
-            #expect(
-                Ignite.BuildAccelerationStructureFlagsKHR.allowUpdateBit_NV.rawValue
-                    == CVulkan.VK_BUILD_ACCELERATION_STRUCTURE_ALLOW_UPDATE_BIT_NV.rawValue
-            )
-        }
-
-        @Test("Validate allowCompactionBit_NV")
-        public func validate_allowCompactionBit_NV() {
-            #expect(
-                Ignite.BuildAccelerationStructureFlagsKHR.allowCompactionBit_NV.rawValue
-                    == CVulkan.VK_BUILD_ACCELERATION_STRUCTURE_ALLOW_COMPACTION_BIT_NV.rawValue
-            )
-        }
-
-        @Test("Validate preferFastTraceBit_NV")
-        public func validate_preferFastTraceBit_NV() {
-            #expect(
-                Ignite.BuildAccelerationStructureFlagsKHR.preferFastTraceBit_NV.rawValue
-                    == CVulkan.VK_BUILD_ACCELERATION_STRUCTURE_PREFER_FAST_TRACE_BIT_NV.rawValue
-            )
-        }
-
-        @Test("Validate preferFastBuildBit_NV")
-        public func validate_preferFastBuildBit_NV() {
-            #expect(
-                Ignite.BuildAccelerationStructureFlagsKHR.preferFastBuildBit_NV.rawValue
-                    == CVulkan.VK_BUILD_ACCELERATION_STRUCTURE_PREFER_FAST_BUILD_BIT_NV.rawValue
-            )
-        }
-
-        @Test("Validate lowMemoryBit_NV")
-        public func validate_lowMemoryBit_NV() {
-            #expect(
-                Ignite.BuildAccelerationStructureFlagsKHR.lowMemoryBit_NV.rawValue
-                    == CVulkan.VK_BUILD_ACCELERATION_STRUCTURE_LOW_MEMORY_BIT_NV.rawValue
             )
         }
     }
@@ -1903,6 +1985,13 @@ public struct BitmaskTests {
     }
 
 
+    /// Tests for the CommandPoolTrimFlags bitmask.
+    @Suite("CommandPoolTrimFlags")
+    public struct CommandPoolTrimFlagsTests {
+
+    }
+
+
     /// Tests for the CompositeAlphaFlagsKHR bitmask.
     @Suite("CompositeAlphaFlagsKHR")
     public struct CompositeAlphaFlagsKHRTests {
@@ -2099,6 +2188,20 @@ public struct BitmaskTests {
     }
 
 
+    /// Tests for the DebugUtilsMessengerCallbackDataFlagsEXT bitmask.
+    @Suite("DebugUtilsMessengerCallbackDataFlagsEXT")
+    public struct DebugUtilsMessengerCallbackDataFlagsEXTTests {
+
+    }
+
+
+    /// Tests for the DebugUtilsMessengerCreateFlagsEXT bitmask.
+    @Suite("DebugUtilsMessengerCreateFlagsEXT")
+    public struct DebugUtilsMessengerCreateFlagsEXTTests {
+
+    }
+
+
     /// Tests for the DependencyFlags bitmask.
     @Suite("DependencyFlags")
     public struct DependencyFlagsTests {
@@ -2135,6 +2238,14 @@ public struct BitmaskTests {
             #expect(
                 Ignite.DependencyFlags.queueFamilyOwnershipTransferUseAllStages_KHR.rawValue
                     == CVulkan.VK_DEPENDENCY_QUEUE_FAMILY_OWNERSHIP_TRANSFER_USE_ALL_STAGES_BIT_KHR.rawValue
+            )
+        }
+
+        @Test("Validate asymmetricEvent_KHR")
+        public func validate_asymmetricEvent_KHR() {
+            #expect(
+                Ignite.DependencyFlags.asymmetricEvent_KHR.rawValue
+                    == CVulkan.VK_DEPENDENCY_ASYMMETRIC_EVENT_BIT_KHR.rawValue
             )
         }
 
@@ -2284,6 +2395,13 @@ public struct BitmaskTests {
     }
 
 
+    /// Tests for the DescriptorPoolResetFlags bitmask.
+    @Suite("DescriptorPoolResetFlags")
+    public struct DescriptorPoolResetFlagsTests {
+
+    }
+
+
     /// Tests for the DescriptorSetLayoutCreateFlags bitmask.
     @Suite("DescriptorSetLayoutCreateFlags")
     public struct DescriptorSetLayoutCreateFlagsTests {
@@ -2369,6 +2487,13 @@ public struct BitmaskTests {
     }
 
 
+    /// Tests for the DescriptorUpdateTemplateCreateFlags bitmask.
+    @Suite("DescriptorUpdateTemplateCreateFlags")
+    public struct DescriptorUpdateTemplateCreateFlagsTests {
+
+    }
+
+
     /// Tests for the DeviceAddressBindingFlagsEXT bitmask.
     @Suite("DeviceAddressBindingFlagsEXT")
     public struct DeviceAddressBindingFlagsEXTTests {
@@ -2379,6 +2504,13 @@ public struct BitmaskTests {
                     == CVulkan.VK_DEVICE_ADDRESS_BINDING_INTERNAL_OBJECT_BIT_EXT.rawValue
             )
         }
+    }
+
+
+    /// Tests for the DeviceCreateFlags bitmask.
+    @Suite("DeviceCreateFlags")
+    public struct DeviceCreateFlagsTests {
+
     }
 
 
@@ -2456,6 +2588,13 @@ public struct BitmaskTests {
     }
 
 
+    /// Tests for the DeviceMemoryReportFlagsEXT bitmask.
+    @Suite("DeviceMemoryReportFlagsEXT")
+    public struct DeviceMemoryReportFlagsEXTTests {
+
+    }
+
+
     /// Tests for the DeviceQueueCreateFlags bitmask.
     @Suite("DeviceQueueCreateFlags")
     public struct DeviceQueueCreateFlagsTests {
@@ -2465,6 +2604,34 @@ public struct BitmaskTests {
                 Ignite.DeviceQueueCreateFlags.protected.rawValue == CVulkan.VK_DEVICE_QUEUE_CREATE_PROTECTED_BIT.rawValue
             )
         }
+    }
+
+
+    /// Tests for the DirectDriverLoadingFlagsLUNARG bitmask.
+    @Suite("DirectDriverLoadingFlagsLUNARG")
+    public struct DirectDriverLoadingFlagsLUNARGTests {
+
+    }
+
+
+    #if PlatformDirectfb
+        /// Tests for the DirectFBSurfaceCreateFlagsEXT bitmask.
+        @Suite("DirectFBSurfaceCreateFlagsEXT")
+        public struct DirectFBSurfaceCreateFlagsEXTTests {
+
+        }
+    #else
+        @Suite(
+            "DirectFBSurfaceCreateFlagsEXT",
+            .disabled("This bitmask is only available when the following trait is enabled: PlatformDirectfb."))
+        public struct DirectFBSurfaceCreateFlagsEXTTests {}
+    #endif
+
+
+    /// Tests for the DisplayModeCreateFlagsKHR bitmask.
+    @Suite("DisplayModeCreateFlagsKHR")
+    public struct DisplayModeCreateFlagsKHRTests {
+
     }
 
 
@@ -2502,6 +2669,13 @@ public struct BitmaskTests {
                     == CVulkan.VK_DISPLAY_PLANE_ALPHA_PER_PIXEL_PREMULTIPLIED_BIT_KHR.rawValue
             )
         }
+    }
+
+
+    /// Tests for the DisplaySurfaceCreateFlagsKHR bitmask.
+    @Suite("DisplaySurfaceCreateFlagsKHR")
+    public struct DisplaySurfaceCreateFlagsKHRTests {
+
     }
 
 
@@ -3878,6 +4052,21 @@ public struct BitmaskTests {
             )
         }
 
+        @Test("Validate tensorShader_ARM")
+        public func validate_tensorShader_ARM() {
+            #expect(
+                Ignite.FormatFeatureFlags2.tensorShader_ARM.rawValue == CVulkan.VK_FORMAT_FEATURE_2_TENSOR_SHADER_BIT_ARM
+            )
+        }
+
+        @Test("Validate tensorImageAliasing_ARM")
+        public func validate_tensorImageAliasing_ARM() {
+            #expect(
+                Ignite.FormatFeatureFlags2.tensorImageAliasing_ARM.rawValue
+                    == CVulkan.VK_FORMAT_FEATURE_2_TENSOR_IMAGE_ALIASING_BIT_ARM
+            )
+        }
+
         @Test("Validate opticalFlowImage_NV")
         public func validate_opticalFlowImage_NV() {
             #expect(
@@ -4239,19 +4428,19 @@ public struct BitmaskTests {
             )
         }
 
-        @Test("Validate forceOpacityMicromap2State_EXT")
-        public func validate_forceOpacityMicromap2State_EXT() {
+        @Test("Validate forceOpacityMicromap2StateBit_EXT")
+        public func validate_forceOpacityMicromap2StateBit_EXT() {
             #expect(
-                Ignite.GeometryInstanceFlagsKHR.forceOpacityMicromap2State_EXT.rawValue
-                    == CVulkan.VK_GEOMETRY_INSTANCE_FORCE_OPACITY_MICROMAP_2_STATE_EXT.rawValue
+                Ignite.GeometryInstanceFlagsKHR.forceOpacityMicromap2StateBit_EXT.rawValue
+                    == CVulkan.VK_GEOMETRY_INSTANCE_FORCE_OPACITY_MICROMAP_2_STATE_BIT_EXT.rawValue
             )
         }
 
-        @Test("Validate disableOpacityMicromaps_EXT")
-        public func validate_disableOpacityMicromaps_EXT() {
+        @Test("Validate disableOpacityMicromapsBit_EXT")
+        public func validate_disableOpacityMicromapsBit_EXT() {
             #expect(
-                Ignite.GeometryInstanceFlagsKHR.disableOpacityMicromaps_EXT.rawValue
-                    == CVulkan.VK_GEOMETRY_INSTANCE_DISABLE_OPACITY_MICROMAPS_EXT.rawValue
+                Ignite.GeometryInstanceFlagsKHR.disableOpacityMicromapsBit_EXT.rawValue
+                    == CVulkan.VK_GEOMETRY_INSTANCE_DISABLE_OPACITY_MICROMAPS_BIT_EXT.rawValue
             )
         }
 
@@ -4294,6 +4483,22 @@ public struct BitmaskTests {
                     == CVulkan.VK_GEOMETRY_INSTANCE_FORCE_NO_OPAQUE_BIT_NV.rawValue
             )
         }
+
+        @Test("Validate forceOpacityMicromap2State_EXT")
+        public func validate_forceOpacityMicromap2State_EXT() {
+            #expect(
+                Ignite.GeometryInstanceFlagsKHR.forceOpacityMicromap2State_EXT.rawValue
+                    == CVulkan.VK_GEOMETRY_INSTANCE_FORCE_OPACITY_MICROMAP_2_STATE_EXT.rawValue
+            )
+        }
+
+        @Test("Validate disableOpacityMicromaps_EXT")
+        public func validate_disableOpacityMicromaps_EXT() {
+            #expect(
+                Ignite.GeometryInstanceFlagsKHR.disableOpacityMicromaps_EXT.rawValue
+                    == CVulkan.VK_GEOMETRY_INSTANCE_DISABLE_OPACITY_MICROMAPS_EXT.rawValue
+            )
+        }
     }
 
 
@@ -4334,13 +4539,34 @@ public struct BitmaskTests {
     }
 
 
+    /// Tests for the HeadlessSurfaceCreateFlagsEXT bitmask.
+    @Suite("HeadlessSurfaceCreateFlagsEXT")
+    public struct HeadlessSurfaceCreateFlagsEXTTests {
+
+    }
+
+
     /// Tests for the HostImageCopyFlags bitmask.
     @Suite("HostImageCopyFlags")
     public struct HostImageCopyFlagsTests {
+        @Test("Validate memcpyBit")
+        public func validate_memcpyBit() {
+            #expect(
+                Ignite.HostImageCopyFlags.memcpyBit.rawValue == CVulkan.VK_HOST_IMAGE_COPY_MEMCPY_BIT.rawValue
+            )
+        }
+
         @Test("Validate memcpy")
         public func validate_memcpy() {
             #expect(
                 Ignite.HostImageCopyFlags.memcpy.rawValue == CVulkan.VK_HOST_IMAGE_COPY_MEMCPY.rawValue
+            )
+        }
+
+        @Test("Validate memcpyBit_EXT")
+        public func validate_memcpyBit_EXT() {
+            #expect(
+                Ignite.HostImageCopyFlags.memcpyBit_EXT.rawValue == CVulkan.VK_HOST_IMAGE_COPY_MEMCPY_BIT_EXT.rawValue
             )
         }
 
@@ -4351,6 +4577,20 @@ public struct BitmaskTests {
             )
         }
     }
+
+
+    #if PlatformIos
+        /// Tests for the IOSSurfaceCreateFlagsMVK bitmask.
+        @Suite("IOSSurfaceCreateFlagsMVK")
+        public struct IOSSurfaceCreateFlagsMVKTests {
+
+        }
+    #else
+        @Suite(
+            "IOSSurfaceCreateFlagsMVK",
+            .disabled("This bitmask is only available when the following trait is enabled: PlatformIos."))
+        public struct IOSSurfaceCreateFlagsMVKTests {}
+    #endif
 
 
     /// Tests for the ImageAspectFlags bitmask.
@@ -4973,6 +5213,34 @@ public struct BitmaskTests {
     }
 
 
+    #if PlatformFuchsia
+        /// Tests for the ImageFormatConstraintsFlagsFUCHSIA bitmask.
+        @Suite("ImageFormatConstraintsFlagsFUCHSIA")
+        public struct ImageFormatConstraintsFlagsFUCHSIATests {
+
+        }
+    #else
+        @Suite(
+            "ImageFormatConstraintsFlagsFUCHSIA",
+            .disabled("This bitmask is only available when the following trait is enabled: PlatformFuchsia."))
+        public struct ImageFormatConstraintsFlagsFUCHSIATests {}
+    #endif
+
+
+    #if PlatformFuchsia
+        /// Tests for the ImagePipeSurfaceCreateFlagsFUCHSIA bitmask.
+        @Suite("ImagePipeSurfaceCreateFlagsFUCHSIA")
+        public struct ImagePipeSurfaceCreateFlagsFUCHSIATests {
+
+        }
+    #else
+        @Suite(
+            "ImagePipeSurfaceCreateFlagsFUCHSIA",
+            .disabled("This bitmask is only available when the following trait is enabled: PlatformFuchsia."))
+        public struct ImagePipeSurfaceCreateFlagsFUCHSIATests {}
+    #endif
+
+
     /// Tests for the ImageUsageFlags bitmask.
     @Suite("ImageUsageFlags")
     public struct ImageUsageFlagsTests {
@@ -5133,6 +5401,13 @@ public struct BitmaskTests {
             #expect(
                 Ignite.ImageUsageFlags.sampleBlockMatch_QCOM.rawValue
                     == CVulkan.VK_IMAGE_USAGE_SAMPLE_BLOCK_MATCH_BIT_QCOM.rawValue
+            )
+        }
+
+        @Test("Validate tensorAliasing_ARM")
+        public func validate_tensorAliasing_ARM() {
+            #expect(
+                Ignite.ImageUsageFlags.tensorAliasing_ARM.rawValue == CVulkan.VK_IMAGE_USAGE_TENSOR_ALIASING_BIT_ARM.rawValue
             )
         }
 
@@ -5300,6 +5575,20 @@ public struct BitmaskTests {
             )
         }
     }
+
+
+    #if PlatformMacos
+        /// Tests for the MacOSSurfaceCreateFlagsMVK bitmask.
+        @Suite("MacOSSurfaceCreateFlagsMVK")
+        public struct MacOSSurfaceCreateFlagsMVKTests {
+
+        }
+    #else
+        @Suite(
+            "MacOSSurfaceCreateFlagsMVK",
+            .disabled("This bitmask is only available when the following trait is enabled: PlatformMacos."))
+        public struct MacOSSurfaceCreateFlagsMVKTests {}
+    #endif
 
 
     /// Tests for the MemoryAllocateFlags bitmask.
@@ -5499,6 +5788,20 @@ public struct BitmaskTests {
             )
         }
     }
+
+
+    #if PlatformMetal
+        /// Tests for the MetalSurfaceCreateFlagsEXT bitmask.
+        @Suite("MetalSurfaceCreateFlagsEXT")
+        public struct MetalSurfaceCreateFlagsEXTTests {
+
+        }
+    #else
+        @Suite(
+            "MetalSurfaceCreateFlagsEXT",
+            .disabled("This bitmask is only available when the following trait is enabled: PlatformMetal."))
+        public struct MetalSurfaceCreateFlagsEXTTests {}
+    #endif
 
 
     /// Tests for the MicromapCreateFlagsEXT bitmask.
@@ -5883,6 +6186,27 @@ public struct BitmaskTests {
     }
 
 
+    /// Tests for the PipelineCoverageModulationStateCreateFlagsNV bitmask.
+    @Suite("PipelineCoverageModulationStateCreateFlagsNV")
+    public struct PipelineCoverageModulationStateCreateFlagsNVTests {
+
+    }
+
+
+    /// Tests for the PipelineCoverageReductionStateCreateFlagsNV bitmask.
+    @Suite("PipelineCoverageReductionStateCreateFlagsNV")
+    public struct PipelineCoverageReductionStateCreateFlagsNVTests {
+
+    }
+
+
+    /// Tests for the PipelineCoverageToColorStateCreateFlagsNV bitmask.
+    @Suite("PipelineCoverageToColorStateCreateFlagsNV")
+    public struct PipelineCoverageToColorStateCreateFlagsNVTests {
+
+    }
+
+
     /// Tests for the PipelineCreateFlags bitmask.
     @Suite("PipelineCreateFlags")
     public struct PipelineCreateFlagsTests {
@@ -6150,6 +6474,14 @@ public struct BitmaskTests {
             #expect(
                 Ignite.PipelineCreateFlags.viewIndexFromDeviceIndexBit_KHR.rawValue
                     == CVulkan.VK_PIPELINE_CREATE_VIEW_INDEX_FROM_DEVICE_INDEX_BIT_KHR.rawValue
+            )
+        }
+
+        @Test("Validate dispatchBaseBit_KHR")
+        public func validate_dispatchBaseBit_KHR() {
+            #expect(
+                Ignite.PipelineCreateFlags.dispatchBaseBit_KHR.rawValue
+                    == CVulkan.VK_PIPELINE_CREATE_DISPATCH_BASE_BIT_KHR.rawValue
             )
         }
 
@@ -6510,6 +6842,14 @@ public struct BitmaskTests {
             )
         }
 
+        @Test("Validate perLayerFragmentDensity_VALVE")
+        public func validate_perLayerFragmentDensity_VALVE() {
+            #expect(
+                Ignite.PipelineCreateFlags2.perLayerFragmentDensity_VALVE.rawValue
+                    == CVulkan.VK_PIPELINE_CREATE_2_PER_LAYER_FRAGMENT_DENSITY_BIT_VALVE
+            )
+        }
+
         @Test("Validate rayTracingSkipBuiltInPrimitives_KHR")
         public func validate_rayTracingSkipBuiltInPrimitives_KHR() {
             #expect(
@@ -6684,6 +7024,27 @@ public struct BitmaskTests {
     }
 
 
+    /// Tests for the PipelineDiscardRectangleStateCreateFlagsEXT bitmask.
+    @Suite("PipelineDiscardRectangleStateCreateFlagsEXT")
+    public struct PipelineDiscardRectangleStateCreateFlagsEXTTests {
+
+    }
+
+
+    /// Tests for the PipelineDynamicStateCreateFlags bitmask.
+    @Suite("PipelineDynamicStateCreateFlags")
+    public struct PipelineDynamicStateCreateFlagsTests {
+
+    }
+
+
+    /// Tests for the PipelineInputAssemblyStateCreateFlags bitmask.
+    @Suite("PipelineInputAssemblyStateCreateFlags")
+    public struct PipelineInputAssemblyStateCreateFlagsTests {
+
+    }
+
+
     /// Tests for the PipelineLayoutCreateFlags bitmask.
     @Suite("PipelineLayoutCreateFlags")
     public struct PipelineLayoutCreateFlagsTests {
@@ -6694,6 +7055,41 @@ public struct BitmaskTests {
                     == CVulkan.VK_PIPELINE_LAYOUT_CREATE_INDEPENDENT_SETS_BIT_EXT.rawValue
             )
         }
+    }
+
+
+    /// Tests for the PipelineMultisampleStateCreateFlags bitmask.
+    @Suite("PipelineMultisampleStateCreateFlags")
+    public struct PipelineMultisampleStateCreateFlagsTests {
+
+    }
+
+
+    /// Tests for the PipelineRasterizationConservativeStateCreateFlagsEXT bitmask.
+    @Suite("PipelineRasterizationConservativeStateCreateFlagsEXT")
+    public struct PipelineRasterizationConservativeStateCreateFlagsEXTTests {
+
+    }
+
+
+    /// Tests for the PipelineRasterizationDepthClipStateCreateFlagsEXT bitmask.
+    @Suite("PipelineRasterizationDepthClipStateCreateFlagsEXT")
+    public struct PipelineRasterizationDepthClipStateCreateFlagsEXTTests {
+
+    }
+
+
+    /// Tests for the PipelineRasterizationStateCreateFlags bitmask.
+    @Suite("PipelineRasterizationStateCreateFlags")
+    public struct PipelineRasterizationStateCreateFlagsTests {
+
+    }
+
+
+    /// Tests for the PipelineRasterizationStateStreamCreateFlagsEXT bitmask.
+    @Suite("PipelineRasterizationStateStreamCreateFlagsEXT")
+    public struct PipelineRasterizationStateStreamCreateFlagsEXTTests {
+
     }
 
 
@@ -7576,6 +7972,34 @@ public struct BitmaskTests {
     }
 
 
+    /// Tests for the PipelineTessellationStateCreateFlags bitmask.
+    @Suite("PipelineTessellationStateCreateFlags")
+    public struct PipelineTessellationStateCreateFlagsTests {
+
+    }
+
+
+    /// Tests for the PipelineVertexInputStateCreateFlags bitmask.
+    @Suite("PipelineVertexInputStateCreateFlags")
+    public struct PipelineVertexInputStateCreateFlagsTests {
+
+    }
+
+
+    /// Tests for the PipelineViewportStateCreateFlags bitmask.
+    @Suite("PipelineViewportStateCreateFlags")
+    public struct PipelineViewportStateCreateFlagsTests {
+
+    }
+
+
+    /// Tests for the PipelineViewportSwizzleStateCreateFlagsNV bitmask.
+    @Suite("PipelineViewportSwizzleStateCreateFlagsNV")
+    public struct PipelineViewportSwizzleStateCreateFlagsNVTests {
+
+    }
+
+
     /// Tests for the PresentGravityFlagsEXT bitmask.
     @Suite("PresentGravityFlagsEXT")
     public struct PresentGravityFlagsEXTTests {
@@ -7626,6 +8050,13 @@ public struct BitmaskTests {
                 Ignite.PresentScalingFlagsEXT.stretch_EXT.rawValue == CVulkan.VK_PRESENT_SCALING_STRETCH_BIT_EXT.rawValue
             )
         }
+    }
+
+
+    /// Tests for the PrivateDataSlotCreateFlags bitmask.
+    @Suite("PrivateDataSlotCreateFlags")
+    public struct PrivateDataSlotCreateFlagsTests {
+
     }
 
 
@@ -7758,6 +8189,18 @@ public struct BitmaskTests {
     }
 
 
+    /// Tests for the QueryPoolCreateFlags bitmask.
+    @Suite("QueryPoolCreateFlags")
+    public struct QueryPoolCreateFlagsTests {
+        @Test("Validate reset_KHR")
+        public func validate_reset_KHR() {
+            #expect(
+                Ignite.QueryPoolCreateFlags.reset_KHR.rawValue == CVulkan.VK_QUERY_POOL_CREATE_RESET_BIT_KHR.rawValue
+            )
+        }
+    }
+
+
     /// Tests for the QueryResultFlags bitmask.
     @Suite("QueryResultFlags")
     public struct QueryResultFlagsTests {
@@ -7869,6 +8312,14 @@ public struct BitmaskTests {
                     == CVulkan.VK_RENDER_PASS_CREATE_TRANSFORM_BIT_QCOM.rawValue
             )
         }
+
+        @Test("Validate perLayerFragmentDensity_VALVE")
+        public func validate_perLayerFragmentDensity_VALVE() {
+            #expect(
+                Ignite.RenderPassCreateFlags.perLayerFragmentDensity_VALVE.rawValue
+                    == CVulkan.VK_RENDER_PASS_CREATE_PER_LAYER_FRAGMENT_DENSITY_BIT_VALVE.rawValue
+            )
+        }
     }
 
 
@@ -7909,6 +8360,14 @@ public struct BitmaskTests {
         public func validate_contentsInline_KHR() {
             #expect(
                 Ignite.RenderingFlags.contentsInline_KHR.rawValue == CVulkan.VK_RENDERING_CONTENTS_INLINE_BIT_KHR.rawValue
+            )
+        }
+
+        @Test("Validate perLayerFragmentDensity_VALVE")
+        public func validate_perLayerFragmentDensity_VALVE() {
+            #expect(
+                Ignite.RenderingFlags.perLayerFragmentDensity_VALVE.rawValue
+                    == CVulkan.VK_RENDERING_PER_LAYER_FRAGMENT_DENSITY_BIT_VALVE.rawValue
             )
         }
 
@@ -7982,18 +8441,18 @@ public struct BitmaskTests {
         }
 
         #if PlatformAndroid
-            @Test("Validate externalFormatDownsample_ANDROID")
-            public func validate_externalFormatDownsample_ANDROID() {
+            @Test("Validate externalFormatDownsampleBit_ANDROID")
+            public func validate_externalFormatDownsampleBit_ANDROID() {
                 #expect(
-                    Ignite.ResolveModeFlags.externalFormatDownsample_ANDROID.rawValue
-                        == CVulkan.VK_RESOLVE_MODE_EXTERNAL_FORMAT_DOWNSAMPLE_ANDROID.rawValue
+                    Ignite.ResolveModeFlags.externalFormatDownsampleBit_ANDROID.rawValue
+                        == CVulkan.VK_RESOLVE_MODE_EXTERNAL_FORMAT_DOWNSAMPLE_BIT_ANDROID.rawValue
                 )
             }
         #else
             @Test(
-                "Validate externalFormatDownsample_ANDROID",
+                "Validate externalFormatDownsampleBit_ANDROID",
                 .disabled("This flag is only available when the following trait is enabled: unknown."))
-            public func validate_externalFormatDownsample_ANDROID() {}
+            public func validate_externalFormatDownsampleBit_ANDROID() {}
         #endif
 
         @Test("Validate none_KHR")
@@ -8030,6 +8489,21 @@ public struct BitmaskTests {
                 Ignite.ResolveModeFlags.maxBit_KHR.rawValue == CVulkan.VK_RESOLVE_MODE_MAX_BIT_KHR.rawValue
             )
         }
+
+        #if PlatformAndroid
+            @Test("Validate externalFormatDownsample_ANDROID")
+            public func validate_externalFormatDownsample_ANDROID() {
+                #expect(
+                    Ignite.ResolveModeFlags.externalFormatDownsample_ANDROID.rawValue
+                        == CVulkan.VK_RESOLVE_MODE_EXTERNAL_FORMAT_DOWNSAMPLE_ANDROID.rawValue
+                )
+            }
+        #else
+            @Test(
+                "Validate externalFormatDownsample_ANDROID",
+                .disabled("This flag is only available when the following trait is enabled: unknown."))
+            public func validate_externalFormatDownsample_ANDROID() {}
+        #endif
     }
 
 
@@ -8128,6 +8602,27 @@ public struct BitmaskTests {
                     == CVulkan.VK_SAMPLER_CREATE_IMAGE_PROCESSING_BIT_QCOM.rawValue
             )
         }
+    }
+
+
+    #if PlatformScreen
+        /// Tests for the ScreenSurfaceCreateFlagsQNX bitmask.
+        @Suite("ScreenSurfaceCreateFlagsQNX")
+        public struct ScreenSurfaceCreateFlagsQNXTests {
+
+        }
+    #else
+        @Suite(
+            "ScreenSurfaceCreateFlagsQNX",
+            .disabled("This bitmask is only available when the following trait is enabled: PlatformScreen."))
+        public struct ScreenSurfaceCreateFlagsQNXTests {}
+    #endif
+
+
+    /// Tests for the SemaphoreCreateFlags bitmask.
+    @Suite("SemaphoreCreateFlags")
+    public struct SemaphoreCreateFlagsTests {
+
     }
 
 
@@ -8241,6 +8736,13 @@ public struct BitmaskTests {
                     == CVulkan.VK_SHADER_CREATE_INDIRECT_BINDABLE_BIT_EXT.rawValue
             )
         }
+    }
+
+
+    /// Tests for the ShaderModuleCreateFlags bitmask.
+    @Suite("ShaderModuleCreateFlags")
+    public struct ShaderModuleCreateFlagsTests {
+
     }
 
 
@@ -8509,6 +9011,20 @@ public struct BitmaskTests {
     }
 
 
+    #if PlatformGgp
+        /// Tests for the StreamDescriptorSurfaceCreateFlagsGGP bitmask.
+        @Suite("StreamDescriptorSurfaceCreateFlagsGGP")
+        public struct StreamDescriptorSurfaceCreateFlagsGGPTests {
+
+        }
+    #else
+        @Suite(
+            "StreamDescriptorSurfaceCreateFlagsGGP",
+            .disabled("This bitmask is only available when the following trait is enabled: PlatformGgp."))
+        public struct StreamDescriptorSurfaceCreateFlagsGGPTests {}
+    #endif
+
+
     /// Tests for the SubgroupFeatureFlags bitmask.
     @Suite("SubgroupFeatureFlags")
     public struct SubgroupFeatureFlagsTests {
@@ -8748,6 +9264,20 @@ public struct BitmaskTests {
     }
 
 
+    #if PlatformOhos
+        /// Tests for the SurfaceCreateFlagsOHOS bitmask.
+        @Suite("SurfaceCreateFlagsOHOS")
+        public struct SurfaceCreateFlagsOHOSTests {
+
+        }
+    #else
+        @Suite(
+            "SurfaceCreateFlagsOHOS",
+            .disabled("This bitmask is only available when the following trait is enabled: PlatformOhos."))
+        public struct SurfaceCreateFlagsOHOSTests {}
+    #endif
+
+
     /// Tests for the SurfaceTransformFlagsKHR bitmask.
     @Suite("SurfaceTransformFlagsKHR")
     public struct SurfaceTransformFlagsKHRTests {
@@ -8856,6 +9386,95 @@ public struct BitmaskTests {
             #expect(
                 Ignite.SwapchainCreateFlagsKHR.deferredMemoryAllocation_EXT.rawValue
                     == CVulkan.VK_SWAPCHAIN_CREATE_DEFERRED_MEMORY_ALLOCATION_BIT_EXT.rawValue
+            )
+        }
+
+        @Test("Validate presentId2_KHR")
+        public func validate_presentId2_KHR() {
+            #expect(
+                Ignite.SwapchainCreateFlagsKHR.presentId2_KHR.rawValue
+                    == CVulkan.VK_SWAPCHAIN_CREATE_PRESENT_ID_2_BIT_KHR.rawValue
+            )
+        }
+
+        @Test("Validate presentWait2_KHR")
+        public func validate_presentWait2_KHR() {
+            #expect(
+                Ignite.SwapchainCreateFlagsKHR.presentWait2_KHR.rawValue
+                    == CVulkan.VK_SWAPCHAIN_CREATE_PRESENT_WAIT_2_BIT_KHR.rawValue
+            )
+        }
+    }
+
+
+    /// Tests for the TensorCreateFlagsARM bitmask.
+    @Suite("TensorCreateFlagsARM")
+    public struct TensorCreateFlagsARMTests {
+        @Test("Validate mutableFormat_ARM")
+        public func validate_mutableFormat_ARM() {
+            #expect(
+                Ignite.TensorCreateFlagsARM.mutableFormat_ARM.rawValue == CVulkan.VK_TENSOR_CREATE_MUTABLE_FORMAT_BIT_ARM
+            )
+        }
+
+        @Test("Validate protected_ARM")
+        public func validate_protected_ARM() {
+            #expect(
+                Ignite.TensorCreateFlagsARM.protected_ARM.rawValue == CVulkan.VK_TENSOR_CREATE_PROTECTED_BIT_ARM
+            )
+        }
+
+        @Test("Validate descriptorBufferCaptureReplay_ARM")
+        public func validate_descriptorBufferCaptureReplay_ARM() {
+            #expect(
+                Ignite.TensorCreateFlagsARM.descriptorBufferCaptureReplay_ARM.rawValue
+                    == CVulkan.VK_TENSOR_CREATE_DESCRIPTOR_BUFFER_CAPTURE_REPLAY_BIT_ARM
+            )
+        }
+    }
+
+
+    /// Tests for the TensorUsageFlagsARM bitmask.
+    @Suite("TensorUsageFlagsARM")
+    public struct TensorUsageFlagsARMTests {
+        @Test("Validate shader_ARM")
+        public func validate_shader_ARM() {
+            #expect(
+                Ignite.TensorUsageFlagsARM.shader_ARM.rawValue == CVulkan.VK_TENSOR_USAGE_SHADER_BIT_ARM
+            )
+        }
+
+        @Test("Validate transferSrc_ARM")
+        public func validate_transferSrc_ARM() {
+            #expect(
+                Ignite.TensorUsageFlagsARM.transferSrc_ARM.rawValue == CVulkan.VK_TENSOR_USAGE_TRANSFER_SRC_BIT_ARM
+            )
+        }
+
+        @Test("Validate transferDst_ARM")
+        public func validate_transferDst_ARM() {
+            #expect(
+                Ignite.TensorUsageFlagsARM.transferDst_ARM.rawValue == CVulkan.VK_TENSOR_USAGE_TRANSFER_DST_BIT_ARM
+            )
+        }
+
+        @Test("Validate imageAliasing_ARM")
+        public func validate_imageAliasing_ARM() {
+            #expect(
+                Ignite.TensorUsageFlagsARM.imageAliasing_ARM.rawValue == CVulkan.VK_TENSOR_USAGE_IMAGE_ALIASING_BIT_ARM
+            )
+        }
+    }
+
+
+    /// Tests for the TensorViewCreateFlagsARM bitmask.
+    @Suite("TensorViewCreateFlagsARM")
+    public struct TensorViewCreateFlagsARMTests {
+        @Test("Validate descriptorBufferCaptureReplay_ARM")
+        public func validate_descriptorBufferCaptureReplay_ARM() {
+            #expect(
+                Ignite.TensorViewCreateFlagsARM.descriptorBufferCaptureReplay_ARM.rawValue
+                    == CVulkan.VK_TENSOR_VIEW_CREATE_DESCRIPTOR_BUFFER_CAPTURE_REPLAY_BIT_ARM
             )
         }
     }
@@ -8972,6 +9591,34 @@ public struct BitmaskTests {
                     == CVulkan.VK_TOOL_PURPOSE_MODIFYING_FEATURES_BIT_EXT.rawValue
             )
         }
+    }
+
+
+    /// Tests for the ValidationCacheCreateFlagsEXT bitmask.
+    @Suite("ValidationCacheCreateFlagsEXT")
+    public struct ValidationCacheCreateFlagsEXTTests {
+
+    }
+
+
+    #if PlatformVi
+        /// Tests for the ViSurfaceCreateFlagsNN bitmask.
+        @Suite("ViSurfaceCreateFlagsNN")
+        public struct ViSurfaceCreateFlagsNNTests {
+
+        }
+    #else
+        @Suite(
+            "ViSurfaceCreateFlagsNN",
+            .disabled("This bitmask is only available when the following trait is enabled: PlatformVi."))
+        public struct ViSurfaceCreateFlagsNNTests {}
+    #endif
+
+
+    /// Tests for the VideoBeginCodingFlagsKHR bitmask.
+    @Suite("VideoBeginCodingFlagsKHR")
+    public struct VideoBeginCodingFlagsKHRTests {
+
     }
 
 
@@ -9098,6 +9745,14 @@ public struct BitmaskTests {
                     == CVulkan.VK_VIDEO_CODEC_OPERATION_ENCODE_AV1_BIT_KHR.rawValue
             )
         }
+
+        @Test("Validate decodeVp9Bit_KHR")
+        public func validate_decodeVp9Bit_KHR() {
+            #expect(
+                Ignite.VideoCodecOperationFlagsKHR.decodeVp9Bit_KHR.rawValue
+                    == CVulkan.VK_VIDEO_CODEC_OPERATION_DECODE_VP9_BIT_KHR.rawValue
+            )
+        }
     }
 
 
@@ -9185,6 +9840,13 @@ public struct BitmaskTests {
                     == CVulkan.VK_VIDEO_DECODE_CAPABILITY_DPB_AND_OUTPUT_DISTINCT_BIT_KHR.rawValue
             )
         }
+    }
+
+
+    /// Tests for the VideoDecodeFlagsKHR bitmask.
+    @Suite("VideoDecodeFlagsKHR")
+    public struct VideoDecodeFlagsKHRTests {
+
     }
 
 
@@ -10189,6 +10851,13 @@ public struct BitmaskTests {
     }
 
 
+    /// Tests for the VideoEncodeRateControlFlagsKHR bitmask.
+    @Suite("VideoEncodeRateControlFlagsKHR")
+    public struct VideoEncodeRateControlFlagsKHRTests {
+
+    }
+
+
     /// Tests for the VideoEncodeRateControlModeFlagsKHR bitmask.
     @Suite("VideoEncodeRateControlModeFlagsKHR")
     public struct VideoEncodeRateControlModeFlagsKHRTests {
@@ -10270,6 +10939,13 @@ public struct BitmaskTests {
     }
 
 
+    /// Tests for the VideoEndCodingFlagsKHR bitmask.
+    @Suite("VideoEndCodingFlagsKHR")
+    public struct VideoEndCodingFlagsKHRTests {
+
+    }
+
+
     /// Tests for the VideoSessionCreateFlagsKHR bitmask.
     @Suite("VideoSessionCreateFlagsKHR")
     public struct VideoSessionCreateFlagsKHRTests {
@@ -10334,6 +11010,62 @@ public struct BitmaskTests {
             )
         }
     }
+
+
+    #if PlatformWayland
+        /// Tests for the WaylandSurfaceCreateFlagsKHR bitmask.
+        @Suite("WaylandSurfaceCreateFlagsKHR")
+        public struct WaylandSurfaceCreateFlagsKHRTests {
+
+        }
+    #else
+        @Suite(
+            "WaylandSurfaceCreateFlagsKHR",
+            .disabled("This bitmask is only available when the following trait is enabled: PlatformWayland."))
+        public struct WaylandSurfaceCreateFlagsKHRTests {}
+    #endif
+
+
+    #if PlatformWin32
+        /// Tests for the Win32SurfaceCreateFlagsKHR bitmask.
+        @Suite("Win32SurfaceCreateFlagsKHR")
+        public struct Win32SurfaceCreateFlagsKHRTests {
+
+        }
+    #else
+        @Suite(
+            "Win32SurfaceCreateFlagsKHR",
+            .disabled("This bitmask is only available when the following trait is enabled: PlatformWin32."))
+        public struct Win32SurfaceCreateFlagsKHRTests {}
+    #endif
+
+
+    #if PlatformXcb
+        /// Tests for the XcbSurfaceCreateFlagsKHR bitmask.
+        @Suite("XcbSurfaceCreateFlagsKHR")
+        public struct XcbSurfaceCreateFlagsKHRTests {
+
+        }
+    #else
+        @Suite(
+            "XcbSurfaceCreateFlagsKHR",
+            .disabled("This bitmask is only available when the following trait is enabled: PlatformXcb."))
+        public struct XcbSurfaceCreateFlagsKHRTests {}
+    #endif
+
+
+    #if PlatformXlib
+        /// Tests for the XlibSurfaceCreateFlagsKHR bitmask.
+        @Suite("XlibSurfaceCreateFlagsKHR")
+        public struct XlibSurfaceCreateFlagsKHRTests {
+
+        }
+    #else
+        @Suite(
+            "XlibSurfaceCreateFlagsKHR",
+            .disabled("This bitmask is only available when the following trait is enabled: PlatformXlib."))
+        public struct XlibSurfaceCreateFlagsKHRTests {}
+    #endif
 
     // END_GENERATE_BITMASK_TESTS
 }

@@ -28,6 +28,7 @@ public struct InstanceCreateInfoChain: ~Copyable, ~Escapable {
         unsafe self.end = nil
     }
 
+    @safe
     @inlinable
     @lifetime(self: copy element)
     public mutating func add<T: InstanceCreateInfoChainable & ~Escapable>(_ element: consuming T) {
@@ -77,7 +78,7 @@ public struct Applicationinfo {
 }
 
 // BEGIN_GENERATE_INSTANCE_CREATE_INFO_CHAIN_WRAPPERS
-// Generated using header version: 317
+// Generated using header version: 318
 
 @safe
 public struct DebugReportCallbackCreateInfoEXT: BitwiseCopyable, ~Escapable, @unsafe InstanceCreateInfoChainable {
@@ -87,7 +88,7 @@ public struct DebugReportCallbackCreateInfoEXT: BitwiseCopyable, ~Escapable, @un
 
     @inlinable
     @lifetime(immortal)
-    public init(wrapped: consuming CVulkan.VkDebugReportCallbackCreateInfoEXT) {
+    public init(wrapping wrapped: consuming CVulkan.VkDebugReportCallbackCreateInfoEXT) {
         unsafe self.wrapped = wrapped
     }
 
@@ -95,14 +96,14 @@ public struct DebugReportCallbackCreateInfoEXT: BitwiseCopyable, ~Escapable, @un
     @lifetime(immortal)
     public init(
         next: UnsafeRawPointer? = nil,
-        flags: VkDebugReportFlagsEXT,
+        flags: DebugReportFlagsEXT = [],
         fnCallback: PFN_vkDebugReportCallbackEXT,
         userData: UnsafeMutableRawPointer? = nil
     ) {
         unsafe self.wrapped = CVulkan.VkDebugReportCallbackCreateInfoEXT(
             sType: VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT,
             pNext: next,
-            flags: flags,
+            flags: flags.rawValue,
             pfnCallback: fnCallback,
             pUserData: userData
         )
@@ -118,7 +119,7 @@ public struct ValidationFlagsEXT: BitwiseCopyable, ~Escapable, @unsafe InstanceC
 
     @inlinable
     @lifetime(immortal)
-    public init(wrapped: consuming CVulkan.VkValidationFlagsEXT) {
+    public init(wrapping wrapped: consuming CVulkan.VkValidationFlagsEXT) {
         unsafe self.wrapped = wrapped
     }
 
@@ -147,7 +148,7 @@ public struct ValidationFeaturesEXT: BitwiseCopyable, ~Escapable, @unsafe Instan
 
     @inlinable
     @lifetime(immortal)
-    public init(wrapped: consuming CVulkan.VkValidationFeaturesEXT) {
+    public init(wrapping wrapped: consuming CVulkan.VkValidationFeaturesEXT) {
         unsafe self.wrapped = wrapped
     }
 
@@ -180,7 +181,7 @@ public struct LayerSettingsCreateInfoEXT: BitwiseCopyable, ~Escapable, @unsafe I
 
     @inlinable
     @lifetime(immortal)
-    public init(wrapped: consuming CVulkan.VkLayerSettingsCreateInfoEXT) {
+    public init(wrapping wrapped: consuming CVulkan.VkLayerSettingsCreateInfoEXT) {
         unsafe self.wrapped = wrapped
     }
 
@@ -209,7 +210,7 @@ public struct DebugUtilsMessengerCreateInfoEXT: BitwiseCopyable, ~Escapable, @un
 
     @inlinable
     @lifetime(immortal)
-    public init(wrapped: consuming CVulkan.VkDebugUtilsMessengerCreateInfoEXT) {
+    public init(wrapping wrapped: consuming CVulkan.VkDebugUtilsMessengerCreateInfoEXT) {
         unsafe self.wrapped = wrapped
     }
 
@@ -217,18 +218,18 @@ public struct DebugUtilsMessengerCreateInfoEXT: BitwiseCopyable, ~Escapable, @un
     @lifetime(immortal)
     public init(
         next: UnsafeRawPointer? = nil,
-        flags: VkDebugUtilsMessengerCreateFlagsEXT,
-        messageSeverity: VkDebugUtilsMessageSeverityFlagsEXT,
-        messageType: VkDebugUtilsMessageTypeFlagsEXT,
+        flags: DebugUtilsMessengerCreateFlagsEXT = [],
+        messageSeverity: DebugUtilsMessageSeverityFlagsEXT = [],
+        messageType: DebugUtilsMessageTypeFlagsEXT = [],
         fnUserCallback: PFN_vkDebugUtilsMessengerCallbackEXT,
         userData: UnsafeMutableRawPointer? = nil
     ) {
         unsafe self.wrapped = CVulkan.VkDebugUtilsMessengerCreateInfoEXT(
             sType: VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT,
             pNext: next,
-            flags: flags,
-            messageSeverity: messageSeverity,
-            messageType: messageType,
+            flags: flags.rawValue,
+            messageSeverity: messageSeverity.rawValue,
+            messageType: messageType.rawValue,
             pfnUserCallback: fnUserCallback,
             pUserData: userData
         )
@@ -245,7 +246,7 @@ public struct DebugUtilsMessengerCreateInfoEXT: BitwiseCopyable, ~Escapable, @un
 
         @inlinable
         @lifetime(immortal)
-        public init(wrapped: consuming CVulkan.VkExportMetalObjectCreateInfoEXT) {
+        public init(wrapping wrapped: consuming CVulkan.VkExportMetalObjectCreateInfoEXT) {
             unsafe self.wrapped = wrapped
         }
 
@@ -253,18 +254,18 @@ public struct DebugUtilsMessengerCreateInfoEXT: BitwiseCopyable, ~Escapable, @un
         @lifetime(immortal)
         public init(
             next: UnsafeRawPointer? = nil,
-            exportObjectType: VkExportMetalObjectTypeFlagBitsEXT
+            exportObjectType: ExportMetalObjectTypeFlagsEXT = []
         ) {
             unsafe self.wrapped = CVulkan.VkExportMetalObjectCreateInfoEXT(
                 sType: VK_STRUCTURE_TYPE_EXPORT_METAL_OBJECT_CREATE_INFO_EXT,
                 pNext: next,
-                exportObjectType: exportObjectType
+                exportObjectType: VkExportMetalObjectTypeFlagBitsEXT(rawValue: exportObjectType.rawValue)
             )
         }
     }
 #else
     @available(*, unavailable, message: "This struct requires the following trait: PlatformMetal.")
-    public struct ExportMetalObjectCreateInfoEXT: BitwiseCopyable, ~Escapable, @unsafe InstanceCreateInfoChainable {}
+    public struct ExportMetalObjectCreateInfoEXT: BitwiseCopyable, ~Escapable {}
 #endif
 
 
@@ -276,7 +277,7 @@ public struct DirectDriverLoadingListLUNARG: BitwiseCopyable, ~Escapable, @unsaf
 
     @inlinable
     @lifetime(immortal)
-    public init(wrapped: consuming CVulkan.VkDirectDriverLoadingListLUNARG) {
+    public init(wrapping wrapped: consuming CVulkan.VkDirectDriverLoadingListLUNARG) {
         unsafe self.wrapped = wrapped
     }
 
@@ -284,14 +285,14 @@ public struct DirectDriverLoadingListLUNARG: BitwiseCopyable, ~Escapable, @unsaf
     @lifetime(immortal)
     public init(
         next: UnsafeRawPointer? = nil,
-        mode: VkDirectDriverLoadingModeLUNARG,
+        mode: DirectDriverLoadingModeLUNARG,
         driverCount: UInt32,
         drivers: UnsafePointer<VkDirectDriverLoadingInfoLUNARG>
     ) {
         unsafe self.wrapped = CVulkan.VkDirectDriverLoadingListLUNARG(
             sType: VK_STRUCTURE_TYPE_DIRECT_DRIVER_LOADING_LIST_LUNARG,
             pNext: next,
-            mode: mode,
+            mode: VkDirectDriverLoadingModeLUNARG(rawValue: mode.rawValue),
             driverCount: driverCount,
             pDrivers: drivers
         )

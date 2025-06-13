@@ -10,10 +10,10 @@ import CVulkan
 
 extension Instance {
     /// The table of Vulkan function pointers for functions at the instance scope.
-    @unsafe
+    @safe
     public struct InstanceTable: Sendable {
         // BEGIN_GENERATE_INSTANCE_TABLE
-        // Generated using header version: 315
+        // Generated using header version: 318
 
         /// To acquire permission to directly a display in Vulkan from the Direct
         /// Rendering Manager (DRM) interface, call:
@@ -242,7 +242,7 @@ extension Instance {
         /// - Precondition: All [required device
         ///                 extensions](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#extendingvulkan-extensions-extensiondependencies) for each extension in the
         ///                 [VkDeviceCreateInfo](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDeviceCreateInfo.html)::`ppEnabledExtensionNames` list **must** also
-        ///                 be present in that list
+        ///                 be present in that list.
         ///
         /// ### Valid Usage (Implicit)
         /// ---
@@ -653,6 +653,9 @@ extension Instance {
         /// - SeeAlso: [vkEnumeratePhysicalDevices Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkEnumeratePhysicalDevices.html)
         @unsafe
         public let enumeratePhysicalDevices: PFN_vkEnumeratePhysicalDevices!
+
+        @unsafe
+        public let getDeviceProcAddr: PFN_vkGetDeviceProcAddr!
 
         /// To query the properties of a device’s built-in display modes, call:
         ///
@@ -1152,7 +1155,10 @@ extension Instance {
         /// The `format`, `type`, `tiling`, `usage`, and `flags` parameters correspond to parameters that would be consumed by [vkCreateImage](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCreateImage.html) (as members of [VkImageCreateInfo](https://registry.khronos.org/vulkan/specs/latest/man/html/VkImageCreateInfo.html) ).
         /// If `format` is not a supported image format, or if the combination of `format`, `type`, `tiling`, `usage`, and `flags` is not supported for images, then `vkGetPhysicalDeviceImageFormatProperties` returns `VK_ERROR_FORMAT_NOT_SUPPORTED`.
         /// The limitations on an image format that are reported by `vkGetPhysicalDeviceImageFormatProperties` have the following property: if `usage1` and `usage2` of type [VkImageUsageFlags](https://registry.khronos.org/vulkan/specs/latest/man/html/VkImageUsageFlags.html) are such that the bits set in `usage1` are a subset of the bits set in `usage2`, and `flags1` and `flags2` of type [VkImageCreateFlags](https://registry.khronos.org/vulkan/specs/latest/man/html/VkImageCreateFlags.html) are such that the bits set in `flags1` are a subset of the bits set in `flags2`, then the limitations for `usage1` and `flags1` **must** be no more strict than the limitations for `usage2` and `flags2`, for all values of `format`, `type`, and `tiling`.
-        /// If the [`hostImageCopy` ](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#features-hostImageCopy) feature is supported, `usage` includes `VK_IMAGE_USAGE_SAMPLED_BIT`, and `flags` does not include either of `VK_IMAGE_CREATE_SPARSE_BINDING_BIT`, `VK_IMAGE_CREATE_SPARSE_RESIDENCY_BIT`, or `VK_IMAGE_CREATE_SPARSE_ALIASED_BIT`, then the result of calls to `vkGetPhysicalDeviceImageFormatProperties` with identical parameters except for the inclusion of `VK_IMAGE_USAGE_HOST_TRANSFER_BIT` in `usage` **must** be identical.
+        /// If the [`hostImageCopy` ](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#features-hostImageCopy) feature is supported, and:
+        /// - `usage` includes `VK_IMAGE_USAGE_SAMPLED_BIT`, and
+        /// - `flags` does not include any of `VK_IMAGE_CREATE_SPARSE_BINDING_BIT`, `VK_IMAGE_CREATE_SPARSE_RESIDENCY_BIT`, or `VK_IMAGE_CREATE_SPARSE_ALIASED_BIT`
+        /// Then the result of calls to `vkGetPhysicalDeviceImageFormatProperties` with identical parameters except for the inclusion of `VK_IMAGE_USAGE_HOST_TRANSFER_BIT` in `usage` **must** be identical.
         ///
         /// - Parameters:
         ///   - physicalDevice: is the physical device from which to query the image capabilities.
@@ -1197,6 +1203,12 @@ extension Instance {
         /// If the `pNext` chain of `pImageFormatInfo` includes a [VkVideoProfileListInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoProfileListInfoKHR.html) structure with a `profileCount` member greater than `0`, then this command returns format capabilities specific to image types used in conjunction with the specified [video profiles](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#video-profiles).
         /// In this case, this command will return one of the [video-profile-specific error codes](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#video-profile-error-codes) if any of the profiles specified via [VkVideoProfileListInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoProfileListInfoKHR.html)::`pProfiles` are not supported.
         /// Furthermore, if [VkPhysicalDeviceImageFormatInfo2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageFormatInfo2.html)::`usage` includes any image usage flag not supported by the specified video profiles, then this command returns `VK_ERROR_IMAGE_USAGE_NOT_SUPPORTED_KHR`.
+        /// If the [`hostImageCopy` ](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#features-hostImageCopy) feature is supported, and:
+        /// - `pImageFormatInfo->usage` includes `VK_IMAGE_USAGE_SAMPLED_BIT`
+        /// - `pImageFormatInfo->flags` does not include either of `VK_IMAGE_CREATE_SPARSE_BINDING_BIT`, `VK_IMAGE_CREATE_SPARSE_RESIDENCY_BIT`, or `VK_IMAGE_CREATE_SPARSE_ALIASED_BIT`
+        /// - The `pNext` chain of `pImageFormatInfo` does not include a [VkPhysicalDeviceExternalImageFormatInfo](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExternalImageFormatInfo.html) structure with non-zero `handleType`
+        /// - `pImageFormatInfo->tiling` is not `VK_IMAGE_TILING_DRM_FORMAT_MODIFIER_EXT`
+        /// Then the result of calls to `vkGetPhysicalDeviceImageFormatProperties2` with identical parameters except for the inclusion of `VK_IMAGE_USAGE_HOST_TRANSFER_BIT` in `pImageFormatInfo->usage` **must** be identical.
         ///
         /// - Parameters:
         ///   - physicalDevice: is the physical device from which to query the image capabilities.
@@ -2056,6 +2068,12 @@ extension Instance {
         /// If the `pNext` chain of `pImageFormatInfo` includes a [VkVideoProfileListInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoProfileListInfoKHR.html) structure with a `profileCount` member greater than `0`, then this command returns format capabilities specific to image types used in conjunction with the specified [video profiles](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#video-profiles).
         /// In this case, this command will return one of the [video-profile-specific error codes](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#video-profile-error-codes) if any of the profiles specified via [VkVideoProfileListInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoProfileListInfoKHR.html)::`pProfiles` are not supported.
         /// Furthermore, if [VkPhysicalDeviceImageFormatInfo2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageFormatInfo2.html)::`usage` includes any image usage flag not supported by the specified video profiles, then this command returns `VK_ERROR_IMAGE_USAGE_NOT_SUPPORTED_KHR`.
+        /// If the [`hostImageCopy` ](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#features-hostImageCopy) feature is supported, and:
+        /// - `pImageFormatInfo->usage` includes `VK_IMAGE_USAGE_SAMPLED_BIT`
+        /// - `pImageFormatInfo->flags` does not include either of `VK_IMAGE_CREATE_SPARSE_BINDING_BIT`, `VK_IMAGE_CREATE_SPARSE_RESIDENCY_BIT`, or `VK_IMAGE_CREATE_SPARSE_ALIASED_BIT`
+        /// - The `pNext` chain of `pImageFormatInfo` does not include a [VkPhysicalDeviceExternalImageFormatInfo](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExternalImageFormatInfo.html) structure with non-zero `handleType`
+        /// - `pImageFormatInfo->tiling` is not `VK_IMAGE_TILING_DRM_FORMAT_MODIFIER_EXT`
+        /// Then the result of calls to `vkGetPhysicalDeviceImageFormatProperties2` with identical parameters except for the inclusion of `VK_IMAGE_USAGE_HOST_TRANSFER_BIT` in `pImageFormatInfo->usage` **must** be identical.
         ///
         /// - Parameters:
         ///   - physicalDevice: is the physical device from which to query the image capabilities.
@@ -2440,6 +2458,36 @@ extension Instance {
             /// - SeeAlso: [vkCreateMetalSurfaceEXT Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCreateMetalSurfaceEXT.html)
             @unsafe
             public let createMetalSurfaceEXT: PFN_vkCreateMetalSurfaceEXT!
+        #endif
+
+
+        #if PlatformOhos
+            /// To create a `VkSurfaceKHR` object on Open Harmony OS platform, call:
+            ///
+            ///
+            /// - Parameters:
+            ///   - instance: is the instance to associate the surface with.
+            ///   - pCreateInfo: is a pointer to a [VkOHSurfaceCreateInfoOHOS](https://registry.khronos.org/vulkan/specs/latest/man/html/VkOHSurfaceCreateInfoOHOS.html) structure containing parameters affecting the creation of the surface object.
+            ///   - pAllocator: is the allocator used for host memory allocated for the surface object when there is no more specific allocator available (see [Memory Allocation](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#memory-allocation) ).
+            ///   - pSurface: is a pointer to a [VkSurfaceKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkSurfaceKHR.html) handle in which the created surface object is returned.
+            ///
+            /// - Returns:
+            ///   - On success:
+            ///     - `VK_SUCCESS`
+            ///   - On failure:
+            ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+            ///     - `VK_ERROR_SURFACE_LOST_KHR`
+            ///
+            /// ### Valid Usage (Implicit)
+            /// ---
+            /// - Precondition: `instance` **must** be a valid [VkInstance](https://registry.khronos.org/vulkan/specs/latest/man/html/VkInstance.html) handle
+            /// - Precondition: `pCreateInfo` **must** be a valid pointer to a valid [VkSurfaceCreateInfoOHOS](https://registry.khronos.org/vulkan/specs/latest/man/html/VkSurfaceCreateInfoOHOS.html) structure
+            /// - Precondition: If `pAllocator` is not `NULL`, `pAllocator` **must** be a valid pointer to a valid [VkAllocationCallbacks](https://registry.khronos.org/vulkan/specs/latest/man/html/VkAllocationCallbacks.html) structure
+            /// - Precondition: `pSurface` **must** be a valid pointer to a [VkSurfaceKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkSurfaceKHR.html) handle
+            ///
+            /// - SeeAlso: [vkCreateSurfaceOHOS Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCreateSurfaceOHOS.html)
+            @unsafe
+            public let createSurfaceOHOS: PFN_vkCreateSurfaceOHOS!
         #endif
 
 
@@ -2867,6 +2915,15 @@ extension Instance {
             )
             if unsafe self.enumeratePhysicalDevices == nil {
                 debugLog("Failed to load vkEnumeratePhysicalDevices command in InstanceTable")
+            }
+
+            traceLog("Loading vkGetDeviceProcAddr command in InstanceTable")
+            unsafe self.getDeviceProcAddr = unsafeBitCast(
+                getProcAddr(context, "vkGetDeviceProcAddr"),
+                to: PFN_vkGetDeviceProcAddr.self
+            )
+            if unsafe self.getDeviceProcAddr == nil {
+                debugLog("Failed to load vkGetDeviceProcAddr command in InstanceTable")
             }
 
             traceLog("Loading vkGetPhysicalDeviceProperties command in InstanceTable")
@@ -3489,6 +3546,18 @@ extension Instance {
                 )
                 if unsafe self.createMetalSurfaceEXT == nil {
                     debugLog("Failed to load vkCreateMetalSurfaceEXT command in InstanceTable")
+                }
+            #endif
+
+
+            #if PlatformOhos
+                traceLog("Loading vkCreateSurfaceOHOS command in InstanceTable")
+                unsafe self.createSurfaceOHOS = unsafeBitCast(
+                    getProcAddr(context, "vkCreateSurfaceOHOS"),
+                    to: PFN_vkCreateSurfaceOHOS.self
+                )
+                if unsafe self.createSurfaceOHOS == nil {
+                    debugLog("Failed to load vkCreateSurfaceOHOS command in InstanceTable")
                 }
             #endif
 

@@ -127,7 +127,7 @@ extension Parser {
                     if name == "vkGetInstanceProcAddr" {
                         .loader
                     } else if name == "vkGetDeviceProcAddr" {
-                        .device
+                        .instance
                     } else {
                         if try registry.isDecendent(params.first!.type, of: "VkDevice") {
                             .device

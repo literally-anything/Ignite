@@ -27,7 +27,7 @@ var package = Package(
     ],
     traits: [
         // BEGIN_GENERATE_PLATFORM_TRAITS
-        // Generated using header version: 317
+        // Generated using header version: 318
 
         .trait(
             name: "EnableProvisional",
@@ -52,6 +52,10 @@ var package = Package(
         .trait(
             name: "PlatformMetal",
             description: "Metal on CoreAnimation on Apple platforms (VK_USE_PLATFORM_METAL_EXT)"
+        ),
+        .trait(
+            name: "PlatformOhos",
+            description: "Open Harmony OS (VK_USE_PLATFORM_OHOS)"
         ),
         .trait(
             name: "PlatformSci",

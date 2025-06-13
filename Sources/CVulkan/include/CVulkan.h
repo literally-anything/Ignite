@@ -22,7 +22,7 @@
 
 
 // BEGIN_GENERATE_PLATFORM_DEFINES
-// Generated using header version: 317
+// Generated using header version: 318
 #if EnableProvisional
 #  define VK_ENABLE_BETA_EXTENSIONS
 #endif
@@ -40,6 +40,9 @@
 #endif
 #if PlatformMetal
 #  define VK_USE_PLATFORM_METAL_EXT
+#endif
+#if PlatformOhos
+#  define VK_USE_PLATFORM_OHOS
 #endif
 #if PlatformSci
 #  define VK_USE_PLATFORM_SCI
@@ -147,8 +150,8 @@ extern "C" {
 
     /// Constructs a Vulkan API version number
     /// These macros don't seem to appear in swift.
-    INLINE uint32_t makeVkAPIVersion(uint32_t major, uint32_t minor) {
-        return VK_MAKE_API_VERSION(0, major, minor, 0);
+    INLINE uint32_t makeVkAPIVersion(uint32_t variant, uint32_t major, uint32_t minor, uint32_t patch) {
+        return VK_MAKE_API_VERSION(variant, major, minor, patch);
     }
     /// Extracts the Vulkan API variant number from a packed version number
     /// These macros don't seem to appear in swift.

@@ -21,7 +21,7 @@ func generateAPIVersions(
                 /// Equvalent to Vulkan's \(version.name)
                 @inlinable
                 public static var v\(name): ApiVersion {
-                    ApiVersion(rawValue: makeVkAPIVersion(\(version.number.replacingOccurrences(of: ".", with: ", "))))
+                    ApiVersion(rawValue: makeVkAPIVersion(0, \(version.number.replacingOccurrences(of: ".", with: ", ")), 0))
                 }\n
                 """
         }

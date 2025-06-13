@@ -13,15 +13,21 @@ func generateFunctionTables(packagePath: URL, registry: Registry) throws {
     print("Generating function tables...")
 
     let loaderFile = packagePath.appendingPathComponent("Sources/Ignite/Loader.swift")
-    print("Generating LoaderTable...")
+    print("- Generating LoaderTable...")
     try generateFunctionTable(
         file: loaderFile, registry: registry, tableName: "LOADER", tableTypeName: "LoaderTable", scope: .loader
     )
 
-    print("Generating InstanceTable...")
+    print("- Generating InstanceTable...")
     let instanceFile = packagePath.appendingPathComponent("Sources/Ignite/Instance/InstanceTable.swift")
     try generateFunctionTable(
         file: instanceFile, registry: registry, tableName: "INSTANCE", tableTypeName: "InstanceTable", scope: .instance
+    )
+
+    print("- Generating DeviceTable...")
+    let deviceFile = packagePath.appendingPathComponent("Sources/Ignite/Device/DeviceTable.swift")
+    try generateFunctionTable(
+        file: deviceFile, registry: registry, tableName: "DEVICE", tableTypeName: "DeviceTable", scope: .device
     )
 }
 

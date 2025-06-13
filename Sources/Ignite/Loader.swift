@@ -36,7 +36,7 @@ public struct Loader: Sendable {
     /// The table of Vulkan function pointers for functions at the loader scope.
     public let table: LoaderTable
     /// The instance version of the Vulkan install.
-    public let version: UInt32
+    public let version: ApiVersion
 
     /// Initializes the VulkanLoader. This is private because this is a singleton.
     /// Use `.shared` to get the singleton.
@@ -59,10 +59,10 @@ public struct Loader: Sendable {
             assert(result == VK_SUCCESS, "Failed to enumerate instance version: \(result)")
             assert(getVkAPIVersionVariant(foundVersion) == 0, "Vulkan API version variant is not 0")
 
-            version = foundVersion
+            version = ApiVersion(rawValue: foundVersion)
         } else {
-            // If we can't get the version, just 1.0
-            version = makeVkAPIVersion(1, 0)
+            // If we can't get the version, just use 1.0
+            version = .v1_0
         }
     }
 }
@@ -148,8 +148,143 @@ extension Loader {
 
     /// A function that checks if the Vulkan library was loaded successfully.
     /// - Returns: `true` if the Vulkan library was loaded successfully, otherwise `false`.
+    @inlinable
     public static func checkSetup() -> Bool {
         shared != nil
+    }
+}
+
+extension Loader {
+    /// The properties of a Vulkan layer.
+    public struct LayerProperties {
+        /// The underlying Vulkan layer properties structure.
+        internal var wrapped: VkLayerProperties
+
+        /// The name of the layer.
+        public var name: String {
+            unsafe withUnsafePointer(to: wrapped.layerName) { layerNamePtr in
+                unsafe String(cString: UnsafeRawPointer(layerNamePtr).assumingMemoryBound(to: CChar.self))
+            }
+        }
+
+        /// The version of Vulkan that the layer supports.
+        public var specVersion: ApiVersion {
+            ApiVersion(rawValue: wrapped.specVersion)
+        }
+
+        /// The version of the layer implementation. Incremented when the layer is modified.
+        public var implementationVersion: UInt32 {
+            wrapped.implementationVersion
+        }
+
+        /// A human-readable description of the layer.
+        public var description: String {
+            unsafe withUnsafePointer(to: wrapped.description) { descriptionPtr in
+                unsafe String(cString: UnsafeRawPointer(descriptionPtr).assumingMemoryBound(to: CChar.self))
+            }
+        }
+
+        /// Initializes a new `LayerProperties` with the given Vulkan layer properties.
+        internal init(wrapping wrapped: VkLayerProperties) {
+            self.wrapped = wrapped
+        }
+    }
+
+    /// The list of available Vulkan layers.
+    public var availableLayers: [LayerProperties] {
+        var count: UInt32 = 0
+        let result = unsafe table.enumerateInstanceLayerProperties(&count, nil)
+
+        // This only happens if the Vulkan loader runs out of memory
+        assert(result == VK_SUCCESS, "Failed to enumerate instance layer properties: \(result)")
+
+        guard count > 0 else { return [] }
+
+        var layers = [VkLayerProperties](repeating: VkLayerProperties(), count: Int(count))
+        let result2 = unsafe table.enumerateInstanceLayerProperties(&count, &layers)
+
+        // This only happens if the Vulkan loader runs out of memory
+        assert(result2 == VK_SUCCESS, "Failed to enumerate instance layer properties: \(result2)")
+
+        return layers.map { LayerProperties(wrapping: $0) }
+    }
+
+    /// The properties of a Vulkan extension.
+    public struct AvailableExtensions {
+        /// The set of Vulkan extension names.
+        public let extensions: Set<String>
+
+        /// Checks if the given extension is available.
+        /// - Parameters:
+        ///   - ext: The extension to check.
+        /// - Returns: `true` if the extension is available, otherwise `false`.
+        public func contains(_ ext: InstanceExtension, useVersions: Bool = false) -> Bool {
+            contains(ext.name, useVersions: useVersions)
+        }
+
+        /// Checks if the given extension name is available.
+        /// - Parameters:
+        ///   - extensionName: The name of the extension to check.
+        /// - Returns: `true` if the extension is available, otherwise `false`.
+        public func contains(_ extensionName: String, useVersions: Bool = false) -> Bool {
+            let doesContain = extensions.contains(extensionName)
+            if useVersions && !doesContain {
+                // ToDo: check if the extension is already available with a version suffix.
+            }
+            return doesContain
+        }
+
+        /// Try to enable the given extension if it is available.
+        /// - Parameters:
+        ///   - ext: The extension to enable.
+        ///   - enabledExtensions: The set of enabled extensions to add the extension to if it is available.
+        /// - Returns: `true` if the extension was enabled, otherwise `false`.
+        public func require(_ ext: InstanceExtension, enabledExtensions: inout Set<InstanceExtension>) -> Bool {
+            if extensions.contains(ext.name) {
+                enabledExtensions.insert(ext)
+                return true
+            } else {
+                return false
+            }
+        }
+
+        /// Initializes a new `AvailableExtensions` with the given Vulkan extension properties.
+        internal init(extensions: [VkExtensionProperties]) {
+            self.extensions = Set(
+                extensions.map { ext in
+                    unsafe withUnsafePointer(to: ext.extensionName) { extNamePtr in
+                        unsafe String(cString: UnsafeRawPointer(extNamePtr).assumingMemoryBound(to: CChar.self))
+                    }
+                })
+        }
+    }
+
+    /// Get a collection of available Vulkan instance extensions for the given layer name.
+    /// - Parameter layerName: The name of the layer to get the extensions for. If `nil`, all available extensions are returned.
+    public func getAvailableExtensions(
+        layerName: String? = nil
+    ) -> AvailableExtensions {
+        var count: UInt32 = 0
+        let result = unsafe table.enumerateInstanceExtensionProperties(layerName, &count, nil)
+
+        // This only happens if the Vulkan loader runs out of memory
+        assert(result == VK_SUCCESS, "Failed to enumerate instance extension properties: \(result)")
+
+        guard count > 0 else { return AvailableExtensions(extensions: []) }
+
+        var extensions = [VkExtensionProperties](repeating: VkExtensionProperties(), count: Int(count))
+        let result2 = unsafe table.enumerateInstanceExtensionProperties(layerName, &count, &extensions)
+
+        // This only happens if the Vulkan loader runs out of memory
+        assert(result2 == VK_SUCCESS, "Failed to enumerate instance extension properties: \(result2)")
+
+        return AvailableExtensions(extensions: extensions)
+    }
+
+    /// The collection of available Vulkan instance extensions.a
+    /// This is equivalent to calling `getAvailableExtensions()` with no layer name.
+    public var availableExtensions: AvailableExtensions {
+        getAvailableExtensions()
     }
 }
 
@@ -159,7 +294,7 @@ extension Loader {
     @unsafe
     public struct LoaderTable: Sendable {
         // BEGIN_GENERATE_LOADER_TABLE
-        // Generated using header version: 315
+        // Generated using header version: 318
 
         /// To create an instance object, call:
         ///

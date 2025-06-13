@@ -12,16 +12,23 @@ import RegexBuilder
 /// These structs should never be generated.
 private let disabledStructs: [String] = [
     "VkBaseInStructure", "VkBaseOutStructure",  // These don't make any sense to generate.
-    "VkInstanceCreateInfo", "VkApplicationInfo"  // These are handled by the Instance class.
+    "VkInstanceCreateInfo", "VkApplicationInfo",  // These are handled by the Instance class.
+    "VkLayerProperties"
 ]
 
-typealias SpecificStructSet = (extends: String, filePath: String, markerName: String, chainProtocol: String?)
+typealias SpecificStructSet = (
+    extends: String,
+    filePath: String, markerName: String,
+    chainProtocol: String?,
+    recursive: Bool, heapAllowed: Bool
+)
 /// These are just a way to group structs together so we can put them in the same file.
 private let specificStructSets: [SpecificStructSet] = [
     (
         "VkInstanceCreateInfo",
         "Sources/Ignite/Instance/InstanceCreateInfo.swift", "INSTANCE_CREATE_INFO_CHAIN_WRAPPERS",
-        "@unsafe InstanceCreateInfoChainable"
+        "@unsafe InstanceCreateInfoChainable",
+        true, true
     )
 ]
 
@@ -85,7 +92,8 @@ func buildStructWrapper(for structure: Struct, chainProtocol: String?, registry:
         let vkInitParam: (name: String, value: String)
         let member: StructMember
     }
-    var conformances: String = ": BitwiseCopyable, ~Escapable"
+    let baseConformances: String = ": BitwiseCopyable, ~Escapable"
+    var conformances: String = baseConformances
     if let chainProtocol {
         conformances.append(", \(chainProtocol)")
     }
@@ -101,12 +109,39 @@ func buildStructWrapper(for structure: Struct, chainProtocol: String?, registry:
         }
         switch member.parsedType {
             case .value(type: let type):
-                let fixedType = swiftTypeMappings[type] ?? type
-                return MemberInfo(
-                    initParam: (member.fixedName, fixedType, nil),
-                    vkInitParam: (member.name, member.fixedName),
-                    member: member
-                )
+                let maybeAliasName = registry.aliases[type] ?? type
+                if let bitmask = registry.bitmasks.first(where: { $0.matchedRawType == maybeAliasName }) {
+                    return MemberInfo(
+                        initParam: (member.fixedName, bitmask.fixedName, "[]"),
+                        vkInitParam: (member.name, "\(member.fixedName).rawValue"),
+                        member: member
+                    )
+                } else if let bitmask = registry.bitmasks.first(where: { $0.name == maybeAliasName }) {
+                    return MemberInfo(
+                        initParam: (member.fixedName, bitmask.fixedName, "[]"),
+                        vkInitParam: (member.name, "\(bitmask.name)(rawValue: \(member.fixedName).rawValue)"),
+                        member: member
+                    )
+                } else if let enumeration = registry.enums.first(where: { $0.name == maybeAliasName }) {
+                    return MemberInfo(
+                        initParam: (member.fixedName, enumeration.fixedName, nil),
+                        vkInitParam: (member.name, "\(type)(rawValue: \(member.fixedName).rawValue)"),
+                        member: member
+                    )
+                // } else if maybeAliasName.contains("Flags") {
+                //     return MemberInfo(
+                //         initParam: (member.fixedName, type, "0"),
+                //         vkInitParam: (member.name, member.fixedName),
+                //         member: member
+                //     )
+                } else {
+                    let fixedType = swiftTypeMappings[type] ?? type
+                    return MemberInfo(
+                        initParam: (member.fixedName, fixedType, nil),
+                        vkInitParam: (member.name, member.fixedName),
+                        member: member
+                    )
+                }
             case .pointer(mutable: let mutable, level: let level, type: let type):
                 let fixedType = swiftTypeMappings[type] ?? type
                 let pointerType = mutable ? "UnsafeMutablePointer" : "UnsafePointer"
@@ -176,7 +211,7 @@ func buildStructWrapper(for structure: Struct, chainProtocol: String?, registry:
 
             @inlinable
             @lifetime(immortal)
-            public init(wrapped: consuming CVulkan.\(structure.name)) {
+            public init(wrapping wrapped: consuming CVulkan.\(structure.name)) {
                 unsafe self.wrapped = wrapped
             }
 
@@ -206,7 +241,7 @@ func buildStructWrapper(for structure: Struct, chainProtocol: String?, registry:
         ] + decl + [
             "#else",
             "    @available(*, unavailable, message: \"This struct requires the following trait: \(trait).\")",
-            "    public struct \(structure.swiftTypeName)\(conformances) {}",
+            "    public struct \(structure.swiftTypeName)\(baseConformances) {}",
             "#endif"
         ]
     } else {

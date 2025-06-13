@@ -8,18 +8,18 @@
 
 // Just needed a way to log failures to load the Vulkan library only when in debug mode.
 #if DEBUG
-    package import Logging
+    internal import Logging
     private struct LoaderLoggerContainer {
         static let shared = Logger(label: "Ignite.Loader.Debug")
     }
     /// A debug logging function that only prints in debug mode.
-    package func debugLog(
+    internal func debugLog(
         _ message: @autoclosure () -> Logger.Message, file: String = #fileID, function: String = #function, line: UInt = #line
     ) {
         LoaderLoggerContainer.shared.debug(message(), file: file, function: function, line: line)
     }
     /// A trace logging function that only prints in debug mode.
-    package func traceLog(
+    internal func traceLog(
         _ message: @autoclosure () -> Logger.Message, file: String = #fileID, function: String = #function, line: UInt = #line
     ) {
         LoaderLoggerContainer.shared.trace(message(), file: file, function: function, line: line)
@@ -28,9 +28,9 @@
     /// A logging function that only prints in debug mode.
     @inlinable
     @inline(__always)
-    package func debugLog(_ message: @autoclosure () -> String) {}
+    internal func debugLog(_ message: @autoclosure () -> String) {}
     /// A trace logging function that only prints in debug mode.
     @inlinable
     @inline(__always)
-    package func traceLog(_ message: @autoclosure () -> String) {}
+    internal func traceLog(_ message: @autoclosure () -> String) {}
 #endif

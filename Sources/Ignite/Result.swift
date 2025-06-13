@@ -17,7 +17,7 @@ public enum VulkanResult: Sendable {
 
     public enum Error: Int32, Sendable, Swift.Error {
         // BEGIN_GENERATE_ERROR_CASES
-        // Generated using header version: 317
+        // Generated using header version: 318
 
         case outOfHostMemory = -1
         case outOfDeviceMemory = -2
@@ -75,7 +75,7 @@ public enum VulkanResult: Sendable {
 
     public enum Success: Int32, Sendable {
         // BEGIN_GENERATE_SUCCESS_CASES
-        // Generated using header version: 317
+        // Generated using header version: 318
 
         case success = 0
         case notReady = 1
