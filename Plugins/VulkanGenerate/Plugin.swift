@@ -78,10 +78,15 @@ extension VulkanGenerate {
             )
         }
 
+        let headerFolders: [String] = [
+            "vulkan",
+            "vk_video"
+        ]
+
         // Copy both the vulkan and vk_video headers to the include folder
         let headersPath = headersRepoPath.appending(component: "include")
         let dstPath = path.appending(component: "Sources/CVulkan/include")
-        for folder in ["vulkan", "vk_video"] {
+        for folder in headerFolders {
             if FileManager.default.fileExists(atPath: dstPath.appending(component: folder).path(percentEncoded: false)) {
                 try FileManager.default.removeItem(atPath: dstPath.appending(component: folder).path(percentEncoded: false))
             }
@@ -91,16 +96,19 @@ extension VulkanGenerate {
             )
         }
 
-        let headerFolders: [String] = [
-            "vulkan",
-            "vk_video",
-        ]
         let subpaths: [URL] = headerFolders.flatMap { folder in
             let folderPath: URL = dstPath.appending(component: folder)
             let folderSubpaths: [URL] = try! FileManager.default.subpathsOfDirectory(
                 atPath: folderPath.path(percentEncoded: false)
             ).compactMap { fileName in
-                if fileName.hasSuffix(".h") {
+                // Strip the possible ".h" suffix from the file name
+                let fileNameStripped = fileName.dropLast(2)
+                // If the file is a header file, we want to keep it only if it does not end with a disabled platform name.
+                if
+                    fileName.hasSuffix(".h"),
+                    !disabledPlatforms.contains(where: { fileNameStripped.hasSuffix($0) }),
+                    !["vk_layer", "vk_icd"].contains(fileNameStripped)
+                {
                     return nil
                 } else {
                     return folderPath.appending(path: fileName)
@@ -150,6 +158,10 @@ extension VulkanGenerate {
         try generateStructWrappers(packagePath: path, registry: registry)
         // try generateHandleWrappers(packagePath: path, registry: registry)
         try generateResultWrappers(packagePath: path, registry: registry)
+
+        // We remove vulkan.h from the include folder because we replace it with CVulkan.h.
+        // It was saved until now so we could use it to generate parts of CVulkan.h.
+        try FileManager.default.removeItem(atPath: dstPath.appending(path: "vulkan/vulkan.h").path(percentEncoded: false))
 
         print("Done!")
     }

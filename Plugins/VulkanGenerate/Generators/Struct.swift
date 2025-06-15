@@ -34,7 +34,10 @@ private let specificStructSets: [SpecificStructSet] = [
 
 func generateStructWrappers(packagePath: URL, registry: Registry) throws {
     print("Generating wrappers for Vulkan structs...")
-    var structs = registry.structs.filter { !disabledStructs.contains($0.name) }
+    var structs = registry.structs.filter {
+        !disabledPlatforms.contains($0.platform?.name ?? "") &&
+        !disabledStructs.contains($0.name)
+    }
 
     // This is just here because the compiler likes to complain about the availability of `removeSubranges`.
     #if canImport(Darwin)

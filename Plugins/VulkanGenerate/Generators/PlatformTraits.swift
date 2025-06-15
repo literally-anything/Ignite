@@ -7,13 +7,18 @@
  */
 
 import Foundation
+import RegexBuilder
+
+let disabledPlatforms: Set<String> = [
+    "ios", "macos" // We don't want to generate traits for these platforms because we have metal instead
+]
 
 /// Generates package traits for Vulkan platforms and inserts them into the Package.swift.
 func generatePlatformTraits(packagePath: URL, registry: Registry) throws {
     print("Generating package traits for each Vulkan platform...")
     let traits: [(name: String, description: String, macroName: String)] = registry.platforms.values.compactMap { platform in
         // We only look at platforms, but we don't want the MoltenVK ones because we have metal instead
-        guard !platform.protect.hasSuffix("_MVK") else {
+        guard !disabledPlatforms.contains(platform.name) else {
             return nil
         }
         return (
@@ -52,5 +57,44 @@ func generatePlatformTraits(packagePath: URL, registry: Registry) throws {
         }
         defines.insert("// Generated using header version: \(registry.version)", at: 0)
         contents[...] = defines[...]
+    }
+
+    try modifyFileAtPlaceholder(file: headerFile, markerName: "PLATFORM_INCLUDES") { contents in
+        var includes: [Substring] = []
+
+        // Some platforms have premade includes that are faster than using the Vulkan ones.
+        // These are already in CVulkan.h, so we can just skip them.
+        let premadeIncludes: Set<String> = [
+            "VK_USE_PLATFORM_ANDROID_KHR",
+            "VK_USE_PLATFORM_METAL_EXT",
+            "VK_USE_PLATFORM_WAYLAND_KHR",
+            "VK_USE_PLATFORM_WIN32_KHR",
+            "VK_USE_PLATFORM_XLIB_KHR"
+        ]
+        let vulkanHPath = packagePath.appending(path: "Sources/CVulkan/include/vulkan/vulkan.h")
+        let vulkanHContents = try String(contentsOf: vulkanHPath, encoding: .utf8)
+        for trait in traits {
+            guard !premadeIncludes.contains(trait.macroName) else {
+                continue
+            }
+
+            let guardRegex = Regex {
+                "#ifdef \(trait.macroName)"
+                "\n"
+                OneOrMore(.any, .reluctant)
+                "\n"
+                "#endif"
+            }
+            let guardMatches = vulkanHContents.matches(of: guardRegex).map { $0.output }
+            guard guardMatches.count == 1 else {
+                fatalError(
+                    "Bad count of guards for trait \(trait.name) in \(vulkanHPath.path()): \(guardMatches.count), \(guardMatches)"
+                )
+            }
+
+            includes.append(guardMatches[0])
+        }
+        includes.insert("// Generated using header version: \(registry.version)", at: 0)
+        contents = includes[...]
     }
 }

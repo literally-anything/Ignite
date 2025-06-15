@@ -7,7 +7,7 @@
  */
 
 /// A Vulkan instance extension.
-public struct InstanceExtension: Hashable {
+public struct InstanceExtension: Equatable, Hashable {
     /// The name of the extension for use when creating an instance.
     public let name: String
 
@@ -18,8 +18,12 @@ public struct InstanceExtension: Hashable {
         self.name = name
     }
 
+    /// Checks if two instance extensions are equal based on their names.
+    public static func == (lhs: InstanceExtension, rhs: InstanceExtension) -> Bool {
+        lhs.name == rhs.name
+    }
+
     /// Hashes the instance extension based on its name.
-    @inlinable
     public func hash(into hasher: inout Hasher) {
         hasher.combine(name)
     }

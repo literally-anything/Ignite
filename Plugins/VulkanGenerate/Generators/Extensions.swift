@@ -15,7 +15,9 @@ func generateExtensions(
 
     let instanceFile = packagePath.appending(path: "Sources/Ignite/Instance/InstanceExtension.swift")
     try modifyFileAtPlaceholder(file: instanceFile, markerName: "INSTANCE_EXTENSIONS") { contents in
-        var lines: [Substring] = registry.extensions.filter { $0.kind == .instance }.map { ext in
+        var lines: [Substring] = registry.extensions.filter {
+            $0.kind == .instance && !disabledPlatforms.contains($0.platform?.name ?? "")
+        }.map { ext in
             let fixedName = Extension.getFixedName(name: ext.name, registry: registry).escaped
             let docsUrl = baseDocsUrl.appending(component: "\(ext.name).html")
             var availability = ""

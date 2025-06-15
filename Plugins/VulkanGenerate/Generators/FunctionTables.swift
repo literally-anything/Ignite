@@ -49,7 +49,9 @@ private func generateFunctionTable(
     typealias CommandInfo = (command: Command, trait: String?)
     let commands: [CommandInfo] = registry.commands.filter { command in
         // We only want commands that match the scope we are currently filling
-        command.scope == scope
+        command.scope == scope &&
+        // And restrict it to commands that are not in blocked platforms
+        !disabledPlatforms.contains(command.platform?.name ?? "")
     }.map { command in
         if let platform = command.platform {
             return (command, platform.traitName)

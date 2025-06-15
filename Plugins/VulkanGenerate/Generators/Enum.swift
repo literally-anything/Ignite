@@ -23,6 +23,9 @@ func generateEnumWrappers(
     var optionSetLines: [[Substring]] = []
     var optionSetTestLines: [[Substring]] = []
     for bitmask in registry.bitmasks.sorted(by: { $0.name < $1.name }) {
+        guard !disabledPlatforms.contains(bitmask.platform?.name ?? "") else {
+            continue
+        }
         func makeFlagDecl(
             value: String, isAlias: Bool,
             flagName: (name: String, escaped: String), vulkanName: String,
@@ -180,6 +183,9 @@ func generateEnumWrappers(
     var enumLines: [[Substring]] = []
     var enumTestLines: [[Substring]] = []
     for enumeration in registry.enums.sorted(by: { $0.name < $1.name }).filter({ !disabledEnums.contains($0.name) }) {
+        guard !disabledPlatforms.contains(enumeration.platform?.name ?? "") else {
+            continue
+        }
         func makeCaseDecl(
             value: String, isAlias: Bool,
             caseName: (name: String, escaped: String), vulkanName: String,

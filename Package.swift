@@ -17,6 +17,25 @@ let linkerSettings: [LinkerSetting] = [
     .linkedLibrary("vulkan", .when(traits: ["LinkedVulkan"]))
 ]
 
+var defaultTraits: Set<String> = []
+
+// Enable os-specific traits based on the platform
+#if canImport(Metal)
+    defaultTraits.insert("PlatformMetal")
+#elseif os(Linux)
+    // Wayland doesnt require any extra headers, so it is safe to default to
+    defaultTraits.insert("PlatformWayland")
+#elseif os(Windows)
+    defaultTraits.insert("PlatformWin32")
+#elseif os(Android)
+    defaultTraits.insert("PlatformAndroid")
+#endif
+
+// Allow enabling debug logging and validation layers using an environment variable
+if ProcessInfo.processInfo.environment["IGNITE_DEBUG_MODE"] == "1" {
+    defaultTraits.insert("DebugLog")
+}
+
 var package = Package(
     name: "Ignite",
     products: [
@@ -94,7 +113,17 @@ var package = Package(
             name: "LinkedVulkan",
             description:
                 "Makes this package direcly link vulkan at compile time. Otherwise, it will be loaded at runtime using dlopen."
-        )
+        ),
+        .trait(
+            name: "DebugLog",
+            description:
+                """
+                Enables using the `Logging` package to log debug information. This only affects debug builds and is not \
+                enabled by default. \
+                This also automatically enables validation layers.
+                """
+        ),
+        .default(enabledTraits: defaultTraits)
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0")
@@ -113,7 +142,7 @@ var package = Package(
             name: "Ignite",
             dependencies: [
                 "CVulkan",
-                .product(name: "Logging", package: "swift-log")
+                .product(name: "Logging", package: "swift-log", condition: .when(traits: ["DebugLog"]))
             ],
             // These need to be here because SwiftPM only seems to respect these settings in the first target that depends on the c target
             cSettings: cSettings,

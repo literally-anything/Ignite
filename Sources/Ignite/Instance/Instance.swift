@@ -11,7 +11,7 @@ import CVulkan
 public enum InstanceCreateError: Error {
     /// This error means that the loader was not found.
     case loaderFailed
-    /// This error means that the loader failed to initialize.
+    /// This error means that the instance failed to initialize.
     case intializationFailed
     /// A specified layer was not present in the loader.
     /// You should check the list of available layers before requesting them.
@@ -36,12 +36,19 @@ public final class Instance: @unchecked Sendable {
     /// The table of Vulkan functions for this instance.
     public let table: InstanceTable
 
+    /// Whether the instance has the `VK_KHR_get_physical_device_properties2` extension enabled.
+    /// This is used when querying physical device properties.
+    internal let hasVK_KHR_get_physical_device_properties2: Bool
+
     /// Creates a new instance from an existing Vulkan instance handle.
+    /// This is unsafe because it does not check if the instance is valid or if the loader is set up correctly.
+    /// This should only be used when trying to integrate with existing Vulkan code that already has an instance.
     /// - Parameter instance: The Vulkan instance handle to wrap.
     @unsafe
     public init(instance: consuming VkInstance) {
         unsafe self.handle = instance
         self.table = unsafe InstanceTable(getInstanceProcAddr: Loader.shared.table.getInstanceProcAddr, instance: instance)
+        self.hasVK_KHR_get_physical_device_properties2 = false
     }
 
     /// Creates a new Vulkan instance.
@@ -73,8 +80,11 @@ public final class Instance: @unchecked Sendable {
             var layers = layers
             if Loader.shared.availableLayers.contains(where: { $0.name == "VK_LAYER_KHRONOS_validation" }) {
                 layers.insert("VK_LAYER_KHRONOS_validation")
+                debugLog("Enabling VK_LAYER_KHRONOS_validation layer automatically (because of debug build).")
             }
         #endif
+
+        self.hasVK_KHR_get_physical_device_properties2 = extensions.contains(.getPhysicalDeviceProperties2_KHR)
 
         // Convet layer names to a C-compatible format.
         let cLayerNames: [UnsafePointer<CChar>?] = unsafe layers.map { layerName in

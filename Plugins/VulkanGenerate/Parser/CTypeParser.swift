@@ -48,8 +48,7 @@ func parseCType(type: String, lengths: [String], registry: Registry) -> CType {
                 baseType = name[...]
             case .native(let use):
                 baseType = use[...]
-            case .nativeObjC(let actual, let kind, let use):
-                fatalError("\(baseTypeInfo.definition)")
+            case .nativeObjC(_, _, let use):
                 baseType = use[...]
         }
     }
