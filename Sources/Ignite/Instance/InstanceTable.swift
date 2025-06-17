@@ -6,7 +6,7 @@
  * Copyright (C) 2025-2025, by Hunter Baker hunterbaker@me.com
  */
 
-import CVulkan
+public import CVulkan
 
 extension Instance {
     /// The table of Vulkan function pointers for functions at the instance scope.

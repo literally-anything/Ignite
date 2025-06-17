@@ -6,7 +6,7 @@
  * Copyright (C) 2025-2025, by Hunter Baker hunterbaker@me.com
  */
 
-import CVulkan
+public import CVulkan
 
 public typealias VulkanSuccess = VulkanResult.Success
 public typealias VulkanError = VulkanResult.Error
@@ -119,11 +119,13 @@ public enum VulkanResult: Sendable {
     }
 
     @inlinable
+    @discardableResult
     public static func check(_ result: VkResult) throws(Self.Error) -> Success {
         try check(result.rawValue)
     }
 
     // @inlinable
+    @discardableResult
     public static func check(_ result: Int32) throws(Self.Error) -> Success {
         guard let success = Success(rawValue: result) else {
             let error = Self.Error(rawValue: result)
@@ -137,6 +139,7 @@ public enum VulkanResult: Sendable {
     }
 
     @inlinable
+    @discardableResult
     public static func check(_ result: VulkanResult) throws(Self.Error) -> Success {
         switch result {
             case .error(let error):

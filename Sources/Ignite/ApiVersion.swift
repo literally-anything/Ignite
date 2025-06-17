@@ -6,7 +6,7 @@
  * Copyright (C) 2025-2025, by Hunter Baker hunterbaker@me.com
  */
 
-import CVulkan
+public import CVulkan
 
 /// A Vulkan API version.
 public struct ApiVersion: Sendable, Hashable, RawRepresentable {
@@ -18,6 +18,22 @@ public struct ApiVersion: Sendable, Hashable, RawRepresentable {
     @inlinable
     public init(rawValue: UInt32) {
         self.rawValue = rawValue
+    }
+}
+
+extension ApiVersion: Comparable {
+    public static func < (lhs: ApiVersion, rhs: ApiVersion) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
+    public static func <= (lhs: ApiVersion, rhs: ApiVersion) -> Bool {
+        lhs.rawValue <= rhs.rawValue
+    }
+
+    public static func > (lhs: ApiVersion, rhs: ApiVersion) -> Bool {
+        lhs.rawValue > rhs.rawValue
+    }
+    public static func >= (lhs: ApiVersion, rhs: ApiVersion) -> Bool {
+        lhs.rawValue >= rhs.rawValue
     }
 }
 

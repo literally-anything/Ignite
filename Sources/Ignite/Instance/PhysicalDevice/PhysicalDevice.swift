@@ -1,35 +1,32 @@
 /**
  * PhysicalDevice.swift
- * Instance
- * 
+ * PhysicalDevice
+ *
  * Created by Hunter Baker on 6/13/2025
  * Copyright (C) 2025-2025, by Hunter Baker hunterbaker@me.com
  */
 
-import CVulkan
+public import CVulkan
 
 extension Instance {
-    public var physicalDevices: [PhysicalDevice]? {
-        // Get the count of physical devices available in the instance
-        var count: UInt32 = 0
-        let result = unsafe table.enumeratePhysicalDevices(handle, &count, nil)
-        guard result == VK_SUCCESS else {
-            debugLog("Failed to get physical device count: \(result)")
-            return nil
-        }
+    public var physicalDevices: [PhysicalDevice] {
+        get throws {
+            // Get the count of physical devices available in the instance
+            var count: UInt32 = 0
+            let result = unsafe table.enumeratePhysicalDevices(handle, &count, nil)
+            try VulkanResult.check(result)
 
-        var result2: VkResult = .init(0)
-        // Allocate an array to hold the physical devices and enumerate them
-        let devices: [VkPhysicalDevice?] = unsafe Array(unsafeUninitializedCapacity: Int(count)) { buffer, initializedCount in
-            result2 = unsafe table.enumeratePhysicalDevices(handle, &count, buffer.baseAddress)
-            initializedCount = Int(count)
-        }
-        guard result2 == VK_SUCCESS else {
-            debugLog("Failed to enumerate physical devices: \(result2)")
-            return nil
-        }
+            var result2: VkResult = .init(0)
+            // Allocate an array to hold the physical devices and enumerate them
+            let devices: [VkPhysicalDevice?] = unsafe Array(unsafeUninitializedCapacity: Int(count)) {
+                buffer, initializedCount in
+                result2 = unsafe table.enumeratePhysicalDevices(handle, &count, buffer.baseAddress)
+                initializedCount = Int(count)
+            }
+            try VulkanResult.check(result2)
 
-        return unsafe devices.map { unsafe PhysicalDevice(instance: self, handle: $0!) }
+            return unsafe devices.map { unsafe PhysicalDevice(instance: self, handle: $0!) }
+        }
     }
 }
 
@@ -38,11 +35,18 @@ extension Instance {
 @safe
 public struct PhysicalDevice {
     /// The underlying Vulkan physical device.
+    @safe
     public let handle: VkPhysicalDevice
+
     /// The Vulkan `VkPhysicalDeviceProperties` structure containing properties of the physical device.
     internal let properties: VkPhysicalDeviceProperties
     /// The pNext chain in the properties2 if available.
     internal let properties2: UnsafePointer<VkBaseOutStructure>?
+
+    /// The supported queue families of the physical device.
+    public let queueFamilies: [QueueFamily]
+
+    public let features: Features
 
     /// Creates a new `PhysicalDevice` instance by wrapping a Vulkan physical device handle.
     /// - Parameters:
@@ -53,25 +57,67 @@ public struct PhysicalDevice {
         unsafe self.handle = handle
 
         // Retrieve the properties of the physical device
-        if instance.hasVK_KHR_get_physical_device_properties2 {
+        if instance.has_getPhysicalDeviceProperties2 {
             // If the instance has the VK_KHR_get_physical_device_properties2 extension, use it to get properties
             var properties2 = unsafe VkPhysicalDeviceProperties2()
             unsafe instance.table.getPhysicalDeviceProperties2(handle, &properties2)
             self.properties = unsafe properties2.properties
 
             unsafe self.properties2 = UnsafePointer(properties2.pNext.assumingMemoryBound(to: VkBaseOutStructure.self))
+
+            // Extract the queue family properties from the properties2 structure
+            var queueFamilyCount: UInt32 = 0
+            unsafe instance.table.getPhysicalDeviceQueueFamilyProperties2(handle, &queueFamilyCount, nil)
+            let rawQueueFamilies: [VkQueueFamilyProperties2?] =
+                unsafe Array(unsafeUninitializedCapacity: Int(queueFamilyCount)) { buffer, initializedCount in
+                    unsafe instance.table.getPhysicalDeviceQueueFamilyProperties2(
+                        handle, &queueFamilyCount, buffer.baseAddress)
+                    initializedCount = Int(queueFamilyCount)
+                }
+            self.queueFamilies = unsafe rawQueueFamilies.enumerated().map { (index, properties2) in
+                unsafe QueueFamily(
+                    index: UInt32(index),
+                    properties2: properties2!
+                )
+            }
+
+            // Extract the features from the properties2 structure
+            var features2 = unsafe VkPhysicalDeviceFeatures2()
+            unsafe instance.table.getPhysicalDeviceFeatures2(handle, &features2)
+            self.features = unsafe Features(features2: features2)
         } else {
             // Otherwise, use the standard method to get properties
             var properties = VkPhysicalDeviceProperties()
             unsafe instance.table.getPhysicalDeviceProperties(handle, &properties)
             self.properties = properties
             unsafe self.properties2 = nil
+
+            // Extract the queue family properties from the standard method
+            var queueFamilyCount: UInt32 = 0
+            unsafe instance.table.getPhysicalDeviceQueueFamilyProperties(handle, &queueFamilyCount, nil)
+            let rawQueueFamilies: [VkQueueFamilyProperties?] =
+                unsafe Array(unsafeUninitializedCapacity: Int(queueFamilyCount)) { buffer, initializedCount in
+                    unsafe instance.table.getPhysicalDeviceQueueFamilyProperties(
+                        handle, &queueFamilyCount, buffer.baseAddress)
+                    initializedCount = Int(queueFamilyCount)
+                }
+            self.queueFamilies = rawQueueFamilies.enumerated().map { (index, properties) in
+                QueueFamily(
+                    index: UInt32(index),
+                    properties: properties!
+                )
+            }
+
+            // Extract the features from the standard method
+            var features = VkPhysicalDeviceFeatures()
+            unsafe instance.table.getPhysicalDeviceFeatures(handle, &features)
+            self.features = Features(features: features)
         }
     }
 
     /// An `OutputChain` that allows traversing the pNext chain of the physical device properties.
-    /// This only has any content if the `VK_KHR_get_physical_device_properties2` extension is enabled.
-    public var nextChain: OutputChain? {
+    /// This only has any content if the `VK_KHR_get_physical_device_properties2` extension is enabled or if the Vulkan API is v1.1 or higher.
+    public var nextChain: OutputChain {
         unsafe OutputChain(start: properties2)
     }
 
@@ -129,7 +175,7 @@ public struct PhysicalDevice {
 
 extension PhysicalDevice: Equatable, Hashable {
     public static func == (lhs: PhysicalDevice, rhs: PhysicalDevice) -> Bool {
-        return unsafe lhs.handle == rhs.handle
+        return lhs.handle == rhs.handle
     }
 
     public func hash(into hasher: inout Hasher) {
@@ -141,7 +187,7 @@ extension PhysicalDevice: CustomStringConvertible, CustomDebugStringConvertible 
     public var description: String {
         "\(deviceName), type: \(deviceType), Vulkan \(apiVersion)"
     }
-    
+
     public var debugDescription: String {
         "PhysicalDevice(name: \(deviceName), type: \(deviceType), apiVersion: \(apiVersion), vendorID: \(vendorId), deviceID: \(deviceId))"
     }

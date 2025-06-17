@@ -6,7 +6,7 @@
  * Copyright (C) 2025-2025, by Hunter Baker hunterbaker@me.com
  */
 
-import CVulkan
+public import CVulkan
 
 /// A wrapper around a Vulkan output chain.
 /// This allows searching for the structure that you want in a type-safe-ish way.

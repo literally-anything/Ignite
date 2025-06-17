@@ -6,7 +6,7 @@
  * Copyright (C) 2025-2025, by Hunter Baker hunterbaker@me.com
  */
 
-import CVulkan
+public import CVulkan
 
 public enum InstanceCreateError: Error {
     /// This error means that the loader was not found.
@@ -32,13 +32,15 @@ public enum InstanceCreateError: Error {
 @safe
 public final class Instance: @unchecked Sendable {
     /// The Vulkan instance handle.
+    @safe
     public let handle: VkInstance
     /// The table of Vulkan functions for this instance.
     public let table: InstanceTable
 
-    /// Whether the instance has the `VK_KHR_get_physical_device_properties2` extension enabled.
+    /// Whether the instance has the `vkGetPhysicalDeviceProperties2`-related functions available.
+    /// This is true for Vulkan 1.1+ or if the `VK_KHR_get_physical_device_properties2` extension is enabled.
     /// This is used when querying physical device properties.
-    internal let hasVK_KHR_get_physical_device_properties2: Bool
+    internal let has_getPhysicalDeviceProperties2: Bool
 
     /// Creates a new instance from an existing Vulkan instance handle.
     /// This is unsafe because it does not check if the instance is valid or if the loader is set up correctly.
@@ -48,7 +50,7 @@ public final class Instance: @unchecked Sendable {
     public init(instance: consuming VkInstance) {
         unsafe self.handle = instance
         self.table = unsafe InstanceTable(getInstanceProcAddr: Loader.shared.table.getInstanceProcAddr, instance: instance)
-        self.hasVK_KHR_get_physical_device_properties2 = false
+        self.has_getPhysicalDeviceProperties2 = false
     }
 
     /// Creates a new Vulkan instance.
@@ -84,7 +86,10 @@ public final class Instance: @unchecked Sendable {
             }
         #endif
 
-        self.hasVK_KHR_get_physical_device_properties2 = extensions.contains(.getPhysicalDeviceProperties2_KHR)
+        // This is provided by either the `VK_KHR_get_physical_device_properties2` extension or Vulkan 1.1+.
+        self.has_getPhysicalDeviceProperties2 =
+            version >= .v1_1 ||
+            extensions.contains(.getPhysicalDeviceProperties2_KHR)
 
         // Convet layer names to a C-compatible format.
         let cLayerNames: [UnsafePointer<CChar>?] = unsafe layers.map { layerName in

@@ -184,11 +184,3 @@ if ProcessInfo.processInfo.environment["ENABLE_GENERATOR"] == "1" {
         )
     )
 }
-
-#if canImport(Metal)
-    package.traits.insert(
-        .default(enabledTraits: [
-            "PlatformMetal"
-        ])
-    )
-#endif

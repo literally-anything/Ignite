@@ -158,6 +158,7 @@ extension VulkanGenerate {
         try generateStructWrappers(packagePath: path, registry: registry)
         // try generateHandleWrappers(packagePath: path, registry: registry)
         try generateResultWrappers(packagePath: path, registry: registry)
+        try generateChainExtends(packagePath: path, registry: registry)
 
         // We remove vulkan.h from the include folder because we replace it with CVulkan.h.
         // It was saved until now so we could use it to generate parts of CVulkan.h.

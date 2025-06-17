@@ -6,7 +6,7 @@
  * Copyright (C) 2025-2025, by Hunter Baker hunterbaker@me.com
  */
 
-import CVulkan
+public import CVulkan
 
 // This file contains the enum definitions for Vulkan.
 // These are automatically generated from the Vulkan specification.

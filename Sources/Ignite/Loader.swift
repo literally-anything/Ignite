@@ -6,7 +6,7 @@
  * Copyright (C) 2025-2025, by Hunter Baker hunterbaker@me.com
  */
 
-import CVulkan
+public import CVulkan
 
 #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
     import Darwin
