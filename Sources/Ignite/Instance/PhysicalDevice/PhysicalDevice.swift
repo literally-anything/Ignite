@@ -10,7 +10,7 @@ public import CVulkan
 
 extension Instance {
     public var physicalDevices: [PhysicalDevice] {
-        get throws {
+        get throws(VulkanError) {
             // Get the count of physical devices available in the instance
             var count: UInt32 = 0
             let result = unsafe table.enumeratePhysicalDevices(handle, &count, nil)
