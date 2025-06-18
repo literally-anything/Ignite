@@ -6,2272 +6,37 @@
  * Copyright (C) 2025-2025, by Hunter Baker hunterbaker@me.com
  */
 
-internal import CVulkan
+public import CVulkan
+
+extension PhysicalDevice.Features {
+    /// A protocol that defines the known types that can appear in the pNext chain of features for a physical device.
+    public protocol ExtendedFeatures {
+        static var sType: VkStructureType { get }
+    }
+
+    /// Gets a specific extended feature from the physical device's pNext chain.
+    /// - Parameter type: The type of the extended feature to retrieve.
+    /// - Returns: An instance of the extended feature if found, otherwise `nil`.
+    @inlinable
+    public func getExtendedFeatures<T: ExtendedFeatures>(type: T.Type) -> T? {
+        return unsafe features2.get(
+            T.sType,
+            type: T.self
+        )
+    }
+}
 
 extension PhysicalDevice.Features {
     // BEGIN_GENERATE_PHYSICAL_DEVICE_FEATURES_EXTENDS
     // Generated using header version: 318
 
-    /// Wrapper for the Vulkan VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV.
+    /// Wrapper around the Vulkan VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV.
     /// Available with extension VK_NV_device_generated_commands
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV.html)
-    public var deviceGeneratedCommandsFeatures_NV: DeviceGeneratedCommandsFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_FEATURES_NV,
-            type: VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV.self)
-        return unsafe raw != nil ? DeviceGeneratedCommandsFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceDeviceGeneratedCommandsComputeFeaturesNV.
-    /// Available with extension VK_NV_device_generated_commands_compute
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDeviceGeneratedCommandsComputeFeaturesNV.html)
-    public var deviceGeneratedCommandsComputeFeatures_NV: DeviceGeneratedCommandsComputeFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_COMPUTE_FEATURES_NV,
-            type: VkPhysicalDeviceDeviceGeneratedCommandsComputeFeaturesNV.self)
-        return unsafe raw != nil ? DeviceGeneratedCommandsComputeFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePrivateDataFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_EXT_private_data
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePrivateDataFeatures.html)
-    public var privateDataFeatures: PrivateDataFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIVATE_DATA_FEATURES, type: VkPhysicalDevicePrivateDataFeatures.self)
-        return unsafe raw != nil ? PrivateDataFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceClusterAccelerationStructureFeaturesNV.
-    /// Available with extension VK_NV_cluster_acceleration_structure
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceClusterAccelerationStructureFeaturesNV.html)
-    public var clusterAccelerationStructureFeatures_NV: ClusterAccelerationStructureFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CLUSTER_ACCELERATION_STRUCTURE_FEATURES_NV,
-            type: VkPhysicalDeviceClusterAccelerationStructureFeaturesNV.self)
-        return unsafe raw != nil ? ClusterAccelerationStructureFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceVariablePointersFeatures.
-    /// Available with version VulkanGenerate.Version, extension VK_KHR_variable_pointers, or extension VK_KHR_variable_pointers
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVariablePointersFeatures.html)
-    public var variablePointersFeatures: VariablePointersFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VARIABLE_POINTERS_FEATURES, type: VkPhysicalDeviceVariablePointersFeatures.self
-        )
-        return unsafe raw != nil ? VariablePointersFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceMultiviewFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_multiview
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMultiviewFeatures.html)
-    public var multiviewFeatures: MultiviewFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_FEATURES, type: VkPhysicalDeviceMultiviewFeatures.self)
-        return unsafe raw != nil ? MultiviewFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePresentIdFeaturesKHR.
-    /// Available with extension VK_KHR_present_id
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePresentIdFeaturesKHR.html)
-    public var presentIdFeatures_KHR: PresentIdFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_ID_FEATURES_KHR, type: VkPhysicalDevicePresentIdFeaturesKHR.self)
-        return unsafe raw != nil ? PresentIdFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePresentId2FeaturesKHR.
-    /// Available with extension VK_KHR_present_id2
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePresentId2FeaturesKHR.html)
-    public var presentId2Features_KHR: PresentId2Features_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_ID_2_FEATURES_KHR, type: VkPhysicalDevicePresentId2FeaturesKHR.self)
-        return unsafe raw != nil ? PresentId2Features_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePresentWaitFeaturesKHR.
-    /// Available with extension VK_KHR_present_wait
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePresentWaitFeaturesKHR.html)
-    public var presentWaitFeatures_KHR: PresentWaitFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_WAIT_FEATURES_KHR, type: VkPhysicalDevicePresentWaitFeaturesKHR.self)
-        return unsafe raw != nil ? PresentWaitFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePresentWait2FeaturesKHR.
-    /// Available with extension VK_KHR_present_wait2
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePresentWait2FeaturesKHR.html)
-    public var presentWait2Features_KHR: PresentWait2Features_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_WAIT_2_FEATURES_KHR, type: VkPhysicalDevicePresentWait2FeaturesKHR.self
-        )
-        return unsafe raw != nil ? PresentWait2Features_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevice16BitStorageFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_16bit_storage
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice16BitStorageFeatures.html)
-    public var device16BitStorageFeatures: `16BitStorageFeatures`? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_16BIT_STORAGE_FEATURES, type: VkPhysicalDevice16BitStorageFeatures.self)
-        return unsafe raw != nil ? `16BitStorageFeatures`(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_shader_subgroup_extended_types
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures.html)
-    public var shaderSubgroupExtendedTypesFeatures: ShaderSubgroupExtendedTypesFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_EXTENDED_TYPES_FEATURES,
-            type: VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures.self)
-        return unsafe raw != nil ? ShaderSubgroupExtendedTypesFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceSamplerYcbcrConversionFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_sampler_ycbcr_conversion
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceSamplerYcbcrConversionFeatures.html)
-    public var samplerYcbcrConversionFeatures: SamplerYcbcrConversionFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLER_YCBCR_CONVERSION_FEATURES,
-            type: VkPhysicalDeviceSamplerYcbcrConversionFeatures.self)
-        return unsafe raw != nil ? SamplerYcbcrConversionFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceProtectedMemoryFeatures.
-    /// Available with version VulkanGenerate.Version
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceProtectedMemoryFeatures.html)
-    public var protectedMemoryFeatures: ProtectedMemoryFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROTECTED_MEMORY_FEATURES, type: VkPhysicalDeviceProtectedMemoryFeatures.self)
-        return unsafe raw != nil ? ProtectedMemoryFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT.
-    /// Available with extension VK_EXT_blend_operation_advanced
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT.html)
-    public var blendOperationAdvancedFeatures_EXT: BlendOperationAdvancedFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BLEND_OPERATION_ADVANCED_FEATURES_EXT,
-            type: VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT.self)
-        return unsafe raw != nil ? BlendOperationAdvancedFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceMultiDrawFeaturesEXT.
-    /// Available with extension VK_EXT_multi_draw
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMultiDrawFeaturesEXT.html)
-    public var multiDrawFeatures_EXT: MultiDrawFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTI_DRAW_FEATURES_EXT, type: VkPhysicalDeviceMultiDrawFeaturesEXT.self)
-        return unsafe raw != nil ? MultiDrawFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceInlineUniformBlockFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_EXT_inline_uniform_block
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceInlineUniformBlockFeatures.html)
-    public var inlineUniformBlockFeatures: InlineUniformBlockFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INLINE_UNIFORM_BLOCK_FEATURES,
-            type: VkPhysicalDeviceInlineUniformBlockFeatures.self)
-        return unsafe raw != nil ? InlineUniformBlockFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceMaintenance4Features.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_maintenance4
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMaintenance4Features.html)
-    public var maintenance4Features: Maintenance4Features? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_FEATURES, type: VkPhysicalDeviceMaintenance4Features.self)
-        return unsafe raw != nil ? Maintenance4Features(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceMaintenance5Features.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_maintenance5
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMaintenance5Features.html)
-    public var maintenance5Features: Maintenance5Features? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_FEATURES, type: VkPhysicalDeviceMaintenance5Features.self)
-        return unsafe raw != nil ? Maintenance5Features(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceMaintenance6Features.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_maintenance6
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMaintenance6Features.html)
-    public var maintenance6Features: Maintenance6Features? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_FEATURES, type: VkPhysicalDeviceMaintenance6Features.self)
-        return unsafe raw != nil ? Maintenance6Features(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceMaintenance7FeaturesKHR.
-    /// Available with extension VK_KHR_maintenance7
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMaintenance7FeaturesKHR.html)
-    public var maintenance7Features_KHR: Maintenance7Features_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_7_FEATURES_KHR, type: VkPhysicalDeviceMaintenance7FeaturesKHR.self)
-        return unsafe raw != nil ? Maintenance7Features_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceMaintenance8FeaturesKHR.
-    /// Available with extension VK_KHR_maintenance8
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMaintenance8FeaturesKHR.html)
-    public var maintenance8Features_KHR: Maintenance8Features_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_8_FEATURES_KHR, type: VkPhysicalDeviceMaintenance8FeaturesKHR.self)
-        return unsafe raw != nil ? Maintenance8Features_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceMaintenance9FeaturesKHR.
-    /// Available with extension VK_KHR_maintenance9
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMaintenance9FeaturesKHR.html)
-    public var maintenance9Features_KHR: Maintenance9Features_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_9_FEATURES_KHR, type: VkPhysicalDeviceMaintenance9FeaturesKHR.self)
-        return unsafe raw != nil ? Maintenance9Features_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderDrawParametersFeatures.
-    /// Available with version VulkanGenerate.Version
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderDrawParametersFeatures.html)
-    public var shaderDrawParametersFeatures: ShaderDrawParametersFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DRAW_PARAMETERS_FEATURES,
-            type: VkPhysicalDeviceShaderDrawParametersFeatures.self)
-        return unsafe raw != nil ? ShaderDrawParametersFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderFloat16Int8Features.
-    /// Available with version VulkanGenerate.Version, extension VK_KHR_shader_float16_int8, or extension VK_KHR_shader_float16_int8
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderFloat16Int8Features.html)
-    public var shaderFloat16Int8Features: ShaderFloat16Int8Features? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT16_INT8_FEATURES,
-            type: VkPhysicalDeviceShaderFloat16Int8Features.self)
-        return unsafe raw != nil ? ShaderFloat16Int8Features(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceHostQueryResetFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_EXT_host_query_reset
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceHostQueryResetFeatures.html)
-    public var hostQueryResetFeatures: HostQueryResetFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_QUERY_RESET_FEATURES, type: VkPhysicalDeviceHostQueryResetFeatures.self)
-        return unsafe raw != nil ? HostQueryResetFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceGlobalPriorityQueryFeatures.
-    /// Available with version VulkanGenerate.Version, extension VK_KHR_global_priority, or extension VK_EXT_global_priority_query
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceGlobalPriorityQueryFeatures.html)
-    public var globalPriorityQueryFeatures: GlobalPriorityQueryFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES,
-            type: VkPhysicalDeviceGlobalPriorityQueryFeatures.self)
-        return unsafe raw != nil ? GlobalPriorityQueryFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceDeviceMemoryReportFeaturesEXT.
-    /// Available with extension VK_EXT_device_memory_report
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDeviceMemoryReportFeaturesEXT.html)
-    public var deviceMemoryReportFeatures_EXT: DeviceMemoryReportFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_MEMORY_REPORT_FEATURES_EXT,
-            type: VkPhysicalDeviceDeviceMemoryReportFeaturesEXT.self)
-        return unsafe raw != nil ? DeviceMemoryReportFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceDescriptorIndexingFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_EXT_descriptor_indexing
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDescriptorIndexingFeatures.html)
-    public var descriptorIndexingFeatures: DescriptorIndexingFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_FEATURES,
-            type: VkPhysicalDeviceDescriptorIndexingFeatures.self)
-        return unsafe raw != nil ? DescriptorIndexingFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceTimelineSemaphoreFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_timeline_semaphore
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceTimelineSemaphoreFeatures.html)
-    public var timelineSemaphoreFeatures: TimelineSemaphoreFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_FEATURES,
-            type: VkPhysicalDeviceTimelineSemaphoreFeatures.self)
-        return unsafe raw != nil ? TimelineSemaphoreFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevice8BitStorageFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_8bit_storage
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice8BitStorageFeatures.html)
-    public var device8BitStorageFeatures: `8BitStorageFeatures`? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_8BIT_STORAGE_FEATURES, type: VkPhysicalDevice8BitStorageFeatures.self)
-        return unsafe raw != nil ? `8BitStorageFeatures`(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceConditionalRenderingFeaturesEXT.
-    /// Available with extension VK_EXT_conditional_rendering
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceConditionalRenderingFeaturesEXT.html)
-    public var conditionalRenderingFeatures_EXT: ConditionalRenderingFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CONDITIONAL_RENDERING_FEATURES_EXT,
-            type: VkPhysicalDeviceConditionalRenderingFeaturesEXT.self)
-        return unsafe raw != nil ? ConditionalRenderingFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceVulkanMemoryModelFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_vulkan_memory_model
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVulkanMemoryModelFeatures.html)
-    public var vulkanMemoryModelFeatures: VulkanMemoryModelFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_MEMORY_MODEL_FEATURES,
-            type: VkPhysicalDeviceVulkanMemoryModelFeatures.self)
-        return unsafe raw != nil ? VulkanMemoryModelFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderAtomicInt64Features.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_shader_atomic_int64
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderAtomicInt64Features.html)
-    public var shaderAtomicInt64Features: ShaderAtomicInt64Features? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_INT64_FEATURES,
-            type: VkPhysicalDeviceShaderAtomicInt64Features.self)
-        return unsafe raw != nil ? ShaderAtomicInt64Features(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderAtomicFloatFeaturesEXT.
-    /// Available with extension VK_EXT_shader_atomic_float
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderAtomicFloatFeaturesEXT.html)
-    public var shaderAtomicFloatFeatures_EXT: ShaderAtomicFloatFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_FLOAT_FEATURES_EXT,
-            type: VkPhysicalDeviceShaderAtomicFloatFeaturesEXT.self)
-        return unsafe raw != nil ? ShaderAtomicFloatFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderAtomicFloat2FeaturesEXT.
-    /// Available with extension VK_EXT_shader_atomic_float2
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderAtomicFloat2FeaturesEXT.html)
-    public var shaderAtomicFloat2Features_EXT: ShaderAtomicFloat2Features_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_FLOAT_2_FEATURES_EXT,
-            type: VkPhysicalDeviceShaderAtomicFloat2FeaturesEXT.self)
-        return unsafe raw != nil ? ShaderAtomicFloat2Features_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceVertexAttributeDivisorFeatures.
-    /// Available with version VulkanGenerate.Version, extension VK_EXT_vertex_attribute_divisor, or extension VK_KHR_vertex_attribute_divisor
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVertexAttributeDivisorFeatures.html)
-    public var vertexAttributeDivisorFeatures: VertexAttributeDivisorFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES,
-            type: VkPhysicalDeviceVertexAttributeDivisorFeatures.self)
-        return unsafe raw != nil ? VertexAttributeDivisorFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceASTCDecodeFeaturesEXT.
-    /// Available with extension VK_EXT_astc_decode_mode
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceASTCDecodeFeaturesEXT.html)
-    public var aSTCDecodeFeatures_EXT: ASTCDecodeFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ASTC_DECODE_FEATURES_EXT, type: VkPhysicalDeviceASTCDecodeFeaturesEXT.self)
-        return unsafe raw != nil ? ASTCDecodeFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceTransformFeedbackFeaturesEXT.
-    /// Available with extension VK_EXT_transform_feedback
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceTransformFeedbackFeaturesEXT.html)
-    public var transformFeedbackFeatures_EXT: TransformFeedbackFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TRANSFORM_FEEDBACK_FEATURES_EXT,
-            type: VkPhysicalDeviceTransformFeedbackFeaturesEXT.self)
-        return unsafe raw != nil ? TransformFeedbackFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV.
-    /// Available with extension VK_NV_representative_fragment_test
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV.html)
-    public var representativeFragmentTestFeatures_NV: RepresentativeFragmentTestFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_REPRESENTATIVE_FRAGMENT_TEST_FEATURES_NV,
-            type: VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV.self)
-        return unsafe raw != nil ? RepresentativeFragmentTestFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceExclusiveScissorFeaturesNV.
-    /// Available with extension VK_NV_scissor_exclusive
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExclusiveScissorFeaturesNV.html)
-    public var exclusiveScissorFeatures_NV: ExclusiveScissorFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXCLUSIVE_SCISSOR_FEATURES_NV,
-            type: VkPhysicalDeviceExclusiveScissorFeaturesNV.self)
-        return unsafe raw != nil ? ExclusiveScissorFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceCornerSampledImageFeaturesNV.
-    /// Available with extension VK_NV_corner_sampled_image
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCornerSampledImageFeaturesNV.html)
-    public var cornerSampledImageFeatures_NV: CornerSampledImageFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CORNER_SAMPLED_IMAGE_FEATURES_NV,
-            type: VkPhysicalDeviceCornerSampledImageFeaturesNV.self)
-        return unsafe raw != nil ? CornerSampledImageFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR.
-    /// Available with extension VK_NV_compute_shader_derivatives, or extension VK_KHR_compute_shader_derivatives
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR.html)
-    public var computeShaderDerivativesFeatures_KHR: ComputeShaderDerivativesFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_FEATURES_KHR,
-            type: VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR.self)
-        return unsafe raw != nil ? ComputeShaderDerivativesFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderImageFootprintFeaturesNV.
-    /// Available with extension VK_NV_shader_image_footprint
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderImageFootprintFeaturesNV.html)
-    public var shaderImageFootprintFeatures_NV: ShaderImageFootprintFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_IMAGE_FOOTPRINT_FEATURES_NV,
-            type: VkPhysicalDeviceShaderImageFootprintFeaturesNV.self)
-        return unsafe raw != nil ? ShaderImageFootprintFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV.
-    /// Available with extension VK_NV_dedicated_allocation_image_aliasing
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV.html)
-    public var dedicatedAllocationImageAliasingFeatures_NV: DedicatedAllocationImageAliasingFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEDICATED_ALLOCATION_IMAGE_ALIASING_FEATURES_NV,
-            type: VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV.self)
-        return unsafe raw != nil ? DedicatedAllocationImageAliasingFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceCopyMemoryIndirectFeaturesNV.
-    /// Available with extension VK_NV_copy_memory_indirect
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCopyMemoryIndirectFeaturesNV.html)
-    public var copyMemoryIndirectFeatures_NV: CopyMemoryIndirectFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COPY_MEMORY_INDIRECT_FEATURES_NV,
-            type: VkPhysicalDeviceCopyMemoryIndirectFeaturesNV.self)
-        return unsafe raw != nil ? CopyMemoryIndirectFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceMemoryDecompressionFeaturesNV.
-    /// Available with extension VK_NV_memory_decompression
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMemoryDecompressionFeaturesNV.html)
-    public var memoryDecompressionFeatures_NV: MemoryDecompressionFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_DECOMPRESSION_FEATURES_NV,
-            type: VkPhysicalDeviceMemoryDecompressionFeaturesNV.self)
-        return unsafe raw != nil ? MemoryDecompressionFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShadingRateImageFeaturesNV.
-    /// Available with extension VK_NV_shading_rate_image
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShadingRateImageFeaturesNV.html)
-    public var shadingRateImageFeatures_NV: ShadingRateImageFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADING_RATE_IMAGE_FEATURES_NV,
-            type: VkPhysicalDeviceShadingRateImageFeaturesNV.self)
-        return unsafe raw != nil ? ShadingRateImageFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceInvocationMaskFeaturesHUAWEI.
-    /// Available with extension VK_HUAWEI_invocation_mask
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceInvocationMaskFeaturesHUAWEI.html)
-    public var invocationMaskFeatures_HUAWEI: InvocationMaskFeatures_HUAWEI? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INVOCATION_MASK_FEATURES_HUAWEI,
-            type: VkPhysicalDeviceInvocationMaskFeaturesHUAWEI.self)
-        return unsafe raw != nil ? InvocationMaskFeatures_HUAWEI(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceMeshShaderFeaturesNV.
-    /// Available with extension VK_NV_mesh_shader
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMeshShaderFeaturesNV.html)
-    public var meshShaderFeatures_NV: MeshShaderFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_NV, type: VkPhysicalDeviceMeshShaderFeaturesNV.self)
-        return unsafe raw != nil ? MeshShaderFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceMeshShaderFeaturesEXT.
-    /// Available with extension VK_EXT_mesh_shader
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMeshShaderFeaturesEXT.html)
-    public var meshShaderFeatures_EXT: MeshShaderFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_EXT, type: VkPhysicalDeviceMeshShaderFeaturesEXT.self)
-        return unsafe raw != nil ? MeshShaderFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceAccelerationStructureFeaturesKHR.
-    /// Available with extension VK_KHR_acceleration_structure
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceAccelerationStructureFeaturesKHR.html)
-    public var accelerationStructureFeatures_KHR: AccelerationStructureFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ACCELERATION_STRUCTURE_FEATURES_KHR,
-            type: VkPhysicalDeviceAccelerationStructureFeaturesKHR.self)
-        return unsafe raw != nil ? AccelerationStructureFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceRayTracingPipelineFeaturesKHR.
-    /// Available with extension VK_KHR_ray_tracing_pipeline
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRayTracingPipelineFeaturesKHR.html)
-    public var rayTracingPipelineFeatures_KHR: RayTracingPipelineFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PIPELINE_FEATURES_KHR,
-            type: VkPhysicalDeviceRayTracingPipelineFeaturesKHR.self)
-        return unsafe raw != nil ? RayTracingPipelineFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceRayQueryFeaturesKHR.
-    /// Available with extension VK_KHR_ray_query
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRayQueryFeaturesKHR.html)
-    public var rayQueryFeatures_KHR: RayQueryFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_QUERY_FEATURES_KHR, type: VkPhysicalDeviceRayQueryFeaturesKHR.self)
-        return unsafe raw != nil ? RayQueryFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceRayTracingMaintenance1FeaturesKHR.
-    /// Available with extension VK_KHR_ray_tracing_maintenance1
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRayTracingMaintenance1FeaturesKHR.html)
-    public var rayTracingMaintenance1Features_KHR: RayTracingMaintenance1Features_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_MAINTENANCE_1_FEATURES_KHR,
-            type: VkPhysicalDeviceRayTracingMaintenance1FeaturesKHR.self)
-        return unsafe raw != nil ? RayTracingMaintenance1Features_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceFragmentDensityMapFeaturesEXT.
-    /// Available with extension VK_EXT_fragment_density_map
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFragmentDensityMapFeaturesEXT.html)
-    public var fragmentDensityMapFeatures_EXT: FragmentDensityMapFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_FEATURES_EXT,
-            type: VkPhysicalDeviceFragmentDensityMapFeaturesEXT.self)
-        return unsafe raw != nil ? FragmentDensityMapFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceFragmentDensityMap2FeaturesEXT.
-    /// Available with extension VK_EXT_fragment_density_map2
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFragmentDensityMap2FeaturesEXT.html)
-    public var fragmentDensityMap2Features_EXT: FragmentDensityMap2Features_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_2_FEATURES_EXT,
-            type: VkPhysicalDeviceFragmentDensityMap2FeaturesEXT.self)
-        return unsafe raw != nil ? FragmentDensityMap2Features_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceFragmentDensityMapOffsetFeaturesEXT.
-    /// Available with extension VK_QCOM_fragment_density_map_offset, or extension VK_EXT_fragment_density_map_offset
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFragmentDensityMapOffsetFeaturesEXT.html)
-    public var fragmentDensityMapOffsetFeatures_EXT: FragmentDensityMapOffsetFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_OFFSET_FEATURES_EXT,
-            type: VkPhysicalDeviceFragmentDensityMapOffsetFeaturesEXT.self)
-        return unsafe raw != nil ? FragmentDensityMapOffsetFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceScalarBlockLayoutFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_EXT_scalar_block_layout
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceScalarBlockLayoutFeatures.html)
-    public var scalarBlockLayoutFeatures: ScalarBlockLayoutFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SCALAR_BLOCK_LAYOUT_FEATURES,
-            type: VkPhysicalDeviceScalarBlockLayoutFeatures.self)
-        return unsafe raw != nil ? ScalarBlockLayoutFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceUniformBufferStandardLayoutFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_uniform_buffer_standard_layout
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceUniformBufferStandardLayoutFeatures.html)
-    public var uniformBufferStandardLayoutFeatures: UniformBufferStandardLayoutFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_UNIFORM_BUFFER_STANDARD_LAYOUT_FEATURES,
-            type: VkPhysicalDeviceUniformBufferStandardLayoutFeatures.self)
-        return unsafe raw != nil ? UniformBufferStandardLayoutFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceDepthClipEnableFeaturesEXT.
-    /// Available with extension VK_EXT_depth_clip_enable
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDepthClipEnableFeaturesEXT.html)
-    public var depthClipEnableFeatures_EXT: DepthClipEnableFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLIP_ENABLE_FEATURES_EXT,
-            type: VkPhysicalDeviceDepthClipEnableFeaturesEXT.self)
-        return unsafe raw != nil ? DepthClipEnableFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceMemoryPriorityFeaturesEXT.
-    /// Available with extension VK_EXT_memory_priority
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMemoryPriorityFeaturesEXT.html)
-    public var memoryPriorityFeatures_EXT: MemoryPriorityFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_PRIORITY_FEATURES_EXT,
-            type: VkPhysicalDeviceMemoryPriorityFeaturesEXT.self)
-        return unsafe raw != nil ? MemoryPriorityFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePageableDeviceLocalMemoryFeaturesEXT.
-    /// Available with extension VK_EXT_pageable_device_local_memory
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePageableDeviceLocalMemoryFeaturesEXT.html)
-    public var pageableDeviceLocalMemoryFeatures_EXT: PageableDeviceLocalMemoryFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PAGEABLE_DEVICE_LOCAL_MEMORY_FEATURES_EXT,
-            type: VkPhysicalDevicePageableDeviceLocalMemoryFeaturesEXT.self)
-        return unsafe raw != nil ? PageableDeviceLocalMemoryFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceBufferDeviceAddressFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_buffer_device_address
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceBufferDeviceAddressFeatures.html)
-    public var bufferDeviceAddressFeatures: BufferDeviceAddressFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES,
-            type: VkPhysicalDeviceBufferDeviceAddressFeatures.self)
-        return unsafe raw != nil ? BufferDeviceAddressFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceBufferDeviceAddressFeaturesEXT.
-    /// Available with extension VK_EXT_buffer_device_address, or extension VK_EXT_buffer_device_address
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceBufferDeviceAddressFeaturesEXT.html)
-    public var bufferDeviceAddressFeatures_EXT: BufferDeviceAddressFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES_EXT,
-            type: VkPhysicalDeviceBufferDeviceAddressFeaturesEXT.self)
-        return unsafe raw != nil ? BufferDeviceAddressFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceImagelessFramebufferFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_imageless_framebuffer
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImagelessFramebufferFeatures.html)
-    public var imagelessFramebufferFeatures: ImagelessFramebufferFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGELESS_FRAMEBUFFER_FEATURES,
-            type: VkPhysicalDeviceImagelessFramebufferFeatures.self)
-        return unsafe raw != nil ? ImagelessFramebufferFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceTextureCompressionASTCHDRFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_EXT_texture_compression_astc_hdr
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceTextureCompressionASTCHDRFeatures.html)
-    public var textureCompressionASTCHDRFeatures: TextureCompressionASTCHDRFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXTURE_COMPRESSION_ASTC_HDR_FEATURES,
-            type: VkPhysicalDeviceTextureCompressionASTCHDRFeatures.self)
-        return unsafe raw != nil ? TextureCompressionASTCHDRFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceCooperativeMatrixFeaturesNV.
-    /// Available with extension VK_NV_cooperative_matrix
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCooperativeMatrixFeaturesNV.html)
-    public var cooperativeMatrixFeatures_NV: CooperativeMatrixFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_NV,
-            type: VkPhysicalDeviceCooperativeMatrixFeaturesNV.self)
-        return unsafe raw != nil ? CooperativeMatrixFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.
-    /// Available with extension VK_EXT_ycbcr_image_arrays
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.html)
-    public var ycbcrImageArraysFeatures_EXT: YcbcrImageArraysFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_YCBCR_IMAGE_ARRAYS_FEATURES_EXT,
-            type: VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.self)
-        return unsafe raw != nil ? YcbcrImageArraysFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePresentBarrierFeaturesNV.
-    /// Available with extension VK_NV_present_barrier
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePresentBarrierFeaturesNV.html)
-    public var presentBarrierFeatures_NV: PresentBarrierFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_BARRIER_FEATURES_NV,
-            type: VkPhysicalDevicePresentBarrierFeaturesNV.self)
-        return unsafe raw != nil ? PresentBarrierFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePerformanceQueryFeaturesKHR.
-    /// Available with extension VK_KHR_performance_query
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePerformanceQueryFeaturesKHR.html)
-    public var performanceQueryFeatures_KHR: PerformanceQueryFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PERFORMANCE_QUERY_FEATURES_KHR,
-            type: VkPhysicalDevicePerformanceQueryFeaturesKHR.self)
-        return unsafe raw != nil ? PerformanceQueryFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceCoverageReductionModeFeaturesNV.
-    /// Available with extension VK_NV_coverage_reduction_mode
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCoverageReductionModeFeaturesNV.html)
-    public var coverageReductionModeFeatures_NV: CoverageReductionModeFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COVERAGE_REDUCTION_MODE_FEATURES_NV,
-            type: VkPhysicalDeviceCoverageReductionModeFeaturesNV.self)
-        return unsafe raw != nil ? CoverageReductionModeFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL.
-    /// Available with extension VK_INTEL_shader_integer_functions2
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL.html)
-    public var shaderIntegerFunctions2Features_INTEL: ShaderIntegerFunctions2Features_INTEL? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_INTEGER_FUNCTIONS_2_FEATURES_INTEL,
-            type: VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL.self)
-        return unsafe raw != nil ? ShaderIntegerFunctions2Features_INTEL(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderClockFeaturesKHR.
-    /// Available with extension VK_KHR_shader_clock
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderClockFeaturesKHR.html)
-    public var shaderClockFeatures_KHR: ShaderClockFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_CLOCK_FEATURES_KHR, type: VkPhysicalDeviceShaderClockFeaturesKHR.self)
-        return unsafe raw != nil ? ShaderClockFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceIndexTypeUint8Features.
-    /// Available with version VulkanGenerate.Version, extension VK_EXT_index_type_uint8, or extension VK_KHR_index_type_uint8
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceIndexTypeUint8Features.html)
-    public var indexTypeUint8Features: IndexTypeUint8Features? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES, type: VkPhysicalDeviceIndexTypeUint8Features.self)
-        return unsafe raw != nil ? IndexTypeUint8Features(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderSMBuiltinsFeaturesNV.
-    /// Available with extension VK_NV_shader_sm_builtins
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderSMBuiltinsFeaturesNV.html)
-    public var shaderSMBuiltinsFeatures_NV: ShaderSMBuiltinsFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SM_BUILTINS_FEATURES_NV,
-            type: VkPhysicalDeviceShaderSMBuiltinsFeaturesNV.self)
-        return unsafe raw != nil ? ShaderSMBuiltinsFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.
-    /// Available with extension VK_EXT_fragment_shader_interlock
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.html)
-    public var fragmentShaderInterlockFeatures_EXT: FragmentShaderInterlockFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADER_INTERLOCK_FEATURES_EXT,
-            type: VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.self)
-        return unsafe raw != nil ? FragmentShaderInterlockFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_separate_depth_stencil_layouts
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures.html)
-    public var separateDepthStencilLayoutsFeatures: SeparateDepthStencilLayoutsFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SEPARATE_DEPTH_STENCIL_LAYOUTS_FEATURES,
-            type: VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures.self)
-        return unsafe raw != nil ? SeparateDepthStencilLayoutsFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePrimitiveTopologyListRestartFeaturesEXT.
-    /// Available with extension VK_EXT_primitive_topology_list_restart
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePrimitiveTopologyListRestartFeaturesEXT.html)
-    public var primitiveTopologyListRestartFeatures_EXT: PrimitiveTopologyListRestartFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIMITIVE_TOPOLOGY_LIST_RESTART_FEATURES_EXT,
-            type: VkPhysicalDevicePrimitiveTopologyListRestartFeaturesEXT.self)
-        return unsafe raw != nil ? PrimitiveTopologyListRestartFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR.
-    /// Available with extension VK_KHR_pipeline_executable_properties
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR.html)
-    public var pipelineExecutablePropertiesFeatures_KHR: PipelineExecutablePropertiesFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_EXECUTABLE_PROPERTIES_FEATURES_KHR,
-            type: VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR.self)
-        return unsafe raw != nil ? PipelineExecutablePropertiesFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderDemoteToHelperInvocationFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_EXT_shader_demote_to_helper_invocation
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderDemoteToHelperInvocationFeatures.html)
-    public var shaderDemoteToHelperInvocationFeatures: ShaderDemoteToHelperInvocationFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DEMOTE_TO_HELPER_INVOCATION_FEATURES,
-            type: VkPhysicalDeviceShaderDemoteToHelperInvocationFeatures.self)
-        return unsafe raw != nil ? ShaderDemoteToHelperInvocationFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT.
-    /// Available with extension VK_EXT_texel_buffer_alignment
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT.html)
-    public var texelBufferAlignmentFeatures_EXT: TexelBufferAlignmentFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXEL_BUFFER_ALIGNMENT_FEATURES_EXT,
-            type: VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT.self)
-        return unsafe raw != nil ? TexelBufferAlignmentFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceSubgroupSizeControlFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_EXT_subgroup_size_control
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceSubgroupSizeControlFeatures.html)
-    public var subgroupSizeControlFeatures: SubgroupSizeControlFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_SIZE_CONTROL_FEATURES,
-            type: VkPhysicalDeviceSubgroupSizeControlFeatures.self)
-        return unsafe raw != nil ? SubgroupSizeControlFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceLineRasterizationFeatures.
-    /// Available with version VulkanGenerate.Version, extension VK_EXT_line_rasterization, or extension VK_KHR_line_rasterization
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceLineRasterizationFeatures.html)
-    public var lineRasterizationFeatures: LineRasterizationFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES,
-            type: VkPhysicalDeviceLineRasterizationFeatures.self)
-        return unsafe raw != nil ? LineRasterizationFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePipelineCreationCacheControlFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_EXT_pipeline_creation_cache_control
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePipelineCreationCacheControlFeatures.html)
-    public var pipelineCreationCacheControlFeatures: PipelineCreationCacheControlFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_CREATION_CACHE_CONTROL_FEATURES,
-            type: VkPhysicalDevicePipelineCreationCacheControlFeatures.self)
-        return unsafe raw != nil ? PipelineCreationCacheControlFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceVulkan11Features.
-    /// Available with version VulkanGenerate.Version
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVulkan11Features.html)
-    public var vulkan11Features: Vulkan11Features? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES, type: VkPhysicalDeviceVulkan11Features.self)
-        return unsafe raw != nil ? Vulkan11Features(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceVulkan12Features.
-    /// Available with version VulkanGenerate.Version
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVulkan12Features.html)
-    public var vulkan12Features: Vulkan12Features? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES, type: VkPhysicalDeviceVulkan12Features.self)
-        return unsafe raw != nil ? Vulkan12Features(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceVulkan13Features.
-    /// Available with version VulkanGenerate.Version
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVulkan13Features.html)
-    public var vulkan13Features: Vulkan13Features? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES, type: VkPhysicalDeviceVulkan13Features.self)
-        return unsafe raw != nil ? Vulkan13Features(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceVulkan14Features.
-    /// Available with version VulkanGenerate.Version
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVulkan14Features.html)
-    public var vulkan14Features: Vulkan14Features? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_FEATURES, type: VkPhysicalDeviceVulkan14Features.self)
-        return unsafe raw != nil ? Vulkan14Features(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceCoherentMemoryFeaturesAMD.
-    /// Available with extension VK_AMD_device_coherent_memory
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCoherentMemoryFeaturesAMD.html)
-    public var coherentMemoryFeatures_AMD: CoherentMemoryFeatures_AMD? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COHERENT_MEMORY_FEATURES_AMD,
-            type: VkPhysicalDeviceCoherentMemoryFeaturesAMD.self)
-        return unsafe raw != nil ? CoherentMemoryFeatures_AMD(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceCustomBorderColorFeaturesEXT.
-    /// Available with extension VK_EXT_custom_border_color
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCustomBorderColorFeaturesEXT.html)
-    public var customBorderColorFeatures_EXT: CustomBorderColorFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CUSTOM_BORDER_COLOR_FEATURES_EXT,
-            type: VkPhysicalDeviceCustomBorderColorFeaturesEXT.self)
-        return unsafe raw != nil ? CustomBorderColorFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceBorderColorSwizzleFeaturesEXT.
-    /// Available with extension VK_EXT_border_color_swizzle
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceBorderColorSwizzleFeaturesEXT.html)
-    public var borderColorSwizzleFeatures_EXT: BorderColorSwizzleFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BORDER_COLOR_SWIZZLE_FEATURES_EXT,
-            type: VkPhysicalDeviceBorderColorSwizzleFeaturesEXT.self)
-        return unsafe raw != nil ? BorderColorSwizzleFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceExtendedDynamicStateFeaturesEXT.
-    /// Available with extension VK_EXT_extended_dynamic_state
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExtendedDynamicStateFeaturesEXT.html)
-    public var extendedDynamicStateFeatures_EXT: ExtendedDynamicStateFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTENDED_DYNAMIC_STATE_FEATURES_EXT,
-            type: VkPhysicalDeviceExtendedDynamicStateFeaturesEXT.self)
-        return unsafe raw != nil ? ExtendedDynamicStateFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceExtendedDynamicState2FeaturesEXT.
-    /// Available with extension VK_EXT_extended_dynamic_state2
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExtendedDynamicState2FeaturesEXT.html)
-    public var extendedDynamicState2Features_EXT: ExtendedDynamicState2Features_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTENDED_DYNAMIC_STATE_2_FEATURES_EXT,
-            type: VkPhysicalDeviceExtendedDynamicState2FeaturesEXT.self)
-        return unsafe raw != nil ? ExtendedDynamicState2Features_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceExtendedDynamicState3FeaturesEXT.
-    /// Available with extension VK_EXT_extended_dynamic_state3
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExtendedDynamicState3FeaturesEXT.html)
-    public var extendedDynamicState3Features_EXT: ExtendedDynamicState3Features_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTENDED_DYNAMIC_STATE_3_FEATURES_EXT,
-            type: VkPhysicalDeviceExtendedDynamicState3FeaturesEXT.self)
-        return unsafe raw != nil ? ExtendedDynamicState3Features_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePartitionedAccelerationStructureFeaturesNV.
-    /// Available with extension VK_NV_partitioned_acceleration_structure
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePartitionedAccelerationStructureFeaturesNV.html)
-    public var partitionedAccelerationStructureFeatures_NV: PartitionedAccelerationStructureFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PARTITIONED_ACCELERATION_STRUCTURE_FEATURES_NV,
-            type: VkPhysicalDevicePartitionedAccelerationStructureFeaturesNV.self)
-        return unsafe raw != nil ? PartitionedAccelerationStructureFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceDiagnosticsConfigFeaturesNV.
-    /// Available with extension VK_NV_device_diagnostics_config
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDiagnosticsConfigFeaturesNV.html)
-    public var diagnosticsConfigFeatures_NV: DiagnosticsConfigFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DIAGNOSTICS_CONFIG_FEATURES_NV,
-            type: VkPhysicalDeviceDiagnosticsConfigFeaturesNV.self)
-        return unsafe raw != nil ? DiagnosticsConfigFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceZeroInitializeWorkgroupMemoryFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_zero_initialize_workgroup_memory
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceZeroInitializeWorkgroupMemoryFeatures.html)
-    public var zeroInitializeWorkgroupMemoryFeatures: ZeroInitializeWorkgroupMemoryFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ZERO_INITIALIZE_WORKGROUP_MEMORY_FEATURES,
-            type: VkPhysicalDeviceZeroInitializeWorkgroupMemoryFeatures.self)
-        return unsafe raw != nil ? ZeroInitializeWorkgroupMemoryFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderSubgroupUniformControlFlowFeaturesKHR.
-    /// Available with extension VK_KHR_shader_subgroup_uniform_control_flow
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderSubgroupUniformControlFlowFeaturesKHR.html)
-    public var shaderSubgroupUniformControlFlowFeatures_KHR: ShaderSubgroupUniformControlFlowFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_UNIFORM_CONTROL_FLOW_FEATURES_KHR,
-            type: VkPhysicalDeviceShaderSubgroupUniformControlFlowFeaturesKHR.self)
-        return unsafe raw != nil ? ShaderSubgroupUniformControlFlowFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceRobustness2FeaturesKHR.
-    /// Available with extension VK_EXT_robustness2, or extension VK_KHR_robustness2
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRobustness2FeaturesKHR.html)
-    public var robustness2Features_KHR: Robustness2Features_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_FEATURES_KHR, type: VkPhysicalDeviceRobustness2FeaturesKHR.self)
-        return unsafe raw != nil ? Robustness2Features_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceImageRobustnessFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_EXT_image_robustness
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageRobustnessFeatures.html)
-    public var imageRobustnessFeatures: ImageRobustnessFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_ROBUSTNESS_FEATURES, type: VkPhysicalDeviceImageRobustnessFeatures.self)
-        return unsafe raw != nil ? ImageRobustnessFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceWorkgroupMemoryExplicitLayoutFeaturesKHR.
-    /// Available with extension VK_KHR_workgroup_memory_explicit_layout
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceWorkgroupMemoryExplicitLayoutFeaturesKHR.html)
-    public var workgroupMemoryExplicitLayoutFeatures_KHR: WorkgroupMemoryExplicitLayoutFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_WORKGROUP_MEMORY_EXPLICIT_LAYOUT_FEATURES_KHR,
-            type: VkPhysicalDeviceWorkgroupMemoryExplicitLayoutFeaturesKHR.self)
-        return unsafe raw != nil ? WorkgroupMemoryExplicitLayoutFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    #if EnableProvisional
-        /// Wrapper for the Vulkan VkPhysicalDevicePortabilitySubsetFeaturesKHR.
-        /// Available with extension VK_KHR_portability_subset
-        /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePortabilitySubsetFeaturesKHR.html)
-        public var portabilitySubsetFeatures_KHR: PortabilitySubsetFeatures_KHR? {
-            let raw = unsafe nextChain.get(
-                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PORTABILITY_SUBSET_FEATURES_KHR,
-                type: VkPhysicalDevicePortabilitySubsetFeaturesKHR.self)
-            return unsafe raw != nil ? PortabilitySubsetFeatures_KHR(rawValue: raw!) : nil
-        }
-    #else
-        @available(*, unavailable, message: "This set of properties requires the 'EnableProvisional' trait to be enabled")
-        public var portabilitySubsetFeatures_KHR: Any { fatalError() }
-    #endif
-
-    /// Wrapper for the Vulkan VkPhysicalDevice4444FormatsFeaturesEXT.
-    /// Available with extension VK_EXT_4444_formats
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice4444FormatsFeaturesEXT.html)
-    public var device4444FormatsFeatures_EXT: `4444FormatsFeatures_EXT`? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_4444_FORMATS_FEATURES_EXT, type: VkPhysicalDevice4444FormatsFeaturesEXT.self)
-        return unsafe raw != nil ? `4444FormatsFeatures_EXT`(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceSubpassShadingFeaturesHUAWEI.
-    /// Available with extension VK_HUAWEI_subpass_shading
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceSubpassShadingFeaturesHUAWEI.html)
-    public var subpassShadingFeatures_HUAWEI: SubpassShadingFeatures_HUAWEI? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBPASS_SHADING_FEATURES_HUAWEI,
-            type: VkPhysicalDeviceSubpassShadingFeaturesHUAWEI.self)
-        return unsafe raw != nil ? SubpassShadingFeatures_HUAWEI(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceClusterCullingShaderFeaturesHUAWEI.
-    /// Available with extension VK_HUAWEI_cluster_culling_shader
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceClusterCullingShaderFeaturesHUAWEI.html)
-    public var clusterCullingShaderFeatures_HUAWEI: ClusterCullingShaderFeatures_HUAWEI? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CLUSTER_CULLING_SHADER_FEATURES_HUAWEI,
-            type: VkPhysicalDeviceClusterCullingShaderFeaturesHUAWEI.self)
-        return unsafe raw != nil ? ClusterCullingShaderFeatures_HUAWEI(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT.
-    /// Available with extension VK_EXT_shader_image_atomic_int64
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT.html)
-    public var shaderImageAtomicInt64Features_EXT: ShaderImageAtomicInt64Features_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_IMAGE_ATOMIC_INT64_FEATURES_EXT,
-            type: VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT.self)
-        return unsafe raw != nil ? ShaderImageAtomicInt64Features_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceFragmentShadingRateFeaturesKHR.
-    /// Available with extension VK_KHR_fragment_shading_rate
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFragmentShadingRateFeaturesKHR.html)
-    public var fragmentShadingRateFeatures_KHR: FragmentShadingRateFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADING_RATE_FEATURES_KHR,
-            type: VkPhysicalDeviceFragmentShadingRateFeaturesKHR.self)
-        return unsafe raw != nil ? FragmentShadingRateFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderTerminateInvocationFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_shader_terminate_invocation
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderTerminateInvocationFeatures.html)
-    public var shaderTerminateInvocationFeatures: ShaderTerminateInvocationFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_TERMINATE_INVOCATION_FEATURES,
-            type: VkPhysicalDeviceShaderTerminateInvocationFeatures.self)
-        return unsafe raw != nil ? ShaderTerminateInvocationFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceFragmentShadingRateEnumsFeaturesNV.
-    /// Available with extension VK_NV_fragment_shading_rate_enums
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFragmentShadingRateEnumsFeaturesNV.html)
-    public var fragmentShadingRateEnumsFeatures_NV: FragmentShadingRateEnumsFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADING_RATE_ENUMS_FEATURES_NV,
-            type: VkPhysicalDeviceFragmentShadingRateEnumsFeaturesNV.self)
-        return unsafe raw != nil ? FragmentShadingRateEnumsFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceImage2DViewOf3DFeaturesEXT.
-    /// Available with extension VK_EXT_image_2d_view_of_3d
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImage2DViewOf3DFeaturesEXT.html)
-    public var image2DViewOf3DFeatures_EXT: Image2DViewOf3DFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_2D_VIEW_OF_3D_FEATURES_EXT,
-            type: VkPhysicalDeviceImage2DViewOf3DFeaturesEXT.self)
-        return unsafe raw != nil ? Image2DViewOf3DFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceImageSlicedViewOf3DFeaturesEXT.
-    /// Available with extension VK_EXT_image_sliced_view_of_3d
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageSlicedViewOf3DFeaturesEXT.html)
-    public var imageSlicedViewOf3DFeatures_EXT: ImageSlicedViewOf3DFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_SLICED_VIEW_OF_3D_FEATURES_EXT,
-            type: VkPhysicalDeviceImageSlicedViewOf3DFeaturesEXT.self)
-        return unsafe raw != nil ? ImageSlicedViewOf3DFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceAttachmentFeedbackLoopDynamicStateFeaturesEXT.
-    /// Available with extension VK_EXT_attachment_feedback_loop_dynamic_state
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceAttachmentFeedbackLoopDynamicStateFeaturesEXT.html)
-    public var attachmentFeedbackLoopDynamicStateFeatures_EXT: AttachmentFeedbackLoopDynamicStateFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ATTACHMENT_FEEDBACK_LOOP_DYNAMIC_STATE_FEATURES_EXT,
-            type: VkPhysicalDeviceAttachmentFeedbackLoopDynamicStateFeaturesEXT.self)
-        return unsafe raw != nil ? AttachmentFeedbackLoopDynamicStateFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceLegacyVertexAttributesFeaturesEXT.
-    /// Available with extension VK_EXT_legacy_vertex_attributes
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceLegacyVertexAttributesFeaturesEXT.html)
-    public var legacyVertexAttributesFeatures_EXT: LegacyVertexAttributesFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LEGACY_VERTEX_ATTRIBUTES_FEATURES_EXT,
-            type: VkPhysicalDeviceLegacyVertexAttributesFeaturesEXT.self)
-        return unsafe raw != nil ? LegacyVertexAttributesFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceMutableDescriptorTypeFeaturesEXT.
-    /// Available with extension VK_VALVE_mutable_descriptor_type, or extension VK_EXT_mutable_descriptor_type
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMutableDescriptorTypeFeaturesEXT.html)
-    public var mutableDescriptorTypeFeatures_EXT: MutableDescriptorTypeFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MUTABLE_DESCRIPTOR_TYPE_FEATURES_EXT,
-            type: VkPhysicalDeviceMutableDescriptorTypeFeaturesEXT.self)
-        return unsafe raw != nil ? MutableDescriptorTypeFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceDepthClipControlFeaturesEXT.
-    /// Available with extension VK_EXT_depth_clip_control
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDepthClipControlFeaturesEXT.html)
-    public var depthClipControlFeatures_EXT: DepthClipControlFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLIP_CONTROL_FEATURES_EXT,
-            type: VkPhysicalDeviceDepthClipControlFeaturesEXT.self)
-        return unsafe raw != nil ? DepthClipControlFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceZeroInitializeDeviceMemoryFeaturesEXT.
-    /// Available with extension VK_EXT_zero_initialize_device_memory
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceZeroInitializeDeviceMemoryFeaturesEXT.html)
-    public var zeroInitializeDeviceMemoryFeatures_EXT: ZeroInitializeDeviceMemoryFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ZERO_INITIALIZE_DEVICE_MEMORY_FEATURES_EXT,
-            type: VkPhysicalDeviceZeroInitializeDeviceMemoryFeaturesEXT.self)
-        return unsafe raw != nil ? ZeroInitializeDeviceMemoryFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT.
-    /// Available with extension VK_EXT_device_generated_commands
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT.html)
-    public var deviceGeneratedCommandsFeatures_EXT: DeviceGeneratedCommandsFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_FEATURES_EXT,
-            type: VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT.self)
-        return unsafe raw != nil ? DeviceGeneratedCommandsFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceDepthClampControlFeaturesEXT.
-    /// Available with extension VK_EXT_depth_clamp_control
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDepthClampControlFeaturesEXT.html)
-    public var depthClampControlFeatures_EXT: DepthClampControlFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLAMP_CONTROL_FEATURES_EXT,
-            type: VkPhysicalDeviceDepthClampControlFeaturesEXT.self)
-        return unsafe raw != nil ? DepthClampControlFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT.
-    /// Available with extension VK_EXT_vertex_input_dynamic_state
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT.html)
-    public var vertexInputDynamicStateFeatures_EXT: VertexInputDynamicStateFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_INPUT_DYNAMIC_STATE_FEATURES_EXT,
-            type: VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT.self)
-        return unsafe raw != nil ? VertexInputDynamicStateFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceExternalMemoryRDMAFeaturesNV.
-    /// Available with extension VK_NV_external_memory_rdma
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExternalMemoryRDMAFeaturesNV.html)
-    public var externalMemoryRDMAFeatures_NV: ExternalMemoryRDMAFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_MEMORY_RDMA_FEATURES_NV,
-            type: VkPhysicalDeviceExternalMemoryRDMAFeaturesNV.self)
-        return unsafe raw != nil ? ExternalMemoryRDMAFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR.
-    /// Available with extension VK_KHR_shader_relaxed_extended_instruction
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR.html)
-    public var shaderRelaxedExtendedInstructionFeatures_KHR: ShaderRelaxedExtendedInstructionFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_RELAXED_EXTENDED_INSTRUCTION_FEATURES_KHR,
-            type: VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR.self)
-        return unsafe raw != nil ? ShaderRelaxedExtendedInstructionFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceColorWriteEnableFeaturesEXT.
-    /// Available with extension VK_EXT_color_write_enable
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceColorWriteEnableFeaturesEXT.html)
-    public var colorWriteEnableFeatures_EXT: ColorWriteEnableFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COLOR_WRITE_ENABLE_FEATURES_EXT,
-            type: VkPhysicalDeviceColorWriteEnableFeaturesEXT.self)
-        return unsafe raw != nil ? ColorWriteEnableFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceSynchronization2Features.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_synchronization2
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceSynchronization2Features.html)
-    public var synchronization2Features: Synchronization2Features? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SYNCHRONIZATION_2_FEATURES, type: VkPhysicalDeviceSynchronization2Features.self
-        )
-        return unsafe raw != nil ? Synchronization2Features(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceUnifiedImageLayoutsFeaturesKHR.
-    /// Available with extension VK_KHR_unified_image_layouts
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceUnifiedImageLayoutsFeaturesKHR.html)
-    public var unifiedImageLayoutsFeatures_KHR: UnifiedImageLayoutsFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_UNIFIED_IMAGE_LAYOUTS_FEATURES_KHR,
-            type: VkPhysicalDeviceUnifiedImageLayoutsFeaturesKHR.self)
-        return unsafe raw != nil ? UnifiedImageLayoutsFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceHostImageCopyFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_EXT_host_image_copy
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceHostImageCopyFeatures.html)
-    public var hostImageCopyFeatures: HostImageCopyFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES, type: VkPhysicalDeviceHostImageCopyFeatures.self)
-        return unsafe raw != nil ? HostImageCopyFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT.
-    /// Available with extension VK_EXT_primitives_generated_query
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT.html)
-    public var primitivesGeneratedQueryFeatures_EXT: PrimitivesGeneratedQueryFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIMITIVES_GENERATED_QUERY_FEATURES_EXT,
-            type: VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT.self)
-        return unsafe raw != nil ? PrimitivesGeneratedQueryFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceLegacyDitheringFeaturesEXT.
-    /// Available with extension VK_EXT_legacy_dithering
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceLegacyDitheringFeaturesEXT.html)
-    public var legacyDitheringFeatures_EXT: LegacyDitheringFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LEGACY_DITHERING_FEATURES_EXT,
-            type: VkPhysicalDeviceLegacyDitheringFeaturesEXT.self)
-        return unsafe raw != nil ? LegacyDitheringFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT.
-    /// Available with extension VK_EXT_multisampled_render_to_single_sampled
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT.html)
-    public var multisampledRenderToSingleSampledFeatures_EXT: MultisampledRenderToSingleSampledFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTISAMPLED_RENDER_TO_SINGLE_SAMPLED_FEATURES_EXT,
-            type: VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT.self)
-        return unsafe raw != nil ? MultisampledRenderToSingleSampledFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePipelineProtectedAccessFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_EXT_pipeline_protected_access
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePipelineProtectedAccessFeatures.html)
-    public var pipelineProtectedAccessFeatures: PipelineProtectedAccessFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROTECTED_ACCESS_FEATURES,
-            type: VkPhysicalDevicePipelineProtectedAccessFeatures.self)
-        return unsafe raw != nil ? PipelineProtectedAccessFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceVideoMaintenance1FeaturesKHR.
-    /// Available with extension VK_KHR_video_maintenance1
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoMaintenance1FeaturesKHR.html)
-    public var videoMaintenance1Features_KHR: VideoMaintenance1Features_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_1_FEATURES_KHR,
-            type: VkPhysicalDeviceVideoMaintenance1FeaturesKHR.self)
-        return unsafe raw != nil ? VideoMaintenance1Features_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceVideoMaintenance2FeaturesKHR.
-    /// Available with extension VK_KHR_video_maintenance2
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoMaintenance2FeaturesKHR.html)
-    public var videoMaintenance2Features_KHR: VideoMaintenance2Features_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_2_FEATURES_KHR,
-            type: VkPhysicalDeviceVideoMaintenance2FeaturesKHR.self)
-        return unsafe raw != nil ? VideoMaintenance2Features_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceVideoDecodeVP9FeaturesKHR.
-    /// Available with extension VK_KHR_video_decode_vp9
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoDecodeVP9FeaturesKHR.html)
-    public var videoDecodeVP9Features_KHR: VideoDecodeVP9Features_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_DECODE_VP9_FEATURES_KHR,
-            type: VkPhysicalDeviceVideoDecodeVP9FeaturesKHR.self)
-        return unsafe raw != nil ? VideoDecodeVP9Features_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR.
-    /// Available with extension VK_KHR_video_encode_quantization_map
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR.html)
-    public var videoEncodeQuantizationMapFeatures_KHR: VideoEncodeQuantizationMapFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_QUANTIZATION_MAP_FEATURES_KHR,
-            type: VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR.self)
-        return unsafe raw != nil ? VideoEncodeQuantizationMapFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceVideoEncodeAV1FeaturesKHR.
-    /// Available with extension VK_KHR_video_encode_av1
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoEncodeAV1FeaturesKHR.html)
-    public var videoEncodeAV1Features_KHR: VideoEncodeAV1Features_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_AV1_FEATURES_KHR,
-            type: VkPhysicalDeviceVideoEncodeAV1FeaturesKHR.self)
-        return unsafe raw != nil ? VideoEncodeAV1Features_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceInheritedViewportScissorFeaturesNV.
-    /// Available with extension VK_NV_inherited_viewport_scissor
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceInheritedViewportScissorFeaturesNV.html)
-    public var inheritedViewportScissorFeatures_NV: InheritedViewportScissorFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INHERITED_VIEWPORT_SCISSOR_FEATURES_NV,
-            type: VkPhysicalDeviceInheritedViewportScissorFeaturesNV.self)
-        return unsafe raw != nil ? InheritedViewportScissorFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceYcbcr2Plane444FormatsFeaturesEXT.
-    /// Available with extension VK_EXT_ycbcr_2plane_444_formats
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceYcbcr2Plane444FormatsFeaturesEXT.html)
-    public var ycbcr2Plane444FormatsFeatures_EXT: Ycbcr2Plane444FormatsFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_YCBCR_2_PLANE_444_FORMATS_FEATURES_EXT,
-            type: VkPhysicalDeviceYcbcr2Plane444FormatsFeaturesEXT.self)
-        return unsafe raw != nil ? Ycbcr2Plane444FormatsFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceProvokingVertexFeaturesEXT.
-    /// Available with extension VK_EXT_provoking_vertex
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceProvokingVertexFeaturesEXT.html)
-    public var provokingVertexFeatures_EXT: ProvokingVertexFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROVOKING_VERTEX_FEATURES_EXT,
-            type: VkPhysicalDeviceProvokingVertexFeaturesEXT.self)
-        return unsafe raw != nil ? ProvokingVertexFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceDescriptorBufferFeaturesEXT.
-    /// Available with extension VK_EXT_descriptor_buffer
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDescriptorBufferFeaturesEXT.html)
-    public var descriptorBufferFeatures_EXT: DescriptorBufferFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_BUFFER_FEATURES_EXT,
-            type: VkPhysicalDeviceDescriptorBufferFeaturesEXT.self)
-        return unsafe raw != nil ? DescriptorBufferFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderIntegerDotProductFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_shader_integer_dot_product
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderIntegerDotProductFeatures.html)
-    public var shaderIntegerDotProductFeatures: ShaderIntegerDotProductFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_INTEGER_DOT_PRODUCT_FEATURES,
-            type: VkPhysicalDeviceShaderIntegerDotProductFeatures.self)
-        return unsafe raw != nil ? ShaderIntegerDotProductFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceFragmentShaderBarycentricFeaturesKHR.
-    /// Available with extension VK_NV_fragment_shader_barycentric, or extension VK_KHR_fragment_shader_barycentric
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFragmentShaderBarycentricFeaturesKHR.html)
-    public var fragmentShaderBarycentricFeatures_KHR: FragmentShaderBarycentricFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADER_BARYCENTRIC_FEATURES_KHR,
-            type: VkPhysicalDeviceFragmentShaderBarycentricFeaturesKHR.self)
-        return unsafe raw != nil ? FragmentShaderBarycentricFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceRayTracingMotionBlurFeaturesNV.
-    /// Available with extension VK_NV_ray_tracing_motion_blur
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRayTracingMotionBlurFeaturesNV.html)
-    public var rayTracingMotionBlurFeatures_NV: RayTracingMotionBlurFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_MOTION_BLUR_FEATURES_NV,
-            type: VkPhysicalDeviceRayTracingMotionBlurFeaturesNV.self)
-        return unsafe raw != nil ? RayTracingMotionBlurFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceRayTracingValidationFeaturesNV.
-    /// Available with extension VK_NV_ray_tracing_validation
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRayTracingValidationFeaturesNV.html)
-    public var rayTracingValidationFeatures_NV: RayTracingValidationFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_VALIDATION_FEATURES_NV,
-            type: VkPhysicalDeviceRayTracingValidationFeaturesNV.self)
-        return unsafe raw != nil ? RayTracingValidationFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceRayTracingLinearSweptSpheresFeaturesNV.
-    /// Available with extension VK_NV_ray_tracing_linear_swept_spheres
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRayTracingLinearSweptSpheresFeaturesNV.html)
-    public var rayTracingLinearSweptSpheresFeatures_NV: RayTracingLinearSweptSpheresFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_LINEAR_SWEPT_SPHERES_FEATURES_NV,
-            type: VkPhysicalDeviceRayTracingLinearSweptSpheresFeaturesNV.self)
-        return unsafe raw != nil ? RayTracingLinearSweptSpheresFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceRGBA10X6FormatsFeaturesEXT.
-    /// Available with extension VK_EXT_rgba10x6_formats
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRGBA10X6FormatsFeaturesEXT.html)
-    public var rGBA10X6FormatsFeatures_EXT: RGBA10X6FormatsFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RGBA10X6_FORMATS_FEATURES_EXT,
-            type: VkPhysicalDeviceRGBA10X6FormatsFeaturesEXT.self)
-        return unsafe raw != nil ? RGBA10X6FormatsFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceDynamicRenderingFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_dynamic_rendering
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDynamicRenderingFeatures.html)
-    public var dynamicRenderingFeatures: DynamicRenderingFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_FEATURES, type: VkPhysicalDeviceDynamicRenderingFeatures.self
-        )
-        return unsafe raw != nil ? DynamicRenderingFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceImageViewMinLodFeaturesEXT.
-    /// Available with extension VK_EXT_image_view_min_lod
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageViewMinLodFeaturesEXT.html)
-    public var imageViewMinLodFeatures_EXT: ImageViewMinLodFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_VIEW_MIN_LOD_FEATURES_EXT,
-            type: VkPhysicalDeviceImageViewMinLodFeaturesEXT.self)
-        return unsafe raw != nil ? ImageViewMinLodFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT.
-    /// Available with extension VK_ARM_rasterization_order_attachment_access, or extension VK_EXT_rasterization_order_attachment_access
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT.html)
-    public var rasterizationOrderAttachmentAccessFeatures_EXT: RasterizationOrderAttachmentAccessFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RASTERIZATION_ORDER_ATTACHMENT_ACCESS_FEATURES_EXT,
-            type: VkPhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT.self)
-        return unsafe raw != nil ? RasterizationOrderAttachmentAccessFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceLinearColorAttachmentFeaturesNV.
-    /// Available with extension VK_NV_linear_color_attachment
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceLinearColorAttachmentFeaturesNV.html)
-    public var linearColorAttachmentFeatures_NV: LinearColorAttachmentFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINEAR_COLOR_ATTACHMENT_FEATURES_NV,
-            type: VkPhysicalDeviceLinearColorAttachmentFeaturesNV.self)
-        return unsafe raw != nil ? LinearColorAttachmentFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT.
-    /// Available with extension VK_EXT_graphics_pipeline_library
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT.html)
-    public var graphicsPipelineLibraryFeatures_EXT: GraphicsPipelineLibraryFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GRAPHICS_PIPELINE_LIBRARY_FEATURES_EXT,
-            type: VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT.self)
-        return unsafe raw != nil ? GraphicsPipelineLibraryFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePipelineBinaryFeaturesKHR.
-    /// Available with extension VK_KHR_pipeline_binary
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePipelineBinaryFeaturesKHR.html)
-    public var pipelineBinaryFeatures_KHR: PipelineBinaryFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_BINARY_FEATURES_KHR,
-            type: VkPhysicalDevicePipelineBinaryFeaturesKHR.self)
-        return unsafe raw != nil ? PipelineBinaryFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceDescriptorSetHostMappingFeaturesVALVE.
-    /// Available with extension VK_VALVE_descriptor_set_host_mapping
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDescriptorSetHostMappingFeaturesVALVE.html)
-    public var descriptorSetHostMappingFeatures_VALVE: DescriptorSetHostMappingFeatures_VALVE? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_SET_HOST_MAPPING_FEATURES_VALVE,
-            type: VkPhysicalDeviceDescriptorSetHostMappingFeaturesVALVE.self)
-        return unsafe raw != nil ? DescriptorSetHostMappingFeatures_VALVE(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceNestedCommandBufferFeaturesEXT.
-    /// Available with extension VK_EXT_nested_command_buffer
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceNestedCommandBufferFeaturesEXT.html)
-    public var nestedCommandBufferFeatures_EXT: NestedCommandBufferFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_NESTED_COMMAND_BUFFER_FEATURES_EXT,
-            type: VkPhysicalDeviceNestedCommandBufferFeaturesEXT.self)
-        return unsafe raw != nil ? NestedCommandBufferFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT.
-    /// Available with extension VK_EXT_shader_module_identifier
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT.html)
-    public var shaderModuleIdentifierFeatures_EXT: ShaderModuleIdentifierFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_MODULE_IDENTIFIER_FEATURES_EXT,
-            type: VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT.self)
-        return unsafe raw != nil ? ShaderModuleIdentifierFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceImageCompressionControlFeaturesEXT.
-    /// Available with extension VK_EXT_image_compression_control
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageCompressionControlFeaturesEXT.html)
-    public var imageCompressionControlFeatures_EXT: ImageCompressionControlFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_COMPRESSION_CONTROL_FEATURES_EXT,
-            type: VkPhysicalDeviceImageCompressionControlFeaturesEXT.self)
-        return unsafe raw != nil ? ImageCompressionControlFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceImageCompressionControlSwapchainFeaturesEXT.
-    /// Available with extension VK_EXT_image_compression_control_swapchain
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageCompressionControlSwapchainFeaturesEXT.html)
-    public var imageCompressionControlSwapchainFeatures_EXT: ImageCompressionControlSwapchainFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_COMPRESSION_CONTROL_SWAPCHAIN_FEATURES_EXT,
-            type: VkPhysicalDeviceImageCompressionControlSwapchainFeaturesEXT.self)
-        return unsafe raw != nil ? ImageCompressionControlSwapchainFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceSubpassMergeFeedbackFeaturesEXT.
-    /// Available with extension VK_EXT_subpass_merge_feedback
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceSubpassMergeFeedbackFeaturesEXT.html)
-    public var subpassMergeFeedbackFeatures_EXT: SubpassMergeFeedbackFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBPASS_MERGE_FEEDBACK_FEATURES_EXT,
-            type: VkPhysicalDeviceSubpassMergeFeedbackFeaturesEXT.self)
-        return unsafe raw != nil ? SubpassMergeFeedbackFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceOpacityMicromapFeaturesEXT.
-    /// Available with extension VK_EXT_opacity_micromap
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceOpacityMicromapFeaturesEXT.html)
-    public var opacityMicromapFeatures_EXT: OpacityMicromapFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_OPACITY_MICROMAP_FEATURES_EXT,
-            type: VkPhysicalDeviceOpacityMicromapFeaturesEXT.self)
-        return unsafe raw != nil ? OpacityMicromapFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    #if EnableProvisional
-        /// Wrapper for the Vulkan VkPhysicalDeviceDisplacementMicromapFeaturesNV.
-        /// Available with extension VK_NV_displacement_micromap
-        /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDisplacementMicromapFeaturesNV.html)
-        public var displacementMicromapFeatures_NV: DisplacementMicromapFeatures_NV? {
-            let raw = unsafe nextChain.get(
-                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DISPLACEMENT_MICROMAP_FEATURES_NV,
-                type: VkPhysicalDeviceDisplacementMicromapFeaturesNV.self)
-            return unsafe raw != nil ? DisplacementMicromapFeatures_NV(rawValue: raw!) : nil
-        }
-    #else
-        @available(*, unavailable, message: "This set of properties requires the 'EnableProvisional' trait to be enabled")
-        public var displacementMicromapFeatures_NV: Any { fatalError() }
-    #endif
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePipelinePropertiesFeaturesEXT.
-    /// Available with extension VK_EXT_pipeline_properties
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePipelinePropertiesFeaturesEXT.html)
-    public var pipelinePropertiesFeatures_EXT: PipelinePropertiesFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROPERTIES_FEATURES_EXT,
-            type: VkPhysicalDevicePipelinePropertiesFeaturesEXT.self)
-        return unsafe raw != nil ? PipelinePropertiesFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderEarlyAndLateFragmentTestsFeaturesAMD.
-    /// Available with extension VK_AMD_shader_early_and_late_fragment_tests
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderEarlyAndLateFragmentTestsFeaturesAMD.html)
-    public var shaderEarlyAndLateFragmentTestsFeatures_AMD: ShaderEarlyAndLateFragmentTestsFeatures_AMD? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_EARLY_AND_LATE_FRAGMENT_TESTS_FEATURES_AMD,
-            type: VkPhysicalDeviceShaderEarlyAndLateFragmentTestsFeaturesAMD.self)
-        return unsafe raw != nil ? ShaderEarlyAndLateFragmentTestsFeatures_AMD(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT.
-    /// Available with extension VK_EXT_non_seamless_cube_map
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT.html)
-    public var nonSeamlessCubeMapFeatures_EXT: NonSeamlessCubeMapFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_NON_SEAMLESS_CUBE_MAP_FEATURES_EXT,
-            type: VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT.self)
-        return unsafe raw != nil ? NonSeamlessCubeMapFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePipelineRobustnessFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_EXT_pipeline_robustness
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePipelineRobustnessFeatures.html)
-    public var pipelineRobustnessFeatures: PipelineRobustnessFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES,
-            type: VkPhysicalDevicePipelineRobustnessFeatures.self)
-        return unsafe raw != nil ? PipelineRobustnessFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceImageProcessingFeaturesQCOM.
-    /// Available with extension VK_QCOM_image_processing
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageProcessingFeaturesQCOM.html)
-    public var imageProcessingFeatures_QCOM: ImageProcessingFeatures_QCOM? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_PROCESSING_FEATURES_QCOM,
-            type: VkPhysicalDeviceImageProcessingFeaturesQCOM.self)
-        return unsafe raw != nil ? ImageProcessingFeatures_QCOM(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceTilePropertiesFeaturesQCOM.
-    /// Available with extension VK_QCOM_tile_properties
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceTilePropertiesFeaturesQCOM.html)
-    public var tilePropertiesFeatures_QCOM: TilePropertiesFeatures_QCOM? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TILE_PROPERTIES_FEATURES_QCOM,
-            type: VkPhysicalDeviceTilePropertiesFeaturesQCOM.self)
-        return unsafe raw != nil ? TilePropertiesFeatures_QCOM(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceAmigoProfilingFeaturesSEC.
-    /// Available with extension VK_SEC_amigo_profiling
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceAmigoProfilingFeaturesSEC.html)
-    public var amigoProfilingFeatures_SEC: AmigoProfilingFeatures_SEC? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_AMIGO_PROFILING_FEATURES_SEC,
-            type: VkPhysicalDeviceAmigoProfilingFeaturesSEC.self)
-        return unsafe raw != nil ? AmigoProfilingFeatures_SEC(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT.
-    /// Available with extension VK_EXT_attachment_feedback_loop_layout
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT.html)
-    public var attachmentFeedbackLoopLayoutFeatures_EXT: AttachmentFeedbackLoopLayoutFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ATTACHMENT_FEEDBACK_LOOP_LAYOUT_FEATURES_EXT,
-            type: VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT.self)
-        return unsafe raw != nil ? AttachmentFeedbackLoopLayoutFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceAddressBindingReportFeaturesEXT.
-    /// Available with extension VK_EXT_device_address_binding_report
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceAddressBindingReportFeaturesEXT.html)
-    public var addressBindingReportFeatures_EXT: AddressBindingReportFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ADDRESS_BINDING_REPORT_FEATURES_EXT,
-            type: VkPhysicalDeviceAddressBindingReportFeaturesEXT.self)
-        return unsafe raw != nil ? AddressBindingReportFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceOpticalFlowFeaturesNV.
-    /// Available with extension VK_NV_optical_flow
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceOpticalFlowFeaturesNV.html)
-    public var opticalFlowFeatures_NV: OpticalFlowFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_OPTICAL_FLOW_FEATURES_NV, type: VkPhysicalDeviceOpticalFlowFeaturesNV.self)
-        return unsafe raw != nil ? OpticalFlowFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceFaultFeaturesEXT.
-    /// Available with extension VK_EXT_device_fault
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFaultFeaturesEXT.html)
-    public var faultFeatures_EXT: FaultFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FAULT_FEATURES_EXT, type: VkPhysicalDeviceFaultFeaturesEXT.self)
-        return unsafe raw != nil ? FaultFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesEXT.
-    /// Available with extension VK_EXT_pipeline_library_group_handles
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesEXT.html)
-    public var pipelineLibraryGroupHandlesFeatures_EXT: PipelineLibraryGroupHandlesFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_LIBRARY_GROUP_HANDLES_FEATURES_EXT,
-            type: VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesEXT.self)
-        return unsafe raw != nil ? PipelineLibraryGroupHandlesFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderCoreBuiltinsFeaturesARM.
-    /// Available with extension VK_ARM_shader_core_builtins
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderCoreBuiltinsFeaturesARM.html)
-    public var shaderCoreBuiltinsFeatures_ARM: ShaderCoreBuiltinsFeatures_ARM? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_CORE_BUILTINS_FEATURES_ARM,
-            type: VkPhysicalDeviceShaderCoreBuiltinsFeaturesARM.self)
-        return unsafe raw != nil ? ShaderCoreBuiltinsFeatures_ARM(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceFrameBoundaryFeaturesEXT.
-    /// Available with extension VK_EXT_frame_boundary
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFrameBoundaryFeaturesEXT.html)
-    public var frameBoundaryFeatures_EXT: FrameBoundaryFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAME_BOUNDARY_FEATURES_EXT,
-            type: VkPhysicalDeviceFrameBoundaryFeaturesEXT.self)
-        return unsafe raw != nil ? FrameBoundaryFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceDynamicRenderingUnusedAttachmentsFeaturesEXT.
-    /// Available with extension VK_EXT_dynamic_rendering_unused_attachments
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDynamicRenderingUnusedAttachmentsFeaturesEXT.html)
-    public var dynamicRenderingUnusedAttachmentsFeatures_EXT: DynamicRenderingUnusedAttachmentsFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_UNUSED_ATTACHMENTS_FEATURES_EXT,
-            type: VkPhysicalDeviceDynamicRenderingUnusedAttachmentsFeaturesEXT.self)
-        return unsafe raw != nil ? DynamicRenderingUnusedAttachmentsFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceSwapchainMaintenance1FeaturesEXT.
-    /// Available with extension VK_EXT_swapchain_maintenance1
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceSwapchainMaintenance1FeaturesEXT.html)
-    public var swapchainMaintenance1Features_EXT: SwapchainMaintenance1Features_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SWAPCHAIN_MAINTENANCE_1_FEATURES_EXT,
-            type: VkPhysicalDeviceSwapchainMaintenance1FeaturesEXT.self)
-        return unsafe raw != nil ? SwapchainMaintenance1Features_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceDepthBiasControlFeaturesEXT.
-    /// Available with extension VK_EXT_depth_bias_control
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDepthBiasControlFeaturesEXT.html)
-    public var depthBiasControlFeatures_EXT: DepthBiasControlFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_BIAS_CONTROL_FEATURES_EXT,
-            type: VkPhysicalDeviceDepthBiasControlFeaturesEXT.self)
-        return unsafe raw != nil ? DepthBiasControlFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceRayTracingInvocationReorderFeaturesNV.
-    /// Available with extension VK_NV_ray_tracing_invocation_reorder
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRayTracingInvocationReorderFeaturesNV.html)
-    public var rayTracingInvocationReorderFeatures_NV: RayTracingInvocationReorderFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_INVOCATION_REORDER_FEATURES_NV,
-            type: VkPhysicalDeviceRayTracingInvocationReorderFeaturesNV.self)
-        return unsafe raw != nil ? RayTracingInvocationReorderFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceExtendedSparseAddressSpaceFeaturesNV.
-    /// Available with extension VK_NV_extended_sparse_address_space
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExtendedSparseAddressSpaceFeaturesNV.html)
-    public var extendedSparseAddressSpaceFeatures_NV: ExtendedSparseAddressSpaceFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTENDED_SPARSE_ADDRESS_SPACE_FEATURES_NV,
-            type: VkPhysicalDeviceExtendedSparseAddressSpaceFeaturesNV.self)
-        return unsafe raw != nil ? ExtendedSparseAddressSpaceFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceMultiviewPerViewViewportsFeaturesQCOM.
-    /// Available with extension VK_QCOM_multiview_per_view_viewports
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMultiviewPerViewViewportsFeaturesQCOM.html)
-    public var multiviewPerViewViewportsFeatures_QCOM: MultiviewPerViewViewportsFeatures_QCOM? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_PER_VIEW_VIEWPORTS_FEATURES_QCOM,
-            type: VkPhysicalDeviceMultiviewPerViewViewportsFeaturesQCOM.self)
-        return unsafe raw != nil ? MultiviewPerViewViewportsFeatures_QCOM(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceRayTracingPositionFetchFeaturesKHR.
-    /// Available with extension VK_KHR_ray_tracing_position_fetch
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRayTracingPositionFetchFeaturesKHR.html)
-    public var rayTracingPositionFetchFeatures_KHR: RayTracingPositionFetchFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_POSITION_FETCH_FEATURES_KHR,
-            type: VkPhysicalDeviceRayTracingPositionFetchFeaturesKHR.self)
-        return unsafe raw != nil ? RayTracingPositionFetchFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceMultiviewPerViewRenderAreasFeaturesQCOM.
-    /// Available with extension VK_QCOM_multiview_per_view_render_areas
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMultiviewPerViewRenderAreasFeaturesQCOM.html)
-    public var multiviewPerViewRenderAreasFeatures_QCOM: MultiviewPerViewRenderAreasFeatures_QCOM? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_PER_VIEW_RENDER_AREAS_FEATURES_QCOM,
-            type: VkPhysicalDeviceMultiviewPerViewRenderAreasFeaturesQCOM.self)
-        return unsafe raw != nil ? MultiviewPerViewRenderAreasFeatures_QCOM(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderObjectFeaturesEXT.
-    /// Available with extension VK_EXT_shader_object
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderObjectFeaturesEXT.html)
-    public var shaderObjectFeatures_EXT: ShaderObjectFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_OBJECT_FEATURES_EXT, type: VkPhysicalDeviceShaderObjectFeaturesEXT.self)
-        return unsafe raw != nil ? ShaderObjectFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderTileImageFeaturesEXT.
-    /// Available with extension VK_EXT_shader_tile_image
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderTileImageFeaturesEXT.html)
-    public var shaderTileImageFeatures_EXT: ShaderTileImageFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_TILE_IMAGE_FEATURES_EXT,
-            type: VkPhysicalDeviceShaderTileImageFeaturesEXT.self)
-        return unsafe raw != nil ? ShaderTileImageFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    #if PlatformScreen
-        /// Wrapper for the Vulkan VkPhysicalDeviceExternalMemoryScreenBufferFeaturesQNX.
-        /// Available with extension VK_QNX_external_memory_screen_buffer
-        /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExternalMemoryScreenBufferFeaturesQNX.html)
-        public var externalMemoryScreenBufferFeatures_QNX: ExternalMemoryScreenBufferFeatures_QNX? {
-            let raw = unsafe nextChain.get(
-                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_MEMORY_SCREEN_BUFFER_FEATURES_QNX,
-                type: VkPhysicalDeviceExternalMemoryScreenBufferFeaturesQNX.self)
-            return unsafe raw != nil ? ExternalMemoryScreenBufferFeatures_QNX(rawValue: raw!) : nil
-        }
-    #else
-        @available(*, unavailable, message: "This set of properties requires the 'PlatformScreen' trait to be enabled")
-        public var externalMemoryScreenBufferFeatures_QNX: Any { fatalError() }
-    #endif
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceCooperativeMatrixFeaturesKHR.
-    /// Available with extension VK_KHR_cooperative_matrix
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCooperativeMatrixFeaturesKHR.html)
-    public var cooperativeMatrixFeatures_KHR: CooperativeMatrixFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_KHR,
-            type: VkPhysicalDeviceCooperativeMatrixFeaturesKHR.self)
-        return unsafe raw != nil ? CooperativeMatrixFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    #if EnableProvisional
-        /// Wrapper for the Vulkan VkPhysicalDeviceShaderEnqueueFeaturesAMDX.
-        /// Available with extension VK_AMDX_shader_enqueue
-        /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderEnqueueFeaturesAMDX.html)
-        public var shaderEnqueueFeatures_AMDX: ShaderEnqueueFeatures_AMDX? {
-            let raw = unsafe nextChain.get(
-                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ENQUEUE_FEATURES_AMDX,
-                type: VkPhysicalDeviceShaderEnqueueFeaturesAMDX.self)
-            return unsafe raw != nil ? ShaderEnqueueFeatures_AMDX(rawValue: raw!) : nil
-        }
-    #else
-        @available(*, unavailable, message: "This set of properties requires the 'EnableProvisional' trait to be enabled")
-        public var shaderEnqueueFeatures_AMDX: Any { fatalError() }
-    #endif
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceAntiLagFeaturesAMD.
-    /// Available with extension VK_AMD_anti_lag
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceAntiLagFeaturesAMD.html)
-    public var antiLagFeatures_AMD: AntiLagFeatures_AMD? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ANTI_LAG_FEATURES_AMD, type: VkPhysicalDeviceAntiLagFeaturesAMD.self)
-        return unsafe raw != nil ? AntiLagFeatures_AMD(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceTileMemoryHeapFeaturesQCOM.
-    /// Available with extension VK_QCOM_tile_memory_heap
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceTileMemoryHeapFeaturesQCOM.html)
-    public var tileMemoryHeapFeatures_QCOM: TileMemoryHeapFeatures_QCOM? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TILE_MEMORY_HEAP_FEATURES_QCOM,
-            type: VkPhysicalDeviceTileMemoryHeapFeaturesQCOM.self)
-        return unsafe raw != nil ? TileMemoryHeapFeatures_QCOM(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceCubicClampFeaturesQCOM.
-    /// Available with extension VK_QCOM_filter_cubic_clamp
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCubicClampFeaturesQCOM.html)
-    public var cubicClampFeatures_QCOM: CubicClampFeatures_QCOM? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CUBIC_CLAMP_FEATURES_QCOM, type: VkPhysicalDeviceCubicClampFeaturesQCOM.self)
-        return unsafe raw != nil ? CubicClampFeatures_QCOM(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceYcbcrDegammaFeaturesQCOM.
-    /// Available with extension VK_QCOM_ycbcr_degamma
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceYcbcrDegammaFeaturesQCOM.html)
-    public var ycbcrDegammaFeatures_QCOM: YcbcrDegammaFeatures_QCOM? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_YCBCR_DEGAMMA_FEATURES_QCOM,
-            type: VkPhysicalDeviceYcbcrDegammaFeaturesQCOM.self)
-        return unsafe raw != nil ? YcbcrDegammaFeatures_QCOM(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceCubicWeightsFeaturesQCOM.
-    /// Available with extension VK_QCOM_filter_cubic_weights
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCubicWeightsFeaturesQCOM.html)
-    public var cubicWeightsFeatures_QCOM: CubicWeightsFeatures_QCOM? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CUBIC_WEIGHTS_FEATURES_QCOM,
-            type: VkPhysicalDeviceCubicWeightsFeaturesQCOM.self)
-        return unsafe raw != nil ? CubicWeightsFeatures_QCOM(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceImageProcessing2FeaturesQCOM.
-    /// Available with extension VK_QCOM_image_processing2
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageProcessing2FeaturesQCOM.html)
-    public var imageProcessing2Features_QCOM: ImageProcessing2Features_QCOM? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_PROCESSING_2_FEATURES_QCOM,
-            type: VkPhysicalDeviceImageProcessing2FeaturesQCOM.self)
-        return unsafe raw != nil ? ImageProcessing2Features_QCOM(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceDescriptorPoolOverallocationFeaturesNV.
-    /// Available with extension VK_NV_descriptor_pool_overallocation
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDescriptorPoolOverallocationFeaturesNV.html)
-    public var descriptorPoolOverallocationFeatures_NV: DescriptorPoolOverallocationFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_POOL_OVERALLOCATION_FEATURES_NV,
-            type: VkPhysicalDeviceDescriptorPoolOverallocationFeaturesNV.self)
-        return unsafe raw != nil ? DescriptorPoolOverallocationFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePerStageDescriptorSetFeaturesNV.
-    /// Available with extension VK_NV_per_stage_descriptor_set
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePerStageDescriptorSetFeaturesNV.html)
-    public var perStageDescriptorSetFeatures_NV: PerStageDescriptorSetFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PER_STAGE_DESCRIPTOR_SET_FEATURES_NV,
-            type: VkPhysicalDevicePerStageDescriptorSetFeaturesNV.self)
-        return unsafe raw != nil ? PerStageDescriptorSetFeatures_NV(rawValue: raw!) : nil
-    }
-
-    #if PlatformAndroid
-        /// Wrapper for the Vulkan VkPhysicalDeviceExternalFormatResolveFeaturesANDROID.
-        /// Available with extension VK_ANDROID_external_format_resolve
-        /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExternalFormatResolveFeaturesANDROID.html)
-        public var externalFormatResolveFeatures_ANDROID: ExternalFormatResolveFeatures_ANDROID? {
-            let raw = unsafe nextChain.get(
-                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_FORMAT_RESOLVE_FEATURES_ANDROID,
-                type: VkPhysicalDeviceExternalFormatResolveFeaturesANDROID.self)
-            return unsafe raw != nil ? ExternalFormatResolveFeatures_ANDROID(rawValue: raw!) : nil
-        }
-    #else
-        @available(*, unavailable, message: "This set of properties requires the 'PlatformAndroid' trait to be enabled")
-        public var externalFormatResolveFeatures_ANDROID: Any { fatalError() }
-    #endif
-
-    #if EnableProvisional
-        /// Wrapper for the Vulkan VkPhysicalDeviceCudaKernelLaunchFeaturesNV.
-        /// Available with extension VK_NV_cuda_kernel_launch
-        /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCudaKernelLaunchFeaturesNV.html)
-        public var cudaKernelLaunchFeatures_NV: CudaKernelLaunchFeatures_NV? {
-            let raw = unsafe nextChain.get(
-                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CUDA_KERNEL_LAUNCH_FEATURES_NV,
-                type: VkPhysicalDeviceCudaKernelLaunchFeaturesNV.self)
-            return unsafe raw != nil ? CudaKernelLaunchFeatures_NV(rawValue: raw!) : nil
-        }
-    #else
-        @available(*, unavailable, message: "This set of properties requires the 'EnableProvisional' trait to be enabled")
-        public var cudaKernelLaunchFeatures_NV: Any { fatalError() }
-    #endif
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceSchedulingControlsFeaturesARM.
-    /// Available with extension VK_ARM_scheduling_controls
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceSchedulingControlsFeaturesARM.html)
-    public var schedulingControlsFeatures_ARM: SchedulingControlsFeatures_ARM? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SCHEDULING_CONTROLS_FEATURES_ARM,
-            type: VkPhysicalDeviceSchedulingControlsFeaturesARM.self)
-        return unsafe raw != nil ? SchedulingControlsFeatures_ARM(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceRelaxedLineRasterizationFeaturesIMG.
-    /// Available with extension VK_IMG_relaxed_line_rasterization
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRelaxedLineRasterizationFeaturesIMG.html)
-    public var relaxedLineRasterizationFeatures_IMG: RelaxedLineRasterizationFeatures_IMG? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RELAXED_LINE_RASTERIZATION_FEATURES_IMG,
-            type: VkPhysicalDeviceRelaxedLineRasterizationFeaturesIMG.self)
-        return unsafe raw != nil ? RelaxedLineRasterizationFeatures_IMG(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceRenderPassStripedFeaturesARM.
-    /// Available with extension VK_ARM_render_pass_striped
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRenderPassStripedFeaturesARM.html)
-    public var renderPassStripedFeatures_ARM: RenderPassStripedFeatures_ARM? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RENDER_PASS_STRIPED_FEATURES_ARM,
-            type: VkPhysicalDeviceRenderPassStripedFeaturesARM.self)
-        return unsafe raw != nil ? RenderPassStripedFeatures_ARM(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePipelineOpacityMicromapFeaturesARM.
-    /// Available with extension VK_ARM_pipeline_opacity_micromap
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePipelineOpacityMicromapFeaturesARM.html)
-    public var pipelineOpacityMicromapFeatures_ARM: PipelineOpacityMicromapFeatures_ARM? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_OPACITY_MICROMAP_FEATURES_ARM,
-            type: VkPhysicalDevicePipelineOpacityMicromapFeaturesARM.self)
-        return unsafe raw != nil ? PipelineOpacityMicromapFeatures_ARM(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderMaximalReconvergenceFeaturesKHR.
-    /// Available with extension VK_KHR_shader_maximal_reconvergence
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderMaximalReconvergenceFeaturesKHR.html)
-    public var shaderMaximalReconvergenceFeatures_KHR: ShaderMaximalReconvergenceFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_MAXIMAL_RECONVERGENCE_FEATURES_KHR,
-            type: VkPhysicalDeviceShaderMaximalReconvergenceFeaturesKHR.self)
-        return unsafe raw != nil ? ShaderMaximalReconvergenceFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderSubgroupRotateFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_shader_subgroup_rotate
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderSubgroupRotateFeatures.html)
-    public var shaderSubgroupRotateFeatures: ShaderSubgroupRotateFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_ROTATE_FEATURES,
-            type: VkPhysicalDeviceShaderSubgroupRotateFeatures.self)
-        return unsafe raw != nil ? ShaderSubgroupRotateFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderExpectAssumeFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_shader_expect_assume
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderExpectAssumeFeatures.html)
-    public var shaderExpectAssumeFeatures: ShaderExpectAssumeFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_EXPECT_ASSUME_FEATURES,
-            type: VkPhysicalDeviceShaderExpectAssumeFeatures.self)
-        return unsafe raw != nil ? ShaderExpectAssumeFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderFloatControls2Features.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_shader_float_controls2
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderFloatControls2Features.html)
-    public var shaderFloatControls2Features: ShaderFloatControls2Features? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT_CONTROLS_2_FEATURES,
-            type: VkPhysicalDeviceShaderFloatControls2Features.self)
-        return unsafe raw != nil ? ShaderFloatControls2Features(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceDynamicRenderingLocalReadFeatures.
-    /// Available with version VulkanGenerate.Version, or extension VK_KHR_dynamic_rendering_local_read
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDynamicRenderingLocalReadFeatures.html)
-    public var dynamicRenderingLocalReadFeatures: DynamicRenderingLocalReadFeatures? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_LOCAL_READ_FEATURES,
-            type: VkPhysicalDeviceDynamicRenderingLocalReadFeatures.self)
-        return unsafe raw != nil ? DynamicRenderingLocalReadFeatures(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderQuadControlFeaturesKHR.
-    /// Available with extension VK_KHR_shader_quad_control
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderQuadControlFeaturesKHR.html)
-    public var shaderQuadControlFeatures_KHR: ShaderQuadControlFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_QUAD_CONTROL_FEATURES_KHR,
-            type: VkPhysicalDeviceShaderQuadControlFeaturesKHR.self)
-        return unsafe raw != nil ? ShaderQuadControlFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderAtomicFloat16VectorFeaturesNV.
-    /// Available with extension VK_NV_shader_atomic_float16_vector
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderAtomicFloat16VectorFeaturesNV.html)
-    public var shaderAtomicFloat16VectorFeatures_NV: ShaderAtomicFloat16VectorFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_FLOAT16_VECTOR_FEATURES_NV,
-            type: VkPhysicalDeviceShaderAtomicFloat16VectorFeaturesNV.self)
-        return unsafe raw != nil ? ShaderAtomicFloat16VectorFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceMapMemoryPlacedFeaturesEXT.
-    /// Available with extension VK_EXT_map_memory_placed
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMapMemoryPlacedFeaturesEXT.html)
-    public var mapMemoryPlacedFeatures_EXT: MapMemoryPlacedFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAP_MEMORY_PLACED_FEATURES_EXT,
-            type: VkPhysicalDeviceMapMemoryPlacedFeaturesEXT.self)
-        return unsafe raw != nil ? MapMemoryPlacedFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderBfloat16FeaturesKHR.
-    /// Available with extension VK_KHR_shader_bfloat16
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderBfloat16FeaturesKHR.html)
-    public var shaderBfloat16Features_KHR: ShaderBfloat16Features_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_BFLOAT16_FEATURES_KHR,
-            type: VkPhysicalDeviceShaderBfloat16FeaturesKHR.self)
-        return unsafe raw != nil ? ShaderBfloat16Features_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceRawAccessChainsFeaturesNV.
-    /// Available with extension VK_NV_raw_access_chains
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRawAccessChainsFeaturesNV.html)
-    public var rawAccessChainsFeatures_NV: RawAccessChainsFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAW_ACCESS_CHAINS_FEATURES_NV,
-            type: VkPhysicalDeviceRawAccessChainsFeaturesNV.self)
-        return unsafe raw != nil ? RawAccessChainsFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceCommandBufferInheritanceFeaturesNV.
-    /// Available with extension VK_NV_command_buffer_inheritance
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCommandBufferInheritanceFeaturesNV.html)
-    public var commandBufferInheritanceFeatures_NV: CommandBufferInheritanceFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMMAND_BUFFER_INHERITANCE_FEATURES_NV,
-            type: VkPhysicalDeviceCommandBufferInheritanceFeaturesNV.self)
-        return unsafe raw != nil ? CommandBufferInheritanceFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceImageAlignmentControlFeaturesMESA.
-    /// Available with extension VK_MESA_image_alignment_control
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageAlignmentControlFeaturesMESA.html)
-    public var imageAlignmentControlFeatures_MESA: ImageAlignmentControlFeatures_MESA? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_ALIGNMENT_CONTROL_FEATURES_MESA,
-            type: VkPhysicalDeviceImageAlignmentControlFeaturesMESA.self)
-        return unsafe raw != nil ? ImageAlignmentControlFeatures_MESA(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderReplicatedCompositesFeaturesEXT.
-    /// Available with extension VK_EXT_shader_replicated_composites
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderReplicatedCompositesFeaturesEXT.html)
-    public var shaderReplicatedCompositesFeatures_EXT: ShaderReplicatedCompositesFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_REPLICATED_COMPOSITES_FEATURES_EXT,
-            type: VkPhysicalDeviceShaderReplicatedCompositesFeaturesEXT.self)
-        return unsafe raw != nil ? ShaderReplicatedCompositesFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT.
-    /// Available with extension VK_EXT_present_mode_fifo_latest_ready
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT.html)
-    public var presentModeFifoLatestReadyFeatures_EXT: PresentModeFifoLatestReadyFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_MODE_FIFO_LATEST_READY_FEATURES_EXT,
-            type: VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT.self)
-        return unsafe raw != nil ? PresentModeFifoLatestReadyFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceCooperativeMatrix2FeaturesNV.
-    /// Available with extension VK_NV_cooperative_matrix2
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCooperativeMatrix2FeaturesNV.html)
-    public var cooperativeMatrix2Features_NV: CooperativeMatrix2Features_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_2_FEATURES_NV,
-            type: VkPhysicalDeviceCooperativeMatrix2FeaturesNV.self)
-        return unsafe raw != nil ? CooperativeMatrix2Features_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceHdrVividFeaturesHUAWEI.
-    /// Available with extension VK_HUAWEI_hdr_vivid
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceHdrVividFeaturesHUAWEI.html)
-    public var hdrVividFeatures_HUAWEI: HdrVividFeatures_HUAWEI? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HDR_VIVID_FEATURES_HUAWEI, type: VkPhysicalDeviceHdrVividFeaturesHUAWEI.self)
-        return unsafe raw != nil ? HdrVividFeatures_HUAWEI(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT.
-    /// Available with extension VK_EXT_vertex_attribute_robustness
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT.html)
-    public var vertexAttributeRobustnessFeatures_EXT: VertexAttributeRobustnessFeatures_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_ROBUSTNESS_FEATURES_EXT,
-            type: VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT.self)
-        return unsafe raw != nil ? VertexAttributeRobustnessFeatures_EXT(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceDepthClampZeroOneFeaturesKHR.
-    /// Available with extension VK_EXT_depth_clamp_zero_one, or extension VK_KHR_depth_clamp_zero_one
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDepthClampZeroOneFeaturesKHR.html)
-    public var depthClampZeroOneFeatures_KHR: DepthClampZeroOneFeatures_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLAMP_ZERO_ONE_FEATURES_KHR,
-            type: VkPhysicalDeviceDepthClampZeroOneFeaturesKHR.self)
-        return unsafe raw != nil ? DepthClampZeroOneFeatures_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceCooperativeVectorFeaturesNV.
-    /// Available with extension VK_NV_cooperative_vector
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCooperativeVectorFeaturesNV.html)
-    public var cooperativeVectorFeatures_NV: CooperativeVectorFeatures_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_VECTOR_FEATURES_NV,
-            type: VkPhysicalDeviceCooperativeVectorFeaturesNV.self)
-        return unsafe raw != nil ? CooperativeVectorFeatures_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceTileShadingFeaturesQCOM.
-    /// Available with extension VK_QCOM_tile_shading
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceTileShadingFeaturesQCOM.html)
-    public var tileShadingFeatures_QCOM: TileShadingFeatures_QCOM? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TILE_SHADING_FEATURES_QCOM, type: VkPhysicalDeviceTileShadingFeaturesQCOM.self)
-        return unsafe raw != nil ? TileShadingFeatures_QCOM(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceFragmentDensityMapLayeredFeaturesVALVE.
-    /// Available with extension VK_VALVE_fragment_density_map_layered
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFragmentDensityMapLayeredFeaturesVALVE.html)
-    public var fragmentDensityMapLayeredFeatures_VALVE: FragmentDensityMapLayeredFeatures_VALVE? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_LAYERED_FEATURES_VALVE,
-            type: VkPhysicalDeviceFragmentDensityMapLayeredFeaturesVALVE.self)
-        return unsafe raw != nil ? FragmentDensityMapLayeredFeatures_VALVE(rawValue: raw!) : nil
-    }
-
-    #if EnableProvisional
-        /// Wrapper for the Vulkan VkPhysicalDevicePresentMeteringFeaturesNV.
-        /// Available with extension VK_NV_present_metering
-        /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePresentMeteringFeaturesNV.html)
-        public var presentMeteringFeatures_NV: PresentMeteringFeatures_NV? {
-            let raw = unsafe nextChain.get(
-                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_METERING_FEATURES_NV,
-                type: VkPhysicalDevicePresentMeteringFeaturesNV.self)
-            return unsafe raw != nil ? PresentMeteringFeatures_NV(rawValue: raw!) : nil
-        }
-    #else
-        @available(*, unavailable, message: "This set of properties requires the 'EnableProvisional' trait to be enabled")
-        public var presentMeteringFeatures_NV: Any { fatalError() }
-    #endif
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceFormatPackFeaturesARM.
-    /// Available with extension VK_ARM_format_pack
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFormatPackFeaturesARM.html)
-    public var formatPackFeatures_ARM: FormatPackFeatures_ARM? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FORMAT_PACK_FEATURES_ARM, type: VkPhysicalDeviceFormatPackFeaturesARM.self)
-        return unsafe raw != nil ? FormatPackFeatures_ARM(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceTensorFeaturesARM.
-    /// Available with extension VK_ARM_tensors
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceTensorFeaturesARM.html)
-    public var tensorFeatures_ARM: TensorFeatures_ARM? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TENSOR_FEATURES_ARM, type: VkPhysicalDeviceTensorFeaturesARM.self)
-        return unsafe raw != nil ? TensorFeatures_ARM(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceDescriptorBufferTensorFeaturesARM.
-    /// Available with extension VK_ARM_tensors
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDescriptorBufferTensorFeaturesARM.html)
-    public var descriptorBufferTensorFeatures_ARM: DescriptorBufferTensorFeatures_ARM? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_BUFFER_TENSOR_FEATURES_ARM,
-            type: VkPhysicalDeviceDescriptorBufferTensorFeaturesARM.self)
-        return unsafe raw != nil ? DescriptorBufferTensorFeatures_ARM(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkPhysicalDeviceShaderFloat8FeaturesEXT.
-    /// Available with extension VK_EXT_shader_float8
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderFloat8FeaturesEXT.html)
-    public var shaderFloat8Features_EXT: ShaderFloat8Features_EXT? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT8_FEATURES_EXT, type: VkPhysicalDeviceShaderFloat8FeaturesEXT.self)
-        return unsafe raw != nil ? ShaderFloat8Features_EXT(rawValue: raw!) : nil
-    }
-
-
-    /// Wrapper around the Vulkan VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV.
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV.html)
     @safe
-    public struct DeviceGeneratedCommandsFeatures_NV {
+    public struct DeviceGeneratedCommandsFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV
@@ -2290,9 +55,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceDeviceGeneratedCommandsComputeFeaturesNV.
+    /// Available with extension VK_NV_device_generated_commands_compute
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDeviceGeneratedCommandsComputeFeaturesNV.html)
     @safe
-    public struct DeviceGeneratedCommandsComputeFeatures_NV {
+    public struct DeviceGeneratedCommandsComputeFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_COMPUTE_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceDeviceGeneratedCommandsComputeFeaturesNV
@@ -2321,9 +90,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevicePrivateDataFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_EXT_private_data
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePrivateDataFeatures.html)
     @safe
-    public struct PrivateDataFeatures {
+    public struct PrivateDataFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIVATE_DATA_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePrivateDataFeatures
@@ -2342,9 +114,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceClusterAccelerationStructureFeaturesNV.
+    /// Available with extension VK_NV_cluster_acceleration_structure
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceClusterAccelerationStructureFeaturesNV.html)
     @safe
-    public struct ClusterAccelerationStructureFeatures_NV {
+    public struct ClusterAccelerationStructureFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CLUSTER_ACCELERATION_STRUCTURE_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceClusterAccelerationStructureFeaturesNV
@@ -2363,9 +139,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceVariablePointersFeatures.
+    /// Available with version VulkanGenerate.Version, extension VK_KHR_variable_pointers, or extension VK_KHR_variable_pointers
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVariablePointersFeatures.html)
     @safe
-    public struct VariablePointersFeatures {
+    public struct VariablePointersFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VARIABLE_POINTERS_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceVariablePointersFeatures
@@ -2389,9 +168,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceMultiviewFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_multiview
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMultiviewFeatures.html)
     @safe
-    public struct MultiviewFeatures {
+    public struct MultiviewFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceMultiviewFeatures
@@ -2420,9 +202,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevicePresentIdFeaturesKHR.
+    /// Available with extension VK_KHR_present_id
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePresentIdFeaturesKHR.html)
     @safe
-    public struct PresentIdFeatures_KHR {
+    public struct PresentIdFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_ID_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePresentIdFeaturesKHR
@@ -2441,9 +226,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevicePresentId2FeaturesKHR.
+    /// Available with extension VK_KHR_present_id2
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePresentId2FeaturesKHR.html)
     @safe
-    public struct PresentId2Features_KHR {
+    public struct PresentId2Features_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_ID_2_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePresentId2FeaturesKHR
@@ -2462,9 +250,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevicePresentWaitFeaturesKHR.
+    /// Available with extension VK_KHR_present_wait
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePresentWaitFeaturesKHR.html)
     @safe
-    public struct PresentWaitFeatures_KHR {
+    public struct PresentWaitFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_WAIT_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePresentWaitFeaturesKHR
@@ -2483,9 +274,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevicePresentWait2FeaturesKHR.
+    /// Available with extension VK_KHR_present_wait2
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePresentWait2FeaturesKHR.html)
     @safe
-    public struct PresentWait2Features_KHR {
+    public struct PresentWait2Features_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_WAIT_2_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePresentWait2FeaturesKHR
@@ -2504,9 +298,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevice16BitStorageFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_16bit_storage
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice16BitStorageFeatures.html)
     @safe
-    public struct `16BitStorageFeatures` {
+    public struct `16BitStorageFeatures`: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_16BIT_STORAGE_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevice16BitStorageFeatures
@@ -2540,9 +337,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_shader_subgroup_extended_types
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures.html)
     @safe
-    public struct ShaderSubgroupExtendedTypesFeatures {
+    public struct ShaderSubgroupExtendedTypesFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_EXTENDED_TYPES_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures
@@ -2561,9 +361,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceSamplerYcbcrConversionFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_sampler_ycbcr_conversion
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceSamplerYcbcrConversionFeatures.html)
     @safe
-    public struct SamplerYcbcrConversionFeatures {
+    public struct SamplerYcbcrConversionFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLER_YCBCR_CONVERSION_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceSamplerYcbcrConversionFeatures
@@ -2582,9 +385,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceProtectedMemoryFeatures.
+    /// Available with version VulkanGenerate.Version
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceProtectedMemoryFeatures.html)
     @safe
-    public struct ProtectedMemoryFeatures {
+    public struct ProtectedMemoryFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROTECTED_MEMORY_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceProtectedMemoryFeatures
@@ -2603,9 +409,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT.
+    /// Available with extension VK_EXT_blend_operation_advanced
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT.html)
     @safe
-    public struct BlendOperationAdvancedFeatures_EXT {
+    public struct BlendOperationAdvancedFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BLEND_OPERATION_ADVANCED_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT
@@ -2624,9 +433,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceMultiDrawFeaturesEXT.
+    /// Available with extension VK_EXT_multi_draw
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMultiDrawFeaturesEXT.html)
     @safe
-    public struct MultiDrawFeatures_EXT {
+    public struct MultiDrawFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTI_DRAW_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceMultiDrawFeaturesEXT
@@ -2645,9 +457,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceInlineUniformBlockFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_EXT_inline_uniform_block
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceInlineUniformBlockFeatures.html)
     @safe
-    public struct InlineUniformBlockFeatures {
+    public struct InlineUniformBlockFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INLINE_UNIFORM_BLOCK_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceInlineUniformBlockFeatures
@@ -2671,9 +486,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceMaintenance4Features.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_maintenance4
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMaintenance4Features.html)
     @safe
-    public struct Maintenance4Features {
+    public struct Maintenance4Features: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceMaintenance4Features
@@ -2692,9 +510,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceMaintenance5Features.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_maintenance5
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMaintenance5Features.html)
     @safe
-    public struct Maintenance5Features {
+    public struct Maintenance5Features: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceMaintenance5Features
@@ -2713,9 +534,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceMaintenance6Features.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_maintenance6
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMaintenance6Features.html)
     @safe
-    public struct Maintenance6Features {
+    public struct Maintenance6Features: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceMaintenance6Features
@@ -2734,9 +558,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceMaintenance7FeaturesKHR.
+    /// Available with extension VK_KHR_maintenance7
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMaintenance7FeaturesKHR.html)
     @safe
-    public struct Maintenance7Features_KHR {
+    public struct Maintenance7Features_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_7_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceMaintenance7FeaturesKHR
@@ -2755,9 +582,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceMaintenance8FeaturesKHR.
+    /// Available with extension VK_KHR_maintenance8
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMaintenance8FeaturesKHR.html)
     @safe
-    public struct Maintenance8Features_KHR {
+    public struct Maintenance8Features_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_8_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceMaintenance8FeaturesKHR
@@ -2776,9 +606,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceMaintenance9FeaturesKHR.
+    /// Available with extension VK_KHR_maintenance9
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMaintenance9FeaturesKHR.html)
     @safe
-    public struct Maintenance9Features_KHR {
+    public struct Maintenance9Features_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_9_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceMaintenance9FeaturesKHR
@@ -2797,9 +630,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderDrawParametersFeatures.
+    /// Available with version VulkanGenerate.Version
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderDrawParametersFeatures.html)
     @safe
-    public struct ShaderDrawParametersFeatures {
+    public struct ShaderDrawParametersFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DRAW_PARAMETERS_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderDrawParametersFeatures
@@ -2818,9 +654,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderFloat16Int8Features.
+    /// Available with version VulkanGenerate.Version, extension VK_KHR_shader_float16_int8, or extension VK_KHR_shader_float16_int8
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderFloat16Int8Features.html)
     @safe
-    public struct ShaderFloat16Int8Features {
+    public struct ShaderFloat16Int8Features: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT16_INT8_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderFloat16Int8Features
@@ -2844,9 +683,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceHostQueryResetFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_EXT_host_query_reset
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceHostQueryResetFeatures.html)
     @safe
-    public struct HostQueryResetFeatures {
+    public struct HostQueryResetFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_QUERY_RESET_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceHostQueryResetFeatures
@@ -2865,9 +707,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceGlobalPriorityQueryFeatures.
+    /// Available with version VulkanGenerate.Version, extension VK_KHR_global_priority, or extension VK_EXT_global_priority_query
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceGlobalPriorityQueryFeatures.html)
     @safe
-    public struct GlobalPriorityQueryFeatures {
+    public struct GlobalPriorityQueryFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceGlobalPriorityQueryFeatures
@@ -2886,9 +731,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceDeviceMemoryReportFeaturesEXT.
+    /// Available with extension VK_EXT_device_memory_report
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDeviceMemoryReportFeaturesEXT.html)
     @safe
-    public struct DeviceMemoryReportFeatures_EXT {
+    public struct DeviceMemoryReportFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_MEMORY_REPORT_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceDeviceMemoryReportFeaturesEXT
@@ -2907,9 +755,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceDescriptorIndexingFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_EXT_descriptor_indexing
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDescriptorIndexingFeatures.html)
     @safe
-    public struct DescriptorIndexingFeatures {
+    public struct DescriptorIndexingFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceDescriptorIndexingFeatures
@@ -3023,9 +874,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceTimelineSemaphoreFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_timeline_semaphore
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceTimelineSemaphoreFeatures.html)
     @safe
-    public struct TimelineSemaphoreFeatures {
+    public struct TimelineSemaphoreFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceTimelineSemaphoreFeatures
@@ -3044,9 +898,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevice8BitStorageFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_8bit_storage
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice8BitStorageFeatures.html)
     @safe
-    public struct `8BitStorageFeatures` {
+    public struct `8BitStorageFeatures`: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_8BIT_STORAGE_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevice8BitStorageFeatures
@@ -3075,9 +932,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceConditionalRenderingFeaturesEXT.
+    /// Available with extension VK_EXT_conditional_rendering
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceConditionalRenderingFeaturesEXT.html)
     @safe
-    public struct ConditionalRenderingFeatures_EXT {
+    public struct ConditionalRenderingFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CONDITIONAL_RENDERING_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceConditionalRenderingFeaturesEXT
@@ -3101,9 +961,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceVulkanMemoryModelFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_vulkan_memory_model
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVulkanMemoryModelFeatures.html)
     @safe
-    public struct VulkanMemoryModelFeatures {
+    public struct VulkanMemoryModelFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_MEMORY_MODEL_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceVulkanMemoryModelFeatures
@@ -3132,9 +995,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderAtomicInt64Features.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_shader_atomic_int64
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderAtomicInt64Features.html)
     @safe
-    public struct ShaderAtomicInt64Features {
+    public struct ShaderAtomicInt64Features: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_INT64_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderAtomicInt64Features
@@ -3158,9 +1024,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderAtomicFloatFeaturesEXT.
+    /// Available with extension VK_EXT_shader_atomic_float
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderAtomicFloatFeaturesEXT.html)
     @safe
-    public struct ShaderAtomicFloatFeatures_EXT {
+    public struct ShaderAtomicFloatFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_FLOAT_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderAtomicFloatFeaturesEXT
@@ -3234,9 +1103,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderAtomicFloat2FeaturesEXT.
+    /// Available with extension VK_EXT_shader_atomic_float2
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderAtomicFloat2FeaturesEXT.html)
     @safe
-    public struct ShaderAtomicFloat2Features_EXT {
+    public struct ShaderAtomicFloat2Features_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_FLOAT_2_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderAtomicFloat2FeaturesEXT
@@ -3310,9 +1182,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceVertexAttributeDivisorFeatures.
+    /// Available with version VulkanGenerate.Version, extension VK_EXT_vertex_attribute_divisor, or extension VK_KHR_vertex_attribute_divisor
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVertexAttributeDivisorFeatures.html)
     @safe
-    public struct VertexAttributeDivisorFeatures {
+    public struct VertexAttributeDivisorFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceVertexAttributeDivisorFeatures
@@ -3336,9 +1211,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceASTCDecodeFeaturesEXT.
+    /// Available with extension VK_EXT_astc_decode_mode
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceASTCDecodeFeaturesEXT.html)
     @safe
-    public struct ASTCDecodeFeatures_EXT {
+    public struct ASTCDecodeFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ASTC_DECODE_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceASTCDecodeFeaturesEXT
@@ -3357,9 +1235,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceTransformFeedbackFeaturesEXT.
+    /// Available with extension VK_EXT_transform_feedback
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceTransformFeedbackFeaturesEXT.html)
     @safe
-    public struct TransformFeedbackFeatures_EXT {
+    public struct TransformFeedbackFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TRANSFORM_FEEDBACK_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceTransformFeedbackFeaturesEXT
@@ -3383,9 +1264,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV.
+    /// Available with extension VK_NV_representative_fragment_test
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV.html)
     @safe
-    public struct RepresentativeFragmentTestFeatures_NV {
+    public struct RepresentativeFragmentTestFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_REPRESENTATIVE_FRAGMENT_TEST_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV
@@ -3404,9 +1288,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceExclusiveScissorFeaturesNV.
+    /// Available with extension VK_NV_scissor_exclusive
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExclusiveScissorFeaturesNV.html)
     @safe
-    public struct ExclusiveScissorFeatures_NV {
+    public struct ExclusiveScissorFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXCLUSIVE_SCISSOR_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceExclusiveScissorFeaturesNV
@@ -3425,9 +1312,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceCornerSampledImageFeaturesNV.
+    /// Available with extension VK_NV_corner_sampled_image
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCornerSampledImageFeaturesNV.html)
     @safe
-    public struct CornerSampledImageFeatures_NV {
+    public struct CornerSampledImageFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CORNER_SAMPLED_IMAGE_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceCornerSampledImageFeaturesNV
@@ -3446,9 +1336,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR.
+    /// Available with extension VK_NV_compute_shader_derivatives, or extension VK_KHR_compute_shader_derivatives
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR.html)
     @safe
-    public struct ComputeShaderDerivativesFeatures_KHR {
+    public struct ComputeShaderDerivativesFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR
@@ -3472,9 +1365,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderImageFootprintFeaturesNV.
+    /// Available with extension VK_NV_shader_image_footprint
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderImageFootprintFeaturesNV.html)
     @safe
-    public struct ShaderImageFootprintFeatures_NV {
+    public struct ShaderImageFootprintFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_IMAGE_FOOTPRINT_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderImageFootprintFeaturesNV
@@ -3493,9 +1389,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV.
+    /// Available with extension VK_NV_dedicated_allocation_image_aliasing
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV.html)
     @safe
-    public struct DedicatedAllocationImageAliasingFeatures_NV {
+    public struct DedicatedAllocationImageAliasingFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEDICATED_ALLOCATION_IMAGE_ALIASING_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV
@@ -3514,9 +1414,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceCopyMemoryIndirectFeaturesNV.
+    /// Available with extension VK_NV_copy_memory_indirect
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCopyMemoryIndirectFeaturesNV.html)
     @safe
-    public struct CopyMemoryIndirectFeatures_NV {
+    public struct CopyMemoryIndirectFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COPY_MEMORY_INDIRECT_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceCopyMemoryIndirectFeaturesNV
@@ -3535,9 +1438,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceMemoryDecompressionFeaturesNV.
+    /// Available with extension VK_NV_memory_decompression
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMemoryDecompressionFeaturesNV.html)
     @safe
-    public struct MemoryDecompressionFeatures_NV {
+    public struct MemoryDecompressionFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_DECOMPRESSION_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceMemoryDecompressionFeaturesNV
@@ -3556,9 +1462,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShadingRateImageFeaturesNV.
+    /// Available with extension VK_NV_shading_rate_image
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShadingRateImageFeaturesNV.html)
     @safe
-    public struct ShadingRateImageFeatures_NV {
+    public struct ShadingRateImageFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADING_RATE_IMAGE_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShadingRateImageFeaturesNV
@@ -3582,9 +1491,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceInvocationMaskFeaturesHUAWEI.
+    /// Available with extension VK_HUAWEI_invocation_mask
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceInvocationMaskFeaturesHUAWEI.html)
     @safe
-    public struct InvocationMaskFeatures_HUAWEI {
+    public struct InvocationMaskFeatures_HUAWEI: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INVOCATION_MASK_FEATURES_HUAWEI
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceInvocationMaskFeaturesHUAWEI
@@ -3603,9 +1515,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceMeshShaderFeaturesNV.
+    /// Available with extension VK_NV_mesh_shader
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMeshShaderFeaturesNV.html)
     @safe
-    public struct MeshShaderFeatures_NV {
+    public struct MeshShaderFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceMeshShaderFeaturesNV
@@ -3629,9 +1544,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceMeshShaderFeaturesEXT.
+    /// Available with extension VK_EXT_mesh_shader
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMeshShaderFeaturesEXT.html)
     @safe
-    public struct MeshShaderFeatures_EXT {
+    public struct MeshShaderFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceMeshShaderFeaturesEXT
@@ -3670,9 +1588,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceAccelerationStructureFeaturesKHR.
+    /// Available with extension VK_KHR_acceleration_structure
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceAccelerationStructureFeaturesKHR.html)
     @safe
-    public struct AccelerationStructureFeatures_KHR {
+    public struct AccelerationStructureFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ACCELERATION_STRUCTURE_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceAccelerationStructureFeaturesKHR
@@ -3711,9 +1632,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceRayTracingPipelineFeaturesKHR.
+    /// Available with extension VK_KHR_ray_tracing_pipeline
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRayTracingPipelineFeaturesKHR.html)
     @safe
-    public struct RayTracingPipelineFeatures_KHR {
+    public struct RayTracingPipelineFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PIPELINE_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceRayTracingPipelineFeaturesKHR
@@ -3752,9 +1676,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceRayQueryFeaturesKHR.
+    /// Available with extension VK_KHR_ray_query
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRayQueryFeaturesKHR.html)
     @safe
-    public struct RayQueryFeatures_KHR {
+    public struct RayQueryFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_QUERY_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceRayQueryFeaturesKHR
@@ -3773,9 +1700,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceRayTracingMaintenance1FeaturesKHR.
+    /// Available with extension VK_KHR_ray_tracing_maintenance1
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRayTracingMaintenance1FeaturesKHR.html)
     @safe
-    public struct RayTracingMaintenance1Features_KHR {
+    public struct RayTracingMaintenance1Features_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_MAINTENANCE_1_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceRayTracingMaintenance1FeaturesKHR
@@ -3799,9 +1729,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceFragmentDensityMapFeaturesEXT.
+    /// Available with extension VK_EXT_fragment_density_map
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFragmentDensityMapFeaturesEXT.html)
     @safe
-    public struct FragmentDensityMapFeatures_EXT {
+    public struct FragmentDensityMapFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceFragmentDensityMapFeaturesEXT
@@ -3830,9 +1763,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceFragmentDensityMap2FeaturesEXT.
+    /// Available with extension VK_EXT_fragment_density_map2
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFragmentDensityMap2FeaturesEXT.html)
     @safe
-    public struct FragmentDensityMap2Features_EXT {
+    public struct FragmentDensityMap2Features_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_2_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceFragmentDensityMap2FeaturesEXT
@@ -3851,9 +1787,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceFragmentDensityMapOffsetFeaturesEXT.
+    /// Available with extension VK_QCOM_fragment_density_map_offset, or extension VK_EXT_fragment_density_map_offset
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFragmentDensityMapOffsetFeaturesEXT.html)
     @safe
-    public struct FragmentDensityMapOffsetFeatures_EXT {
+    public struct FragmentDensityMapOffsetFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_OFFSET_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceFragmentDensityMapOffsetFeaturesEXT
@@ -3872,9 +1811,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceScalarBlockLayoutFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_EXT_scalar_block_layout
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceScalarBlockLayoutFeatures.html)
     @safe
-    public struct ScalarBlockLayoutFeatures {
+    public struct ScalarBlockLayoutFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SCALAR_BLOCK_LAYOUT_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceScalarBlockLayoutFeatures
@@ -3893,9 +1835,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceUniformBufferStandardLayoutFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_uniform_buffer_standard_layout
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceUniformBufferStandardLayoutFeatures.html)
     @safe
-    public struct UniformBufferStandardLayoutFeatures {
+    public struct UniformBufferStandardLayoutFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_UNIFORM_BUFFER_STANDARD_LAYOUT_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceUniformBufferStandardLayoutFeatures
@@ -3914,9 +1859,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceDepthClipEnableFeaturesEXT.
+    /// Available with extension VK_EXT_depth_clip_enable
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDepthClipEnableFeaturesEXT.html)
     @safe
-    public struct DepthClipEnableFeatures_EXT {
+    public struct DepthClipEnableFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLIP_ENABLE_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceDepthClipEnableFeaturesEXT
@@ -3935,9 +1883,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceMemoryPriorityFeaturesEXT.
+    /// Available with extension VK_EXT_memory_priority
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMemoryPriorityFeaturesEXT.html)
     @safe
-    public struct MemoryPriorityFeatures_EXT {
+    public struct MemoryPriorityFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_PRIORITY_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceMemoryPriorityFeaturesEXT
@@ -3956,9 +1907,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevicePageableDeviceLocalMemoryFeaturesEXT.
+    /// Available with extension VK_EXT_pageable_device_local_memory
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePageableDeviceLocalMemoryFeaturesEXT.html)
     @safe
-    public struct PageableDeviceLocalMemoryFeatures_EXT {
+    public struct PageableDeviceLocalMemoryFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PAGEABLE_DEVICE_LOCAL_MEMORY_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePageableDeviceLocalMemoryFeaturesEXT
@@ -3977,9 +1932,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceBufferDeviceAddressFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_buffer_device_address
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceBufferDeviceAddressFeatures.html)
     @safe
-    public struct BufferDeviceAddressFeatures {
+    public struct BufferDeviceAddressFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceBufferDeviceAddressFeatures
@@ -4008,9 +1966,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceBufferDeviceAddressFeaturesEXT.
+    /// Available with extension VK_EXT_buffer_device_address, or extension VK_EXT_buffer_device_address
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceBufferDeviceAddressFeaturesEXT.html)
     @safe
-    public struct BufferDeviceAddressFeatures_EXT {
+    public struct BufferDeviceAddressFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceBufferDeviceAddressFeaturesEXT
@@ -4039,9 +2000,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceImagelessFramebufferFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_imageless_framebuffer
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImagelessFramebufferFeatures.html)
     @safe
-    public struct ImagelessFramebufferFeatures {
+    public struct ImagelessFramebufferFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGELESS_FRAMEBUFFER_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceImagelessFramebufferFeatures
@@ -4060,9 +2024,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceTextureCompressionASTCHDRFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_EXT_texture_compression_astc_hdr
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceTextureCompressionASTCHDRFeatures.html)
     @safe
-    public struct TextureCompressionASTCHDRFeatures {
+    public struct TextureCompressionASTCHDRFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXTURE_COMPRESSION_ASTC_HDR_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceTextureCompressionASTCHDRFeatures
@@ -4081,9 +2048,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceCooperativeMatrixFeaturesNV.
+    /// Available with extension VK_NV_cooperative_matrix
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCooperativeMatrixFeaturesNV.html)
     @safe
-    public struct CooperativeMatrixFeatures_NV {
+    public struct CooperativeMatrixFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceCooperativeMatrixFeaturesNV
@@ -4107,9 +2077,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.
+    /// Available with extension VK_EXT_ycbcr_image_arrays
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.html)
     @safe
-    public struct YcbcrImageArraysFeatures_EXT {
+    public struct YcbcrImageArraysFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_YCBCR_IMAGE_ARRAYS_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceYcbcrImageArraysFeaturesEXT
@@ -4128,9 +2101,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevicePresentBarrierFeaturesNV.
+    /// Available with extension VK_NV_present_barrier
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePresentBarrierFeaturesNV.html)
     @safe
-    public struct PresentBarrierFeatures_NV {
+    public struct PresentBarrierFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_BARRIER_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePresentBarrierFeaturesNV
@@ -4149,9 +2125,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevicePerformanceQueryFeaturesKHR.
+    /// Available with extension VK_KHR_performance_query
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePerformanceQueryFeaturesKHR.html)
     @safe
-    public struct PerformanceQueryFeatures_KHR {
+    public struct PerformanceQueryFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PERFORMANCE_QUERY_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePerformanceQueryFeaturesKHR
@@ -4175,9 +2154,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceCoverageReductionModeFeaturesNV.
+    /// Available with extension VK_NV_coverage_reduction_mode
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCoverageReductionModeFeaturesNV.html)
     @safe
-    public struct CoverageReductionModeFeatures_NV {
+    public struct CoverageReductionModeFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COVERAGE_REDUCTION_MODE_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceCoverageReductionModeFeaturesNV
@@ -4196,9 +2178,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL.
+    /// Available with extension VK_INTEL_shader_integer_functions2
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL.html)
     @safe
-    public struct ShaderIntegerFunctions2Features_INTEL {
+    public struct ShaderIntegerFunctions2Features_INTEL: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_INTEGER_FUNCTIONS_2_FEATURES_INTEL
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL
@@ -4217,9 +2203,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderClockFeaturesKHR.
+    /// Available with extension VK_KHR_shader_clock
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderClockFeaturesKHR.html)
     @safe
-    public struct ShaderClockFeatures_KHR {
+    public struct ShaderClockFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_CLOCK_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderClockFeaturesKHR
@@ -4243,9 +2232,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceIndexTypeUint8Features.
+    /// Available with version VulkanGenerate.Version, extension VK_EXT_index_type_uint8, or extension VK_KHR_index_type_uint8
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceIndexTypeUint8Features.html)
     @safe
-    public struct IndexTypeUint8Features {
+    public struct IndexTypeUint8Features: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceIndexTypeUint8Features
@@ -4264,9 +2256,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderSMBuiltinsFeaturesNV.
+    /// Available with extension VK_NV_shader_sm_builtins
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderSMBuiltinsFeaturesNV.html)
     @safe
-    public struct ShaderSMBuiltinsFeatures_NV {
+    public struct ShaderSMBuiltinsFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SM_BUILTINS_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderSMBuiltinsFeaturesNV
@@ -4285,9 +2280,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.
+    /// Available with extension VK_EXT_fragment_shader_interlock
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.html)
     @safe
-    public struct FragmentShaderInterlockFeatures_EXT {
+    public struct FragmentShaderInterlockFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADER_INTERLOCK_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT
@@ -4316,9 +2314,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_separate_depth_stencil_layouts
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures.html)
     @safe
-    public struct SeparateDepthStencilLayoutsFeatures {
+    public struct SeparateDepthStencilLayoutsFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SEPARATE_DEPTH_STENCIL_LAYOUTS_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures
@@ -4337,9 +2338,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevicePrimitiveTopologyListRestartFeaturesEXT.
+    /// Available with extension VK_EXT_primitive_topology_list_restart
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePrimitiveTopologyListRestartFeaturesEXT.html)
     @safe
-    public struct PrimitiveTopologyListRestartFeatures_EXT {
+    public struct PrimitiveTopologyListRestartFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIMITIVE_TOPOLOGY_LIST_RESTART_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePrimitiveTopologyListRestartFeaturesEXT
@@ -4363,9 +2368,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR.
+    /// Available with extension VK_KHR_pipeline_executable_properties
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR.html)
     @safe
-    public struct PipelineExecutablePropertiesFeatures_KHR {
+    public struct PipelineExecutablePropertiesFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_EXECUTABLE_PROPERTIES_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR
@@ -4384,9 +2393,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderDemoteToHelperInvocationFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_EXT_shader_demote_to_helper_invocation
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderDemoteToHelperInvocationFeatures.html)
     @safe
-    public struct ShaderDemoteToHelperInvocationFeatures {
+    public struct ShaderDemoteToHelperInvocationFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DEMOTE_TO_HELPER_INVOCATION_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderDemoteToHelperInvocationFeatures
@@ -4405,9 +2418,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT.
+    /// Available with extension VK_EXT_texel_buffer_alignment
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT.html)
     @safe
-    public struct TexelBufferAlignmentFeatures_EXT {
+    public struct TexelBufferAlignmentFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXEL_BUFFER_ALIGNMENT_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT
@@ -4426,9 +2442,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceSubgroupSizeControlFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_EXT_subgroup_size_control
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceSubgroupSizeControlFeatures.html)
     @safe
-    public struct SubgroupSizeControlFeatures {
+    public struct SubgroupSizeControlFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_SIZE_CONTROL_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceSubgroupSizeControlFeatures
@@ -4452,9 +2471,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceLineRasterizationFeatures.
+    /// Available with version VulkanGenerate.Version, extension VK_EXT_line_rasterization, or extension VK_KHR_line_rasterization
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceLineRasterizationFeatures.html)
     @safe
-    public struct LineRasterizationFeatures {
+    public struct LineRasterizationFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceLineRasterizationFeatures
@@ -4498,9 +2520,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevicePipelineCreationCacheControlFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_EXT_pipeline_creation_cache_control
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePipelineCreationCacheControlFeatures.html)
     @safe
-    public struct PipelineCreationCacheControlFeatures {
+    public struct PipelineCreationCacheControlFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_CREATION_CACHE_CONTROL_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePipelineCreationCacheControlFeatures
@@ -4519,9 +2544,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceVulkan11Features.
+    /// Available with version VulkanGenerate.Version
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVulkan11Features.html)
     @safe
-    public struct Vulkan11Features {
+    public struct Vulkan11Features: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceVulkan11Features
@@ -4595,9 +2623,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceVulkan12Features.
+    /// Available with version VulkanGenerate.Version
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVulkan12Features.html)
     @safe
-    public struct Vulkan12Features {
+    public struct Vulkan12Features: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceVulkan12Features
@@ -4846,9 +2877,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceVulkan13Features.
+    /// Available with version VulkanGenerate.Version
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVulkan13Features.html)
     @safe
-    public struct Vulkan13Features {
+    public struct Vulkan13Features: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceVulkan13Features
@@ -4937,9 +2971,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceVulkan14Features.
+    /// Available with version VulkanGenerate.Version
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVulkan14Features.html)
     @safe
-    public struct Vulkan14Features {
+    public struct Vulkan14Features: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceVulkan14Features
@@ -5058,9 +3095,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceCoherentMemoryFeaturesAMD.
+    /// Available with extension VK_AMD_device_coherent_memory
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCoherentMemoryFeaturesAMD.html)
     @safe
-    public struct CoherentMemoryFeatures_AMD {
+    public struct CoherentMemoryFeatures_AMD: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COHERENT_MEMORY_FEATURES_AMD
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceCoherentMemoryFeaturesAMD
@@ -5079,9 +3119,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceCustomBorderColorFeaturesEXT.
+    /// Available with extension VK_EXT_custom_border_color
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCustomBorderColorFeaturesEXT.html)
     @safe
-    public struct CustomBorderColorFeatures_EXT {
+    public struct CustomBorderColorFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CUSTOM_BORDER_COLOR_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceCustomBorderColorFeaturesEXT
@@ -5105,9 +3148,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceBorderColorSwizzleFeaturesEXT.
+    /// Available with extension VK_EXT_border_color_swizzle
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceBorderColorSwizzleFeaturesEXT.html)
     @safe
-    public struct BorderColorSwizzleFeatures_EXT {
+    public struct BorderColorSwizzleFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BORDER_COLOR_SWIZZLE_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceBorderColorSwizzleFeaturesEXT
@@ -5131,9 +3177,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceExtendedDynamicStateFeaturesEXT.
+    /// Available with extension VK_EXT_extended_dynamic_state
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExtendedDynamicStateFeaturesEXT.html)
     @safe
-    public struct ExtendedDynamicStateFeatures_EXT {
+    public struct ExtendedDynamicStateFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTENDED_DYNAMIC_STATE_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceExtendedDynamicStateFeaturesEXT
@@ -5152,9 +3201,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceExtendedDynamicState2FeaturesEXT.
+    /// Available with extension VK_EXT_extended_dynamic_state2
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExtendedDynamicState2FeaturesEXT.html)
     @safe
-    public struct ExtendedDynamicState2Features_EXT {
+    public struct ExtendedDynamicState2Features_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTENDED_DYNAMIC_STATE_2_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceExtendedDynamicState2FeaturesEXT
@@ -5183,9 +3235,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceExtendedDynamicState3FeaturesEXT.
+    /// Available with extension VK_EXT_extended_dynamic_state3
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExtendedDynamicState3FeaturesEXT.html)
     @safe
-    public struct ExtendedDynamicState3Features_EXT {
+    public struct ExtendedDynamicState3Features_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTENDED_DYNAMIC_STATE_3_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceExtendedDynamicState3FeaturesEXT
@@ -5354,9 +3409,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevicePartitionedAccelerationStructureFeaturesNV.
+    /// Available with extension VK_NV_partitioned_acceleration_structure
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePartitionedAccelerationStructureFeaturesNV.html)
     @safe
-    public struct PartitionedAccelerationStructureFeatures_NV {
+    public struct PartitionedAccelerationStructureFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PARTITIONED_ACCELERATION_STRUCTURE_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePartitionedAccelerationStructureFeaturesNV
@@ -5375,9 +3434,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceDiagnosticsConfigFeaturesNV.
+    /// Available with extension VK_NV_device_diagnostics_config
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDiagnosticsConfigFeaturesNV.html)
     @safe
-    public struct DiagnosticsConfigFeatures_NV {
+    public struct DiagnosticsConfigFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DIAGNOSTICS_CONFIG_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceDiagnosticsConfigFeaturesNV
@@ -5396,9 +3458,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceZeroInitializeWorkgroupMemoryFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_zero_initialize_workgroup_memory
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceZeroInitializeWorkgroupMemoryFeatures.html)
     @safe
-    public struct ZeroInitializeWorkgroupMemoryFeatures {
+    public struct ZeroInitializeWorkgroupMemoryFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ZERO_INITIALIZE_WORKGROUP_MEMORY_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceZeroInitializeWorkgroupMemoryFeatures
@@ -5417,9 +3483,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderSubgroupUniformControlFlowFeaturesKHR.
+    /// Available with extension VK_KHR_shader_subgroup_uniform_control_flow
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderSubgroupUniformControlFlowFeaturesKHR.html)
     @safe
-    public struct ShaderSubgroupUniformControlFlowFeatures_KHR {
+    public struct ShaderSubgroupUniformControlFlowFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_UNIFORM_CONTROL_FLOW_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderSubgroupUniformControlFlowFeaturesKHR
@@ -5438,9 +3508,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceRobustness2FeaturesKHR.
+    /// Available with extension VK_EXT_robustness2, or extension VK_KHR_robustness2
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRobustness2FeaturesKHR.html)
     @safe
-    public struct Robustness2Features_KHR {
+    public struct Robustness2Features_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceRobustness2FeaturesKHR
@@ -5469,9 +3542,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceImageRobustnessFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_EXT_image_robustness
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageRobustnessFeatures.html)
     @safe
-    public struct ImageRobustnessFeatures {
+    public struct ImageRobustnessFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_ROBUSTNESS_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceImageRobustnessFeatures
@@ -5490,9 +3566,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceWorkgroupMemoryExplicitLayoutFeaturesKHR.
+    /// Available with extension VK_KHR_workgroup_memory_explicit_layout
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceWorkgroupMemoryExplicitLayoutFeaturesKHR.html)
     @safe
-    public struct WorkgroupMemoryExplicitLayoutFeatures_KHR {
+    public struct WorkgroupMemoryExplicitLayoutFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_WORKGROUP_MEMORY_EXPLICIT_LAYOUT_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceWorkgroupMemoryExplicitLayoutFeaturesKHR
@@ -5527,9 +3607,12 @@ extension PhysicalDevice.Features {
 
     #if EnableProvisional
         /// Wrapper around the Vulkan VkPhysicalDevicePortabilitySubsetFeaturesKHR.
+        /// Available with extension VK_KHR_portability_subset
         /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePortabilitySubsetFeaturesKHR.html)
         @safe
-        public struct PortabilitySubsetFeatures_KHR {
+        public struct PortabilitySubsetFeatures_KHR: ExtendedFeatures {
+            public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PORTABILITY_SUBSET_FEATURES_KHR
+
             /// The raw Vulkan structure.
             @unsafe
             private var rawValue: VkPhysicalDevicePortabilitySubsetFeaturesKHR
@@ -5622,9 +3705,12 @@ extension PhysicalDevice.Features {
     #endif
 
     /// Wrapper around the Vulkan VkPhysicalDevice4444FormatsFeaturesEXT.
+    /// Available with extension VK_EXT_4444_formats
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice4444FormatsFeaturesEXT.html)
     @safe
-    public struct `4444FormatsFeatures_EXT` {
+    public struct `4444FormatsFeatures_EXT`: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_4444_FORMATS_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevice4444FormatsFeaturesEXT
@@ -5648,9 +3734,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceSubpassShadingFeaturesHUAWEI.
+    /// Available with extension VK_HUAWEI_subpass_shading
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceSubpassShadingFeaturesHUAWEI.html)
     @safe
-    public struct SubpassShadingFeatures_HUAWEI {
+    public struct SubpassShadingFeatures_HUAWEI: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBPASS_SHADING_FEATURES_HUAWEI
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceSubpassShadingFeaturesHUAWEI
@@ -5669,9 +3758,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceClusterCullingShaderFeaturesHUAWEI.
+    /// Available with extension VK_HUAWEI_cluster_culling_shader
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceClusterCullingShaderFeaturesHUAWEI.html)
     @safe
-    public struct ClusterCullingShaderFeatures_HUAWEI {
+    public struct ClusterCullingShaderFeatures_HUAWEI: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CLUSTER_CULLING_SHADER_FEATURES_HUAWEI
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceClusterCullingShaderFeaturesHUAWEI
@@ -5695,9 +3787,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT.
+    /// Available with extension VK_EXT_shader_image_atomic_int64
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT.html)
     @safe
-    public struct ShaderImageAtomicInt64Features_EXT {
+    public struct ShaderImageAtomicInt64Features_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_IMAGE_ATOMIC_INT64_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT
@@ -5721,9 +3816,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceFragmentShadingRateFeaturesKHR.
+    /// Available with extension VK_KHR_fragment_shading_rate
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFragmentShadingRateFeaturesKHR.html)
     @safe
-    public struct FragmentShadingRateFeatures_KHR {
+    public struct FragmentShadingRateFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADING_RATE_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceFragmentShadingRateFeaturesKHR
@@ -5752,9 +3850,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderTerminateInvocationFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_shader_terminate_invocation
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderTerminateInvocationFeatures.html)
     @safe
-    public struct ShaderTerminateInvocationFeatures {
+    public struct ShaderTerminateInvocationFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_TERMINATE_INVOCATION_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderTerminateInvocationFeatures
@@ -5773,9 +3874,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceFragmentShadingRateEnumsFeaturesNV.
+    /// Available with extension VK_NV_fragment_shading_rate_enums
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFragmentShadingRateEnumsFeaturesNV.html)
     @safe
-    public struct FragmentShadingRateEnumsFeatures_NV {
+    public struct FragmentShadingRateEnumsFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADING_RATE_ENUMS_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceFragmentShadingRateEnumsFeaturesNV
@@ -5804,9 +3908,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceImage2DViewOf3DFeaturesEXT.
+    /// Available with extension VK_EXT_image_2d_view_of_3d
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImage2DViewOf3DFeaturesEXT.html)
     @safe
-    public struct Image2DViewOf3DFeatures_EXT {
+    public struct Image2DViewOf3DFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_2D_VIEW_OF_3D_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceImage2DViewOf3DFeaturesEXT
@@ -5830,9 +3937,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceImageSlicedViewOf3DFeaturesEXT.
+    /// Available with extension VK_EXT_image_sliced_view_of_3d
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageSlicedViewOf3DFeaturesEXT.html)
     @safe
-    public struct ImageSlicedViewOf3DFeatures_EXT {
+    public struct ImageSlicedViewOf3DFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_SLICED_VIEW_OF_3D_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceImageSlicedViewOf3DFeaturesEXT
@@ -5851,9 +3961,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceAttachmentFeedbackLoopDynamicStateFeaturesEXT.
+    /// Available with extension VK_EXT_attachment_feedback_loop_dynamic_state
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceAttachmentFeedbackLoopDynamicStateFeaturesEXT.html)
     @safe
-    public struct AttachmentFeedbackLoopDynamicStateFeatures_EXT {
+    public struct AttachmentFeedbackLoopDynamicStateFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ATTACHMENT_FEEDBACK_LOOP_DYNAMIC_STATE_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceAttachmentFeedbackLoopDynamicStateFeaturesEXT
@@ -5872,9 +3986,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceLegacyVertexAttributesFeaturesEXT.
+    /// Available with extension VK_EXT_legacy_vertex_attributes
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceLegacyVertexAttributesFeaturesEXT.html)
     @safe
-    public struct LegacyVertexAttributesFeatures_EXT {
+    public struct LegacyVertexAttributesFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LEGACY_VERTEX_ATTRIBUTES_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceLegacyVertexAttributesFeaturesEXT
@@ -5893,9 +4010,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceMutableDescriptorTypeFeaturesEXT.
+    /// Available with extension VK_VALVE_mutable_descriptor_type, or extension VK_EXT_mutable_descriptor_type
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMutableDescriptorTypeFeaturesEXT.html)
     @safe
-    public struct MutableDescriptorTypeFeatures_EXT {
+    public struct MutableDescriptorTypeFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MUTABLE_DESCRIPTOR_TYPE_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceMutableDescriptorTypeFeaturesEXT
@@ -5914,9 +4034,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceDepthClipControlFeaturesEXT.
+    /// Available with extension VK_EXT_depth_clip_control
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDepthClipControlFeaturesEXT.html)
     @safe
-    public struct DepthClipControlFeatures_EXT {
+    public struct DepthClipControlFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLIP_CONTROL_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceDepthClipControlFeaturesEXT
@@ -5935,9 +4058,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceZeroInitializeDeviceMemoryFeaturesEXT.
+    /// Available with extension VK_EXT_zero_initialize_device_memory
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceZeroInitializeDeviceMemoryFeaturesEXT.html)
     @safe
-    public struct ZeroInitializeDeviceMemoryFeatures_EXT {
+    public struct ZeroInitializeDeviceMemoryFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ZERO_INITIALIZE_DEVICE_MEMORY_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceZeroInitializeDeviceMemoryFeaturesEXT
@@ -5956,9 +4083,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT.
+    /// Available with extension VK_EXT_device_generated_commands
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT.html)
     @safe
-    public struct DeviceGeneratedCommandsFeatures_EXT {
+    public struct DeviceGeneratedCommandsFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT
@@ -5982,9 +4112,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceDepthClampControlFeaturesEXT.
+    /// Available with extension VK_EXT_depth_clamp_control
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDepthClampControlFeaturesEXT.html)
     @safe
-    public struct DepthClampControlFeatures_EXT {
+    public struct DepthClampControlFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLAMP_CONTROL_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceDepthClampControlFeaturesEXT
@@ -6003,9 +4136,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT.
+    /// Available with extension VK_EXT_vertex_input_dynamic_state
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT.html)
     @safe
-    public struct VertexInputDynamicStateFeatures_EXT {
+    public struct VertexInputDynamicStateFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_INPUT_DYNAMIC_STATE_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT
@@ -6024,9 +4160,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceExternalMemoryRDMAFeaturesNV.
+    /// Available with extension VK_NV_external_memory_rdma
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExternalMemoryRDMAFeaturesNV.html)
     @safe
-    public struct ExternalMemoryRDMAFeatures_NV {
+    public struct ExternalMemoryRDMAFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_MEMORY_RDMA_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceExternalMemoryRDMAFeaturesNV
@@ -6045,9 +4184,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR.
+    /// Available with extension VK_KHR_shader_relaxed_extended_instruction
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR.html)
     @safe
-    public struct ShaderRelaxedExtendedInstructionFeatures_KHR {
+    public struct ShaderRelaxedExtendedInstructionFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_RELAXED_EXTENDED_INSTRUCTION_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR
@@ -6066,9 +4209,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceColorWriteEnableFeaturesEXT.
+    /// Available with extension VK_EXT_color_write_enable
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceColorWriteEnableFeaturesEXT.html)
     @safe
-    public struct ColorWriteEnableFeatures_EXT {
+    public struct ColorWriteEnableFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COLOR_WRITE_ENABLE_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceColorWriteEnableFeaturesEXT
@@ -6087,9 +4233,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceSynchronization2Features.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_synchronization2
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceSynchronization2Features.html)
     @safe
-    public struct Synchronization2Features {
+    public struct Synchronization2Features: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SYNCHRONIZATION_2_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceSynchronization2Features
@@ -6108,9 +4257,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceUnifiedImageLayoutsFeaturesKHR.
+    /// Available with extension VK_KHR_unified_image_layouts
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceUnifiedImageLayoutsFeaturesKHR.html)
     @safe
-    public struct UnifiedImageLayoutsFeatures_KHR {
+    public struct UnifiedImageLayoutsFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_UNIFIED_IMAGE_LAYOUTS_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceUnifiedImageLayoutsFeaturesKHR
@@ -6134,9 +4286,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceHostImageCopyFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_EXT_host_image_copy
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceHostImageCopyFeatures.html)
     @safe
-    public struct HostImageCopyFeatures {
+    public struct HostImageCopyFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceHostImageCopyFeatures
@@ -6155,9 +4310,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT.
+    /// Available with extension VK_EXT_primitives_generated_query
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT.html)
     @safe
-    public struct PrimitivesGeneratedQueryFeatures_EXT {
+    public struct PrimitivesGeneratedQueryFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIMITIVES_GENERATED_QUERY_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT
@@ -6186,9 +4344,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceLegacyDitheringFeaturesEXT.
+    /// Available with extension VK_EXT_legacy_dithering
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceLegacyDitheringFeaturesEXT.html)
     @safe
-    public struct LegacyDitheringFeatures_EXT {
+    public struct LegacyDitheringFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LEGACY_DITHERING_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceLegacyDitheringFeaturesEXT
@@ -6207,9 +4368,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT.
+    /// Available with extension VK_EXT_multisampled_render_to_single_sampled
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT.html)
     @safe
-    public struct MultisampledRenderToSingleSampledFeatures_EXT {
+    public struct MultisampledRenderToSingleSampledFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTISAMPLED_RENDER_TO_SINGLE_SAMPLED_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT
@@ -6228,9 +4393,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevicePipelineProtectedAccessFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_EXT_pipeline_protected_access
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePipelineProtectedAccessFeatures.html)
     @safe
-    public struct PipelineProtectedAccessFeatures {
+    public struct PipelineProtectedAccessFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROTECTED_ACCESS_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePipelineProtectedAccessFeatures
@@ -6249,9 +4417,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceVideoMaintenance1FeaturesKHR.
+    /// Available with extension VK_KHR_video_maintenance1
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoMaintenance1FeaturesKHR.html)
     @safe
-    public struct VideoMaintenance1Features_KHR {
+    public struct VideoMaintenance1Features_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_1_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceVideoMaintenance1FeaturesKHR
@@ -6270,9 +4441,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceVideoMaintenance2FeaturesKHR.
+    /// Available with extension VK_KHR_video_maintenance2
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoMaintenance2FeaturesKHR.html)
     @safe
-    public struct VideoMaintenance2Features_KHR {
+    public struct VideoMaintenance2Features_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_2_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceVideoMaintenance2FeaturesKHR
@@ -6291,9 +4465,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceVideoDecodeVP9FeaturesKHR.
+    /// Available with extension VK_KHR_video_decode_vp9
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoDecodeVP9FeaturesKHR.html)
     @safe
-    public struct VideoDecodeVP9Features_KHR {
+    public struct VideoDecodeVP9Features_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_DECODE_VP9_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceVideoDecodeVP9FeaturesKHR
@@ -6312,9 +4489,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR.
+    /// Available with extension VK_KHR_video_encode_quantization_map
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR.html)
     @safe
-    public struct VideoEncodeQuantizationMapFeatures_KHR {
+    public struct VideoEncodeQuantizationMapFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_QUANTIZATION_MAP_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR
@@ -6333,9 +4514,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceVideoEncodeAV1FeaturesKHR.
+    /// Available with extension VK_KHR_video_encode_av1
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoEncodeAV1FeaturesKHR.html)
     @safe
-    public struct VideoEncodeAV1Features_KHR {
+    public struct VideoEncodeAV1Features_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_AV1_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceVideoEncodeAV1FeaturesKHR
@@ -6354,9 +4538,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceInheritedViewportScissorFeaturesNV.
+    /// Available with extension VK_NV_inherited_viewport_scissor
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceInheritedViewportScissorFeaturesNV.html)
     @safe
-    public struct InheritedViewportScissorFeatures_NV {
+    public struct InheritedViewportScissorFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INHERITED_VIEWPORT_SCISSOR_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceInheritedViewportScissorFeaturesNV
@@ -6375,9 +4562,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceYcbcr2Plane444FormatsFeaturesEXT.
+    /// Available with extension VK_EXT_ycbcr_2plane_444_formats
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceYcbcr2Plane444FormatsFeaturesEXT.html)
     @safe
-    public struct Ycbcr2Plane444FormatsFeatures_EXT {
+    public struct Ycbcr2Plane444FormatsFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_YCBCR_2_PLANE_444_FORMATS_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceYcbcr2Plane444FormatsFeaturesEXT
@@ -6396,9 +4586,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceProvokingVertexFeaturesEXT.
+    /// Available with extension VK_EXT_provoking_vertex
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceProvokingVertexFeaturesEXT.html)
     @safe
-    public struct ProvokingVertexFeatures_EXT {
+    public struct ProvokingVertexFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROVOKING_VERTEX_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceProvokingVertexFeaturesEXT
@@ -6422,9 +4615,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceDescriptorBufferFeaturesEXT.
+    /// Available with extension VK_EXT_descriptor_buffer
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDescriptorBufferFeaturesEXT.html)
     @safe
-    public struct DescriptorBufferFeatures_EXT {
+    public struct DescriptorBufferFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_BUFFER_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceDescriptorBufferFeaturesEXT
@@ -6458,9 +4654,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderIntegerDotProductFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_shader_integer_dot_product
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderIntegerDotProductFeatures.html)
     @safe
-    public struct ShaderIntegerDotProductFeatures {
+    public struct ShaderIntegerDotProductFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_INTEGER_DOT_PRODUCT_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderIntegerDotProductFeatures
@@ -6479,9 +4678,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceFragmentShaderBarycentricFeaturesKHR.
+    /// Available with extension VK_NV_fragment_shader_barycentric, or extension VK_KHR_fragment_shader_barycentric
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFragmentShaderBarycentricFeaturesKHR.html)
     @safe
-    public struct FragmentShaderBarycentricFeatures_KHR {
+    public struct FragmentShaderBarycentricFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADER_BARYCENTRIC_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceFragmentShaderBarycentricFeaturesKHR
@@ -6500,9 +4702,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceRayTracingMotionBlurFeaturesNV.
+    /// Available with extension VK_NV_ray_tracing_motion_blur
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRayTracingMotionBlurFeaturesNV.html)
     @safe
-    public struct RayTracingMotionBlurFeatures_NV {
+    public struct RayTracingMotionBlurFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_MOTION_BLUR_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceRayTracingMotionBlurFeaturesNV
@@ -6526,9 +4731,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceRayTracingValidationFeaturesNV.
+    /// Available with extension VK_NV_ray_tracing_validation
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRayTracingValidationFeaturesNV.html)
     @safe
-    public struct RayTracingValidationFeatures_NV {
+    public struct RayTracingValidationFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_VALIDATION_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceRayTracingValidationFeaturesNV
@@ -6547,9 +4755,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceRayTracingLinearSweptSpheresFeaturesNV.
+    /// Available with extension VK_NV_ray_tracing_linear_swept_spheres
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRayTracingLinearSweptSpheresFeaturesNV.html)
     @safe
-    public struct RayTracingLinearSweptSpheresFeatures_NV {
+    public struct RayTracingLinearSweptSpheresFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_LINEAR_SWEPT_SPHERES_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceRayTracingLinearSweptSpheresFeaturesNV
@@ -6573,9 +4785,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceRGBA10X6FormatsFeaturesEXT.
+    /// Available with extension VK_EXT_rgba10x6_formats
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRGBA10X6FormatsFeaturesEXT.html)
     @safe
-    public struct RGBA10X6FormatsFeatures_EXT {
+    public struct RGBA10X6FormatsFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RGBA10X6_FORMATS_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceRGBA10X6FormatsFeaturesEXT
@@ -6594,9 +4809,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceDynamicRenderingFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_dynamic_rendering
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDynamicRenderingFeatures.html)
     @safe
-    public struct DynamicRenderingFeatures {
+    public struct DynamicRenderingFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceDynamicRenderingFeatures
@@ -6615,9 +4833,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceImageViewMinLodFeaturesEXT.
+    /// Available with extension VK_EXT_image_view_min_lod
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageViewMinLodFeaturesEXT.html)
     @safe
-    public struct ImageViewMinLodFeatures_EXT {
+    public struct ImageViewMinLodFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_VIEW_MIN_LOD_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceImageViewMinLodFeaturesEXT
@@ -6636,9 +4857,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT.
+    /// Available with extension VK_ARM_rasterization_order_attachment_access, or extension VK_EXT_rasterization_order_attachment_access
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT.html)
     @safe
-    public struct RasterizationOrderAttachmentAccessFeatures_EXT {
+    public struct RasterizationOrderAttachmentAccessFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RASTERIZATION_ORDER_ATTACHMENT_ACCESS_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT
@@ -6667,9 +4892,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceLinearColorAttachmentFeaturesNV.
+    /// Available with extension VK_NV_linear_color_attachment
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceLinearColorAttachmentFeaturesNV.html)
     @safe
-    public struct LinearColorAttachmentFeatures_NV {
+    public struct LinearColorAttachmentFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINEAR_COLOR_ATTACHMENT_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceLinearColorAttachmentFeaturesNV
@@ -6688,9 +4916,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT.
+    /// Available with extension VK_EXT_graphics_pipeline_library
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT.html)
     @safe
-    public struct GraphicsPipelineLibraryFeatures_EXT {
+    public struct GraphicsPipelineLibraryFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GRAPHICS_PIPELINE_LIBRARY_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT
@@ -6709,9 +4940,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevicePipelineBinaryFeaturesKHR.
+    /// Available with extension VK_KHR_pipeline_binary
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePipelineBinaryFeaturesKHR.html)
     @safe
-    public struct PipelineBinaryFeatures_KHR {
+    public struct PipelineBinaryFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_BINARY_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePipelineBinaryFeaturesKHR
@@ -6730,9 +4964,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceDescriptorSetHostMappingFeaturesVALVE.
+    /// Available with extension VK_VALVE_descriptor_set_host_mapping
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDescriptorSetHostMappingFeaturesVALVE.html)
     @safe
-    public struct DescriptorSetHostMappingFeatures_VALVE {
+    public struct DescriptorSetHostMappingFeatures_VALVE: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_SET_HOST_MAPPING_FEATURES_VALVE
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceDescriptorSetHostMappingFeaturesVALVE
@@ -6751,9 +4989,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceNestedCommandBufferFeaturesEXT.
+    /// Available with extension VK_EXT_nested_command_buffer
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceNestedCommandBufferFeaturesEXT.html)
     @safe
-    public struct NestedCommandBufferFeatures_EXT {
+    public struct NestedCommandBufferFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_NESTED_COMMAND_BUFFER_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceNestedCommandBufferFeaturesEXT
@@ -6782,9 +5023,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT.
+    /// Available with extension VK_EXT_shader_module_identifier
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT.html)
     @safe
-    public struct ShaderModuleIdentifierFeatures_EXT {
+    public struct ShaderModuleIdentifierFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_MODULE_IDENTIFIER_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT
@@ -6803,9 +5047,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceImageCompressionControlFeaturesEXT.
+    /// Available with extension VK_EXT_image_compression_control
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageCompressionControlFeaturesEXT.html)
     @safe
-    public struct ImageCompressionControlFeatures_EXT {
+    public struct ImageCompressionControlFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_COMPRESSION_CONTROL_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceImageCompressionControlFeaturesEXT
@@ -6824,9 +5071,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceImageCompressionControlSwapchainFeaturesEXT.
+    /// Available with extension VK_EXT_image_compression_control_swapchain
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageCompressionControlSwapchainFeaturesEXT.html)
     @safe
-    public struct ImageCompressionControlSwapchainFeatures_EXT {
+    public struct ImageCompressionControlSwapchainFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_COMPRESSION_CONTROL_SWAPCHAIN_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceImageCompressionControlSwapchainFeaturesEXT
@@ -6845,9 +5096,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceSubpassMergeFeedbackFeaturesEXT.
+    /// Available with extension VK_EXT_subpass_merge_feedback
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceSubpassMergeFeedbackFeaturesEXT.html)
     @safe
-    public struct SubpassMergeFeedbackFeatures_EXT {
+    public struct SubpassMergeFeedbackFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBPASS_MERGE_FEEDBACK_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceSubpassMergeFeedbackFeaturesEXT
@@ -6866,9 +5120,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceOpacityMicromapFeaturesEXT.
+    /// Available with extension VK_EXT_opacity_micromap
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceOpacityMicromapFeaturesEXT.html)
     @safe
-    public struct OpacityMicromapFeatures_EXT {
+    public struct OpacityMicromapFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_OPACITY_MICROMAP_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceOpacityMicromapFeaturesEXT
@@ -6898,9 +5155,12 @@ extension PhysicalDevice.Features {
 
     #if EnableProvisional
         /// Wrapper around the Vulkan VkPhysicalDeviceDisplacementMicromapFeaturesNV.
+        /// Available with extension VK_NV_displacement_micromap
         /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDisplacementMicromapFeaturesNV.html)
         @safe
-        public struct DisplacementMicromapFeatures_NV {
+        public struct DisplacementMicromapFeatures_NV: ExtendedFeatures {
+            public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DISPLACEMENT_MICROMAP_FEATURES_NV
+
             /// The raw Vulkan structure.
             @unsafe
             private var rawValue: VkPhysicalDeviceDisplacementMicromapFeaturesNV
@@ -6923,9 +5183,12 @@ extension PhysicalDevice.Features {
     #endif
 
     /// Wrapper around the Vulkan VkPhysicalDevicePipelinePropertiesFeaturesEXT.
+    /// Available with extension VK_EXT_pipeline_properties
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePipelinePropertiesFeaturesEXT.html)
     @safe
-    public struct PipelinePropertiesFeatures_EXT {
+    public struct PipelinePropertiesFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROPERTIES_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePipelinePropertiesFeaturesEXT
@@ -6944,9 +5207,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderEarlyAndLateFragmentTestsFeaturesAMD.
+    /// Available with extension VK_AMD_shader_early_and_late_fragment_tests
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderEarlyAndLateFragmentTestsFeaturesAMD.html)
     @safe
-    public struct ShaderEarlyAndLateFragmentTestsFeatures_AMD {
+    public struct ShaderEarlyAndLateFragmentTestsFeatures_AMD: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_EARLY_AND_LATE_FRAGMENT_TESTS_FEATURES_AMD
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderEarlyAndLateFragmentTestsFeaturesAMD
@@ -6965,9 +5232,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT.
+    /// Available with extension VK_EXT_non_seamless_cube_map
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT.html)
     @safe
-    public struct NonSeamlessCubeMapFeatures_EXT {
+    public struct NonSeamlessCubeMapFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_NON_SEAMLESS_CUBE_MAP_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT
@@ -6986,9 +5256,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevicePipelineRobustnessFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_EXT_pipeline_robustness
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePipelineRobustnessFeatures.html)
     @safe
-    public struct PipelineRobustnessFeatures {
+    public struct PipelineRobustnessFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePipelineRobustnessFeatures
@@ -7007,9 +5280,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceImageProcessingFeaturesQCOM.
+    /// Available with extension VK_QCOM_image_processing
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageProcessingFeaturesQCOM.html)
     @safe
-    public struct ImageProcessingFeatures_QCOM {
+    public struct ImageProcessingFeatures_QCOM: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_PROCESSING_FEATURES_QCOM
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceImageProcessingFeaturesQCOM
@@ -7038,9 +5314,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceTilePropertiesFeaturesQCOM.
+    /// Available with extension VK_QCOM_tile_properties
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceTilePropertiesFeaturesQCOM.html)
     @safe
-    public struct TilePropertiesFeatures_QCOM {
+    public struct TilePropertiesFeatures_QCOM: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TILE_PROPERTIES_FEATURES_QCOM
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceTilePropertiesFeaturesQCOM
@@ -7059,9 +5338,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceAmigoProfilingFeaturesSEC.
+    /// Available with extension VK_SEC_amigo_profiling
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceAmigoProfilingFeaturesSEC.html)
     @safe
-    public struct AmigoProfilingFeatures_SEC {
+    public struct AmigoProfilingFeatures_SEC: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_AMIGO_PROFILING_FEATURES_SEC
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceAmigoProfilingFeaturesSEC
@@ -7080,9 +5362,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT.
+    /// Available with extension VK_EXT_attachment_feedback_loop_layout
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT.html)
     @safe
-    public struct AttachmentFeedbackLoopLayoutFeatures_EXT {
+    public struct AttachmentFeedbackLoopLayoutFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ATTACHMENT_FEEDBACK_LOOP_LAYOUT_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT
@@ -7101,9 +5387,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceAddressBindingReportFeaturesEXT.
+    /// Available with extension VK_EXT_device_address_binding_report
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceAddressBindingReportFeaturesEXT.html)
     @safe
-    public struct AddressBindingReportFeatures_EXT {
+    public struct AddressBindingReportFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ADDRESS_BINDING_REPORT_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceAddressBindingReportFeaturesEXT
@@ -7122,9 +5411,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceOpticalFlowFeaturesNV.
+    /// Available with extension VK_NV_optical_flow
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceOpticalFlowFeaturesNV.html)
     @safe
-    public struct OpticalFlowFeatures_NV {
+    public struct OpticalFlowFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_OPTICAL_FLOW_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceOpticalFlowFeaturesNV
@@ -7143,9 +5435,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceFaultFeaturesEXT.
+    /// Available with extension VK_EXT_device_fault
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFaultFeaturesEXT.html)
     @safe
-    public struct FaultFeatures_EXT {
+    public struct FaultFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FAULT_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceFaultFeaturesEXT
@@ -7169,9 +5464,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesEXT.
+    /// Available with extension VK_EXT_pipeline_library_group_handles
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesEXT.html)
     @safe
-    public struct PipelineLibraryGroupHandlesFeatures_EXT {
+    public struct PipelineLibraryGroupHandlesFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_LIBRARY_GROUP_HANDLES_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesEXT
@@ -7190,9 +5489,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderCoreBuiltinsFeaturesARM.
+    /// Available with extension VK_ARM_shader_core_builtins
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderCoreBuiltinsFeaturesARM.html)
     @safe
-    public struct ShaderCoreBuiltinsFeatures_ARM {
+    public struct ShaderCoreBuiltinsFeatures_ARM: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_CORE_BUILTINS_FEATURES_ARM
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderCoreBuiltinsFeaturesARM
@@ -7211,9 +5513,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceFrameBoundaryFeaturesEXT.
+    /// Available with extension VK_EXT_frame_boundary
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFrameBoundaryFeaturesEXT.html)
     @safe
-    public struct FrameBoundaryFeatures_EXT {
+    public struct FrameBoundaryFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAME_BOUNDARY_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceFrameBoundaryFeaturesEXT
@@ -7232,9 +5537,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceDynamicRenderingUnusedAttachmentsFeaturesEXT.
+    /// Available with extension VK_EXT_dynamic_rendering_unused_attachments
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDynamicRenderingUnusedAttachmentsFeaturesEXT.html)
     @safe
-    public struct DynamicRenderingUnusedAttachmentsFeatures_EXT {
+    public struct DynamicRenderingUnusedAttachmentsFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_UNUSED_ATTACHMENTS_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceDynamicRenderingUnusedAttachmentsFeaturesEXT
@@ -7253,9 +5562,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceSwapchainMaintenance1FeaturesEXT.
+    /// Available with extension VK_EXT_swapchain_maintenance1
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceSwapchainMaintenance1FeaturesEXT.html)
     @safe
-    public struct SwapchainMaintenance1Features_EXT {
+    public struct SwapchainMaintenance1Features_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SWAPCHAIN_MAINTENANCE_1_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceSwapchainMaintenance1FeaturesEXT
@@ -7274,9 +5586,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceDepthBiasControlFeaturesEXT.
+    /// Available with extension VK_EXT_depth_bias_control
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDepthBiasControlFeaturesEXT.html)
     @safe
-    public struct DepthBiasControlFeatures_EXT {
+    public struct DepthBiasControlFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_BIAS_CONTROL_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceDepthBiasControlFeaturesEXT
@@ -7310,9 +5625,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceRayTracingInvocationReorderFeaturesNV.
+    /// Available with extension VK_NV_ray_tracing_invocation_reorder
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRayTracingInvocationReorderFeaturesNV.html)
     @safe
-    public struct RayTracingInvocationReorderFeatures_NV {
+    public struct RayTracingInvocationReorderFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_INVOCATION_REORDER_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceRayTracingInvocationReorderFeaturesNV
@@ -7331,9 +5650,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceExtendedSparseAddressSpaceFeaturesNV.
+    /// Available with extension VK_NV_extended_sparse_address_space
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExtendedSparseAddressSpaceFeaturesNV.html)
     @safe
-    public struct ExtendedSparseAddressSpaceFeatures_NV {
+    public struct ExtendedSparseAddressSpaceFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTENDED_SPARSE_ADDRESS_SPACE_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceExtendedSparseAddressSpaceFeaturesNV
@@ -7352,9 +5675,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceMultiviewPerViewViewportsFeaturesQCOM.
+    /// Available with extension VK_QCOM_multiview_per_view_viewports
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMultiviewPerViewViewportsFeaturesQCOM.html)
     @safe
-    public struct MultiviewPerViewViewportsFeatures_QCOM {
+    public struct MultiviewPerViewViewportsFeatures_QCOM: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_PER_VIEW_VIEWPORTS_FEATURES_QCOM
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceMultiviewPerViewViewportsFeaturesQCOM
@@ -7373,9 +5700,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceRayTracingPositionFetchFeaturesKHR.
+    /// Available with extension VK_KHR_ray_tracing_position_fetch
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRayTracingPositionFetchFeaturesKHR.html)
     @safe
-    public struct RayTracingPositionFetchFeatures_KHR {
+    public struct RayTracingPositionFetchFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_POSITION_FETCH_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceRayTracingPositionFetchFeaturesKHR
@@ -7394,9 +5724,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceMultiviewPerViewRenderAreasFeaturesQCOM.
+    /// Available with extension VK_QCOM_multiview_per_view_render_areas
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMultiviewPerViewRenderAreasFeaturesQCOM.html)
     @safe
-    public struct MultiviewPerViewRenderAreasFeatures_QCOM {
+    public struct MultiviewPerViewRenderAreasFeatures_QCOM: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_PER_VIEW_RENDER_AREAS_FEATURES_QCOM
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceMultiviewPerViewRenderAreasFeaturesQCOM
@@ -7415,9 +5749,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderObjectFeaturesEXT.
+    /// Available with extension VK_EXT_shader_object
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderObjectFeaturesEXT.html)
     @safe
-    public struct ShaderObjectFeatures_EXT {
+    public struct ShaderObjectFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_OBJECT_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderObjectFeaturesEXT
@@ -7436,9 +5773,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderTileImageFeaturesEXT.
+    /// Available with extension VK_EXT_shader_tile_image
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderTileImageFeaturesEXT.html)
     @safe
-    public struct ShaderTileImageFeatures_EXT {
+    public struct ShaderTileImageFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_TILE_IMAGE_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderTileImageFeaturesEXT
@@ -7468,9 +5808,13 @@ extension PhysicalDevice.Features {
 
     #if PlatformScreen
         /// Wrapper around the Vulkan VkPhysicalDeviceExternalMemoryScreenBufferFeaturesQNX.
+        /// Available with extension VK_QNX_external_memory_screen_buffer
         /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExternalMemoryScreenBufferFeaturesQNX.html)
         @safe
-        public struct ExternalMemoryScreenBufferFeatures_QNX {
+        public struct ExternalMemoryScreenBufferFeatures_QNX: ExtendedFeatures {
+            public static let sType: VkStructureType =
+                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_MEMORY_SCREEN_BUFFER_FEATURES_QNX
+
             /// The raw Vulkan structure.
             @unsafe
             private var rawValue: VkPhysicalDeviceExternalMemoryScreenBufferFeaturesQNX
@@ -7493,9 +5837,12 @@ extension PhysicalDevice.Features {
     #endif
 
     /// Wrapper around the Vulkan VkPhysicalDeviceCooperativeMatrixFeaturesKHR.
+    /// Available with extension VK_KHR_cooperative_matrix
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCooperativeMatrixFeaturesKHR.html)
     @safe
-    public struct CooperativeMatrixFeatures_KHR {
+    public struct CooperativeMatrixFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceCooperativeMatrixFeaturesKHR
@@ -7520,9 +5867,12 @@ extension PhysicalDevice.Features {
 
     #if EnableProvisional
         /// Wrapper around the Vulkan VkPhysicalDeviceShaderEnqueueFeaturesAMDX.
+        /// Available with extension VK_AMDX_shader_enqueue
         /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderEnqueueFeaturesAMDX.html)
         @safe
-        public struct ShaderEnqueueFeatures_AMDX {
+        public struct ShaderEnqueueFeatures_AMDX: ExtendedFeatures {
+            public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ENQUEUE_FEATURES_AMDX
+
             /// The raw Vulkan structure.
             @unsafe
             private var rawValue: VkPhysicalDeviceShaderEnqueueFeaturesAMDX
@@ -7550,9 +5900,12 @@ extension PhysicalDevice.Features {
     #endif
 
     /// Wrapper around the Vulkan VkPhysicalDeviceAntiLagFeaturesAMD.
+    /// Available with extension VK_AMD_anti_lag
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceAntiLagFeaturesAMD.html)
     @safe
-    public struct AntiLagFeatures_AMD {
+    public struct AntiLagFeatures_AMD: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ANTI_LAG_FEATURES_AMD
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceAntiLagFeaturesAMD
@@ -7571,9 +5924,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceTileMemoryHeapFeaturesQCOM.
+    /// Available with extension VK_QCOM_tile_memory_heap
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceTileMemoryHeapFeaturesQCOM.html)
     @safe
-    public struct TileMemoryHeapFeatures_QCOM {
+    public struct TileMemoryHeapFeatures_QCOM: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TILE_MEMORY_HEAP_FEATURES_QCOM
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceTileMemoryHeapFeaturesQCOM
@@ -7592,9 +5948,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceCubicClampFeaturesQCOM.
+    /// Available with extension VK_QCOM_filter_cubic_clamp
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCubicClampFeaturesQCOM.html)
     @safe
-    public struct CubicClampFeatures_QCOM {
+    public struct CubicClampFeatures_QCOM: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CUBIC_CLAMP_FEATURES_QCOM
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceCubicClampFeaturesQCOM
@@ -7613,9 +5972,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceYcbcrDegammaFeaturesQCOM.
+    /// Available with extension VK_QCOM_ycbcr_degamma
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceYcbcrDegammaFeaturesQCOM.html)
     @safe
-    public struct YcbcrDegammaFeatures_QCOM {
+    public struct YcbcrDegammaFeatures_QCOM: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_YCBCR_DEGAMMA_FEATURES_QCOM
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceYcbcrDegammaFeaturesQCOM
@@ -7634,9 +5996,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceCubicWeightsFeaturesQCOM.
+    /// Available with extension VK_QCOM_filter_cubic_weights
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCubicWeightsFeaturesQCOM.html)
     @safe
-    public struct CubicWeightsFeatures_QCOM {
+    public struct CubicWeightsFeatures_QCOM: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CUBIC_WEIGHTS_FEATURES_QCOM
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceCubicWeightsFeaturesQCOM
@@ -7655,9 +6020,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceImageProcessing2FeaturesQCOM.
+    /// Available with extension VK_QCOM_image_processing2
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageProcessing2FeaturesQCOM.html)
     @safe
-    public struct ImageProcessing2Features_QCOM {
+    public struct ImageProcessing2Features_QCOM: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_PROCESSING_2_FEATURES_QCOM
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceImageProcessing2FeaturesQCOM
@@ -7676,9 +6044,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceDescriptorPoolOverallocationFeaturesNV.
+    /// Available with extension VK_NV_descriptor_pool_overallocation
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDescriptorPoolOverallocationFeaturesNV.html)
     @safe
-    public struct DescriptorPoolOverallocationFeatures_NV {
+    public struct DescriptorPoolOverallocationFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_POOL_OVERALLOCATION_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceDescriptorPoolOverallocationFeaturesNV
@@ -7697,9 +6069,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevicePerStageDescriptorSetFeaturesNV.
+    /// Available with extension VK_NV_per_stage_descriptor_set
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePerStageDescriptorSetFeaturesNV.html)
     @safe
-    public struct PerStageDescriptorSetFeatures_NV {
+    public struct PerStageDescriptorSetFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PER_STAGE_DESCRIPTOR_SET_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePerStageDescriptorSetFeaturesNV
@@ -7724,9 +6099,13 @@ extension PhysicalDevice.Features {
 
     #if PlatformAndroid
         /// Wrapper around the Vulkan VkPhysicalDeviceExternalFormatResolveFeaturesANDROID.
+        /// Available with extension VK_ANDROID_external_format_resolve
         /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExternalFormatResolveFeaturesANDROID.html)
         @safe
-        public struct ExternalFormatResolveFeatures_ANDROID {
+        public struct ExternalFormatResolveFeatures_ANDROID: ExtendedFeatures {
+            public static let sType: VkStructureType =
+                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_FORMAT_RESOLVE_FEATURES_ANDROID
+
             /// The raw Vulkan structure.
             @unsafe
             private var rawValue: VkPhysicalDeviceExternalFormatResolveFeaturesANDROID
@@ -7750,9 +6129,12 @@ extension PhysicalDevice.Features {
 
     #if EnableProvisional
         /// Wrapper around the Vulkan VkPhysicalDeviceCudaKernelLaunchFeaturesNV.
+        /// Available with extension VK_NV_cuda_kernel_launch
         /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCudaKernelLaunchFeaturesNV.html)
         @safe
-        public struct CudaKernelLaunchFeatures_NV {
+        public struct CudaKernelLaunchFeatures_NV: ExtendedFeatures {
+            public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CUDA_KERNEL_LAUNCH_FEATURES_NV
+
             /// The raw Vulkan structure.
             @unsafe
             private var rawValue: VkPhysicalDeviceCudaKernelLaunchFeaturesNV
@@ -7775,9 +6157,12 @@ extension PhysicalDevice.Features {
     #endif
 
     /// Wrapper around the Vulkan VkPhysicalDeviceSchedulingControlsFeaturesARM.
+    /// Available with extension VK_ARM_scheduling_controls
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceSchedulingControlsFeaturesARM.html)
     @safe
-    public struct SchedulingControlsFeatures_ARM {
+    public struct SchedulingControlsFeatures_ARM: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SCHEDULING_CONTROLS_FEATURES_ARM
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceSchedulingControlsFeaturesARM
@@ -7796,9 +6181,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceRelaxedLineRasterizationFeaturesIMG.
+    /// Available with extension VK_IMG_relaxed_line_rasterization
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRelaxedLineRasterizationFeaturesIMG.html)
     @safe
-    public struct RelaxedLineRasterizationFeatures_IMG {
+    public struct RelaxedLineRasterizationFeatures_IMG: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RELAXED_LINE_RASTERIZATION_FEATURES_IMG
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceRelaxedLineRasterizationFeaturesIMG
@@ -7817,9 +6205,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceRenderPassStripedFeaturesARM.
+    /// Available with extension VK_ARM_render_pass_striped
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRenderPassStripedFeaturesARM.html)
     @safe
-    public struct RenderPassStripedFeatures_ARM {
+    public struct RenderPassStripedFeatures_ARM: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RENDER_PASS_STRIPED_FEATURES_ARM
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceRenderPassStripedFeaturesARM
@@ -7838,9 +6229,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevicePipelineOpacityMicromapFeaturesARM.
+    /// Available with extension VK_ARM_pipeline_opacity_micromap
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePipelineOpacityMicromapFeaturesARM.html)
     @safe
-    public struct PipelineOpacityMicromapFeatures_ARM {
+    public struct PipelineOpacityMicromapFeatures_ARM: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_OPACITY_MICROMAP_FEATURES_ARM
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePipelineOpacityMicromapFeaturesARM
@@ -7859,9 +6253,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderMaximalReconvergenceFeaturesKHR.
+    /// Available with extension VK_KHR_shader_maximal_reconvergence
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderMaximalReconvergenceFeaturesKHR.html)
     @safe
-    public struct ShaderMaximalReconvergenceFeatures_KHR {
+    public struct ShaderMaximalReconvergenceFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_MAXIMAL_RECONVERGENCE_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderMaximalReconvergenceFeaturesKHR
@@ -7880,9 +6278,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderSubgroupRotateFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_shader_subgroup_rotate
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderSubgroupRotateFeatures.html)
     @safe
-    public struct ShaderSubgroupRotateFeatures {
+    public struct ShaderSubgroupRotateFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_ROTATE_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderSubgroupRotateFeatures
@@ -7906,9 +6307,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderExpectAssumeFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_shader_expect_assume
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderExpectAssumeFeatures.html)
     @safe
-    public struct ShaderExpectAssumeFeatures {
+    public struct ShaderExpectAssumeFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_EXPECT_ASSUME_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderExpectAssumeFeatures
@@ -7927,9 +6331,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderFloatControls2Features.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_shader_float_controls2
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderFloatControls2Features.html)
     @safe
-    public struct ShaderFloatControls2Features {
+    public struct ShaderFloatControls2Features: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT_CONTROLS_2_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderFloatControls2Features
@@ -7948,9 +6355,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceDynamicRenderingLocalReadFeatures.
+    /// Available with version VulkanGenerate.Version, or extension VK_KHR_dynamic_rendering_local_read
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDynamicRenderingLocalReadFeatures.html)
     @safe
-    public struct DynamicRenderingLocalReadFeatures {
+    public struct DynamicRenderingLocalReadFeatures: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_LOCAL_READ_FEATURES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceDynamicRenderingLocalReadFeatures
@@ -7969,9 +6379,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderQuadControlFeaturesKHR.
+    /// Available with extension VK_KHR_shader_quad_control
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderQuadControlFeaturesKHR.html)
     @safe
-    public struct ShaderQuadControlFeatures_KHR {
+    public struct ShaderQuadControlFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_QUAD_CONTROL_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderQuadControlFeaturesKHR
@@ -7990,9 +6403,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderAtomicFloat16VectorFeaturesNV.
+    /// Available with extension VK_NV_shader_atomic_float16_vector
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderAtomicFloat16VectorFeaturesNV.html)
     @safe
-    public struct ShaderAtomicFloat16VectorFeatures_NV {
+    public struct ShaderAtomicFloat16VectorFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_FLOAT16_VECTOR_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderAtomicFloat16VectorFeaturesNV
@@ -8011,9 +6427,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceMapMemoryPlacedFeaturesEXT.
+    /// Available with extension VK_EXT_map_memory_placed
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceMapMemoryPlacedFeaturesEXT.html)
     @safe
-    public struct MapMemoryPlacedFeatures_EXT {
+    public struct MapMemoryPlacedFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAP_MEMORY_PLACED_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceMapMemoryPlacedFeaturesEXT
@@ -8042,9 +6461,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderBfloat16FeaturesKHR.
+    /// Available with extension VK_KHR_shader_bfloat16
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderBfloat16FeaturesKHR.html)
     @safe
-    public struct ShaderBfloat16Features_KHR {
+    public struct ShaderBfloat16Features_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_BFLOAT16_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderBfloat16FeaturesKHR
@@ -8073,9 +6495,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceRawAccessChainsFeaturesNV.
+    /// Available with extension VK_NV_raw_access_chains
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceRawAccessChainsFeaturesNV.html)
     @safe
-    public struct RawAccessChainsFeatures_NV {
+    public struct RawAccessChainsFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAW_ACCESS_CHAINS_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceRawAccessChainsFeaturesNV
@@ -8094,9 +6519,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceCommandBufferInheritanceFeaturesNV.
+    /// Available with extension VK_NV_command_buffer_inheritance
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCommandBufferInheritanceFeaturesNV.html)
     @safe
-    public struct CommandBufferInheritanceFeatures_NV {
+    public struct CommandBufferInheritanceFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMMAND_BUFFER_INHERITANCE_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceCommandBufferInheritanceFeaturesNV
@@ -8115,9 +6543,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceImageAlignmentControlFeaturesMESA.
+    /// Available with extension VK_MESA_image_alignment_control
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageAlignmentControlFeaturesMESA.html)
     @safe
-    public struct ImageAlignmentControlFeatures_MESA {
+    public struct ImageAlignmentControlFeatures_MESA: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_ALIGNMENT_CONTROL_FEATURES_MESA
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceImageAlignmentControlFeaturesMESA
@@ -8136,9 +6567,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderReplicatedCompositesFeaturesEXT.
+    /// Available with extension VK_EXT_shader_replicated_composites
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderReplicatedCompositesFeaturesEXT.html)
     @safe
-    public struct ShaderReplicatedCompositesFeatures_EXT {
+    public struct ShaderReplicatedCompositesFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_REPLICATED_COMPOSITES_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderReplicatedCompositesFeaturesEXT
@@ -8157,9 +6592,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT.
+    /// Available with extension VK_EXT_present_mode_fifo_latest_ready
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT.html)
     @safe
-    public struct PresentModeFifoLatestReadyFeatures_EXT {
+    public struct PresentModeFifoLatestReadyFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_MODE_FIFO_LATEST_READY_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT
@@ -8178,9 +6617,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceCooperativeMatrix2FeaturesNV.
+    /// Available with extension VK_NV_cooperative_matrix2
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCooperativeMatrix2FeaturesNV.html)
     @safe
-    public struct CooperativeMatrix2Features_NV {
+    public struct CooperativeMatrix2Features_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_2_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceCooperativeMatrix2FeaturesNV
@@ -8229,9 +6671,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceHdrVividFeaturesHUAWEI.
+    /// Available with extension VK_HUAWEI_hdr_vivid
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceHdrVividFeaturesHUAWEI.html)
     @safe
-    public struct HdrVividFeatures_HUAWEI {
+    public struct HdrVividFeatures_HUAWEI: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HDR_VIVID_FEATURES_HUAWEI
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceHdrVividFeaturesHUAWEI
@@ -8250,9 +6695,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT.
+    /// Available with extension VK_EXT_vertex_attribute_robustness
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT.html)
     @safe
-    public struct VertexAttributeRobustnessFeatures_EXT {
+    public struct VertexAttributeRobustnessFeatures_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_ROBUSTNESS_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT
@@ -8271,9 +6719,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceDepthClampZeroOneFeaturesKHR.
+    /// Available with extension VK_EXT_depth_clamp_zero_one, or extension VK_KHR_depth_clamp_zero_one
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDepthClampZeroOneFeaturesKHR.html)
     @safe
-    public struct DepthClampZeroOneFeatures_KHR {
+    public struct DepthClampZeroOneFeatures_KHR: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLAMP_ZERO_ONE_FEATURES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceDepthClampZeroOneFeaturesKHR
@@ -8292,9 +6743,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceCooperativeVectorFeaturesNV.
+    /// Available with extension VK_NV_cooperative_vector
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceCooperativeVectorFeaturesNV.html)
     @safe
-    public struct CooperativeVectorFeatures_NV {
+    public struct CooperativeVectorFeatures_NV: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_VECTOR_FEATURES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceCooperativeVectorFeaturesNV
@@ -8318,9 +6772,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceTileShadingFeaturesQCOM.
+    /// Available with extension VK_QCOM_tile_shading
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceTileShadingFeaturesQCOM.html)
     @safe
-    public struct TileShadingFeatures_QCOM {
+    public struct TileShadingFeatures_QCOM: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TILE_SHADING_FEATURES_QCOM
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceTileShadingFeaturesQCOM
@@ -8404,9 +6861,13 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceFragmentDensityMapLayeredFeaturesVALVE.
+    /// Available with extension VK_VALVE_fragment_density_map_layered
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFragmentDensityMapLayeredFeaturesVALVE.html)
     @safe
-    public struct FragmentDensityMapLayeredFeatures_VALVE {
+    public struct FragmentDensityMapLayeredFeatures_VALVE: ExtendedFeatures {
+        public static let sType: VkStructureType =
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_LAYERED_FEATURES_VALVE
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceFragmentDensityMapLayeredFeaturesVALVE
@@ -8426,9 +6887,12 @@ extension PhysicalDevice.Features {
 
     #if EnableProvisional
         /// Wrapper around the Vulkan VkPhysicalDevicePresentMeteringFeaturesNV.
+        /// Available with extension VK_NV_present_metering
         /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevicePresentMeteringFeaturesNV.html)
         @safe
-        public struct PresentMeteringFeatures_NV {
+        public struct PresentMeteringFeatures_NV: ExtendedFeatures {
+            public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_METERING_FEATURES_NV
+
             /// The raw Vulkan structure.
             @unsafe
             private var rawValue: VkPhysicalDevicePresentMeteringFeaturesNV
@@ -8451,9 +6915,12 @@ extension PhysicalDevice.Features {
     #endif
 
     /// Wrapper around the Vulkan VkPhysicalDeviceFormatPackFeaturesARM.
+    /// Available with extension VK_ARM_format_pack
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceFormatPackFeaturesARM.html)
     @safe
-    public struct FormatPackFeatures_ARM {
+    public struct FormatPackFeatures_ARM: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FORMAT_PACK_FEATURES_ARM
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceFormatPackFeaturesARM
@@ -8472,9 +6939,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceTensorFeaturesARM.
+    /// Available with extension VK_ARM_tensors
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceTensorFeaturesARM.html)
     @safe
-    public struct TensorFeatures_ARM {
+    public struct TensorFeatures_ARM: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TENSOR_FEATURES_ARM
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceTensorFeaturesARM
@@ -8518,9 +6988,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceDescriptorBufferTensorFeaturesARM.
+    /// Available with extension VK_ARM_tensors
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceDescriptorBufferTensorFeaturesARM.html)
     @safe
-    public struct DescriptorBufferTensorFeatures_ARM {
+    public struct DescriptorBufferTensorFeatures_ARM: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_BUFFER_TENSOR_FEATURES_ARM
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceDescriptorBufferTensorFeaturesARM
@@ -8539,9 +7012,12 @@ extension PhysicalDevice.Features {
     }
 
     /// Wrapper around the Vulkan VkPhysicalDeviceShaderFloat8FeaturesEXT.
+    /// Available with extension VK_EXT_shader_float8
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceShaderFloat8FeaturesEXT.html)
     @safe
-    public struct ShaderFloat8Features_EXT {
+    public struct ShaderFloat8Features_EXT: ExtendedFeatures {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT8_FEATURES_EXT
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkPhysicalDeviceShaderFloat8FeaturesEXT

@@ -16,24 +16,28 @@ extension PhysicalDevice {
         @safe
         public let features: VkPhysicalDeviceFeatures
         /// The pNext chain in the features2 if available.
-        internal let features2: UnsafePointer<VkBaseOutStructure>?
+        @usableFromInline
+        internal let features2: OutputChain
 
-        /// The extended features, if available.
-        /// This only has content if the `VK_KHR_get_physical_device_properties2` extension is enabled or if the Vulkan API is v1.1 or higher.
-        public var nextChain: OutputChain {
-            unsafe OutputChain(start: features2)
-        }
+        /// Creates a new `PhysicalDeviceFeatures` instance from the given physical device.
+        /// - Parameters:
+        ///   - instance: The Vulkan instance that the physical device belongs to.
+        ///   - handle: The Vulkan physical device handle.
+        @safe
+        internal init(instance: borrowing Instance, handle: VkPhysicalDevice) {
+            if instance.has_getPhysicalDeviceProperties2 {
+                var features2 = unsafe VkPhysicalDeviceFeatures2()
+                unsafe instance.table.getPhysicalDeviceFeatures2(handle, &features2)
 
-        /// Creates a new `PhysicalDeviceFeatures` instance from the given features.
-        internal init(features: VkPhysicalDeviceFeatures) {
-            self.features = features
-            unsafe self.features2 = nil
-        }
+                self.features = unsafe features2.features
+                unsafe self.features2 = OutputChain(pNext: features2.pNext)
+            } else {
+                var features = VkPhysicalDeviceFeatures()
+                unsafe instance.table.getPhysicalDeviceFeatures(handle, &features)
 
-        /// Creates a new `PhysicalDeviceFeatures` instance from the given features2.
-        internal init(features2: VkPhysicalDeviceFeatures2) {
-            self.features = unsafe features2.features
-            unsafe self.features2 = UnsafeRawPointer(features2.pNext)?.assumingMemoryBound(to: VkBaseOutStructure.self)
+                self.features = features
+                self.features2 = nil
+            }
         }
 
         public var robustBufferAccess: Bool {

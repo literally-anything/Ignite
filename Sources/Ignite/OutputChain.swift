@@ -11,15 +11,28 @@ public import CVulkan
 /// A wrapper around a Vulkan output chain.
 /// This allows searching for the structure that you want in a type-safe-ish way.
 @safe
-public struct OutputChain {
+public struct OutputChain: ExpressibleByNilLiteral {
     /// The Vulkan output chain start pointer.
     public let start: UnsafePointer<VkBaseOutStructure>?
+
+    /// Creates an empty output chain from a nil literal.
+    @safe
+    public init(nilLiteral: ()) {
+        unsafe self.start = nil
+    }
 
     /// Initializes an output chain with the given start pointer.
     /// - Parameter start: The pointer to the first structure in the output chain.
     @unsafe
     public init(start: UnsafePointer<VkBaseOutStructure>?) {
         unsafe self.start = start
+    }
+
+    /// Initializes an output chain with the given start pointer.
+    /// - Parameter start: The pointer to the first structure in the output chain.
+    @unsafe
+    public init(pNext start: UnsafeMutableRawPointer?) {
+        unsafe self.start = UnsafeRawPointer(start)?.assumingMemoryBound(to: VkBaseOutStructure.self)
     }
 
     /// Gets the first structure in the output chain of the specified type.

@@ -20,20 +20,15 @@ extension PhysicalDevice {
         @safe
         public let properties: VkQueueFamilyProperties
         /// The pNext chain in the queue properties2 if available.
-        internal let properties2: UnsafePointer<VkBaseOutStructure>?
-
-        /// The extended queue family properties, if available.
-        /// This only has content if the `VK_KHR_get_physical_device_properties2` extension is enabled or if the Vulkan API is v1.1 or higher.
-        public var nextChain: OutputChain {
-            unsafe OutputChain(start: properties2)
-        }
+        @usableFromInline
+        internal let properties2: OutputChain
 
         /// Creates a new `PhysicalDeviceQueueFamily` instance from the given properties.
         internal init(index: UInt32, properties: VkQueueFamilyProperties) {
             self.index = index
 
             self.properties = properties
-            unsafe self.properties2 = nil
+            self.properties2 = nil
         }
 
         /// Creates a new `PhysicalDeviceQueueFamily` instance from the given properties2.
@@ -41,7 +36,7 @@ extension PhysicalDevice {
             self.index = index
 
             self.properties = unsafe properties2.queueFamilyProperties
-            unsafe self.properties2 = UnsafeRawPointer(properties2.pNext)?.assumingMemoryBound(to: VkBaseOutStructure.self)
+            unsafe self.properties2 = OutputChain(pNext: properties2.pNext)
         }
 
         /// The number of queues that can be created in this queue family.
@@ -63,6 +58,19 @@ extension PhysicalDevice {
         /// The minimum granularity supported for image transfer operations on queues in this family.
         public var minImageTransferGranularity: VkExtent3D {
             properties.minImageTransferGranularity
+        }
+
+        /// Indicates whether this queue family supports graphics operations.
+        public var supportsGraphics: Bool {
+            queueFlags.contains(.graphics)
+        }
+        /// Indicates whether this queue family supports compute operations.
+        public var supportsCompute: Bool {
+            queueFlags.contains(.compute)
+        }
+        /// Indicates whether this queue family supports transfer operations.
+        public var supportsTransfer: Bool {
+            queueFlags.contains(.transfer)
         }
     }
 }

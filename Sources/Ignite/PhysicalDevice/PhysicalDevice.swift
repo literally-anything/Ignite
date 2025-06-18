@@ -9,6 +9,7 @@
 public import CVulkan
 
 extension Instance {
+    /// A collection of physical devices available for the Vulkan instance.
     public var physicalDevices: [PhysicalDevice] {
         get throws(VulkanError) {
             // Get the count of physical devices available in the instance
@@ -16,7 +17,7 @@ extension Instance {
             let result = unsafe table.enumeratePhysicalDevices(handle, &count, nil)
             try VulkanResult.check(result)
 
-            var result2: VkResult = .init(0)
+            var result2: VkResult = VkResult(0)
             // Allocate an array to hold the physical devices and enumerate them
             let devices: [VkPhysicalDevice?] = unsafe Array(unsafeUninitializedCapacity: Int(count)) {
                 buffer, initializedCount in
@@ -34,6 +35,8 @@ extension Instance {
 /// This is used to query the capabilities of a device before creating a logical device.
 @safe
 public struct PhysicalDevice {
+    /// The instance that owns this physical device.
+    public let instance: Instance
     /// The underlying Vulkan physical device.
     @safe
     public let handle: VkPhysicalDevice
@@ -41,19 +44,29 @@ public struct PhysicalDevice {
     /// The Vulkan `VkPhysicalDeviceProperties` structure containing properties of the physical device.
     internal let properties: VkPhysicalDeviceProperties
     /// The pNext chain in the properties2 if available.
-    internal let properties2: UnsafePointer<VkBaseOutStructure>?
+    @usableFromInline
+    internal let properties2: OutputChain
 
     /// The supported queue families of the physical device.
     public let queueFamilies: [QueueFamily]
-
+    /// The features supported by the physical device.
     public let features: Features
+    /// The memory properties of the physical device.
+    public let memoryProperties: MemoryProperties
+    /// The extensions supported by this physical device.
+    public let availableExtensions: Set<DeviceExtension>
+
+    /// A set of enabled extensions for the physical device.
+    /// This is set with the required extensions when the physical device is selected by a `PhysicalDeviceSelector`.
+    internal var enabledExtensions: Set<DeviceExtension> = []
 
     /// Creates a new `PhysicalDevice` instance by wrapping a Vulkan physical device handle.
     /// - Parameters:
     ///   - instance: The instance that owns this physical device.
     ///   - handle: The Vulkan physical device handle to wrap.
     @unsafe
-    internal init(instance: borrowing Instance, handle: VkPhysicalDevice) {
+    internal init(instance: Instance, handle: VkPhysicalDevice) {
+        self.instance = instance
         unsafe self.handle = handle
 
         // Retrieve the properties of the physical device
@@ -62,8 +75,7 @@ public struct PhysicalDevice {
             var properties2 = unsafe VkPhysicalDeviceProperties2()
             unsafe instance.table.getPhysicalDeviceProperties2(handle, &properties2)
             self.properties = unsafe properties2.properties
-
-            unsafe self.properties2 = UnsafePointer(properties2.pNext.assumingMemoryBound(to: VkBaseOutStructure.self))
+            unsafe self.properties2 = OutputChain(pNext: properties2.pNext)
 
             // Extract the queue family properties from the properties2 structure
             var queueFamilyCount: UInt32 = 0
@@ -81,16 +93,12 @@ public struct PhysicalDevice {
                 )
             }
 
-            // Extract the features from the properties2 structure
-            var features2 = unsafe VkPhysicalDeviceFeatures2()
-            unsafe instance.table.getPhysicalDeviceFeatures2(handle, &features2)
-            self.features = unsafe Features(features2: features2)
         } else {
             // Otherwise, use the standard method to get properties
             var properties = VkPhysicalDeviceProperties()
             unsafe instance.table.getPhysicalDeviceProperties(handle, &properties)
             self.properties = properties
-            unsafe self.properties2 = nil
+            self.properties2 = nil
 
             // Extract the queue family properties from the standard method
             var queueFamilyCount: UInt32 = 0
@@ -107,18 +115,45 @@ public struct PhysicalDevice {
                     properties: properties!
                 )
             }
-
-            // Extract the features from the standard method
-            var features = VkPhysicalDeviceFeatures()
-            unsafe instance.table.getPhysicalDeviceFeatures(handle, &features)
-            self.features = Features(features: features)
         }
-    }
 
-    /// An `OutputChain` that allows traversing the pNext chain of the physical device properties.
-    /// This only has any content if the `VK_KHR_get_physical_device_properties2` extension is enabled or if the Vulkan API is v1.1 or higher.
-    public var nextChain: OutputChain {
-        unsafe OutputChain(start: properties2)
+        features = Features(instance: instance, handle: handle)
+        memoryProperties = MemoryProperties(instance: instance, handle: handle)
+
+        // Get the number of available extensions for the physical device
+        var extensionCount: UInt32 = 0
+        let result = unsafe instance.table.enumerateDeviceExtensionProperties(
+            handle, nil,
+            &extensionCount, nil
+        )
+        guard case .success = VulkanResult(result) else {
+            preconditionFailure("Failed to get count of device extensions. This should never happen. VkResult: \(result).")
+        }
+        // Allocate an array to hold the extension properties and enumerate them
+        let extensionProperties: [VkExtensionProperties] =
+            unsafe Array(unsafeUninitializedCapacity: Int(extensionCount)) { buffer, initializedCount in
+                let result = unsafe instance.table.enumerateDeviceExtensionProperties(
+                    handle, nil,
+                    &extensionCount,
+                    buffer.baseAddress
+                )
+                guard case .success = VulkanResult(result) else {
+                    preconditionFailure("Failed to enumerate device extensions. This should never happen. VkResult: \(result).")
+                }
+                initializedCount = Int(extensionCount)
+            }
+        // Convert the extension properties to a set of extension names
+        availableExtensions = Set(
+            extensionProperties.map { properties in
+                let name: String = unsafe withUnsafePointer(to: properties.extensionName) { nameTuplePtr in
+                    // Convert the C string to a Swift String
+                    let namePtr = unsafe UnsafeRawPointer(nameTuplePtr)
+                        .assumingMemoryBound(to: CChar.self)
+                    return unsafe String(cString: namePtr)
+                }
+                return DeviceExtension(name: name)
+            }
+        )
     }
 
     /// The maximum Vulkan API version supported by this physical device.

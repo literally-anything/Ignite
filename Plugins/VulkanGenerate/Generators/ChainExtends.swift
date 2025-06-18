@@ -15,37 +15,45 @@ func generateChainExtends(
 
     print("- Generating chain extends for physical device properties...")
     try generateChainExtends(
-        file: packagePath.appending(path: "Sources/Ignite/Instance/PhysicalDevice/PhysicalDevice+Extends.swift"),
+        file: packagePath.appending(path: "Sources/Ignite/PhysicalDevice/PhysicalDevice+Extends.swift"),
         registry: registry,
         placeholder: "PHYSICAL_DEVICE_PROPERTIES_EXTENDS",
         baseName: "VkPhysicalDeviceProperties2",
         prefix: "VkPhysicalDevice",
-        nextChainName: "nextChain"
+        nextChainProtocol: "ExtendedProperties"
     )
     print("- Generating chain extends for physical device queue family properties...")
     try generateChainExtends(
-        file: packagePath.appending(path: "Sources/Ignite/Instance/PhysicalDevice/QueueFamily+Extends.swift"),
+        file: packagePath.appending(path: "Sources/Ignite/PhysicalDevice/QueueFamily+Extends.swift"),
         registry: registry,
         placeholder: "QUEUE_FAMILY_PROPERTIES_EXTENDS",
         baseName: "VkQueueFamilyProperties2",
         prefix: "VkQueueFamily",
-        nextChainName: "nextChain"
+        nextChainProtocol: "ExtendedFamilyProperties"
     )
     print("- Generating chain extends for physical device features...")
     try generateChainExtends(
-        file: packagePath.appending(path: "Sources/Ignite/Instance/PhysicalDevice/Features+Extends.swift"),
+        file: packagePath.appending(path: "Sources/Ignite/PhysicalDevice/Features+Extends.swift"),
         registry: registry,
         placeholder: "PHYSICAL_DEVICE_FEATURES_EXTENDS",
         baseName: "VkPhysicalDeviceFeatures2",
         prefix: "VkPhysicalDevice",
-        nextChainName: "nextChain"
+        nextChainProtocol: "ExtendedFeatures"
+    )
+    print("- Generating chain extends for physical device memory properties...")
+    try generateChainExtends(
+        file: packagePath.appending(path: "Sources/Ignite/PhysicalDevice/MemoryProperties+Extends.swift"),
+        registry: registry,
+        placeholder: "PHYSICAL_DEVICE_MEMORY_PROPERTIES_EXTENDS",
+        baseName: "VkPhysicalDeviceMemoryProperties2",
+        prefix: "VkPhysicalDevice",
+        nextChainProtocol: "ExtendedMemoryProperties"
     )
 }
 
 private func generateChainExtends(
-    file: URL, registry: Registry, placeholder: String, baseName: String, prefix: String, nextChainName: String
+    file: URL, registry: Registry, placeholder: String, baseName: String, prefix: String, nextChainProtocol: String
 ) throws {
-    var propertiesLines: [Substring] = []
     var structsLines: [Substring] = []
 
     let matchingStructures: [Struct] = registry.structs.filter { structure in
@@ -74,7 +82,6 @@ private func generateChainExtends(
         if let tag = registry.vendorTags.keys.first(where: { fixedName.hasSuffix($0) }) {
             fixedName = fixedName.dropLast(tag.count) + "_" + tag
         }
-        var propertyName = fixedName.first!.lowercased() + fixedName.dropFirst()
         let sType = structure.members.first { $0.name == "sType" }?.validValues?.first
         guard let sType else {
             fatalError(
@@ -86,32 +93,11 @@ private func generateChainExtends(
             fixedName = "`\(fixedName)`"
         }
 
-        if propertyName.starts(with: .digit) {
-            propertyName = "device" + propertyName
-        }
-        if nameNeedsEscaping(name: propertyName) {
-            propertyName = "`\(propertyName)`"
-        }
-
         let trait: String? = structure.platform?.traitName
         let unavailableTag: String =
             """
             @available(*, unavailable, message: "This set of properties requires the '\(trait ?? "")' trait to be enabled")
             """
-
-        propertiesLines.append(
-            contentsOf:
-                """
-                \(trait != nil ? "#if \(trait!)\n" : "")/// Wrapper for the Vulkan \(structure.name).\
-                \(availabilityMessage.isEmpty ? "" : "\n/// \(availabilityMessage)")
-                /// - SeeAlso: [Vulkan Specification](\(baseDocsUrl.appending(component: "\(structure.name).html").absoluteString))
-                public var \(propertyName): \(fixedName)? {
-                    let raw = unsafe nextChain.get(\(sType), type: \(structure.name).self)
-                    return unsafe raw != nil ? \(fixedName)(rawValue: raw!) : nil
-                }\
-                \(trait != nil ? "\n#else\n\(unavailableTag)\npublic var \(propertyName): Any { fatalError() } \n#endif" : "")\n
-                """.split(separator: "\n", omittingEmptySubsequences: false)
-        )
 
         enum Member {
             case span(StructMember, count: StructMember)
@@ -299,10 +285,13 @@ private func generateChainExtends(
         structsLines.append(
             contentsOf:
                 """
-                \(trait != nil ? "#if \(trait!)\n" : "")/// Wrapper around the Vulkan \(structure.name).
+                \(trait != nil ? "#if \(trait!)\n" : "")/// Wrapper around the Vulkan \(structure.name).\
+                \(availabilityMessage.isEmpty ? "" : "\n/// \(availabilityMessage)")
                 /// - SeeAlso: [Vulkan Specification](\(baseDocsUrl.appending(component: "\(structure.name).html").absoluteString))
                 @safe
-                public struct \(fixedName) {
+                public struct \(fixedName): \(nextChainProtocol) {
+                    public static let sType: VkStructureType = \(sType)
+
                     /// The raw Vulkan structure.
                     @unsafe
                     private var rawValue: \(structure.name)
@@ -325,8 +314,6 @@ private func generateChainExtends(
         var lines: [Substring] = []
         lines.append("// Generated using header version: \(registry.version)\n")
 
-        lines.append(contentsOf: propertiesLines)
-        lines.append("\n")
         lines.append(contentsOf: structsLines)
 
         contents = lines[...]

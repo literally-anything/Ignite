@@ -9,70 +9,34 @@
 public import CVulkan
 
 extension PhysicalDevice.QueueFamily {
+    /// A protocol that defines the known types that can appear in the pNext chain of properties for a queue family.
+    public protocol ExtendedFamilyProperties {
+        static var sType: VkStructureType { get }
+    }
+
+    /// Gets a specific set of extended properties from the queue family's pNext chain.
+    /// - Parameter type: The type of the extended properties to retrieve.
+    /// - Returns: An instance of the extended properties if found, otherwise `nil`.
+    @inlinable
+    public func getExtendedFeatures<T: ExtendedFamilyProperties>(type: T.Type) -> T? {
+        return unsafe properties2.get(
+            T.sType,
+            type: T.self
+        )
+    }
+}
+
+extension PhysicalDevice.QueueFamily {
     // BEGIN_GENERATE_QUEUE_FAMILY_PROPERTIES_EXTENDS
     // Generated using header version: 318
 
-    /// Wrapper for the Vulkan VkQueueFamilyOwnershipTransferPropertiesKHR.
+    /// Wrapper around the Vulkan VkQueueFamilyOwnershipTransferPropertiesKHR.
     /// Available with extension VK_KHR_maintenance9
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkQueueFamilyOwnershipTransferPropertiesKHR.html)
-    public var ownershipTransferProperties_KHR: OwnershipTransferProperties_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_QUEUE_FAMILY_OWNERSHIP_TRANSFER_PROPERTIES_KHR,
-            type: VkQueueFamilyOwnershipTransferPropertiesKHR.self)
-        return unsafe raw != nil ? OwnershipTransferProperties_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkQueueFamilyGlobalPriorityProperties.
-    /// Available with version VulkanGenerate.Version, extension VK_KHR_global_priority, or extension VK_EXT_global_priority_query
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkQueueFamilyGlobalPriorityProperties.html)
-    public var globalPriorityProperties: GlobalPriorityProperties? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES, type: VkQueueFamilyGlobalPriorityProperties.self)
-        return unsafe raw != nil ? GlobalPriorityProperties(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkQueueFamilyCheckpointPropertiesNV.
-    /// Available with extension VK_NV_device_diagnostic_checkpoints
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkQueueFamilyCheckpointPropertiesNV.html)
-    public var checkpointProperties_NV: CheckpointProperties_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_QUEUE_FAMILY_CHECKPOINT_PROPERTIES_NV, type: VkQueueFamilyCheckpointPropertiesNV.self)
-        return unsafe raw != nil ? CheckpointProperties_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkQueueFamilyCheckpointProperties2NV.
-    /// Available with extension VK_NV_device_diagnostic_checkpoints
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkQueueFamilyCheckpointProperties2NV.html)
-    public var checkpointProperties2_NV: CheckpointProperties2_NV? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_QUEUE_FAMILY_CHECKPOINT_PROPERTIES_2_NV, type: VkQueueFamilyCheckpointProperties2NV.self)
-        return unsafe raw != nil ? CheckpointProperties2_NV(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkQueueFamilyVideoPropertiesKHR.
-    /// Available with extension VK_KHR_video_queue
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkQueueFamilyVideoPropertiesKHR.html)
-    public var videoProperties_KHR: VideoProperties_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_QUEUE_FAMILY_VIDEO_PROPERTIES_KHR, type: VkQueueFamilyVideoPropertiesKHR.self)
-        return unsafe raw != nil ? VideoProperties_KHR(rawValue: raw!) : nil
-    }
-
-    /// Wrapper for the Vulkan VkQueueFamilyQueryResultStatusPropertiesKHR.
-    /// Available with extension VK_KHR_video_queue
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkQueueFamilyQueryResultStatusPropertiesKHR.html)
-    public var queryResultStatusProperties_KHR: QueryResultStatusProperties_KHR? {
-        let raw = unsafe nextChain.get(
-            VK_STRUCTURE_TYPE_QUEUE_FAMILY_QUERY_RESULT_STATUS_PROPERTIES_KHR,
-            type: VkQueueFamilyQueryResultStatusPropertiesKHR.self)
-        return unsafe raw != nil ? QueryResultStatusProperties_KHR(rawValue: raw!) : nil
-    }
-
-
-    /// Wrapper around the Vulkan VkQueueFamilyOwnershipTransferPropertiesKHR.
-    /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkQueueFamilyOwnershipTransferPropertiesKHR.html)
     @safe
-    public struct OwnershipTransferProperties_KHR {
+    public struct OwnershipTransferProperties_KHR: ExtendedFamilyProperties {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_QUEUE_FAMILY_OWNERSHIP_TRANSFER_PROPERTIES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkQueueFamilyOwnershipTransferPropertiesKHR
@@ -91,9 +55,12 @@ extension PhysicalDevice.QueueFamily {
     }
 
     /// Wrapper around the Vulkan VkQueueFamilyGlobalPriorityProperties.
+    /// Available with version VulkanGenerate.Version, extension VK_KHR_global_priority, or extension VK_EXT_global_priority_query
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkQueueFamilyGlobalPriorityProperties.html)
     @safe
-    public struct GlobalPriorityProperties {
+    public struct GlobalPriorityProperties: ExtendedFamilyProperties {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkQueueFamilyGlobalPriorityProperties
@@ -119,9 +86,12 @@ extension PhysicalDevice.QueueFamily {
     }
 
     /// Wrapper around the Vulkan VkQueueFamilyCheckpointPropertiesNV.
+    /// Available with extension VK_NV_device_diagnostic_checkpoints
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkQueueFamilyCheckpointPropertiesNV.html)
     @safe
-    public struct CheckpointProperties_NV {
+    public struct CheckpointProperties_NV: ExtendedFamilyProperties {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_QUEUE_FAMILY_CHECKPOINT_PROPERTIES_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkQueueFamilyCheckpointPropertiesNV
@@ -140,9 +110,12 @@ extension PhysicalDevice.QueueFamily {
     }
 
     /// Wrapper around the Vulkan VkQueueFamilyCheckpointProperties2NV.
+    /// Available with extension VK_NV_device_diagnostic_checkpoints
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkQueueFamilyCheckpointProperties2NV.html)
     @safe
-    public struct CheckpointProperties2_NV {
+    public struct CheckpointProperties2_NV: ExtendedFamilyProperties {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_QUEUE_FAMILY_CHECKPOINT_PROPERTIES_2_NV
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkQueueFamilyCheckpointProperties2NV
@@ -161,9 +134,12 @@ extension PhysicalDevice.QueueFamily {
     }
 
     /// Wrapper around the Vulkan VkQueueFamilyVideoPropertiesKHR.
+    /// Available with extension VK_KHR_video_queue
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkQueueFamilyVideoPropertiesKHR.html)
     @safe
-    public struct VideoProperties_KHR {
+    public struct VideoProperties_KHR: ExtendedFamilyProperties {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_QUEUE_FAMILY_VIDEO_PROPERTIES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkQueueFamilyVideoPropertiesKHR
@@ -182,9 +158,12 @@ extension PhysicalDevice.QueueFamily {
     }
 
     /// Wrapper around the Vulkan VkQueueFamilyQueryResultStatusPropertiesKHR.
+    /// Available with extension VK_KHR_video_queue
     /// - SeeAlso: [Vulkan Specification](https://registry.khronos.org/vulkan/specs/latest/man/html/VkQueueFamilyQueryResultStatusPropertiesKHR.html)
     @safe
-    public struct QueryResultStatusProperties_KHR {
+    public struct QueryResultStatusProperties_KHR: ExtendedFamilyProperties {
+        public static let sType: VkStructureType = VK_STRUCTURE_TYPE_QUEUE_FAMILY_QUERY_RESULT_STATUS_PROPERTIES_KHR
+
         /// The raw Vulkan structure.
         @unsafe
         private var rawValue: VkQueueFamilyQueryResultStatusPropertiesKHR
