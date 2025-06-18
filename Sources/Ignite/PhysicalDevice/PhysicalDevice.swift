@@ -58,6 +58,7 @@ public struct PhysicalDevice {
 
     /// A set of enabled extensions for the physical device.
     /// This is set with the required extensions when the physical device is selected by a `PhysicalDeviceSelector`.
+    @usableFromInline
     internal var enabledExtensions: Set<DeviceExtension> = []
 
     /// Creates a new `PhysicalDevice` instance by wrapping a Vulkan physical device handle.

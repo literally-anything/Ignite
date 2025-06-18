@@ -19,7 +19,7 @@ extension Instance {
 }
 
 /// A helper that makes it easier to find devices with specific features or properties.
-public class PhysicalDeviceSelector {
+public final class PhysicalDeviceSelector {
     /// The array of physical devices that are available.
     @usableFromInline
     internal var physicalDevices: [PhysicalDevice]
