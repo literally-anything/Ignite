@@ -80,8 +80,8 @@ extension Device.Builder {
     /// - Returns: `self` for method chaining.
     @inlinable
     @discardableResult
-    public func enable(feature: WritableKeyPath<VkPhysicalDeviceFeatures, Bool>) -> Self {
-        enabledFeatures[keyPath: feature] = true
+    public func enable(feature: WritableKeyPath<VkPhysicalDeviceFeatures, VkBool32>) -> Self {
+        enabledFeatures[keyPath: feature] = 1
         return self
     }
     /// Enables the specified features.
@@ -90,9 +90,9 @@ extension Device.Builder {
     /// - Returns: `self` for method chaining.
     @inlinable
     @discardableResult
-    public func enable(features: [WritableKeyPath<VkPhysicalDeviceFeatures, Bool>]) -> Self {
+    public func enable(features: [WritableKeyPath<VkPhysicalDeviceFeatures, VkBool32>]) -> Self {
         for feature in features {
-            enabledFeatures[keyPath: feature] = true
+            enabledFeatures[keyPath: feature] = 1
         }
         return self
     }
@@ -102,7 +102,7 @@ extension Device.Builder {
     /// - Returns: `self` for method chaining.
     @inlinable
     @discardableResult
-    public func enable(features: WritableKeyPath<VkPhysicalDeviceFeatures, Bool>...) -> Self {
+    public func enable(features: WritableKeyPath<VkPhysicalDeviceFeatures, VkBool32>...) -> Self {
         enable(features: features)
     }
 
@@ -177,6 +177,82 @@ extension Device.Builder {
         let endIndex = currentQueueIndex + count
         currentQueueIndex += count
         return unsafe Range(uncheckedBounds: (lower: startIndex, upper: endIndex))
+    }
+
+    /// Selects a specific basic type of queue.
+    public enum QueueType {
+        /// A graphics queue, which supports graphics operations.
+        /// This can also do compute and transfer operations.
+        case graphics
+        /// A compute queue, which supports compute operations.
+        /// This can also do transfer operations.
+        case compute
+        /// A transfer queue, which supports transfer operations.
+        case transfer
+        /// A custom queue type, which allows manually specifying queue flags.
+        case custom(QueueFlags)
+    }
+    /// Adds a queue of the specified type.
+    /// - Parameters:
+    ///   - type: The type of queue to add.
+    ///   - forceDedicated: If `true`, forces the use of a dedicated queue family for the specified type (Exact match).
+    ///   - flags: The flags that describe the capabilities of the queue.
+    ///   - priority: The priority of the queue, ranging from 0.0 to 1.0.
+    ///   - pNext: An optional pNext chain for the queue create info.
+    /// - Returns: The index of the created queue, or `nil` if no suitable family was found.
+    @safe
+    public func addQueue(
+        _ type: QueueType,
+        forceDedicated: Bool = false,
+        flags: QueueFlags = [],
+        priority: Float = 0.5,
+        pNext: UnsafeRawPointer? = nil
+    ) -> Int? {
+        var family =
+            switch type {
+                case .graphics:
+                    physicalDevice.queueFamilies.first {
+                        $0.supportsGraphics && !$0.supportsCompute && !$0.supportsTransfer
+                    }
+                case .compute:
+                    physicalDevice.queueFamilies.first {
+                        $0.supportsCompute && !$0.supportsGraphics && !$0.supportsTransfer
+                    }
+                case .transfer:
+                    physicalDevice.queueFamilies.first {
+                        $0.supportsTransfer && !$0.supportsGraphics && !$0.supportsCompute
+                    }
+                case .custom(let flags):
+                    physicalDevice.queueFamilies.first {
+                        $0.queueFlags == flags
+                    }
+            }
+        // If there is not dedicated family for the type, we default to any family that supports the type.
+        if family == nil && !forceDedicated {
+            family = switch type {
+                case .graphics:
+                    physicalDevice.queueFamilies.first(where: \.supportsGraphics)
+                case .compute:
+                    physicalDevice.queueFamilies.first(where: \.supportsCompute)
+                case .transfer:
+                    physicalDevice.queueFamilies.first(where: \.supportsTransfer)
+                case .custom(let flags):
+                    physicalDevice.queueFamilies.first {
+                        $0.queueFlags.isSuperset(of: flags)
+                    }
+            }
+        }
+
+        if let family {
+            return addQueue(
+                family: family,
+                flags: flags,
+                priority: priority,
+                pNext: pNext
+            )
+        } else {
+            return nil
+        }
     }
 
     /// Forces the `VK_KHR_portability_subset` extension to be disabled even if it is supported by the physical device.
