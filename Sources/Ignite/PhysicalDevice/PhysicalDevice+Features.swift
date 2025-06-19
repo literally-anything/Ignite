@@ -27,6 +27,7 @@ extension PhysicalDevice {
         internal init(instance: borrowing Instance, handle: VkPhysicalDevice) {
             if instance.has_getPhysicalDeviceProperties2 {
                 var features2 = unsafe VkPhysicalDeviceFeatures2()
+                unsafe features2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2
                 unsafe instance.table.getPhysicalDeviceFeatures2(handle, &features2)
 
                 self.features = unsafe features2.features

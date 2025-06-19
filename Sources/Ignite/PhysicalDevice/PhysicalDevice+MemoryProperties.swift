@@ -30,6 +30,7 @@ extension PhysicalDevice {
             var memoryProperties: VkPhysicalDeviceMemoryProperties
             if instance.has_getPhysicalDeviceProperties2 {
                 var memoryProperties2 = unsafe VkPhysicalDeviceMemoryProperties2()
+                unsafe memoryProperties2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_PROPERTIES_2
                 unsafe instance.table.getPhysicalDeviceMemoryProperties2(handle, &memoryProperties2)
 
                 memoryProperties = unsafe memoryProperties2.memoryProperties

@@ -74,6 +74,7 @@ public struct PhysicalDevice {
         if instance.has_getPhysicalDeviceProperties2 {
             // If the instance has the VK_KHR_get_physical_device_properties2 extension, use it to get properties
             var properties2 = unsafe VkPhysicalDeviceProperties2()
+            unsafe properties2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2
             unsafe instance.table.getPhysicalDeviceProperties2(handle, &properties2)
             self.properties = unsafe properties2.properties
             unsafe self.properties2 = OutputChain(pNext: properties2.pNext)
@@ -83,6 +84,9 @@ public struct PhysicalDevice {
             unsafe instance.table.getPhysicalDeviceQueueFamilyProperties2(handle, &queueFamilyCount, nil)
             let rawQueueFamilies: [VkQueueFamilyProperties2?] =
                 unsafe Array(unsafeUninitializedCapacity: Int(queueFamilyCount)) { buffer, initializedCount in
+                    for i in 0..<buffer.count {
+                        unsafe buffer[i].sType = VK_STRUCTURE_TYPE_QUEUE_FAMILY_PROPERTIES_2
+                    }
                     unsafe instance.table.getPhysicalDeviceQueueFamilyProperties2(
                         handle, &queueFamilyCount, buffer.baseAddress)
                     initializedCount = Int(queueFamilyCount)

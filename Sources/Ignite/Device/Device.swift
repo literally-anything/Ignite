@@ -119,11 +119,22 @@ public final class Device: @unchecked Sendable {
         autoPortability: Bool,
         physicalDevice: consuming PhysicalDevice
     ) throws(VulkanError) {
+        var extensions = extensions
         if autoPortability {
             // If the physical device supports the VK_KHR_portability_subset extension, enable it automatically.
             // This is required by the specification for devices that support portability.
             if physicalDevice.availableExtensions.contains(.portabilitySubset_KHR) {
-                physicalDevice.enabledExtensions.insert(.portabilitySubset_KHR)
+                guard physicalDevice.instance.has_getPhysicalDeviceProperties2 else {
+                    debugLog(
+                        "Failed to enable VK_KHR_portability_subset extension: getPhysicalDeviceProperties2 instance extension is not available."
+                    )
+                    print(
+                        "VK_KHR_portability_subset extension is required for this device, " +
+                        "but the instance extension VK_KHR_get_physical_device_properties2 is not enabled."
+                    )
+                    throw .extensionNotPresent
+                }
+                extensions.insert(.portabilitySubset_KHR)
             }
         }
 

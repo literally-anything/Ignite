@@ -260,6 +260,7 @@ public final class Instance: @unchecked Sendable {
         }
     }
 
+    /// Destroys the Vulkan instance and the debug messenger if it was created.
     deinit {
         unsafe debugMessenger.take()?.destroy(
             instance: handle,
