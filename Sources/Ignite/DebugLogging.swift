@@ -7,7 +7,7 @@
  */
 
 // Just needed a way to log failures to load the Vulkan library only when in debug mode.
-#if DEBUG
+#if DEBUG && Logging
     internal import Logging
     private struct LoaderLoggerContainer {
         static let shared = Logger(label: "Ignite.Loader.Debug")

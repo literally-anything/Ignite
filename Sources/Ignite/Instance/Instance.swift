@@ -8,6 +8,11 @@
 
 public import CVulkan
 
+#if Logging
+    internal import Logging
+#endif
+
+/// An error that can occur when creating a Vulkan instance.
 public enum InstanceCreateError: Error {
     /// This error means that the loader was not found.
     case loaderFailed
@@ -36,6 +41,8 @@ public final class Instance: @unchecked Sendable {
     public let handle: VkInstance
     /// The table of Vulkan functions for this instance.
     public let table: InstanceTable
+    /// The debug messenger for this instance, if it was created.
+    internal var debugMessenger: DebugMessenger?
 
     /// Whether the instance has the `vkGetPhysicalDeviceProperties2`-related functions available.
     /// This is true for Vulkan 1.1+ or if the `VK_KHR_get_physical_device_properties2` extension is enabled.
@@ -51,6 +58,7 @@ public final class Instance: @unchecked Sendable {
         unsafe self.handle = instance
         self.table = unsafe InstanceTable(getInstanceProcAddr: Loader.shared.table.getInstanceProcAddr, instance: instance)
         self.has_getPhysicalDeviceProperties2 = false
+        self.debugMessenger = nil
     }
 
     /// Creates a new Vulkan instance.
@@ -59,6 +67,8 @@ public final class Instance: @unchecked Sendable {
     ///   - layers: A set of layer names to enable for the instance. These must be available.
     ///   - extensions: A set of instance extensions to enable. These must be available.
     ///   - flags: Extra flags to pass to the instance creation.
+    ///   - portability: Whether to set the portability bit in the instance creation flags.
+    ///   - debugMessenger: Whether to enable the debug messenger extension.
     ///   - applicationInfo: Optional extra application information to pass to the instance.
     ///   - chain: A chain of additional structures to pass to the instance creation.
     /// - Throws: An `InstanceCreateError` if the instance could not be created.
@@ -69,13 +79,18 @@ public final class Instance: @unchecked Sendable {
         layers: Set<String> = [], 
         extensions: Set<InstanceExtension> = [],
         flags: InstanceCreateFlags = [],
+        portability: Bool = true,
+        debugMessenger: Bool = true,
         applicationInfo: Applicationinfo? = nil,
-        chain: borrowing InstanceCreateInfoChain = InstanceCreateInfoChain()
+        chain: borrowing InstanceCreateInfoChain = InstanceCreateInfoChain(),
+        debugCallback: DebugUtilsMessengerCallback? = nil
     ) throws(InstanceCreateError) {
         // First we need to ensure that the loader could setup correctly.
         guard Loader.checkSetup() else {
             throw .loaderFailed
         }
+        var extensions = extensions
+        var flags = flags
 
         #if DEBUG
             // In debug builds, we always try to enable the validation layer.
@@ -85,6 +100,22 @@ public final class Instance: @unchecked Sendable {
                 debugLog("Enabling VK_LAYER_KHRONOS_validation layer automatically (because of debug build).")
             }
         #endif
+
+        if portability {
+            if Loader.shared.availableExtensions.contains(.portabilityEnumeration_KHR) {
+                extensions.insert(.portabilityEnumeration_KHR)
+                flags.insert(.enumeratePortability_KHR)
+            }
+        }
+        var doCreateDebugMessenger = false
+        if debugMessenger {
+            if Loader.shared.availableExtensions.contains(.debugUtils_EXT) {
+                extensions.insert(.debugUtils_EXT)
+                doCreateDebugMessenger = true
+            } else {
+                debugLog("Debug messenger extension not available, skipping.")
+            }
+        }
 
         // This is provided by either the `VK_KHR_get_physical_device_properties2` extension or Vulkan 1.1+.
         self.has_getPhysicalDeviceProperties2 =
@@ -196,5 +227,44 @@ public final class Instance: @unchecked Sendable {
         
         unsafe self.handle = instance!
         self.table = unsafe InstanceTable(getInstanceProcAddr: Loader.shared.table.getInstanceProcAddr, instance: instance!)
+
+        if doCreateDebugMessenger {
+            var messageSeverity: DebugUtilsMessageSeverityFlagsEXT = [
+                .warning_EXT,
+                .error_EXT
+            ]
+            #if DEBUG
+                messageSeverity.insert(.verbose_EXT)
+                messageSeverity.insert(.info_EXT)
+            #endif
+
+            let messageType: DebugUtilsMessageTypeFlagsEXT = [
+                .general_EXT,
+                .validation_EXT,
+                .performance_EXT,
+                .deviceAddressBinding_EXT
+            ]
+
+            self.debugMessenger = unsafe try? DebugMessenger(
+                instance: handle,
+                createDebugUtilsMessenger: table.createDebugUtilsMessengerEXT,
+                messageSeverity: messageSeverity,
+                messageType: messageType,
+                callback: debugCallback ?? DebugMessenger.getDefaultCallback()
+            )
+            if self.debugMessenger == nil {
+                debugLog("Failed to create debug messenger. This is not a critical error, but you won't get debug messages.")
+            }
+        } else {
+            self.debugMessenger = nil
+        }
+    }
+
+    deinit {
+        unsafe debugMessenger.take()?.destroy(
+            instance: handle,
+            destroyDebugUtilsMessenger: table.destroyDebugUtilsMessengerEXT
+        )
+        unsafe table.destroyInstance(handle, nil)
     }
 }
