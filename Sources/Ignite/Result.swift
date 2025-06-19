@@ -8,13 +8,19 @@
 
 public import CVulkan
 
+/// A Vulkan result type that represents non-error results.
 public typealias VulkanSuccess = VulkanResult.Success
+/// A Vulkan result that is an error.
 public typealias VulkanError = VulkanResult.Error
 
+/// A Vulkan function result type that can represent both success and error states.
 public enum VulkanResult: Sendable {
+    /// Represents a Vulkan result that is an error.
     case error(Self.Error)
+    /// Represents a Vulkan result that is a success.
     case success(Success)
 
+    /// A Vulkan result that indicates an error.
     public enum Error: Int32, Sendable, Swift.Error {
         // BEGIN_GENERATE_ERROR_CASES
         // Generated using header version: 318
@@ -73,6 +79,7 @@ public enum VulkanResult: Sendable {
         // END_GENERATE_ERROR_CASES
     }
 
+    /// A Vulkan function result that indicates success.
     public enum Success: Int32, Sendable {
         // BEGIN_GENERATE_SUCCESS_CASES
         // Generated using header version: 318
@@ -102,11 +109,14 @@ public enum VulkanResult: Sendable {
         // END_GENERATE_SUCCESS_CASES
     }
 
+    /// Initializes a `VulkanResult` directly from a `VkResult`.
+    /// - Parameter result: The Vulkan result to initialize from.
     @inlinable
     public init(_ result: VkResult) {
         self.init(result.rawValue)
     }
-
+    /// Initializes a `VulkanResult` directly from an `Int32` result code.
+    /// - Parameter result: The Vulkan result code to initialize from.
     @inlinable
     public init(_ result: Int32) {
         if let success = Success(rawValue: result) {
@@ -118,26 +128,40 @@ public enum VulkanResult: Sendable {
         }
     }
 
+    /// Checks a Vulkan result and throws an error if it is not a success.
+    /// - Parameter result: The Vulkan result to check.
+    /// - Throws: An error if the result is an error.
+    /// - Returns: The success value if the result is a success.
     @inlinable
     @discardableResult
     public static func check(_ result: VkResult) throws(Self.Error) -> Success {
         try check(result.rawValue)
     }
-
-    // @inlinable
+    /// Checks a Vulkan result and throws an error if it is not a success.
+    /// - Parameter result: The Vulkan result to check.
+    /// - Throws: An error if the result is an error.
+    /// - Returns: The success value if the result is a success.
+    #if !DEBUG
+        @inlinable
+    #endif
     @discardableResult
     public static func check(_ result: Int32) throws(Self.Error) -> Success {
         guard let success = Success(rawValue: result) else {
             let error = Self.Error(rawValue: result)
             guard let error else {
-                debugLog("Got unknown result: \(result)")
+                #if DEBUG
+                    debugLog("Got unknown result: \(result)")
+                #endif
                 throw Self.Error.unknown
             }
             throw error
         }
         return success
     }
-
+    /// Checks a Vulkan result and throws an error if it is not a success.
+    /// - Parameter result: The Vulkan result to check.
+    /// - Throws: An error if the result is an error.
+    /// - Returns: The success value if the result is a success.
     @inlinable
     @discardableResult
     public static func check(_ result: VulkanResult) throws(Self.Error) -> Success {
