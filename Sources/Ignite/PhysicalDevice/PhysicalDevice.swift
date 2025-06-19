@@ -143,7 +143,9 @@ public struct PhysicalDevice {
                     buffer.baseAddress
                 )
                 guard case .success = VulkanResult(result) else {
-                    preconditionFailure("Failed to enumerate device extensions. This should never happen. VkResult: \(result).")
+                    preconditionFailure(
+                        "Failed to enumerate device extensions. This should never happen. VkResult: \(result)."
+                    )
                 }
                 initializedCount = Int(extensionCount)
             }

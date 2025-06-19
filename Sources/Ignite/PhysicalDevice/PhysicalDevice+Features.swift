@@ -1,7 +1,7 @@
 /**
  * PhysicalDevice+Features.swift
  * PhysicalDevice
- * 
+ *
  * Created by Hunter Baker on 6/17/2025
  * Copyright (C) 2025-2025, by Hunter Baker hunterbaker@me.com
  */

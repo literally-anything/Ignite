@@ -76,7 +76,7 @@ public final class Instance: @unchecked Sendable {
     @safe
     public init(
         version: ApiVersion,
-        layers: Set<String> = [], 
+        layers: Set<String> = [],
         extensions: Set<InstanceExtension> = [],
         flags: InstanceCreateFlags = [],
         portability: Bool = true,
@@ -224,7 +224,7 @@ public final class Instance: @unchecked Sendable {
                     throw InstanceCreateError.other(error)
             }
         }
-        
+
         unsafe self.handle = instance!
         self.table = unsafe InstanceTable(getInstanceProcAddr: Loader.shared.table.getInstanceProcAddr, instance: instance!)
 

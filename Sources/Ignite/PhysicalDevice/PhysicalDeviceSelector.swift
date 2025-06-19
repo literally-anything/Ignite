@@ -1,7 +1,7 @@
 /**
  * PhysicalDeviceSelector.swift
  * PhysicalDevice
- * 
+ *
  * Created by Hunter Baker on 6/17/2025
  * Copyright (C) 2025-2025, by Hunter Baker hunterbaker@me.com
  */
@@ -91,9 +91,7 @@ extension PhysicalDeviceSelector {
 
             // Other sorting methods are just used as a tiebreaker when the extension scores are equal.
             let doDefaultSorting =
-                preferredDeviceType == nil &&
-                !doPreferLargerMemory &&
-                !doPreferNewerApi
+                preferredDeviceType == nil && !doPreferLargerMemory && !doPreferNewerApi
             var score: Int = 0
             if let preferredDeviceType {
                 // If we have a preferred device type, we prefer devices that match it.

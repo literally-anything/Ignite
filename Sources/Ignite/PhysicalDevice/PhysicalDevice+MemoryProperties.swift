@@ -1,7 +1,7 @@
 /**
  * PhysicalDevice+MemoryProperties.swift
  * PhysicalDevice
- * 
+ *
  * Created by Hunter Baker on 6/17/2025
  * Copyright (C) 2025-2025, by Hunter Baker hunterbaker@me.com
  */
@@ -42,7 +42,8 @@ extension PhysicalDevice {
                 self.memoryProperties2 = nil
             }
 
-            self.heaps = unsafe Array(unsafeUninitializedCapacity: Int(memoryProperties.memoryHeapCount)) { buffer, initializedCount in 
+            self.heaps = unsafe Array(unsafeUninitializedCapacity: Int(memoryProperties.memoryHeapCount)) {
+                buffer, initializedCount in
                 unsafe withUnsafePointer(to: memoryProperties.memoryHeaps) { heapsPtr in
                     let fixedHeapsPtr = unsafe UnsafeRawPointer(heapsPtr).assumingMemoryBound(to: VkMemoryHeap.self)
                     for i in 0..<Int(memoryProperties.memoryHeapCount) {
@@ -53,7 +54,8 @@ extension PhysicalDevice {
             }
 
             let heaps = self.heaps
-            types = unsafe Array(unsafeUninitializedCapacity: Int(memoryProperties.memoryTypeCount)) { buffer, initializedCount in
+            types = unsafe Array(unsafeUninitializedCapacity: Int(memoryProperties.memoryTypeCount)) {
+                buffer, initializedCount in
                 unsafe withUnsafePointer(to: memoryProperties.memoryTypes) { typesPtr in
                     let fixedTypesPtr = unsafe UnsafeRawPointer(typesPtr).assumingMemoryBound(to: VkMemoryType.self)
                     for i in 0..<Int(memoryProperties.memoryTypeCount) {

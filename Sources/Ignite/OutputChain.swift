@@ -1,7 +1,7 @@
 /**
  * OutputChain.swift
  * Ignite
- * 
+ *
  * Created by Hunter Baker on 6/14/2025
  * Copyright (C) 2025-2025, by Hunter Baker hunterbaker@me.com
  */

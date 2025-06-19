@@ -1,7 +1,7 @@
 /**
  * DebugLogging.swift
  * Loader
- * 
+ *
  * Created by Hunter Baker on 4/22/2025
  * Copyright (C) 2025-2025, by Hunter Baker hunterbaker@me.com
  */
@@ -14,15 +14,25 @@
     }
     /// A debug logging function that only prints in debug mode.
     internal func debugLog(
-        _ message: @autoclosure () -> Logger.Message, file: String = #fileID, function: String = #function, line: UInt = #line
+        _ message: @autoclosure () -> Logger.Message,
+        file: String = #fileID,
+        function: String = #function,
+        line: UInt = #line
     ) {
-        LoaderLoggerContainer.shared.debug(message(), file: file, function: function, line: line)
+        LoaderLoggerContainer.shared.debug(
+            message(), file: file, function: function, line: line
+        )
     }
     /// A trace logging function that only prints in debug mode.
     internal func traceLog(
-        _ message: @autoclosure () -> Logger.Message, file: String = #fileID, function: String = #function, line: UInt = #line
+        _ message: @autoclosure () -> Logger.Message,
+        file: String = #fileID,
+        function: String = #function,
+        line: UInt = #line
     ) {
-        LoaderLoggerContainer.shared.trace(message(), file: file, function: function, line: line)
+        LoaderLoggerContainer.shared.trace(
+            message(), file: file, function: function, line: line
+        )
     }
 #else
     /// A logging function that only prints in debug mode.
