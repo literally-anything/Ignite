@@ -21,6 +21,19 @@ extension Device {
         @usableFromInline
         internal var enabledFeatures: VkPhysicalDeviceFeatures = VkPhysicalDeviceFeatures()
 
+        /// A map of queue family indices to the number of queues requested for that family.
+        /// This is used to ensure that we don't request more queues than the family supports.
+        internal var queueCounts: [UInt32: UInt32] = [:]
+        /// The valid queue families that can be used to create queues.
+        /// This is derived from the physical device's queue families by removing families that have no queues left to allocate.
+        internal var validQueueFamilies: [PhysicalDevice.QueueFamily] {
+            physicalDevice.queueFamilies.filter { family in
+                // Check if the family has any queues left to allocate.
+                let usedCount = queueCounts[family.index] ?? 0
+                return family.queueCount > usedCount
+            }
+        }
+
         /// The start pointer for the pNext chain in the device creation info.
         internal var pNextStart: UnsafePointer<VkBaseInStructure>? = nil
         // internal var pNextEnd: UnsafeMutablePointer<VkBaseInStructure>? = nil
@@ -74,37 +87,50 @@ extension Device.Builder {
         return self
     }
 
-    /// Enables the specified feature.
-    /// - Note: This does not check if the feature is supported by the physical device.
-    /// - Parameter feature: A feature to enable.
+    /// Allows modifying the enabled features of the physical device.
+    /// - Parameter body: A closure that modifies the `VkPhysicalDeviceFeatures` structure.
+    /// - Note: This does not check if the features are supported by the physical device.
     /// - Returns: `self` for method chaining.
-    @inlinable
     @discardableResult
-    public func enable(feature: WritableKeyPath<VkPhysicalDeviceFeatures, VkBool32>) -> Self {
-        enabledFeatures[keyPath: feature] = 1
+    public func modifyFeatures(_ body: (inout VkPhysicalDeviceFeatures) -> Void) -> Self {
+        var features = enabledFeatures
+        body(&features)
+        enabledFeatures = features
         return self
     }
-    /// Enables the specified features.
-    /// - Note: This does not check if the features are supported by the physical device.
-    /// - Parameter features: A lsit features to enable.
-    /// - Returns: `self` for method chaining.
-    @inlinable
-    @discardableResult
-    public func enable(features: [WritableKeyPath<VkPhysicalDeviceFeatures, VkBool32>]) -> Self {
-        for feature in features {
-            enabledFeatures[keyPath: feature] = 1
-        }
-        return self
-    }
-    /// Enables the specified features.
-    /// - Note: This does not check if the features are supported by the physical device.
-    /// - Parameter features: A variadic collection of features to enable.
-    /// - Returns: `self` for method chaining.
-    @inlinable
-    @discardableResult
-    public func enable(features: WritableKeyPath<VkPhysicalDeviceFeatures, VkBool32>...) -> Self {
-        enable(features: features)
-    }
+
+    // Had to stop using these temporarily because swift gives an error when trying to use any KeyPath with this.
+    // /// Enables the specified feature.
+    // /// - Note: This does not check if the feature is supported by the physical device.
+    // /// - Parameter feature: A feature to enable.
+    // /// - Returns: `self` for method chaining.
+    // @inlinable
+    // @discardableResult
+    // public func enable(feature: WritableKeyPath<VkPhysicalDeviceFeatures, VkBool32>) -> Self {
+    //     enabledFeatures[keyPath: feature] = 1
+    //     return self
+    // }
+    // /// Enables the specified features.
+    // /// - Note: This does not check if the features are supported by the physical device.
+    // /// - Parameter features: A lsit features to enable.
+    // /// - Returns: `self` for method chaining.
+    // @inlinable
+    // @discardableResult
+    // public func enable(features: [WritableKeyPath<VkPhysicalDeviceFeatures, VkBool32>]) -> Self {
+    //     for feature in features {
+    //         enabledFeatures[keyPath: feature] = 1
+    //     }
+    //     return self
+    // }
+    // /// Enables the specified features.
+    // /// - Note: This does not check if the features are supported by the physical device.
+    // /// - Parameter features: A variadic collection of features to enable.
+    // /// - Returns: `self` for method chaining.
+    // @inlinable
+    // @discardableResult
+    // public func enable(features: WritableKeyPath<VkPhysicalDeviceFeatures, VkBool32>...) -> Self {
+    //     enable(features: features)
+    // }
 
     /// The information required to create a set of queues.
     @safe
@@ -127,14 +153,19 @@ extension Device.Builder {
     ///   - flags: The flags that describe the capabilities of the queue.
     ///   - priority: The priority of the queue, ranging from 0.0 to 1.0.
     ///   - pNext: An optional pNext chain for the queue create info.
-    /// - Returns: The index of the created queue.
+    /// - Returns: The index of the created queue or `nil` if the family has no queues left to allocate.
     @safe
     public func addQueue(
         family: PhysicalDevice.QueueFamily,
         flags: QueueFlags = [],
         priority: Float = 0.5,
         pNext: UnsafeRawPointer? = nil
-    ) -> Int {
+    ) -> Int? {
+        guard queueCounts[family.index, default: 0] < family.queueCount else {
+            // The family has no queues left to allocate.
+            return nil
+        }
+
         queueCreateInfos.append(
             unsafe QueueCreateInfo(
                 familyIndex: family.index,
@@ -145,6 +176,7 @@ extension Device.Builder {
             )
         )
         currentQueueIndex += 1
+        queueCounts[family.index, default: 0] += 1
         return currentQueueIndex
     }
     /// Adds a range of queues with the specified family and info.
@@ -154,7 +186,8 @@ extension Device.Builder {
     ///   - flags: The flags that describe the capabilities of the queues.
     ///   - priority: The priority of the queues, ranging from 0.0 to 1.0.
     ///   - pNext: An optional pNext chain for the queue create info.
-    /// - Returns: A range containing the start and end indices of the created queues.
+    /// - Returns: A range containing the start and end indices of the created queues
+    ///            or `nil` if the family doen't have enough queues left to allocate.
     @safe
     public func addQueues(
         family: PhysicalDevice.QueueFamily,
@@ -162,8 +195,13 @@ extension Device.Builder {
         flags: QueueFlags = [],
         priority: Float = 0.5,
         pNext: UnsafeRawPointer? = nil
-    ) -> Range<Int> {
+    ) -> Range<Int>? {
         precondition(count > 0, "Queue count must be greater than 0")
+        guard family.queueCount - queueCounts[family.index, default: 0] >= count else {
+            // The family has no queues left to allocate.
+            return nil
+        }
+
         queueCreateInfos.append(
             unsafe QueueCreateInfo(
                 familyIndex: family.index,
@@ -176,6 +214,7 @@ extension Device.Builder {
         let startIndex = currentQueueIndex + 1
         let endIndex = currentQueueIndex + count
         currentQueueIndex += count
+        queueCounts[family.index, default: 0] += UInt32(count)
         return unsafe Range(uncheckedBounds: (lower: startIndex, upper: endIndex))
     }
 
@@ -211,19 +250,19 @@ extension Device.Builder {
         var family =
             switch type {
                 case .graphics:
-                    physicalDevice.queueFamilies.first {
+                    validQueueFamilies.first {
                         $0.supportsGraphics && !$0.supportsCompute && !$0.supportsTransfer
                     }
                 case .compute:
-                    physicalDevice.queueFamilies.first {
+                    validQueueFamilies.first {
                         $0.supportsCompute && !$0.supportsGraphics && !$0.supportsTransfer
                     }
                 case .transfer:
-                    physicalDevice.queueFamilies.first {
+                    validQueueFamilies.first {
                         $0.supportsTransfer && !$0.supportsGraphics && !$0.supportsCompute
                     }
                 case .custom(let flags):
-                    physicalDevice.queueFamilies.first {
+                    validQueueFamilies.first {
                         $0.queueFlags == flags
                     }
             }
@@ -231,13 +270,13 @@ extension Device.Builder {
         if family == nil && !forceDedicated {
             family = switch type {
                 case .graphics:
-                    physicalDevice.queueFamilies.first(where: \.supportsGraphics)
+                    validQueueFamilies.first(where: \.supportsGraphics)
                 case .compute:
-                    physicalDevice.queueFamilies.first(where: \.supportsCompute)
+                    validQueueFamilies.first(where: \.supportsCompute)
                 case .transfer:
-                    physicalDevice.queueFamilies.first(where: \.supportsTransfer)
+                    validQueueFamilies.first(where: \.supportsTransfer)
                 case .custom(let flags):
-                    physicalDevice.queueFamilies.first {
+                    validQueueFamilies.first {
                         $0.queueFlags.isSuperset(of: flags)
                     }
             }
