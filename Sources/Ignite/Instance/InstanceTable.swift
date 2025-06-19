@@ -46,110 +46,6 @@ extension Instance {
         @unsafe
         public let acquireDrmDisplayEXT: PFN_vkAcquireDrmDisplayEXT!
 
-        /// A command buffer debug label region can be opened by calling:
-        ///
-        ///
-        /// - Parameters:
-        ///   - commandBuffer: is the command buffer into which the command is recorded.
-        ///   - pLabelInfo: is a pointer to a [VkDebugUtilsLabelEXT](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDebugUtilsLabelEXT.html) structure specifying parameters of the label region to open.
-        ///
-        /// ### Valid Usage (Implicit)
-        /// ---
-        /// - Precondition: `commandBuffer` **must** be a valid [VkCommandBuffer](https://registry.khronos.org/vulkan/specs/latest/man/html/VkCommandBuffer.html) handle
-        /// - Precondition: `pLabelInfo` **must** be a valid pointer to a valid [VkDebugUtilsLabelEXT](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDebugUtilsLabelEXT.html) structure
-        /// - Precondition: `commandBuffer` **must** be in the [recording state](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdBeginDebugUtilsLabelEXT.html#commandbuffers-lifecycle)
-        /// - Precondition: The `VkCommandPool` that `commandBuffer` was allocated from **must** support graphics, or compute operations
-        /// - Precondition: This command **must** only be called outside of a video coding scope
-        ///
-        /// ### Host Synchronization
-        /// ---
-        /// - Precondition: Host access to `commandBuffer` **must** be externally synchronized
-        /// - Precondition: Host access to the `VkCommandPool` that `commandBuffer` was allocated from **must** be externally synchronized
-        ///
-        /// ### Command Properties
-        /// ---
-        /// [Command Buffer Levels](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdBeginDebugUtilsLabelEXT.html#VkCommandBufferLevel) | [Render Pass Scope](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdBeginDebugUtilsLabelEXT.html#vkCmdBeginRenderPass) | [Video Coding Scope](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdBeginDebugUtilsLabelEXT.html#vkCmdBeginVideoCodingKHR) | [Supported Queue Types](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdBeginDebugUtilsLabelEXT.html#VkQueueFlagBits) | [Command Type](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdBeginDebugUtilsLabelEXT.html#fundamentals-queueoperation-command-types)
-        /// ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | -----------------------------------------------------------------------------------------------------------------------------------------------------
-        /// Primary, Secondary | Both | Outside | Graphics, Compute | Action, State
-        ///
-        /// - SeeAlso: [vkCmdBeginDebugUtilsLabelEXT Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdBeginDebugUtilsLabelEXT.html)
-        @unsafe
-        public let cmdBeginDebugUtilsLabelEXT: PFN_vkCmdBeginDebugUtilsLabelEXT!
-
-        /// A command buffer label region can be closed by calling:
-        ///
-        /// An application **may** open a debug label region in one command buffer and close it in another, or otherwise split debug label regions across multiple command buffers or multiple queue submissions.
-        /// When viewed from the linear series of submissions to a single queue, the calls to [vkCmdBeginDebugUtilsLabelEXT](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdBeginDebugUtilsLabelEXT.html) and [vkCmdEndDebugUtilsLabelEXT](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdEndDebugUtilsLabelEXT.html) **must** be matched and balanced.
-        /// There **can** be problems reporting command buffer debug labels during the recording process because command buffers **may** be recorded out of sequence with the resulting execution order.
-        /// Since the recording order **may** be different, a solitary command buffer **may** have an inconsistent view of the debug label regions by itself.
-        /// Therefore, if an issue occurs during the recording of a command buffer, and the environment requires returning debug labels, the implementation **may** return only those labels it is aware of.
-        /// This is true even if the implementation is aware of only the debug labels within the command buffer being actively recorded.
-        ///
-        /// - Parameters:
-        ///   - commandBuffer: is the command buffer into which the command is recorded.
-        ///
-        /// ### Valid Usage
-        /// ---
-        /// - Precondition: There **must** be an outstanding `vkCmdBeginDebugUtilsLabelEXT` command
-        ///                 prior to the `vkCmdEndDebugUtilsLabelEXT` on the queue that
-        ///                 `commandBuffer` is submitted to
-        /// - Precondition: If `commandBuffer` is a secondary command buffer, there **must** be an
-        ///                 outstanding `vkCmdBeginDebugUtilsLabelEXT` command recorded to
-        ///                 `commandBuffer` that has not previously been ended by a call to
-        ///                 `vkCmdEndDebugUtilsLabelEXT`
-        ///
-        /// ### Valid Usage (Implicit)
-        /// ---
-        /// - Precondition: `commandBuffer` **must** be a valid [VkCommandBuffer](https://registry.khronos.org/vulkan/specs/latest/man/html/VkCommandBuffer.html) handle
-        /// - Precondition: `commandBuffer` **must** be in the [recording state](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdEndDebugUtilsLabelEXT.html#commandbuffers-lifecycle)
-        /// - Precondition: The `VkCommandPool` that `commandBuffer` was allocated from **must** support graphics, or compute operations
-        /// - Precondition: This command **must** only be called outside of a video coding scope
-        ///
-        /// ### Host Synchronization
-        /// ---
-        /// - Precondition: Host access to `commandBuffer` **must** be externally synchronized
-        /// - Precondition: Host access to the `VkCommandPool` that `commandBuffer` was allocated from **must** be externally synchronized
-        ///
-        /// ### Command Properties
-        /// ---
-        /// [Command Buffer Levels](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdEndDebugUtilsLabelEXT.html#VkCommandBufferLevel) | [Render Pass Scope](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdEndDebugUtilsLabelEXT.html#vkCmdBeginRenderPass) | [Video Coding Scope](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdEndDebugUtilsLabelEXT.html#vkCmdBeginVideoCodingKHR) | [Supported Queue Types](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdEndDebugUtilsLabelEXT.html#VkQueueFlagBits) | [Command Type](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdEndDebugUtilsLabelEXT.html#fundamentals-queueoperation-command-types)
-        /// --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------
-        /// Primary, Secondary | Both | Outside | Graphics, Compute | Action, State
-        ///
-        /// - SeeAlso: [vkCmdEndDebugUtilsLabelEXT Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdEndDebugUtilsLabelEXT.html)
-        @unsafe
-        public let cmdEndDebugUtilsLabelEXT: PFN_vkCmdEndDebugUtilsLabelEXT!
-
-        /// A single debug label can be inserted into a command buffer by calling:
-        ///
-        ///
-        /// - Parameters:
-        ///   - commandBuffer: is the command buffer into which the command is recorded.
-        ///   - pLabelInfo: is a pointer to a [VkDebugUtilsLabelEXT](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDebugUtilsLabelEXT.html) structure specifying parameters of the label to insert.
-        ///
-        /// ### Valid Usage (Implicit)
-        /// ---
-        /// - Precondition: `commandBuffer` **must** be a valid [VkCommandBuffer](https://registry.khronos.org/vulkan/specs/latest/man/html/VkCommandBuffer.html) handle
-        /// - Precondition: `pLabelInfo` **must** be a valid pointer to a valid [VkDebugUtilsLabelEXT](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDebugUtilsLabelEXT.html) structure
-        /// - Precondition: `commandBuffer` **must** be in the [recording state](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdInsertDebugUtilsLabelEXT.html#commandbuffers-lifecycle)
-        /// - Precondition: The `VkCommandPool` that `commandBuffer` was allocated from **must** support graphics, or compute operations
-        /// - Precondition: This command **must** only be called outside of a video coding scope
-        ///
-        /// ### Host Synchronization
-        /// ---
-        /// - Precondition: Host access to `commandBuffer` **must** be externally synchronized
-        /// - Precondition: Host access to the `VkCommandPool` that `commandBuffer` was allocated from **must** be externally synchronized
-        ///
-        /// ### Command Properties
-        /// ---
-        /// [Command Buffer Levels](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdInsertDebugUtilsLabelEXT.html#VkCommandBufferLevel) | [Render Pass Scope](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdInsertDebugUtilsLabelEXT.html#vkCmdBeginRenderPass) | [Video Coding Scope](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdInsertDebugUtilsLabelEXT.html#vkCmdBeginVideoCodingKHR) | [Supported Queue Types](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdInsertDebugUtilsLabelEXT.html#VkQueueFlagBits) | [Command Type](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdInsertDebugUtilsLabelEXT.html#fundamentals-queueoperation-command-types)
-        /// ------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------
-        /// Primary, Secondary | Both | Outside | Graphics, Compute | Action
-        ///
-        /// - SeeAlso: [vkCmdInsertDebugUtilsLabelEXT Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCmdInsertDebugUtilsLabelEXT.html)
-        @unsafe
-        public let cmdInsertDebugUtilsLabelEXT: PFN_vkCmdInsertDebugUtilsLabelEXT!
-
         /// Debug report callbacks give more detailed feedback on the application’s use
         /// of Vulkan when events of interest occur.
         ///
@@ -623,6 +519,41 @@ extension Instance {
         @unsafe
         public let enumeratePhysicalDeviceGroups: PFN_vkEnumeratePhysicalDeviceGroups!
 
+        /// To enumerate the performance query counters available on a queue family of a
+        /// physical device, call:
+        ///
+        /// If `pCounters` is `NULL` and `pCounterDescriptions` is `NULL`, then the number of counters available is returned in `pCounterCount`.
+        /// Otherwise, `pCounterCount` **must** point to a variable set by the application to the number of elements in the `pCounters`, `pCounterDescriptions`, or both arrays and on return the variable is overwritten with the number of structures actually written out.
+        /// If `pCounterCount` is less than the number of counters available, at most `pCounterCount` structures will be written, and `VK_INCOMPLETE` will be returned instead of `VK_SUCCESS`, to indicate that not all the available counters were returned.
+        ///
+        /// - Parameters:
+        ///   - physicalDevice: is the handle to the physical device whose queue family performance query counter properties will be queried.
+        ///   - queueFamilyIndex: is the index into the queue family of the physical device we want to get properties for.
+        ///   - pCounterCount: is a pointer to an integer related to the number of counters available or queried, as described below.
+        ///   - pCounters: is either `NULL` or a pointer to an array of [VkPerformanceCounterKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPerformanceCounterKHR.html) structures.
+        ///   - pCounterDescriptions: is either `NULL` or a pointer to an array of [VkPerformanceCounterDescriptionKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPerformanceCounterDescriptionKHR.html) structures.
+        ///
+        /// - Returns:
+        ///   - On success:
+        ///     - `VK_SUCCESS`
+        ///     - `VK_INCOMPLETE`
+        ///   - On failure:
+        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+        ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
+        ///     - `VK_ERROR_INITIALIZATION_FAILED`
+        ///
+        /// ### Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pCounterCount` **must** be a valid pointer to a `uint32_t` value
+        /// - Precondition: If the value referenced by `pCounterCount` is not `0`, and `pCounters` is not `NULL`, `pCounters` **must** be a valid pointer to an array of `pCounterCount` [VkPerformanceCounterKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPerformanceCounterKHR.html) structures
+        /// - Precondition: If the value referenced by `pCounterCount` is not `0`, and `pCounterDescriptions` is not `NULL`, `pCounterDescriptions` **must** be a valid pointer to an array of `pCounterCount` [VkPerformanceCounterDescriptionKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPerformanceCounterDescriptionKHR.html) structures
+        ///
+        /// - SeeAlso: [vkEnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkEnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR.html)
+        @unsafe
+        public let enumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR:
+            PFN_vkEnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR!
+
         /// To retrieve a list of physical device objects representing the physical
         /// devices installed in the system, call:
         ///
@@ -853,6 +784,155 @@ extension Instance {
         @unsafe
         public let getDrmDisplayEXT: PFN_vkGetDrmDisplayEXT!
 
+        /// To query the set of time domains for which a physical device supports
+        /// timestamp calibration, call:
+        ///
+        /// If `pTimeDomains` is `NULL`, then the number of calibrateable time domains supported for the given `physicalDevice` is returned in `pTimeDomainCount`.
+        /// Otherwise, `pTimeDomainCount` **must** point to a variable set by the application to the number of elements in the `pTimeDomains` array, and on return the variable is overwritten with the number of values actually written to `pTimeDomains`.
+        /// If the value of `pTimeDomainCount` is less than the number of calibrateable time domains supported, at most `pTimeDomainCount` values will be written to `pTimeDomains`, and `VK_INCOMPLETE` will be returned instead of `VK_SUCCESS`, to indicate that not all the available time domains were returned.
+        ///
+        /// - Parameters:
+        ///   - physicalDevice: is the physical device from which to query the set of calibrateable time domains.
+        ///   - pTimeDomainCount: is a pointer to an integer related to the number of calibrateable time domains available or queried, as described below.
+        ///   - pTimeDomains: is either `NULL` or a pointer to an array of [VkTimeDomainKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkTimeDomainKHR.html) values, indicating the supported calibrateable time domains.
+        ///
+        /// - Returns:
+        ///   - On success:
+        ///     - `VK_SUCCESS`
+        ///     - `VK_INCOMPLETE`
+        ///   - On failure:
+        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+        ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
+        ///
+        /// ### Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pTimeDomainCount` **must** be a valid pointer to a `uint32_t` value
+        /// - Precondition: If the value referenced by `pTimeDomainCount` is not `0`, and `pTimeDomains` is not `NULL`, `pTimeDomains` **must** be a valid pointer to an array of `pTimeDomainCount` [VkTimeDomainKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkTimeDomainKHR.html) values
+        ///
+        /// - SeeAlso: [vkGetPhysicalDeviceCalibrateableTimeDomainsKHR Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceCalibrateableTimeDomainsKHR.html)
+        @unsafe
+        public let getPhysicalDeviceCalibrateableTimeDomainsKHR: PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsKHR!
+
+        /// To enumerate additional supported cooperative matrix types and operations,
+        /// call:
+        ///
+        /// If `pProperties` is `NULL`, then the number of flexible dimensions properties available is returned in `pPropertyCount`.
+        /// Otherwise, `pPropertyCount` **must** point to a variable set by the application to the number of elements in the `pProperties` array, and on return the variable is overwritten with the number of structures actually written to `pProperties`.
+        /// If `pPropertyCount` is less than the number flexible dimensions properties available, at most `pPropertyCount` structures will be written, and `VK_INCOMPLETE` will be returned instead of `VK_SUCCESS`, to indicate that not all the available flexible dimensions properties were returned.
+        /// If the [`cooperativeMatrixFlexibleDimensions` ](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#features-cooperativeMatrixFlexibleDimensions) feature is not supported, the implementation **must** advertise zero properties.
+        ///
+        /// - Parameters:
+        ///   - physicalDevice: is the physical device.
+        ///   - pPropertyCount: is a pointer to an integer related to the number of cooperative matrix properties available or queried.
+        ///   - pProperties: is either `NULL` or a pointer to an array of [VkCooperativeMatrixFlexibleDimensionsPropertiesNV](https://registry.khronos.org/vulkan/specs/latest/man/html/VkCooperativeMatrixFlexibleDimensionsPropertiesNV.html) structures.
+        ///
+        /// - Returns:
+        ///   - On success:
+        ///     - `VK_SUCCESS`
+        ///     - `VK_INCOMPLETE`
+        ///   - On failure:
+        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+        ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
+        ///
+        /// ### Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pPropertyCount` **must** be a valid pointer to a `uint32_t` value
+        /// - Precondition: If the value referenced by `pPropertyCount` is not `0`, and `pProperties` is not `NULL`, `pProperties` **must** be a valid pointer to an array of `pPropertyCount` [VkCooperativeMatrixFlexibleDimensionsPropertiesNV](https://registry.khronos.org/vulkan/specs/latest/man/html/VkCooperativeMatrixFlexibleDimensionsPropertiesNV.html) structures
+        ///
+        /// - SeeAlso: [vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV.html)
+        @unsafe
+        public let getPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV:
+            PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV!
+
+        /// To enumerate the supported cooperative matrix types and operations, call:
+        ///
+        /// If `pProperties` is `NULL`, then the number of cooperative matrix properties available is returned in `pPropertyCount`.
+        /// Otherwise, `pPropertyCount` **must** point to a variable set by the application to the number of elements in the `pProperties` array, and on return the variable is overwritten with the number of structures actually written to `pProperties`.
+        /// If `pPropertyCount` is less than the number of cooperative matrix properties available, at most `pPropertyCount` structures will be written, and `VK_INCOMPLETE` will be returned instead of `VK_SUCCESS`, to indicate that not all the available cooperative matrix properties were returned.
+        ///
+        /// - Parameters:
+        ///   - physicalDevice: is the physical device.
+        ///   - pPropertyCount: is a pointer to an integer related to the number of cooperative matrix properties available or queried.
+        ///   - pProperties: is either `NULL` or a pointer to an array of [VkCooperativeMatrixPropertiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkCooperativeMatrixPropertiesKHR.html) structures.
+        ///
+        /// - Returns:
+        ///   - On success:
+        ///     - `VK_SUCCESS`
+        ///     - `VK_INCOMPLETE`
+        ///   - On failure:
+        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+        ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
+        ///
+        /// ### Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pPropertyCount` **must** be a valid pointer to a `uint32_t` value
+        /// - Precondition: If the value referenced by `pPropertyCount` is not `0`, and `pProperties` is not `NULL`, `pProperties` **must** be a valid pointer to an array of `pPropertyCount` [VkCooperativeMatrixPropertiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkCooperativeMatrixPropertiesKHR.html) structures
+        ///
+        /// - SeeAlso: [vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR.html)
+        @unsafe
+        public let getPhysicalDeviceCooperativeMatrixPropertiesKHR: PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR!
+
+        /// To enumerate the supported cooperative matrix types and operations, call:
+        ///
+        /// If `pProperties` is `NULL`, then the number of cooperative matrix properties available is returned in `pPropertyCount`.
+        /// Otherwise, `pPropertyCount` **must** point to a variable set by the application to the number of elements in the `pProperties` array, and on return the variable is overwritten with the number of structures actually written to `pProperties`.
+        /// If `pPropertyCount` is less than the number of cooperative matrix properties available, at most `pPropertyCount` structures will be written, and `VK_INCOMPLETE` will be returned instead of `VK_SUCCESS`, to indicate that not all the available cooperative matrix properties were returned.
+        ///
+        /// - Parameters:
+        ///   - physicalDevice: is the physical device.
+        ///   - pPropertyCount: is a pointer to an integer related to the number of cooperative matrix properties available or queried.
+        ///   - pProperties: is either `NULL` or a pointer to an array of [VkCooperativeMatrixPropertiesNV](https://registry.khronos.org/vulkan/specs/latest/man/html/VkCooperativeMatrixPropertiesNV.html) structures.
+        ///
+        /// - Returns:
+        ///   - On success:
+        ///     - `VK_SUCCESS`
+        ///     - `VK_INCOMPLETE`
+        ///   - On failure:
+        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+        ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
+        ///
+        /// ### Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pPropertyCount` **must** be a valid pointer to a `uint32_t` value
+        /// - Precondition: If the value referenced by `pPropertyCount` is not `0`, and `pProperties` is not `NULL`, `pProperties` **must** be a valid pointer to an array of `pPropertyCount` [VkCooperativeMatrixPropertiesNV](https://registry.khronos.org/vulkan/specs/latest/man/html/VkCooperativeMatrixPropertiesNV.html) structures
+        ///
+        /// - SeeAlso: [vkGetPhysicalDeviceCooperativeMatrixPropertiesNV Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceCooperativeMatrixPropertiesNV.html)
+        @unsafe
+        public let getPhysicalDeviceCooperativeMatrixPropertiesNV: PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV!
+
+        /// To enumerate the supported cooperative vector type combinations, call:
+        ///
+        /// If `pProperties` is `NULL`, then the number of cooperative vector properties available is returned in `pPropertyCount`.
+        /// Otherwise, `pPropertyCount` **must** point to a variable set by the user to the number of elements in the `pProperties` array, and on return the variable is overwritten with the number of structures actually written to `pProperties`.
+        /// If `pPropertyCount` is less than the number of cooperative vector properties available, at most `pPropertyCount` structures will be written, and `VK_INCOMPLETE` will be returned instead of `VK_SUCCESS`, to indicate that not all the available cooperative vector properties were returned.
+        ///
+        /// - Parameters:
+        ///   - physicalDevice: is the physical device.
+        ///   - pPropertyCount: is a pointer to an integer related to the number of cooperative vector properties available or queried.
+        ///   - pProperties: is either `NULL` or a pointer to an array of [VkCooperativeVectorPropertiesNV](https://registry.khronos.org/vulkan/specs/latest/man/html/VkCooperativeVectorPropertiesNV.html) structures.
+        ///
+        /// - Returns:
+        ///   - On success:
+        ///     - `VK_SUCCESS`
+        ///     - `VK_INCOMPLETE`
+        ///   - On failure:
+        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+        ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
+        ///
+        /// ### Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pPropertyCount` **must** be a valid pointer to a `uint32_t` value
+        /// - Precondition: If the value referenced by `pPropertyCount` is not `0`, and `pProperties` is not `NULL`, `pProperties` **must** be a valid pointer to an array of `pPropertyCount` [VkCooperativeVectorPropertiesNV](https://registry.khronos.org/vulkan/specs/latest/man/html/VkCooperativeVectorPropertiesNV.html) structures
+        ///
+        /// - SeeAlso: [vkGetPhysicalDeviceCooperativeVectorPropertiesNV Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceCooperativeVectorPropertiesNV.html)
+        @unsafe
+        public let getPhysicalDeviceCooperativeVectorPropertiesNV: PFN_vkGetPhysicalDeviceCooperativeVectorPropertiesNV!
+
         /// To query the properties of a device’s display planes, call:
         ///
         /// `vkGetPhysicalDeviceDisplayPlaneProperties2KHR` behaves similarly to [vkGetPhysicalDeviceDisplayPlanePropertiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceDisplayPlanePropertiesKHR.html), with the ability to return extended information via chained output structures.
@@ -1076,6 +1156,24 @@ extension Instance {
         @unsafe
         public let getPhysicalDeviceExternalSemaphoreProperties: PFN_vkGetPhysicalDeviceExternalSemaphoreProperties!
 
+        /// To query the external handle types supported by tensors, call:
+        ///
+        ///
+        /// - Parameters:
+        ///   - physicalDevice: is the physical device from which to query the tensor capabilities.
+        ///   - pExternalTensorInfo: is a pointer to a [VkPhysicalDeviceExternalTensorInfoARM](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExternalTensorInfoARM.html) structure describing the parameters that would be consumed by [vkCreateTensorARM](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCreateTensorARM.html).
+        ///   - pExternalTensorProperties: is a pointer to a [VkExternalTensorPropertiesARM](https://registry.khronos.org/vulkan/specs/latest/man/html/VkExternalTensorPropertiesARM.html) structure in which the capabilities are returned.
+        ///
+        /// ### Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pExternalTensorInfo` **must** be a valid pointer to a valid [VkPhysicalDeviceExternalTensorInfoARM](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceExternalTensorInfoARM.html) structure
+        /// - Precondition: `pExternalTensorProperties` **must** be a valid pointer to a [VkExternalTensorPropertiesARM](https://registry.khronos.org/vulkan/specs/latest/man/html/VkExternalTensorPropertiesARM.html) structure
+        ///
+        /// - SeeAlso: [vkGetPhysicalDeviceExternalTensorPropertiesARM Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceExternalTensorPropertiesARM.html)
+        @unsafe
+        public let getPhysicalDeviceExternalTensorPropertiesARM: PFN_vkGetPhysicalDeviceExternalTensorPropertiesARM!
+
         /// To query supported features, call:
         ///
         ///
@@ -1149,6 +1247,9 @@ extension Instance {
         /// - SeeAlso: [vkGetPhysicalDeviceFormatProperties2 Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceFormatProperties2.html)
         @unsafe
         public let getPhysicalDeviceFormatProperties2: PFN_vkGetPhysicalDeviceFormatProperties2!
+
+        @unsafe
+        public let getPhysicalDeviceFragmentShadingRatesKHR: PFN_vkGetPhysicalDeviceFragmentShadingRatesKHR!
 
         /// To query additional capabilities specific to image types, call:
         ///
@@ -1284,6 +1385,77 @@ extension Instance {
         @unsafe
         public let getPhysicalDeviceMemoryProperties2: PFN_vkGetPhysicalDeviceMemoryProperties2!
 
+        /// To query additional multisampling capabilities which **may** be supported for a
+        /// specific sample count, beyond the minimum capabilities described for
+        /// [Limits](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#limits) above, call:
+        ///
+        ///
+        /// - Parameters:
+        ///   - physicalDevice: is the physical device from which to query the additional multisampling capabilities.
+        ///   - samples: is a [VkSampleCountFlagBits](https://registry.khronos.org/vulkan/specs/latest/man/html/VkSampleCountFlagBits.html) value specifying the sample count to query capabilities for.
+        ///   - pMultisampleProperties: is a pointer to a [VkMultisamplePropertiesEXT](https://registry.khronos.org/vulkan/specs/latest/man/html/VkMultisamplePropertiesEXT.html) structure in which information about additional multisampling capabilities specific to the sample count is returned.
+        ///
+        /// ### Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `samples` **must** be a valid [VkSampleCountFlagBits](https://registry.khronos.org/vulkan/specs/latest/man/html/VkSampleCountFlagBits.html) value
+        /// - Precondition: `pMultisampleProperties` **must** be a valid pointer to a [VkMultisamplePropertiesEXT](https://registry.khronos.org/vulkan/specs/latest/man/html/VkMultisamplePropertiesEXT.html) structure
+        ///
+        /// - SeeAlso: [vkGetPhysicalDeviceMultisamplePropertiesEXT Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceMultisamplePropertiesEXT.html)
+        @unsafe
+        public let getPhysicalDeviceMultisamplePropertiesEXT: PFN_vkGetPhysicalDeviceMultisamplePropertiesEXT!
+
+        @unsafe
+        public let getPhysicalDeviceOpticalFlowImageFormatsNV: PFN_vkGetPhysicalDeviceOpticalFlowImageFormatsNV!
+
+        /// When using `VK_DEVICE_GROUP_PRESENT_MODE_LOCAL_MULTI_DEVICE_BIT_KHR`,
+        /// the application **may** need to know which regions of the surface are used when
+        /// presenting locally on each physical device.
+        /// Presentation of swapchain images to this surface need only have valid
+        /// contents in the regions returned by this command.
+        ///
+        /// If `pRects` is `NULL`, then the number of rectangles used when presenting the given `surface` is returned in `pRectCount`.
+        /// Otherwise, `pRectCount` **must** point to a variable set by the application to the number of elements in the `pRects` array, and on return the variable is overwritten with the number of structures actually written to `pRects`.
+        /// If the value of `pRectCount` is less than the number of rectangles, at most `pRectCount` structures will be written, and `VK_INCOMPLETE` will be returned instead of `VK_SUCCESS`, to indicate that not all the available rectangles were returned.
+        /// The values returned by this command are not invariant, and **may** change in response to the surface being moved, resized, or occluded.
+        /// The rectangles returned by this command **must** not overlap.
+        ///
+        /// - Parameters:
+        ///   - physicalDevice: is the physical device.
+        ///   - surface: is the surface.
+        ///   - pRectCount: is a pointer to an integer related to the number of rectangles available or queried, as described below.
+        ///   - pRects: is either `NULL` or a pointer to an array of [VkRect2D](https://registry.khronos.org/vulkan/specs/latest/man/html/VkRect2D.html) structures.
+        ///
+        /// - Returns:
+        ///   - On success:
+        ///     - `VK_SUCCESS`
+        ///     - `VK_INCOMPLETE`
+        ///   - On failure:
+        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+        ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
+        ///
+        /// ### Valid Usage
+        /// ---
+        /// - Precondition: `surface` **must** be supported by `physicalDevice`, as reported by
+        ///                 [vkGetPhysicalDeviceSurfaceSupportKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceSurfaceSupportKHR.html) or an equivalent
+        ///                 platform-specific mechanism
+        ///
+        /// ### Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `surface` **must** be a valid [VkSurfaceKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkSurfaceKHR.html) handle
+        /// - Precondition: `pRectCount` **must** be a valid pointer to a `uint32_t` value
+        /// - Precondition: If the value referenced by `pRectCount` is not `0`, and `pRects` is not `NULL`, `pRects` **must** be a valid pointer to an array of `pRectCount` [VkRect2D](https://registry.khronos.org/vulkan/specs/latest/man/html/VkRect2D.html) structures
+        /// - Precondition: Both of `physicalDevice`, and `surface` **must** have been created, allocated, or retrieved from the same [VkInstance](https://registry.khronos.org/vulkan/specs/latest/man/html/VkInstance.html)
+        ///
+        /// ### Host Synchronization
+        /// ---
+        /// - Precondition: Host access to `surface` **must** be externally synchronized
+        ///
+        /// - SeeAlso: [vkGetPhysicalDevicePresentRectanglesKHR Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDevicePresentRectanglesKHR.html)
+        @unsafe
+        public let getPhysicalDevicePresentRectanglesKHR: PFN_vkGetPhysicalDevicePresentRectanglesKHR!
+
         /// To query general properties of physical devices once enumerated, call:
         ///
         ///
@@ -1316,6 +1488,28 @@ extension Instance {
         /// - SeeAlso: [vkGetPhysicalDeviceProperties2 Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceProperties2.html)
         @unsafe
         public let getPhysicalDeviceProperties2: PFN_vkGetPhysicalDeviceProperties2!
+
+        /// To query the number of passes required to query a performance query pool on
+        /// a physical device, call:
+        ///
+        /// The `pPerformanceQueryCreateInfo` member `VkQueryPoolPerformanceCreateInfoKHR`::`queueFamilyIndex` **must** be a queue family of `physicalDevice`.
+        /// The number of passes required to capture the counters specified in the `pPerformanceQueryCreateInfo` member `VkQueryPoolPerformanceCreateInfoKHR`::`pCounters` is returned in `pNumPasses`.
+        ///
+        /// - Parameters:
+        ///   - physicalDevice: is the handle to the physical device whose queue family performance query counter properties will be queried.
+        ///   - pPerformanceQueryCreateInfo: is a pointer to a `VkQueryPoolPerformanceCreateInfoKHR` of the performance query that is to be created.
+        ///   - pNumPasses: is a pointer to an integer related to the number of passes required to query the performance query pool, as described below.
+        ///
+        /// ### Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pPerformanceQueryCreateInfo` **must** be a valid pointer to a valid [VkQueryPoolPerformanceCreateInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkQueryPoolPerformanceCreateInfoKHR.html) structure
+        /// - Precondition: `pNumPasses` **must** be a valid pointer to a `uint32_t` value
+        ///
+        /// - SeeAlso: [vkGetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR.html)
+        @unsafe
+        public let getPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR:
+            PFN_vkGetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR!
 
         /// To query properties of queues available on a physical device, call:
         ///
@@ -1435,6 +1629,38 @@ extension Instance {
         /// - SeeAlso: [vkGetPhysicalDeviceSparseImageFormatProperties2 Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceSparseImageFormatProperties2.html)
         @unsafe
         public let getPhysicalDeviceSparseImageFormatProperties2: PFN_vkGetPhysicalDeviceSparseImageFormatProperties2!
+
+        /// To query the set of mixed sample combinations of coverage reduction mode,
+        /// rasterization samples and color, depth, stencil attachment sample counts
+        /// that are supported by a physical device, call:
+        ///
+        /// If `pCombinations` is `NULL`, then the number of supported combinations for the given `physicalDevice` is returned in `pCombinationCount`.
+        /// Otherwise, `pCombinationCount` **must** point to a variable set by the application to the number of elements in the `pCombinations` array, and on return the variable is overwritten with the number of values actually written to `pCombinations`.
+        /// If the value of `pCombinationCount` is less than the number of combinations supported for the given `physicalDevice`, at most `pCombinationCount` values will be written to `pCombinations`, and `VK_INCOMPLETE` will be returned instead of `VK_SUCCESS`, to indicate that not all the supported values were returned.
+        ///
+        /// - Parameters:
+        ///   - physicalDevice: is the physical device from which to query the set of combinations.
+        ///   - pCombinationCount: is a pointer to an integer related to the number of combinations available or queried, as described below.
+        ///   - pCombinations: is either `NULL` or a pointer to an array of [VkFramebufferMixedSamplesCombinationNV](https://registry.khronos.org/vulkan/specs/latest/man/html/VkFramebufferMixedSamplesCombinationNV.html) values, indicating the supported combinations of coverage reduction mode, rasterization samples, and color, depth, stencil attachment sample counts.
+        ///
+        /// - Returns:
+        ///   - On success:
+        ///     - `VK_SUCCESS`
+        ///     - `VK_INCOMPLETE`
+        ///   - On failure:
+        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+        ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
+        ///
+        /// ### Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pCombinationCount` **must** be a valid pointer to a `uint32_t` value
+        /// - Precondition: If the value referenced by `pCombinationCount` is not `0`, and `pCombinations` is not `NULL`, `pCombinations` **must** be a valid pointer to an array of `pCombinationCount` [VkFramebufferMixedSamplesCombinationNV](https://registry.khronos.org/vulkan/specs/latest/man/html/VkFramebufferMixedSamplesCombinationNV.html) structures
+        ///
+        /// - SeeAlso: [vkGetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV.html)
+        @unsafe
+        public let getPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV:
+            PFN_vkGetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV!
 
         /// To query the basic capabilities of a surface, needed in order to create a
         /// swapchain, call:
@@ -1710,87 +1936,222 @@ extension Instance {
         @unsafe
         public let getPhysicalDeviceSurfaceSupportKHR: PFN_vkGetPhysicalDeviceSurfaceSupportKHR!
 
-        /// A queue debug label region is opened by calling:
+        /// Information about tools providing debugging, profiling, or similar services,
+        /// active for a given physical device, can be obtained by calling:
         ///
+        /// If `pToolProperties` is `NULL`, then the number of tools currently active on `physicalDevice` is returned in `pToolCount`.
+        /// Otherwise, `pToolCount` **must** point to a variable set by the application to the number of elements in the `pToolProperties` array, and on return the variable is overwritten with the number of structures actually written to `pToolProperties`.
+        /// If `pToolCount` is less than the number of currently active tools, at most `pToolCount` structures will be written.
+        /// The count and properties of active tools **may** change in response to events outside the scope of the specification.
+        /// An application **should** assume these properties might change at any given time.
         ///
         /// - Parameters:
-        ///   - queue: is the queue in which to start a debug label region.
-        ///   - pLabelInfo: is a pointer to a [VkDebugUtilsLabelEXT](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDebugUtilsLabelEXT.html) structure specifying parameters of the label region to open.
+        ///   - physicalDevice: is the handle to the physical device to query for active tools.
+        ///   - pToolCount: is a pointer to an integer describing the number of tools active on `physicalDevice`.
+        ///   - pToolProperties: is either `NULL` or a pointer to an array of [VkPhysicalDeviceToolProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceToolProperties.html) structures.
+        ///
+        /// - Returns:
+        ///   - On success:
+        ///     - `VK_SUCCESS`
+        ///     - `VK_INCOMPLETE`
+        ///   - On failure:
+        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
         ///
         /// ### Valid Usage (Implicit)
         /// ---
-        /// - Precondition: `queue` **must** be a valid [VkQueue](https://registry.khronos.org/vulkan/specs/latest/man/html/VkQueue.html) handle
-        /// - Precondition: `pLabelInfo` **must** be a valid pointer to a valid [VkDebugUtilsLabelEXT](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDebugUtilsLabelEXT.html) structure
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pToolCount` **must** be a valid pointer to a `uint32_t` value
+        /// - Precondition: If the value referenced by `pToolCount` is not `0`, and `pToolProperties` is not `NULL`, `pToolProperties` **must** be a valid pointer to an array of `pToolCount` [VkPhysicalDeviceToolProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceToolProperties.html) structures
         ///
-        /// ### Host Synchronization
-        /// ---
-        /// - Precondition: Host access to `queue` **must** be externally synchronized
-        ///
-        /// ### Command Properties
-        /// ---
-        /// [Command Buffer Levels](https://registry.khronos.org/vulkan/specs/latest/man/html/vkQueueBeginDebugUtilsLabelEXT.html#VkCommandBufferLevel) | [Render Pass Scope](https://registry.khronos.org/vulkan/specs/latest/man/html/vkQueueBeginDebugUtilsLabelEXT.html#vkCmdBeginRenderPass) | [Video Coding Scope](https://registry.khronos.org/vulkan/specs/latest/man/html/vkQueueBeginDebugUtilsLabelEXT.html#vkCmdBeginVideoCodingKHR) | [Supported Queue Types](https://registry.khronos.org/vulkan/specs/latest/man/html/vkQueueBeginDebugUtilsLabelEXT.html#VkQueueFlagBits) | [Command Type](https://registry.khronos.org/vulkan/specs/latest/man/html/vkQueueBeginDebugUtilsLabelEXT.html#fundamentals-queueoperation-command-types)
-        /// ------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------
-        /// - | - | - | Any | -
-        ///
-        /// - SeeAlso: [vkQueueBeginDebugUtilsLabelEXT Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkQueueBeginDebugUtilsLabelEXT.html)
+        /// - SeeAlso: [vkGetPhysicalDeviceToolProperties Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceToolProperties.html)
         @unsafe
-        public let queueBeginDebugUtilsLabelEXT: PFN_vkQueueBeginDebugUtilsLabelEXT!
+        public let getPhysicalDeviceToolProperties: PFN_vkGetPhysicalDeviceToolProperties!
 
-        /// A queue debug label region is closed by calling:
+        /// To query video coding capabilities for a specific video profile, call:
         ///
-        /// The calls to [vkQueueBeginDebugUtilsLabelEXT](https://registry.khronos.org/vulkan/specs/latest/man/html/vkQueueBeginDebugUtilsLabelEXT.html) and [vkQueueEndDebugUtilsLabelEXT](https://registry.khronos.org/vulkan/specs/latest/man/html/vkQueueEndDebugUtilsLabelEXT.html) **must** be matched and balanced.
+        /// If the [video profile](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#video-profiles) described by `pVideoProfile` is supported by the implementation, then this command returns `VK_SUCCESS` and `pCapabilities` is filled with the capabilities supported with the specified video profile.
+        /// Otherwise, one of the [video-profile-specific error codes](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#video-profile-error-codes) are returned.
         ///
         /// - Parameters:
-        ///   - queue: is the queue in which a debug label region should be closed.
+        ///   - physicalDevice: is the physical device from which to query the video decode or encode capabilities.
+        ///   - pVideoProfile: is a pointer to a [VkVideoProfileInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoProfileInfoKHR.html) structure.
+        ///   - pCapabilities: is a pointer to a [VkVideoCapabilitiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoCapabilitiesKHR.html) structure in which the capabilities are returned.
+        ///
+        /// - Returns:
+        ///   - On success:
+        ///     - `VK_SUCCESS`
+        ///   - On failure:
+        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+        ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
+        ///     - `VK_ERROR_VIDEO_PROFILE_OPERATION_NOT_SUPPORTED_KHR`
+        ///     - `VK_ERROR_VIDEO_PROFILE_FORMAT_NOT_SUPPORTED_KHR`
+        ///     - `VK_ERROR_VIDEO_PICTURE_LAYOUT_NOT_SUPPORTED_KHR`
+        ///     - `VK_ERROR_VIDEO_PROFILE_CODEC_NOT_SUPPORTED_KHR`
         ///
         /// ### Valid Usage
         /// ---
-        /// - Precondition: There **must** be an outstanding `vkQueueBeginDebugUtilsLabelEXT`
-        ///                 command prior to the `vkQueueEndDebugUtilsLabelEXT` on the queue
+        /// - Precondition: If `pVideoProfile->videoCodecOperation` specifies a decode
+        ///                 operation, then the `pNext` chain of `pCapabilities` **must**
+        ///                 include a [VkVideoDecodeCapabilitiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoDecodeCapabilitiesKHR.html) structure
+        /// - Precondition: If `pVideoProfile->videoCodecOperation` is
+        ///                 `VK_VIDEO_CODEC_OPERATION_DECODE_H264_BIT_KHR`, then the `pNext`
+        ///                 chain of `pCapabilities` **must** include a
+        ///                 [VkVideoDecodeH264CapabilitiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoDecodeH264CapabilitiesKHR.html) structure
+        /// - Precondition: If `pVideoProfile->videoCodecOperation` is
+        ///                 `VK_VIDEO_CODEC_OPERATION_DECODE_H265_BIT_KHR`, then the `pNext`
+        ///                 chain of `pCapabilities` **must** include a
+        ///                 [VkVideoDecodeH265CapabilitiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoDecodeH265CapabilitiesKHR.html) structure
+        /// - Precondition: If `pVideoProfile->videoCodecOperation` is
+        ///                 `VK_VIDEO_CODEC_OPERATION_DECODE_VP9_BIT_KHR`, then the `pNext`
+        ///                 chain of `pCapabilities` **must** include a
+        ///                 [VkVideoDecodeVP9CapabilitiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoDecodeVP9CapabilitiesKHR.html) structure
+        /// - Precondition: If `pVideoProfile->videoCodecOperation` is
+        ///                 `VK_VIDEO_CODEC_OPERATION_DECODE_AV1_BIT_KHR`, then the `pNext`
+        ///                 chain of `pCapabilities` **must** include a
+        ///                 [VkVideoDecodeAV1CapabilitiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoDecodeAV1CapabilitiesKHR.html) structure
+        /// - Precondition: If `pVideoProfile->videoCodecOperation` specifies an encode
+        ///                 operation, then the `pNext` chain of `pCapabilities` **must**
+        ///                 include a [VkVideoEncodeCapabilitiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoEncodeCapabilitiesKHR.html) structure
+        /// - Precondition: If `pVideoProfile->videoCodecOperation` is
+        ///                 `VK_VIDEO_CODEC_OPERATION_ENCODE_H264_BIT_KHR`, then the `pNext`
+        ///                 chain of `pCapabilities` **must** include a
+        ///                 [VkVideoEncodeH264CapabilitiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoEncodeH264CapabilitiesKHR.html) structure
+        /// - Precondition: If `pVideoProfile->videoCodecOperation` is
+        ///                 `VK_VIDEO_CODEC_OPERATION_ENCODE_H265_BIT_KHR`, then the `pNext`
+        ///                 chain of `pCapabilities` **must** include a
+        ///                 [VkVideoEncodeH265CapabilitiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoEncodeH265CapabilitiesKHR.html) structure
+        /// - Precondition: If `pVideoProfile->videoCodecOperation` is
+        ///                 `VK_VIDEO_CODEC_OPERATION_ENCODE_AV1_BIT_KHR`, then the `pNext`
+        ///                 chain of `pCapabilities` **must** include a
+        ///                 [VkVideoEncodeAV1CapabilitiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoEncodeAV1CapabilitiesKHR.html) structure
         ///
         /// ### Valid Usage (Implicit)
         /// ---
-        /// - Precondition: `queue` **must** be a valid [VkQueue](https://registry.khronos.org/vulkan/specs/latest/man/html/VkQueue.html) handle
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pVideoProfile` **must** be a valid pointer to a valid [VkVideoProfileInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoProfileInfoKHR.html) structure
+        /// - Precondition: `pCapabilities` **must** be a valid pointer to a [VkVideoCapabilitiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoCapabilitiesKHR.html) structure
         ///
-        /// ### Host Synchronization
-        /// ---
-        /// - Precondition: Host access to `queue` **must** be externally synchronized
-        ///
-        /// ### Command Properties
-        /// ---
-        /// [Command Buffer Levels](https://registry.khronos.org/vulkan/specs/latest/man/html/vkQueueEndDebugUtilsLabelEXT.html#VkCommandBufferLevel) | [Render Pass Scope](https://registry.khronos.org/vulkan/specs/latest/man/html/vkQueueEndDebugUtilsLabelEXT.html#vkCmdBeginRenderPass) | [Video Coding Scope](https://registry.khronos.org/vulkan/specs/latest/man/html/vkQueueEndDebugUtilsLabelEXT.html#vkCmdBeginVideoCodingKHR) | [Supported Queue Types](https://registry.khronos.org/vulkan/specs/latest/man/html/vkQueueEndDebugUtilsLabelEXT.html#VkQueueFlagBits) | [Command Type](https://registry.khronos.org/vulkan/specs/latest/man/html/vkQueueEndDebugUtilsLabelEXT.html#fundamentals-queueoperation-command-types)
-        /// ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | -----------------------------------------------------------------------------------------------------------------------------------------------------
-        /// - | - | - | Any | -
-        ///
-        /// - SeeAlso: [vkQueueEndDebugUtilsLabelEXT Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkQueueEndDebugUtilsLabelEXT.html)
+        /// - SeeAlso: [vkGetPhysicalDeviceVideoCapabilitiesKHR Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceVideoCapabilitiesKHR.html)
         @unsafe
-        public let queueEndDebugUtilsLabelEXT: PFN_vkQueueEndDebugUtilsLabelEXT!
+        public let getPhysicalDeviceVideoCapabilitiesKHR: PFN_vkGetPhysicalDeviceVideoCapabilitiesKHR!
 
-        /// A single label can be inserted into a queue by calling:
+        /// To query properties for a specific video encode quality level supported by a
+        /// video encode profile, call:
         ///
         ///
         /// - Parameters:
-        ///   - queue: is the queue into which a debug label will be inserted.
-        ///   - pLabelInfo: is a pointer to a [VkDebugUtilsLabelEXT](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDebugUtilsLabelEXT.html) structure specifying parameters of the label to insert.
+        ///   - physicalDevice: is the physical device to query the video encode quality level properties for.
+        ///   - pQualityLevelInfo: is a pointer to a [VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR.html) structure specifying the video encode profile and quality level to query properties for.
+        ///   - pQualityLevelProperties: is a pointer to a [VkVideoEncodeQualityLevelPropertiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoEncodeQualityLevelPropertiesKHR.html) structure in which the properties are returned.
+        ///
+        /// - Returns:
+        ///   - On success:
+        ///     - `VK_SUCCESS`
+        ///   - On failure:
+        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+        ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
+        ///     - `VK_ERROR_VIDEO_PROFILE_OPERATION_NOT_SUPPORTED_KHR`
+        ///     - `VK_ERROR_VIDEO_PROFILE_FORMAT_NOT_SUPPORTED_KHR`
+        ///     - `VK_ERROR_VIDEO_PICTURE_LAYOUT_NOT_SUPPORTED_KHR`
+        ///     - `VK_ERROR_VIDEO_PROFILE_CODEC_NOT_SUPPORTED_KHR`
+        ///
+        /// ### Valid Usage
+        /// ---
+        /// - Precondition: If `pQualityLevelInfo->pVideoProfile->videoCodecOperation` is
+        ///                 `VK_VIDEO_CODEC_OPERATION_ENCODE_H264_BIT_KHR`, then the `pNext`
+        ///                 chain of `pQualityLevelProperties` **must** include a
+        ///                 [VkVideoEncodeH264QualityLevelPropertiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoEncodeH264QualityLevelPropertiesKHR.html) structure
+        /// - Precondition: If `pQualityLevelInfo->pVideoProfile->videoCodecOperation` is
+        ///                 `VK_VIDEO_CODEC_OPERATION_ENCODE_H265_BIT_KHR`, then the `pNext`
+        ///                 chain of `pQualityLevelProperties` **must** include a
+        ///                 [VkVideoEncodeH265QualityLevelPropertiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoEncodeH265QualityLevelPropertiesKHR.html) structure
+        /// - Precondition: If `pQualityLevelInfo->pVideoProfile->videoCodecOperation` is
+        ///                 `VK_VIDEO_CODEC_OPERATION_ENCODE_AV1_BIT_KHR`, then the `pNext`
+        ///                 chain of `pQualityLevelProperties` **must** include a
+        ///                 [VkVideoEncodeAV1QualityLevelPropertiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoEncodeAV1QualityLevelPropertiesKHR.html) structure
         ///
         /// ### Valid Usage (Implicit)
         /// ---
-        /// - Precondition: `queue` **must** be a valid [VkQueue](https://registry.khronos.org/vulkan/specs/latest/man/html/VkQueue.html) handle
-        /// - Precondition: `pLabelInfo` **must** be a valid pointer to a valid [VkDebugUtilsLabelEXT](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDebugUtilsLabelEXT.html) structure
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pQualityLevelInfo` **must** be a valid pointer to a valid [VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR.html) structure
+        /// - Precondition: `pQualityLevelProperties` **must** be a valid pointer to a [VkVideoEncodeQualityLevelPropertiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoEncodeQualityLevelPropertiesKHR.html) structure
         ///
-        /// ### Host Synchronization
-        /// ---
-        /// - Precondition: Host access to `queue` **must** be externally synchronized
-        ///
-        /// ### Command Properties
-        /// ---
-        /// [Command Buffer Levels](https://registry.khronos.org/vulkan/specs/latest/man/html/vkQueueInsertDebugUtilsLabelEXT.html#VkCommandBufferLevel) | [Render Pass Scope](https://registry.khronos.org/vulkan/specs/latest/man/html/vkQueueInsertDebugUtilsLabelEXT.html#vkCmdBeginRenderPass) | [Video Coding Scope](https://registry.khronos.org/vulkan/specs/latest/man/html/vkQueueInsertDebugUtilsLabelEXT.html#vkCmdBeginVideoCodingKHR) | [Supported Queue Types](https://registry.khronos.org/vulkan/specs/latest/man/html/vkQueueInsertDebugUtilsLabelEXT.html#VkQueueFlagBits) | [Command Type](https://registry.khronos.org/vulkan/specs/latest/man/html/vkQueueInsertDebugUtilsLabelEXT.html#fundamentals-queueoperation-command-types)
-        /// -------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------
-        /// - | - | - | Any | -
-        ///
-        /// - SeeAlso: [vkQueueInsertDebugUtilsLabelEXT Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkQueueInsertDebugUtilsLabelEXT.html)
+        /// - SeeAlso: [vkGetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR.html)
         @unsafe
-        public let queueInsertDebugUtilsLabelEXT: PFN_vkQueueInsertDebugUtilsLabelEXT!
+        public let getPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR:
+            PFN_vkGetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR!
+
+        /// To enumerate the supported video formats and corresponding capabilities for
+        /// a specific video profile, call:
+        ///
+        /// If `pVideoFormatProperties` is `NULL`, then the number of video format properties supported for the given `physicalDevice` is returned in `pVideoFormatPropertyCount`.
+        /// Otherwise, `pVideoFormatPropertyCount` **must** point to a variable set by the application to the number of elements in the `pVideoFormatProperties` array, and on return the variable is overwritten with the number of values actually written to `pVideoFormatProperties`.
+        /// If the value of `pVideoFormatPropertyCount` is less than the number of video format properties supported, at most `pVideoFormatPropertyCount` values will be written to `pVideoFormatProperties`, and `VK_INCOMPLETE` will be returned instead of `VK_SUCCESS`, to indicate that not all the available values were returned.
+        /// Video format properties are always queried with respect to a specific set of video profiles.
+        /// These are specified by chaining the [VkVideoProfileListInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoProfileListInfoKHR.html) structure to `pVideoFormatInfo`.
+        /// For most use cases, the images are used by a single video session and a single video profile is provided.
+        /// For a use case such as video transcoding, where a decode session output image **can** be used as encode input in one or more encode sessions, multiple video profiles corresponding to the video sessions that will share the image **must** be provided.
+        /// If any of the [video profiles](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#video-profiles) specified via [VkVideoProfileListInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoProfileListInfoKHR.html)::`pProfiles` are not supported, then this command returns one of the [video-profile-specific error codes](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#video-profile-error-codes).
+        /// Furthermore, if [VkPhysicalDeviceVideoFormatInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoFormatInfoKHR.html)::`imageUsage` includes any image usage flags not supported by the specified video profiles, then this command returns `VK_ERROR_IMAGE_USAGE_NOT_SUPPORTED_KHR`.
+        /// This command also returns `VK_ERROR_IMAGE_USAGE_NOT_SUPPORTED_KHR` if [VkPhysicalDeviceVideoFormatInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoFormatInfoKHR.html)::`imageUsage` does not include the appropriate flags as dictated by the decode capability flags returned in [VkVideoDecodeCapabilitiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoDecodeCapabilitiesKHR.html)::`flags` for any of the profiles specified in the [VkVideoProfileListInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoProfileListInfoKHR.html) structure provided in the `pNext` chain of `pVideoFormatInfo`.
+        /// If the decode capability flags include `VK_VIDEO_DECODE_CAPABILITY_DPB_AND_OUTPUT_COINCIDE_BIT_KHR` but not `VK_VIDEO_DECODE_CAPABILITY_DPB_AND_OUTPUT_DISTINCT_BIT_KHR`, then in order to query video format properties for decode DPB and output usage, [VkPhysicalDeviceVideoFormatInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoFormatInfoKHR.html)::`imageUsage` **must** include both `VK_IMAGE_USAGE_VIDEO_DECODE_DPB_BIT_KHR` and `VK_IMAGE_USAGE_VIDEO_DECODE_DST_BIT_KHR`.
+        /// Otherwise, the call will fail with `VK_ERROR_IMAGE_USAGE_NOT_SUPPORTED_KHR`.
+        /// If the decode capability flags include `VK_VIDEO_DECODE_CAPABILITY_DPB_AND_OUTPUT_DISTINCT_BIT_KHR` but not `VK_VIDEO_DECODE_CAPABILITY_DPB_AND_OUTPUT_COINCIDE_BIT_KHR`, then in order to query video format properties for decode DPB usage, [VkPhysicalDeviceVideoFormatInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoFormatInfoKHR.html)::`imageUsage` **must** include `VK_IMAGE_USAGE_VIDEO_DECODE_DPB_BIT_KHR`, but not `VK_IMAGE_USAGE_VIDEO_DECODE_DST_BIT_KHR`.
+        /// Otherwise, the call will fail with `VK_ERROR_IMAGE_USAGE_NOT_SUPPORTED_KHR`.
+        /// Similarly, to query video format properties for decode output usage, [VkPhysicalDeviceVideoFormatInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoFormatInfoKHR.html)::`imageUsage` **must** include `VK_IMAGE_USAGE_VIDEO_DECODE_DST_BIT_KHR`, but not `VK_IMAGE_USAGE_VIDEO_DECODE_DPB_BIT_KHR`.
+        /// Otherwise, the call will fail with `VK_ERROR_IMAGE_USAGE_NOT_SUPPORTED_KHR`.
+        /// The `imageUsage` member of the [VkPhysicalDeviceVideoFormatInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoFormatInfoKHR.html) structure specifies the expected video usage flags that the returned video formats **must** support.
+        /// Correspondingly, the `imageUsageFlags` member of each [VkVideoFormatPropertiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoFormatPropertiesKHR.html) structure returned will contain at least the same set of image usage flags.
+        /// If the implementation supports using images of a particular format in operations other than video decode/encode then the `imageUsageFlags` member of the corresponding [VkVideoFormatPropertiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoFormatPropertiesKHR.html) structure returned will include additional image usage flags indicating that.
+        /// Multiple `VkVideoFormatPropertiesKHR` entries **may** be returned with the same `format` member with different `componentMapping`, `imageType`, or `imageTiling` values, as described later.
+        /// If [VkPhysicalDeviceVideoFormatInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoFormatInfoKHR.html)::`imageUsage` includes `VK_IMAGE_USAGE_VIDEO_ENCODE_QUANTIZATION_DELTA_MAP_BIT_KHR` or `VK_IMAGE_USAGE_VIDEO_ENCODE_EMPHASIS_MAP_BIT_KHR`, multiple `VkVideoFormatPropertiesKHR` entries **may** be returned with the same `format`, `componentMapping`, `imageType`, and `imageTiling` member values, but different `quantizationMapTexelSize` returned in the [VkVideoFormatQuantizationMapPropertiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoFormatQuantizationMapPropertiesKHR.html) structure, if one is included in the [VkVideoFormatPropertiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoFormatPropertiesKHR.html)::`pNext` chain, when the queried [quantization map type](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#encode-quantization-map) supports multiple distinct [quantization map texel sizes](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#encode-quantization-map-texel-size).
+        /// In addition, a different set of `VkVideoFormatPropertiesKHR` entries **may** be returned depending on the `imageUsage` member of the `VkPhysicalDeviceVideoFormatInfoKHR` structure, even for the same set of video profiles, for example, based on whether encode input, encode DPB, decode output, and/or decode DPB usage is requested.
+        /// The application **can** select the parameters returned in the `VkVideoFormatPropertiesKHR` entries and use compatible parameters when creating the input, output, and DPB images.
+        /// The implementation will report all image creation and usage flags that are valid for images used with the requested video profiles but applications **should** create images only with those that are necessary for the particular use case.
+        /// Before creating an image, the application **can** obtain the complete set of supported image format features by calling [vkGetPhysicalDeviceImageFormatProperties2](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceImageFormatProperties2.html) using parameters derived from the members of one of the reported `VkVideoFormatPropertiesKHR` entries and adding the same [VkVideoProfileListInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoProfileListInfoKHR.html) structure to the `pNext` chain of [VkPhysicalDeviceImageFormatInfo2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageFormatInfo2.html).
+        /// The following applies to all `VkVideoFormatPropertiesKHR` entries returned by `vkGetPhysicalDeviceVideoFormatPropertiesKHR`:
+        /// - [vkGetPhysicalDeviceFormatProperties2](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceFormatProperties2.html) **must** succeed when called with `VkVideoFormatPropertiesKHR`::`format`
+        /// - If `VkVideoFormatPropertiesKHR`::`imageTiling` is `VK_IMAGE_TILING_OPTIMAL`, then the `optimalTilingFeatures` returned by [vkGetPhysicalDeviceFormatProperties2](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceFormatProperties2.html) **must** include all format features required by the image usage flags reported in `VkVideoFormatPropertiesKHR`::`imageUsageFlags` for the format, as indicated in the [Format Feature Dependent Usage Flags](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#format-feature-dependent-usage-flags) section.
+        /// - If `VkVideoFormatPropertiesKHR`::`imageTiling` is `VK_IMAGE_TILING_LINEAR`, then the `linearTilingFeatures` returned by [vkGetPhysicalDeviceFormatProperties2](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceFormatProperties2.html) **must** include all format features required by the image usage flags reported in `VkVideoFormatPropertiesKHR`::`imageUsageFlags` for the format, as indicated in the [Format Feature Dependent Usage Flags](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#format-feature-dependent-usage-flags) section.
+        /// - [vkGetPhysicalDeviceImageFormatProperties2](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceImageFormatProperties2.html) **must** succeed when called with a [VkPhysicalDeviceImageFormatInfo2](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceImageFormatInfo2.html) structure containing the following information:The `pNext` chain including the same [VkVideoProfileListInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoProfileListInfoKHR.html) structure used to call `vkGetPhysicalDeviceVideoFormatPropertiesKHR`.`format` set to the value of `VkVideoFormatPropertiesKHR`::`format`.`type` set to the value of `VkVideoFormatPropertiesKHR`::`imageType`.`tiling` set to the value of `VkVideoFormatPropertiesKHR`::`imageTiling`.`usage` set to the value of `VkVideoFormatPropertiesKHR`::`imageUsageFlags`.`flags` set to the value of `VkVideoFormatPropertiesKHR`::`imageCreateFlags`.
+        /// The `componentMapping` member of `VkVideoFormatPropertiesKHR` defines the ordering of the Y′CBCR color channels from the perspective of the video codec operations specified in [VkVideoProfileListInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoProfileListInfoKHR.html).
+        /// For example, if the implementation produces video decode output with the format `VK_FORMAT_G8_B8R8_2PLANE_420_UNORM` where the blue and red chrominance channels are swapped then the `componentMapping` member of the corresponding `VkVideoFormatPropertiesKHR` structure will have the following member values:
+        ///
+        /// - Parameters:
+        ///   - physicalDevice: is the physical device from which to query the video format properties.
+        ///   - pVideoFormatInfo: is a pointer to a [VkPhysicalDeviceVideoFormatInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoFormatInfoKHR.html) structure specifying the usage and video profiles for which supported image formats and capabilities are returned.
+        ///   - pVideoFormatPropertyCount: is a pointer to an integer related to the number of video format properties available or queried, as described below.
+        ///   - pVideoFormatProperties: is a pointer to an array of [VkVideoFormatPropertiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoFormatPropertiesKHR.html) structures in which supported image formats and capabilities are returned.
+        ///
+        /// - Returns:
+        ///   - On success:
+        ///     - `VK_SUCCESS`
+        ///     - `VK_INCOMPLETE`
+        ///   - On failure:
+        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+        ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
+        ///     - `VK_ERROR_IMAGE_USAGE_NOT_SUPPORTED_KHR`
+        ///     - `VK_ERROR_VIDEO_PROFILE_OPERATION_NOT_SUPPORTED_KHR`
+        ///     - `VK_ERROR_VIDEO_PROFILE_FORMAT_NOT_SUPPORTED_KHR`
+        ///     - `VK_ERROR_VIDEO_PICTURE_LAYOUT_NOT_SUPPORTED_KHR`
+        ///     - `VK_ERROR_VIDEO_PROFILE_CODEC_NOT_SUPPORTED_KHR`
+        ///
+        /// ### Valid Usage
+        /// ---
+        /// - Precondition: The `pNext` chain of `pVideoFormatInfo` **must** include a
+        ///                 [VkVideoProfileListInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoProfileListInfoKHR.html) structure with `profileCount`
+        ///                 greater than `0`
+        ///
+        /// ### Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pVideoFormatInfo` **must** be a valid pointer to a valid [VkPhysicalDeviceVideoFormatInfoKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceVideoFormatInfoKHR.html) structure
+        /// - Precondition: `pVideoFormatPropertyCount` **must** be a valid pointer to a `uint32_t` value
+        /// - Precondition: If the value referenced by `pVideoFormatPropertyCount` is not `0`, and `pVideoFormatProperties` is not `NULL`, `pVideoFormatProperties` **must** be a valid pointer to an array of `pVideoFormatPropertyCount` [VkVideoFormatPropertiesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkVideoFormatPropertiesKHR.html) structures
+        ///
+        /// - SeeAlso: [vkGetPhysicalDeviceVideoFormatPropertiesKHR Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceVideoFormatPropertiesKHR.html)
+        @unsafe
+        public let getPhysicalDeviceVideoFormatPropertiesKHR: PFN_vkGetPhysicalDeviceVideoFormatPropertiesKHR!
 
         /// To release a previously acquired display, call:
         ///
@@ -1812,83 +2173,6 @@ extension Instance {
         /// - SeeAlso: [vkReleaseDisplayEXT Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkReleaseDisplayEXT.html)
         @unsafe
         public let releaseDisplayEXT: PFN_vkReleaseDisplayEXT!
-
-        /// An object can be given an application-defined name by calling:
-        ///
-        ///
-        /// - Parameters:
-        ///   - device: is the device that is associated with the named object passed in via `objectHandle`.
-        ///   - pNameInfo: is a pointer to a [VkDebugUtilsObjectNameInfoEXT](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDebugUtilsObjectNameInfoEXT.html) structure specifying parameters of the name to set on the object.
-        ///
-        /// - Returns:
-        ///   - On success:
-        ///     - `VK_SUCCESS`
-        ///   - On failure:
-        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
-        ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
-        ///
-        /// ### Valid Usage
-        /// ---
-        /// - Precondition: `pNameInfo->objectType` **must** not be `VK_OBJECT_TYPE_UNKNOWN`
-        /// - Precondition: `pNameInfo->objectHandle` **must** not be [VK_NULL_HANDLE](https://registry.khronos.org/vulkan/specs/latest/man/html/VK_NULL_HANDLE.html)
-        /// - Precondition: If `pNameInfo->objectHandle` is the valid handle of an
-        ///                 instance-level object, the [VkDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDevice.html) identified by `device` **must** be a descendent of the same [VkInstance](https://registry.khronos.org/vulkan/specs/latest/man/html/VkInstance.html) as the object
-        ///                 identified by `pNameInfo->objectHandle`
-        /// - Precondition: If `pNameInfo->objectHandle` is the valid handle of a
-        ///                 physical-device-level object, the [VkDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDevice.html) identified by
-        ///                 `device` **must** be a descendant of the same [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) as
-        ///                 the object identified by `pNameInfo->objectHandle`
-        /// - Precondition: If `pNameInfo->objectHandle` is the valid handle of a device-level
-        ///                 object, that object **must** be a descendent of the [VkDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDevice.html)
-        ///                 identified by `device`
-        ///
-        /// ### Valid Usage (Implicit)
-        /// ---
-        /// - Precondition: `device` **must** be a valid [VkDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDevice.html) handle
-        /// - Precondition: `pNameInfo` **must** be a valid pointer to a valid [VkDebugUtilsObjectNameInfoEXT](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDebugUtilsObjectNameInfoEXT.html) structure
-        ///
-        /// ### Host Synchronization
-        /// ---
-        /// - Precondition: Host access to `pNameInfo->objectHandle` **must** be externally synchronized
-        ///
-        /// - SeeAlso: [vkSetDebugUtilsObjectNameEXT Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkSetDebugUtilsObjectNameEXT.html)
-        @unsafe
-        public let setDebugUtilsObjectNameEXT: PFN_vkSetDebugUtilsObjectNameEXT!
-
-        ///
-        ///
-        /// - Parameters:
-        ///   - device: is the device that created the object.
-        ///   - pTagInfo: is a pointer to a [VkDebugUtilsObjectTagInfoEXT](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDebugUtilsObjectTagInfoEXT.html) structure specifying parameters of the tag to attach to the object.
-        ///
-        /// - Returns:
-        ///   - On success:
-        ///     - `VK_SUCCESS`
-        ///   - On failure:
-        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
-        ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
-        ///
-        /// ### Valid Usage
-        /// ---
-        /// - Precondition: If `pNameInfo->objectHandle` is the valid handle of an
-        ///                 instance-level object, the [VkDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDevice.html) identified by `device` **must** be a descendent of the same [VkInstance](https://registry.khronos.org/vulkan/specs/latest/man/html/VkInstance.html) as the object
-        ///                 identified by `pNameInfo->objectHandle`
-        /// - Precondition: If `pNameInfo->objectHandle` is the valid handle of a
-        ///                 physical-device-level object, the [VkDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDevice.html) identified by
-        ///                 `device` **must** be a descendant of the same [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) as
-        ///                 the object identified by `pNameInfo->objectHandle`
-        /// - Precondition: If `pNameInfo->objectHandle` is the valid handle of a device-level
-        ///                 object, that object **must** be a descendent of the [VkDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDevice.html)
-        ///                 identified by `device`
-        ///
-        /// ### Valid Usage (Implicit)
-        /// ---
-        /// - Precondition: `device` **must** be a valid [VkDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDevice.html) handle
-        /// - Precondition: `pTagInfo` **must** be a valid pointer to a valid [VkDebugUtilsObjectTagInfoEXT](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDebugUtilsObjectTagInfoEXT.html) structure
-        ///
-        /// - SeeAlso: [vkSetDebugUtilsObjectTagEXT Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkSetDebugUtilsObjectTagEXT.html)
-        @unsafe
-        public let setDebugUtilsObjectTagEXT: PFN_vkSetDebugUtilsObjectTagEXT!
 
         /// To intentionally submit a debug message, call:
         ///
@@ -1950,6 +2234,39 @@ extension Instance {
         @unsafe
         public var enumeratePhysicalDeviceGroupsKHR: PFN_vkEnumeratePhysicalDeviceGroups! {
             unsafe enumeratePhysicalDeviceGroups
+        }
+
+        /// To query the set of time domains for which a physical device supports
+        /// timestamp calibration, call:
+        ///
+        /// If `pTimeDomains` is `NULL`, then the number of calibrateable time domains supported for the given `physicalDevice` is returned in `pTimeDomainCount`.
+        /// Otherwise, `pTimeDomainCount` **must** point to a variable set by the application to the number of elements in the `pTimeDomains` array, and on return the variable is overwritten with the number of values actually written to `pTimeDomains`.
+        /// If the value of `pTimeDomainCount` is less than the number of calibrateable time domains supported, at most `pTimeDomainCount` values will be written to `pTimeDomains`, and `VK_INCOMPLETE` will be returned instead of `VK_SUCCESS`, to indicate that not all the available time domains were returned.
+        ///
+        /// - Parameters:
+        ///   - physicalDevice: is the physical device from which to query the set of calibrateable time domains.
+        ///   - pTimeDomainCount: is a pointer to an integer related to the number of calibrateable time domains available or queried, as described below.
+        ///   - pTimeDomains: is either `NULL` or a pointer to an array of [VkTimeDomainKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkTimeDomainKHR.html) values, indicating the supported calibrateable time domains.
+        ///
+        /// - Returns:
+        ///   - On success:
+        ///     - `VK_SUCCESS`
+        ///     - `VK_INCOMPLETE`
+        ///   - On failure:
+        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+        ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
+        ///
+        /// ### Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pTimeDomainCount` **must** be a valid pointer to a `uint32_t` value
+        /// - Precondition: If the value referenced by `pTimeDomainCount` is not `0`, and `pTimeDomains` is not `NULL`, `pTimeDomains` **must** be a valid pointer to an array of `pTimeDomainCount` [VkTimeDomainKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkTimeDomainKHR.html) values
+        ///
+        /// - SeeAlso: [vkGetPhysicalDeviceCalibrateableTimeDomainsKHR Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceCalibrateableTimeDomainsKHR.html)
+        /// - Remark: Alias for getPhysicalDeviceCalibrateableTimeDomainsKHR
+        @unsafe
+        public var getPhysicalDeviceCalibrateableTimeDomainsEXT: PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsKHR! {
+            unsafe getPhysicalDeviceCalibrateableTimeDomainsKHR
         }
 
         /// To query the external handle types supported by buffers, call:
@@ -2212,6 +2529,40 @@ extension Instance {
             unsafe getPhysicalDeviceSparseImageFormatProperties2
         }
 
+        /// Information about tools providing debugging, profiling, or similar services,
+        /// active for a given physical device, can be obtained by calling:
+        ///
+        /// If `pToolProperties` is `NULL`, then the number of tools currently active on `physicalDevice` is returned in `pToolCount`.
+        /// Otherwise, `pToolCount` **must** point to a variable set by the application to the number of elements in the `pToolProperties` array, and on return the variable is overwritten with the number of structures actually written to `pToolProperties`.
+        /// If `pToolCount` is less than the number of currently active tools, at most `pToolCount` structures will be written.
+        /// The count and properties of active tools **may** change in response to events outside the scope of the specification.
+        /// An application **should** assume these properties might change at any given time.
+        ///
+        /// - Parameters:
+        ///   - physicalDevice: is the handle to the physical device to query for active tools.
+        ///   - pToolCount: is a pointer to an integer describing the number of tools active on `physicalDevice`.
+        ///   - pToolProperties: is either `NULL` or a pointer to an array of [VkPhysicalDeviceToolProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceToolProperties.html) structures.
+        ///
+        /// - Returns:
+        ///   - On success:
+        ///     - `VK_SUCCESS`
+        ///     - `VK_INCOMPLETE`
+        ///   - On failure:
+        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+        ///
+        /// ### Valid Usage (Implicit)
+        /// ---
+        /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+        /// - Precondition: `pToolCount` **must** be a valid pointer to a `uint32_t` value
+        /// - Precondition: If the value referenced by `pToolCount` is not `0`, and `pToolProperties` is not `NULL`, `pToolProperties` **must** be a valid pointer to an array of `pToolCount` [VkPhysicalDeviceToolProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceToolProperties.html) structures
+        ///
+        /// - SeeAlso: [vkGetPhysicalDeviceToolProperties Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceToolProperties.html)
+        /// - Remark: Alias for getPhysicalDeviceToolProperties
+        @unsafe
+        public var getPhysicalDeviceToolPropertiesEXT: PFN_vkGetPhysicalDeviceToolProperties! {
+            unsafe getPhysicalDeviceToolProperties
+        }
+
         #if PlatformAndroid
             /// To create a `VkSurfaceKHR` object for an Android native window, call:
             ///
@@ -2363,70 +2714,6 @@ extension Instance {
             /// - SeeAlso: [vkCreateStreamDescriptorSurfaceGGP Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCreateStreamDescriptorSurfaceGGP.html)
             @unsafe
             public let createStreamDescriptorSurfaceGGP: PFN_vkCreateStreamDescriptorSurfaceGGP!
-        #endif
-
-
-        #if PlatformIos
-            /// To create a `VkSurfaceKHR` object for an iOS `UIView` or
-            /// [CAMetalLayer](https://registry.khronos.org/vulkan/specs/latest/man/html/CAMetalLayer.html), call:
-            ///
-            ///
-            /// - Parameters:
-            ///   - instance: is the instance with which to associate the surface.
-            ///   - pCreateInfo: is a pointer to a [VkIOSSurfaceCreateInfoMVK](https://registry.khronos.org/vulkan/specs/latest/man/html/VkIOSSurfaceCreateInfoMVK.html) structure containing parameters affecting the creation of the surface object.
-            ///   - pAllocator: is the allocator used for host memory allocated for the surface object when there is no more specific allocator available (see [Memory Allocation](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#memory-allocation) ).
-            ///   - pSurface: is a pointer to a [VkSurfaceKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkSurfaceKHR.html) handle in which the created surface object is returned.
-            ///
-            /// - Returns:
-            ///   - On success:
-            ///     - `VK_SUCCESS`
-            ///   - On failure:
-            ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
-            ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
-            ///     - `VK_ERROR_NATIVE_WINDOW_IN_USE_KHR`
-            ///
-            /// ### Valid Usage (Implicit)
-            /// ---
-            /// - Precondition: `instance` **must** be a valid [VkInstance](https://registry.khronos.org/vulkan/specs/latest/man/html/VkInstance.html) handle
-            /// - Precondition: `pCreateInfo` **must** be a valid pointer to a valid [VkIOSSurfaceCreateInfoMVK](https://registry.khronos.org/vulkan/specs/latest/man/html/VkIOSSurfaceCreateInfoMVK.html) structure
-            /// - Precondition: If `pAllocator` is not `NULL`, `pAllocator` **must** be a valid pointer to a valid [VkAllocationCallbacks](https://registry.khronos.org/vulkan/specs/latest/man/html/VkAllocationCallbacks.html) structure
-            /// - Precondition: `pSurface` **must** be a valid pointer to a [VkSurfaceKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkSurfaceKHR.html) handle
-            ///
-            /// - SeeAlso: [vkCreateIOSSurfaceMVK Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCreateIOSSurfaceMVK.html)
-            @unsafe
-            public let createIOSSurfaceMVK: PFN_vkCreateIOSSurfaceMVK!
-        #endif
-
-
-        #if PlatformMacos
-            /// To create a `VkSurfaceKHR` object for a macOS `NSView` or
-            /// [CAMetalLayer](https://registry.khronos.org/vulkan/specs/latest/man/html/CAMetalLayer.html), call:
-            ///
-            ///
-            /// - Parameters:
-            ///   - instance: is the instance with which to associate the surface.
-            ///   - pCreateInfo: is a pointer to a [VkMacOSSurfaceCreateInfoMVK](https://registry.khronos.org/vulkan/specs/latest/man/html/VkMacOSSurfaceCreateInfoMVK.html) structure containing parameters affecting the creation of the surface object.
-            ///   - pAllocator: is the allocator used for host memory allocated for the surface object when there is no more specific allocator available (see [Memory Allocation](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#memory-allocation) ).
-            ///   - pSurface: is a pointer to a [VkSurfaceKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkSurfaceKHR.html) handle in which the created surface object is returned.
-            ///
-            /// - Returns:
-            ///   - On success:
-            ///     - `VK_SUCCESS`
-            ///   - On failure:
-            ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
-            ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
-            ///     - `VK_ERROR_NATIVE_WINDOW_IN_USE_KHR`
-            ///
-            /// ### Valid Usage (Implicit)
-            /// ---
-            /// - Precondition: `instance` **must** be a valid [VkInstance](https://registry.khronos.org/vulkan/specs/latest/man/html/VkInstance.html) handle
-            /// - Precondition: `pCreateInfo` **must** be a valid pointer to a valid [VkMacOSSurfaceCreateInfoMVK](https://registry.khronos.org/vulkan/specs/latest/man/html/VkMacOSSurfaceCreateInfoMVK.html) structure
-            /// - Precondition: If `pAllocator` is not `NULL`, `pAllocator` **must** be a valid pointer to a valid [VkAllocationCallbacks](https://registry.khronos.org/vulkan/specs/latest/man/html/VkAllocationCallbacks.html) structure
-            /// - Precondition: `pSurface` **must** be a valid pointer to a [VkSurfaceKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkSurfaceKHR.html) handle
-            ///
-            /// - SeeAlso: [vkCreateMacOSSurfaceMVK Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCreateMacOSSurfaceMVK.html)
-            @unsafe
-            public let createMacOSSurfaceMVK: PFN_vkCreateMacOSSurfaceMVK!
         #endif
 
 
@@ -2641,6 +2928,36 @@ extension Instance {
 
 
         #if PlatformWin32
+            /// To acquire permission to directly access a display in Vulkan on Windows 10,
+            /// call:
+            ///
+            /// All permissions necessary to control the display are granted to the Vulkan instance associated with `physicalDevice` until the display is released or the application is terminated.
+            /// Permission to access the display **may** be revoked by events that cause Windows 10 itself to lose access to `display`.
+            /// If this has happened, operations which require access to the display **must** fail with an appropriate error code.
+            /// If permission to access `display` has already been acquired by another entity, the call **must** return the error code `VK_ERROR_INITIALIZATION_FAILED`.
+            ///
+            /// - Parameters:
+            ///   - physicalDevice: The physical device the display is on.
+            ///   - display: The display the caller wishes to control in Vulkan.
+            ///
+            /// - Returns:
+            ///   - On success:
+            ///     - `VK_SUCCESS`
+            ///   - On failure:
+            ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+            ///     - `VK_ERROR_DEVICE_LOST`
+            ///     - `VK_ERROR_INITIALIZATION_FAILED`
+            ///
+            /// ### Valid Usage (Implicit)
+            /// ---
+            /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+            /// - Precondition: `display` **must** be a valid [VkDisplayKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDisplayKHR.html) handle
+            /// - Precondition: `display` **must** have been created, allocated, or retrieved from `physicalDevice`
+            ///
+            /// - SeeAlso: [vkAcquireWinrtDisplayNV Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkAcquireWinrtDisplayNV.html)
+            @unsafe
+            public let acquireWinrtDisplayNV: PFN_vkAcquireWinrtDisplayNV!
+
             /// To create a `VkSurfaceKHR` object for a Win32 window, call:
             ///
             /// Some Vulkan functions **may** call the `SendMessage` system API when interacting with a `VkSurfaceKHR` through a `VkSwapchainKHR`.
@@ -2681,6 +2998,46 @@ extension Instance {
             @unsafe
             public let createWin32SurfaceKHR: PFN_vkCreateWin32SurfaceKHR!
 
+            /// Alternatively, to query the supported presentation modes for a surface
+            /// combined with select other fixed swapchain creation parameters, call:
+            ///
+            /// `vkGetPhysicalDeviceSurfacePresentModes2EXT` behaves similarly to [vkGetPhysicalDeviceSurfacePresentModesKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceSurfacePresentModesKHR.html), with the ability to specify extended inputs via chained input structures.
+            ///
+            /// - Parameters:
+            ///   - physicalDevice: is the physical device that will be associated with the swapchain to be created, as described for [vkCreateSwapchainKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCreateSwapchainKHR.html).
+            ///   - pSurfaceInfo: is a pointer to a [VkPhysicalDeviceSurfaceInfo2KHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceSurfaceInfo2KHR.html) structure describing the surface and other fixed parameters that would be consumed by [vkCreateSwapchainKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/vkCreateSwapchainKHR.html).
+            ///   - pPresentModeCount: is a pointer to an integer related to the number of presentation modes available or queried, as described below.
+            ///   - pPresentModes: is either `NULL` or a pointer to an array of [VkPresentModeKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPresentModeKHR.html) values, indicating the supported presentation modes.
+            ///
+            /// - Returns:
+            ///   - On success:
+            ///     - `VK_SUCCESS`
+            ///     - `VK_INCOMPLETE`
+            ///   - On failure:
+            ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+            ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
+            ///     - `VK_ERROR_SURFACE_LOST_KHR`
+            ///
+            /// ### Valid Usage
+            /// ---
+            /// - Precondition: If the `[VK_GOOGLE_surfaceless_query](https://registry.khronos.org/vulkan/specs/latest/man/html/VK_GOOGLE_surfaceless_query.html) ` extension is not enabled,
+            ///                 `pSurfaceInfo->surface` **must** be a valid [VkSurfaceKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkSurfaceKHR.html) handle
+            /// - Precondition: If `pSurfaceInfo->surface` is not [VK_NULL_HANDLE](https://registry.khronos.org/vulkan/specs/latest/man/html/VK_NULL_HANDLE.html),
+            ///                 `pSurfaceInfo->surface` **must** be supported by `physicalDevice`,
+            ///                 as reported by [vkGetPhysicalDeviceSurfaceSupportKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceSurfaceSupportKHR.html) or an
+            ///                 equivalent platform-specific mechanism
+            ///
+            /// ### Valid Usage (Implicit)
+            /// ---
+            /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+            /// - Precondition: `pSurfaceInfo` **must** be a valid pointer to a valid [VkPhysicalDeviceSurfaceInfo2KHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceSurfaceInfo2KHR.html) structure
+            /// - Precondition: `pPresentModeCount` **must** be a valid pointer to a `uint32_t` value
+            /// - Precondition: If the value referenced by `pPresentModeCount` is not `0`, and `pPresentModes` is not `NULL`, `pPresentModes` **must** be a valid pointer to an array of `pPresentModeCount` [VkPresentModeKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPresentModeKHR.html) values
+            ///
+            /// - SeeAlso: [vkGetPhysicalDeviceSurfacePresentModes2EXT Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceSurfacePresentModes2EXT.html)
+            @unsafe
+            public let getPhysicalDeviceSurfacePresentModes2EXT: PFN_vkGetPhysicalDeviceSurfacePresentModes2EXT!
+
             /// To determine whether a queue family of a physical device supports
             /// presentation to the Microsoft Windows desktop, call:
             ///
@@ -2704,6 +3061,34 @@ extension Instance {
             /// - SeeAlso: [vkGetPhysicalDeviceWin32PresentationSupportKHR Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetPhysicalDeviceWin32PresentationSupportKHR.html)
             @unsafe
             public let getPhysicalDeviceWin32PresentationSupportKHR: PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR!
+
+            /// When acquiring displays on Windows 10, an application may also wish to
+            /// enumerate and identify them using a native handle rather than a
+            /// `VkDisplayKHR` handle.
+            ///
+            /// If there is no [VkDisplayKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDisplayKHR.html) corresponding to `deviceRelativeId` on `physicalDevice`, [VK_NULL_HANDLE](https://registry.khronos.org/vulkan/specs/latest/man/html/VK_NULL_HANDLE.html) **must** be returned in `pDisplay`.
+            ///
+            /// - Parameters:
+            ///   - physicalDevice: The physical device on which to query the display handle.
+            ///   - deviceRelativeId: The value of the [“AdapterRelativeId”](https://docs.microsoft.com/en-us/uwp/api/windows.devices.display.core.displaytarget.adapterrelativeid) property of a [“DisplayTarget”](https://docs.microsoft.com/en-us/uwp/api/windows.devices.display.core.displaytarget) that is enumerated by a [“DisplayAdapter”](https://docs.microsoft.com/en-us/uwp/api/windows.devices.display.core.displayadapter) with an [“Id”](https://docs.microsoft.com/en-us/uwp/api/windows.devices.display.core.displayadapter.id) property matching the `deviceLUID` property of a [VkPhysicalDeviceIDProperties](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDeviceIDProperties.html) for `physicalDevice`.
+            ///   - pDisplay: The corresponding [VkDisplayKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDisplayKHR.html) handle will be returned here.
+            ///
+            /// - Returns:
+            ///   - On success:
+            ///     - `VK_SUCCESS`
+            ///   - On failure:
+            ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+            ///     - `VK_ERROR_DEVICE_LOST`
+            ///     - `VK_ERROR_INITIALIZATION_FAILED`
+            ///
+            /// ### Valid Usage (Implicit)
+            /// ---
+            /// - Precondition: `physicalDevice` **must** be a valid [VkPhysicalDevice](https://registry.khronos.org/vulkan/specs/latest/man/html/VkPhysicalDevice.html) handle
+            /// - Precondition: `pDisplay` **must** be a valid pointer to a [VkDisplayKHR](https://registry.khronos.org/vulkan/specs/latest/man/html/VkDisplayKHR.html) handle
+            ///
+            /// - SeeAlso: [vkGetWinrtDisplayNV Documentation](https://registry.khronos.org/vulkan/specs/latest/man/html/vkGetWinrtDisplayNV.html)
+            @unsafe
+            public let getWinrtDisplayNV: PFN_vkGetWinrtDisplayNV!
         #endif
 
 
@@ -3277,6 +3662,24 @@ extension Instance {
                 debugLog("Failed to load vkEnumeratePhysicalDeviceGroups command in InstanceTable")
             }
 
+            traceLog("Loading vkGetPhysicalDevicePresentRectanglesKHR command in InstanceTable")
+            unsafe self.getPhysicalDevicePresentRectanglesKHR = unsafeBitCast(
+                getProcAddr(context, "vkGetPhysicalDevicePresentRectanglesKHR"),
+                to: PFN_vkGetPhysicalDevicePresentRectanglesKHR.self
+            )
+            if unsafe self.getPhysicalDevicePresentRectanglesKHR == nil {
+                debugLog("Failed to load vkGetPhysicalDevicePresentRectanglesKHR command in InstanceTable")
+            }
+
+            traceLog("Loading vkGetPhysicalDeviceMultisamplePropertiesEXT command in InstanceTable")
+            unsafe self.getPhysicalDeviceMultisamplePropertiesEXT = unsafeBitCast(
+                getProcAddr(context, "vkGetPhysicalDeviceMultisamplePropertiesEXT"),
+                to: PFN_vkGetPhysicalDeviceMultisamplePropertiesEXT.self
+            )
+            if unsafe self.getPhysicalDeviceMultisamplePropertiesEXT == nil {
+                debugLog("Failed to load vkGetPhysicalDeviceMultisamplePropertiesEXT command in InstanceTable")
+            }
+
             traceLog("Loading vkGetPhysicalDeviceSurfaceCapabilities2KHR command in InstanceTable")
             unsafe self.getPhysicalDeviceSurfaceCapabilities2KHR = unsafeBitCast(
                 getProcAddr(context, "vkGetPhysicalDeviceSurfaceCapabilities2KHR"),
@@ -3331,76 +3734,13 @@ extension Instance {
                 debugLog("Failed to load vkGetDisplayPlaneCapabilities2KHR command in InstanceTable")
             }
 
-            traceLog("Loading vkSetDebugUtilsObjectNameEXT command in InstanceTable")
-            unsafe self.setDebugUtilsObjectNameEXT = unsafeBitCast(
-                getProcAddr(context, "vkSetDebugUtilsObjectNameEXT"),
-                to: PFN_vkSetDebugUtilsObjectNameEXT.self
+            traceLog("Loading vkGetPhysicalDeviceCalibrateableTimeDomainsKHR command in InstanceTable")
+            unsafe self.getPhysicalDeviceCalibrateableTimeDomainsKHR = unsafeBitCast(
+                getProcAddr(context, "vkGetPhysicalDeviceCalibrateableTimeDomainsKHR"),
+                to: PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsKHR.self
             )
-            if unsafe self.setDebugUtilsObjectNameEXT == nil {
-                debugLog("Failed to load vkSetDebugUtilsObjectNameEXT command in InstanceTable")
-            }
-
-            traceLog("Loading vkSetDebugUtilsObjectTagEXT command in InstanceTable")
-            unsafe self.setDebugUtilsObjectTagEXT = unsafeBitCast(
-                getProcAddr(context, "vkSetDebugUtilsObjectTagEXT"),
-                to: PFN_vkSetDebugUtilsObjectTagEXT.self
-            )
-            if unsafe self.setDebugUtilsObjectTagEXT == nil {
-                debugLog("Failed to load vkSetDebugUtilsObjectTagEXT command in InstanceTable")
-            }
-
-            traceLog("Loading vkQueueBeginDebugUtilsLabelEXT command in InstanceTable")
-            unsafe self.queueBeginDebugUtilsLabelEXT = unsafeBitCast(
-                getProcAddr(context, "vkQueueBeginDebugUtilsLabelEXT"),
-                to: PFN_vkQueueBeginDebugUtilsLabelEXT.self
-            )
-            if unsafe self.queueBeginDebugUtilsLabelEXT == nil {
-                debugLog("Failed to load vkQueueBeginDebugUtilsLabelEXT command in InstanceTable")
-            }
-
-            traceLog("Loading vkQueueEndDebugUtilsLabelEXT command in InstanceTable")
-            unsafe self.queueEndDebugUtilsLabelEXT = unsafeBitCast(
-                getProcAddr(context, "vkQueueEndDebugUtilsLabelEXT"),
-                to: PFN_vkQueueEndDebugUtilsLabelEXT.self
-            )
-            if unsafe self.queueEndDebugUtilsLabelEXT == nil {
-                debugLog("Failed to load vkQueueEndDebugUtilsLabelEXT command in InstanceTable")
-            }
-
-            traceLog("Loading vkQueueInsertDebugUtilsLabelEXT command in InstanceTable")
-            unsafe self.queueInsertDebugUtilsLabelEXT = unsafeBitCast(
-                getProcAddr(context, "vkQueueInsertDebugUtilsLabelEXT"),
-                to: PFN_vkQueueInsertDebugUtilsLabelEXT.self
-            )
-            if unsafe self.queueInsertDebugUtilsLabelEXT == nil {
-                debugLog("Failed to load vkQueueInsertDebugUtilsLabelEXT command in InstanceTable")
-            }
-
-            traceLog("Loading vkCmdBeginDebugUtilsLabelEXT command in InstanceTable")
-            unsafe self.cmdBeginDebugUtilsLabelEXT = unsafeBitCast(
-                getProcAddr(context, "vkCmdBeginDebugUtilsLabelEXT"),
-                to: PFN_vkCmdBeginDebugUtilsLabelEXT.self
-            )
-            if unsafe self.cmdBeginDebugUtilsLabelEXT == nil {
-                debugLog("Failed to load vkCmdBeginDebugUtilsLabelEXT command in InstanceTable")
-            }
-
-            traceLog("Loading vkCmdEndDebugUtilsLabelEXT command in InstanceTable")
-            unsafe self.cmdEndDebugUtilsLabelEXT = unsafeBitCast(
-                getProcAddr(context, "vkCmdEndDebugUtilsLabelEXT"),
-                to: PFN_vkCmdEndDebugUtilsLabelEXT.self
-            )
-            if unsafe self.cmdEndDebugUtilsLabelEXT == nil {
-                debugLog("Failed to load vkCmdEndDebugUtilsLabelEXT command in InstanceTable")
-            }
-
-            traceLog("Loading vkCmdInsertDebugUtilsLabelEXT command in InstanceTable")
-            unsafe self.cmdInsertDebugUtilsLabelEXT = unsafeBitCast(
-                getProcAddr(context, "vkCmdInsertDebugUtilsLabelEXT"),
-                to: PFN_vkCmdInsertDebugUtilsLabelEXT.self
-            )
-            if unsafe self.cmdInsertDebugUtilsLabelEXT == nil {
-                debugLog("Failed to load vkCmdInsertDebugUtilsLabelEXT command in InstanceTable")
+            if unsafe self.getPhysicalDeviceCalibrateableTimeDomainsKHR == nil {
+                debugLog("Failed to load vkGetPhysicalDeviceCalibrateableTimeDomainsKHR command in InstanceTable")
             }
 
             traceLog("Loading vkCreateDebugUtilsMessengerEXT command in InstanceTable")
@@ -3430,6 +3770,35 @@ extension Instance {
                 debugLog("Failed to load vkSubmitDebugUtilsMessageEXT command in InstanceTable")
             }
 
+            traceLog("Loading vkGetPhysicalDeviceCooperativeMatrixPropertiesNV command in InstanceTable")
+            unsafe self.getPhysicalDeviceCooperativeMatrixPropertiesNV = unsafeBitCast(
+                getProcAddr(context, "vkGetPhysicalDeviceCooperativeMatrixPropertiesNV"),
+                to: PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV.self
+            )
+            if unsafe self.getPhysicalDeviceCooperativeMatrixPropertiesNV == nil {
+                debugLog("Failed to load vkGetPhysicalDeviceCooperativeMatrixPropertiesNV command in InstanceTable")
+            }
+
+            traceLog("Loading vkEnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR command in InstanceTable")
+            unsafe self.enumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR = unsafeBitCast(
+                getProcAddr(context, "vkEnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR"),
+                to: PFN_vkEnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR.self
+            )
+            if unsafe self.enumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR == nil {
+                debugLog(
+                    "Failed to load vkEnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR command in InstanceTable"
+                )
+            }
+
+            traceLog("Loading vkGetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR command in InstanceTable")
+            unsafe self.getPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR = unsafeBitCast(
+                getProcAddr(context, "vkGetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR"),
+                to: PFN_vkGetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR.self
+            )
+            if unsafe self.getPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR == nil {
+                debugLog("Failed to load vkGetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR command in InstanceTable")
+            }
+
             traceLog("Loading vkCreateHeadlessSurfaceEXT command in InstanceTable")
             unsafe self.createHeadlessSurfaceEXT = unsafeBitCast(
                 getProcAddr(context, "vkCreateHeadlessSurfaceEXT"),
@@ -3437,6 +3806,62 @@ extension Instance {
             )
             if unsafe self.createHeadlessSurfaceEXT == nil {
                 debugLog("Failed to load vkCreateHeadlessSurfaceEXT command in InstanceTable")
+            }
+
+            traceLog("Loading vkGetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV command in InstanceTable")
+            unsafe self.getPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV = unsafeBitCast(
+                getProcAddr(context, "vkGetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV"),
+                to: PFN_vkGetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV.self
+            )
+            if unsafe self.getPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV == nil {
+                debugLog(
+                    "Failed to load vkGetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV command in InstanceTable"
+                )
+            }
+
+            traceLog("Loading vkGetPhysicalDeviceToolProperties command in InstanceTable")
+            unsafe self.getPhysicalDeviceToolProperties = unsafeBitCast(
+                getProcAddr(context, "vkGetPhysicalDeviceToolProperties"),
+                to: PFN_vkGetPhysicalDeviceToolProperties.self
+            )
+            if unsafe self.getPhysicalDeviceToolProperties == nil {
+                debugLog("Failed to load vkGetPhysicalDeviceToolProperties command in InstanceTable")
+            }
+
+            traceLog("Loading vkGetPhysicalDeviceFragmentShadingRatesKHR command in InstanceTable")
+            unsafe self.getPhysicalDeviceFragmentShadingRatesKHR = unsafeBitCast(
+                getProcAddr(context, "vkGetPhysicalDeviceFragmentShadingRatesKHR"),
+                to: PFN_vkGetPhysicalDeviceFragmentShadingRatesKHR.self
+            )
+            if unsafe self.getPhysicalDeviceFragmentShadingRatesKHR == nil {
+                debugLog("Failed to load vkGetPhysicalDeviceFragmentShadingRatesKHR command in InstanceTable")
+            }
+
+            traceLog("Loading vkGetPhysicalDeviceVideoCapabilitiesKHR command in InstanceTable")
+            unsafe self.getPhysicalDeviceVideoCapabilitiesKHR = unsafeBitCast(
+                getProcAddr(context, "vkGetPhysicalDeviceVideoCapabilitiesKHR"),
+                to: PFN_vkGetPhysicalDeviceVideoCapabilitiesKHR.self
+            )
+            if unsafe self.getPhysicalDeviceVideoCapabilitiesKHR == nil {
+                debugLog("Failed to load vkGetPhysicalDeviceVideoCapabilitiesKHR command in InstanceTable")
+            }
+
+            traceLog("Loading vkGetPhysicalDeviceVideoFormatPropertiesKHR command in InstanceTable")
+            unsafe self.getPhysicalDeviceVideoFormatPropertiesKHR = unsafeBitCast(
+                getProcAddr(context, "vkGetPhysicalDeviceVideoFormatPropertiesKHR"),
+                to: PFN_vkGetPhysicalDeviceVideoFormatPropertiesKHR.self
+            )
+            if unsafe self.getPhysicalDeviceVideoFormatPropertiesKHR == nil {
+                debugLog("Failed to load vkGetPhysicalDeviceVideoFormatPropertiesKHR command in InstanceTable")
+            }
+
+            traceLog("Loading vkGetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR command in InstanceTable")
+            unsafe self.getPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR = unsafeBitCast(
+                getProcAddr(context, "vkGetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR"),
+                to: PFN_vkGetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR.self
+            )
+            if unsafe self.getPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR == nil {
+                debugLog("Failed to load vkGetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR command in InstanceTable")
             }
 
             traceLog("Loading vkAcquireDrmDisplayEXT command in InstanceTable")
@@ -3455,6 +3880,53 @@ extension Instance {
             )
             if unsafe self.getDrmDisplayEXT == nil {
                 debugLog("Failed to load vkGetDrmDisplayEXT command in InstanceTable")
+            }
+
+            traceLog("Loading vkGetPhysicalDeviceOpticalFlowImageFormatsNV command in InstanceTable")
+            unsafe self.getPhysicalDeviceOpticalFlowImageFormatsNV = unsafeBitCast(
+                getProcAddr(context, "vkGetPhysicalDeviceOpticalFlowImageFormatsNV"),
+                to: PFN_vkGetPhysicalDeviceOpticalFlowImageFormatsNV.self
+            )
+            if unsafe self.getPhysicalDeviceOpticalFlowImageFormatsNV == nil {
+                debugLog("Failed to load vkGetPhysicalDeviceOpticalFlowImageFormatsNV command in InstanceTable")
+            }
+
+            traceLog("Loading vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR command in InstanceTable")
+            unsafe self.getPhysicalDeviceCooperativeMatrixPropertiesKHR = unsafeBitCast(
+                getProcAddr(context, "vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR"),
+                to: PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR.self
+            )
+            if unsafe self.getPhysicalDeviceCooperativeMatrixPropertiesKHR == nil {
+                debugLog("Failed to load vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR command in InstanceTable")
+            }
+
+            traceLog("Loading vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV command in InstanceTable")
+            unsafe self.getPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV = unsafeBitCast(
+                getProcAddr(context, "vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV"),
+                to: PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV.self
+            )
+            if unsafe self.getPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV == nil {
+                debugLog(
+                    "Failed to load vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV command in InstanceTable"
+                )
+            }
+
+            traceLog("Loading vkGetPhysicalDeviceCooperativeVectorPropertiesNV command in InstanceTable")
+            unsafe self.getPhysicalDeviceCooperativeVectorPropertiesNV = unsafeBitCast(
+                getProcAddr(context, "vkGetPhysicalDeviceCooperativeVectorPropertiesNV"),
+                to: PFN_vkGetPhysicalDeviceCooperativeVectorPropertiesNV.self
+            )
+            if unsafe self.getPhysicalDeviceCooperativeVectorPropertiesNV == nil {
+                debugLog("Failed to load vkGetPhysicalDeviceCooperativeVectorPropertiesNV command in InstanceTable")
+            }
+
+            traceLog("Loading vkGetPhysicalDeviceExternalTensorPropertiesARM command in InstanceTable")
+            unsafe self.getPhysicalDeviceExternalTensorPropertiesARM = unsafeBitCast(
+                getProcAddr(context, "vkGetPhysicalDeviceExternalTensorPropertiesARM"),
+                to: PFN_vkGetPhysicalDeviceExternalTensorPropertiesARM.self
+            )
+            if unsafe self.getPhysicalDeviceExternalTensorPropertiesARM == nil {
+                debugLog("Failed to load vkGetPhysicalDeviceExternalTensorPropertiesARM command in InstanceTable")
             }
 
             #if PlatformAndroid
@@ -3510,30 +3982,6 @@ extension Instance {
                 )
                 if unsafe self.createStreamDescriptorSurfaceGGP == nil {
                     debugLog("Failed to load vkCreateStreamDescriptorSurfaceGGP command in InstanceTable")
-                }
-            #endif
-
-
-            #if PlatformIos
-                traceLog("Loading vkCreateIOSSurfaceMVK command in InstanceTable")
-                unsafe self.createIOSSurfaceMVK = unsafeBitCast(
-                    getProcAddr(context, "vkCreateIOSSurfaceMVK"),
-                    to: PFN_vkCreateIOSSurfaceMVK.self
-                )
-                if unsafe self.createIOSSurfaceMVK == nil {
-                    debugLog("Failed to load vkCreateIOSSurfaceMVK command in InstanceTable")
-                }
-            #endif
-
-
-            #if PlatformMacos
-                traceLog("Loading vkCreateMacOSSurfaceMVK command in InstanceTable")
-                unsafe self.createMacOSSurfaceMVK = unsafeBitCast(
-                    getProcAddr(context, "vkCreateMacOSSurfaceMVK"),
-                    to: PFN_vkCreateMacOSSurfaceMVK.self
-                )
-                if unsafe self.createMacOSSurfaceMVK == nil {
-                    debugLog("Failed to load vkCreateMacOSSurfaceMVK command in InstanceTable")
                 }
             #endif
 
@@ -3633,6 +4081,33 @@ extension Instance {
                 )
                 if unsafe self.getPhysicalDeviceWin32PresentationSupportKHR == nil {
                     debugLog("Failed to load vkGetPhysicalDeviceWin32PresentationSupportKHR command in InstanceTable")
+                }
+
+                traceLog("Loading vkAcquireWinrtDisplayNV command in InstanceTable")
+                unsafe self.acquireWinrtDisplayNV = unsafeBitCast(
+                    getProcAddr(context, "vkAcquireWinrtDisplayNV"),
+                    to: PFN_vkAcquireWinrtDisplayNV.self
+                )
+                if unsafe self.acquireWinrtDisplayNV == nil {
+                    debugLog("Failed to load vkAcquireWinrtDisplayNV command in InstanceTable")
+                }
+
+                traceLog("Loading vkGetWinrtDisplayNV command in InstanceTable")
+                unsafe self.getWinrtDisplayNV = unsafeBitCast(
+                    getProcAddr(context, "vkGetWinrtDisplayNV"),
+                    to: PFN_vkGetWinrtDisplayNV.self
+                )
+                if unsafe self.getWinrtDisplayNV == nil {
+                    debugLog("Failed to load vkGetWinrtDisplayNV command in InstanceTable")
+                }
+
+                traceLog("Loading vkGetPhysicalDeviceSurfacePresentModes2EXT command in InstanceTable")
+                unsafe self.getPhysicalDeviceSurfacePresentModes2EXT = unsafeBitCast(
+                    getProcAddr(context, "vkGetPhysicalDeviceSurfacePresentModes2EXT"),
+                    to: PFN_vkGetPhysicalDeviceSurfacePresentModes2EXT.self
+                )
+                if unsafe self.getPhysicalDeviceSurfacePresentModes2EXT == nil {
+                    debugLog("Failed to load vkGetPhysicalDeviceSurfacePresentModes2EXT command in InstanceTable")
                 }
             #endif
 

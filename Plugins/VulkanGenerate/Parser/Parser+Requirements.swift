@@ -181,12 +181,6 @@ extension Parser {
                     }
                     // Add the provider to the command
                     try updateProviders(component: &registry.commands[commandIndex], version: version, ext: ext)
-
-                    // We need to ensure that the scope of the command is correct
-                    if let ext {
-                        // Extension don't provide lodaer commands, so we don't need to check for that
-                        registry.commands[commandIndex].scope = .instance == ext.kind ? .instance : .device
-                    }
                 }
                 // Deal with types
                 for typeElement in element.elements(forName: "type") {
