@@ -52,7 +52,7 @@ var package = Package(
     products: [
         .library(
             name: "Ignite",
-            targets: ["Ignite"]
+            targets: ["Ignite", "CVulkan"]
         )
     ],
     traits: [
