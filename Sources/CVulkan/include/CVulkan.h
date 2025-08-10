@@ -150,6 +150,8 @@
 
 #endif
 
+#define VULKAN_H_ 1
+#define VK_NO_PROTOTYPES
 #include "vk_mem_alloc.h"
 
 #define INLINE static inline __attribute__((__always_inline__))
