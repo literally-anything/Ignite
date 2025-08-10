@@ -141,8 +141,8 @@ private func generateFunctionTable(
             // Add some extra indentation to the lines because we are putting them in a #if block
             // Only indent if it is not already a blank line
             lines = lines.map { $0.isEmpty ? "" : ("    \($0)") }
-            // Add the #ifdef and #endif lines
-            lines.insert("#ifdef \(trait)", at: 0)
+            // Add the #if and #endif lines
+            lines.insert("#if \(trait)", at: 0)
             lines.append("#endif\n")
         }
         return lines

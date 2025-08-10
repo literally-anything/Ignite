@@ -222,7 +222,7 @@ extension Loader {
 
         guard count > 0 else { return [] }
 
-        var extensions = Array<VkExtensionProperties>(repeating: VkExtensionProperties(), count: Int(count))
+        var extensions = [VkExtensionProperties](repeating: VkExtensionProperties(), count: Int(count))
         let result2 = unsafe table.enumerateInstanceExtensionProperties(layerName, &count, &extensions)
 
         // This only happens if the Vulkan loader runs out of memory
@@ -250,7 +250,7 @@ extension Loader {
     @unsafe
     public struct LoaderTable: Sendable {
         // BEGIN_GENERATE_LOADER_TABLE
-        // Generated using header version: 318
+        // Generated using header version: 325
 
         /// To create an instance object, call:
         ///
@@ -269,12 +269,14 @@ extension Loader {
         ///   - On success:
         ///     - `VK_SUCCESS`
         ///   - On failure:
-        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
-        ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
-        ///     - `VK_ERROR_INITIALIZATION_FAILED`
-        ///     - `VK_ERROR_LAYER_NOT_PRESENT`
         ///     - `VK_ERROR_EXTENSION_NOT_PRESENT`
         ///     - `VK_ERROR_INCOMPATIBLE_DRIVER`
+        ///     - `VK_ERROR_INITIALIZATION_FAILED`
+        ///     - `VK_ERROR_LAYER_NOT_PRESENT`
+        ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
+        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+        ///     - `VK_ERROR_UNKNOWN`
+        ///     - `VK_ERROR_VALIDATION_FAILED`
         ///
         /// ### Valid Usage
         /// ---
@@ -311,12 +313,14 @@ extension Loader {
         ///
         /// - Returns:
         ///   - On success:
-        ///     - `VK_SUCCESS`
         ///     - `VK_INCOMPLETE`
+        ///     - `VK_SUCCESS`
         ///   - On failure:
-        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
-        ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
         ///     - `VK_ERROR_LAYER_NOT_PRESENT`
+        ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
+        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+        ///     - `VK_ERROR_UNKNOWN`
+        ///     - `VK_ERROR_VALIDATION_FAILED`
         ///
         /// ### Valid Usage (Implicit)
         /// ---
@@ -342,11 +346,13 @@ extension Loader {
         ///
         /// - Returns:
         ///   - On success:
-        ///     - `VK_SUCCESS`
         ///     - `VK_INCOMPLETE`
+        ///     - `VK_SUCCESS`
         ///   - On failure:
-        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
         ///     - `VK_ERROR_OUT_OF_DEVICE_MEMORY`
+        ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+        ///     - `VK_ERROR_UNKNOWN`
+        ///     - `VK_ERROR_VALIDATION_FAILED`
         ///
         /// ### Valid Usage (Implicit)
         /// ---
@@ -369,6 +375,8 @@ extension Loader {
         ///     - `VK_SUCCESS`
         ///   - On failure:
         ///     - `VK_ERROR_OUT_OF_HOST_MEMORY`
+        ///     - `VK_ERROR_UNKNOWN`
+        ///     - `VK_ERROR_VALIDATION_FAILED`
         ///
         /// ### Valid Usage (Implicit)
         /// ---
