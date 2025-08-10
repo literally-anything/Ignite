@@ -22,29 +22,29 @@ extern "C" {
 // vulkan_video_codec_av1std is a preprocessor guard. Do not pass it to API calls.
 #define vulkan_video_codec_av1std 1
 #include "vulkan_video_codecs_common.h"
-#define STD_VIDEO_AV1_NUM_REF_FRAMES      8
-#define STD_VIDEO_AV1_REFS_PER_FRAME      7
-#define STD_VIDEO_AV1_TOTAL_REFS_PER_FRAME 8
-#define STD_VIDEO_AV1_MAX_TILE_COLS       64
-#define STD_VIDEO_AV1_MAX_TILE_ROWS       64
-#define STD_VIDEO_AV1_MAX_SEGMENTS        8
-#define STD_VIDEO_AV1_SEG_LVL_MAX         8
-#define STD_VIDEO_AV1_PRIMARY_REF_NONE    7
-#define STD_VIDEO_AV1_SELECT_INTEGER_MV   2
-#define STD_VIDEO_AV1_SELECT_SCREEN_CONTENT_TOOLS 2
-#define STD_VIDEO_AV1_SKIP_MODE_FRAMES    2
-#define STD_VIDEO_AV1_MAX_LOOP_FILTER_STRENGTHS 4
-#define STD_VIDEO_AV1_LOOP_FILTER_ADJUSTMENTS 2
-#define STD_VIDEO_AV1_MAX_CDEF_FILTER_STRENGTHS 8
-#define STD_VIDEO_AV1_MAX_NUM_PLANES      3
-#define STD_VIDEO_AV1_GLOBAL_MOTION_PARAMS 6
-#define STD_VIDEO_AV1_MAX_NUM_Y_POINTS    14
-#define STD_VIDEO_AV1_MAX_NUM_CB_POINTS   10
-#define STD_VIDEO_AV1_MAX_NUM_CR_POINTS   10
-#define STD_VIDEO_AV1_MAX_NUM_POS_LUMA    24
-#define STD_VIDEO_AV1_MAX_NUM_POS_CHROMA  25
+#define STD_VIDEO_AV1_NUM_REF_FRAMES      8U
+#define STD_VIDEO_AV1_REFS_PER_FRAME      7U
+#define STD_VIDEO_AV1_TOTAL_REFS_PER_FRAME 8U
+#define STD_VIDEO_AV1_MAX_TILE_COLS       64U
+#define STD_VIDEO_AV1_MAX_TILE_ROWS       64U
+#define STD_VIDEO_AV1_MAX_SEGMENTS        8U
+#define STD_VIDEO_AV1_SEG_LVL_MAX         8U
+#define STD_VIDEO_AV1_PRIMARY_REF_NONE    7U
+#define STD_VIDEO_AV1_SELECT_INTEGER_MV   2U
+#define STD_VIDEO_AV1_SELECT_SCREEN_CONTENT_TOOLS 2U
+#define STD_VIDEO_AV1_SKIP_MODE_FRAMES    2U
+#define STD_VIDEO_AV1_MAX_LOOP_FILTER_STRENGTHS 4U
+#define STD_VIDEO_AV1_LOOP_FILTER_ADJUSTMENTS 2U
+#define STD_VIDEO_AV1_MAX_CDEF_FILTER_STRENGTHS 8U
+#define STD_VIDEO_AV1_MAX_NUM_PLANES      3U
+#define STD_VIDEO_AV1_GLOBAL_MOTION_PARAMS 6U
+#define STD_VIDEO_AV1_MAX_NUM_Y_POINTS    14U
+#define STD_VIDEO_AV1_MAX_NUM_CB_POINTS   10U
+#define STD_VIDEO_AV1_MAX_NUM_CR_POINTS   10U
+#define STD_VIDEO_AV1_MAX_NUM_POS_LUMA    24U
+#define STD_VIDEO_AV1_MAX_NUM_POS_CHROMA  25U
 
-typedef enum StdVideoAV1Profile {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoAV1Profile {
     STD_VIDEO_AV1_PROFILE_MAIN = 0,
     STD_VIDEO_AV1_PROFILE_HIGH = 1,
     STD_VIDEO_AV1_PROFILE_PROFESSIONAL = 2,
@@ -52,7 +52,7 @@ typedef enum StdVideoAV1Profile {
     STD_VIDEO_AV1_PROFILE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1Profile;
 
-typedef enum StdVideoAV1Level {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoAV1Level {
     STD_VIDEO_AV1_LEVEL_2_0 = 0,
     STD_VIDEO_AV1_LEVEL_2_1 = 1,
     STD_VIDEO_AV1_LEVEL_2_2 = 2,
@@ -81,7 +81,7 @@ typedef enum StdVideoAV1Level {
     STD_VIDEO_AV1_LEVEL_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1Level;
 
-typedef enum StdVideoAV1FrameType {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoAV1FrameType {
     STD_VIDEO_AV1_FRAME_TYPE_KEY = 0,
     STD_VIDEO_AV1_FRAME_TYPE_INTER = 1,
     STD_VIDEO_AV1_FRAME_TYPE_INTRA_ONLY = 2,
@@ -90,7 +90,7 @@ typedef enum StdVideoAV1FrameType {
     STD_VIDEO_AV1_FRAME_TYPE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1FrameType;
 
-typedef enum StdVideoAV1ReferenceName {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoAV1ReferenceName {
     STD_VIDEO_AV1_REFERENCE_NAME_INTRA_FRAME = 0,
     STD_VIDEO_AV1_REFERENCE_NAME_LAST_FRAME = 1,
     STD_VIDEO_AV1_REFERENCE_NAME_LAST2_FRAME = 2,
@@ -103,7 +103,7 @@ typedef enum StdVideoAV1ReferenceName {
     STD_VIDEO_AV1_REFERENCE_NAME_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1ReferenceName;
 
-typedef enum StdVideoAV1InterpolationFilter {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoAV1InterpolationFilter {
     STD_VIDEO_AV1_INTERPOLATION_FILTER_EIGHTTAP = 0,
     STD_VIDEO_AV1_INTERPOLATION_FILTER_EIGHTTAP_SMOOTH = 1,
     STD_VIDEO_AV1_INTERPOLATION_FILTER_EIGHTTAP_SHARP = 2,
@@ -113,7 +113,7 @@ typedef enum StdVideoAV1InterpolationFilter {
     STD_VIDEO_AV1_INTERPOLATION_FILTER_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1InterpolationFilter;
 
-typedef enum StdVideoAV1TxMode {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoAV1TxMode {
     STD_VIDEO_AV1_TX_MODE_ONLY_4X4 = 0,
     STD_VIDEO_AV1_TX_MODE_LARGEST = 1,
     STD_VIDEO_AV1_TX_MODE_SELECT = 2,
@@ -121,7 +121,7 @@ typedef enum StdVideoAV1TxMode {
     STD_VIDEO_AV1_TX_MODE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1TxMode;
 
-typedef enum StdVideoAV1FrameRestorationType {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoAV1FrameRestorationType {
     STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_NONE = 0,
     STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_WIENER = 1,
     STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_SGRPROJ = 2,
@@ -130,7 +130,7 @@ typedef enum StdVideoAV1FrameRestorationType {
     STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1FrameRestorationType;
 
-typedef enum StdVideoAV1ColorPrimaries {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoAV1ColorPrimaries {
     STD_VIDEO_AV1_COLOR_PRIMARIES_BT_709 = 1,
     STD_VIDEO_AV1_COLOR_PRIMARIES_UNSPECIFIED = 2,
     STD_VIDEO_AV1_COLOR_PRIMARIES_BT_470_M = 4,
@@ -149,7 +149,7 @@ typedef enum StdVideoAV1ColorPrimaries {
     STD_VIDEO_AV1_COLOR_PRIMARIES_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1ColorPrimaries;
 
-typedef enum StdVideoAV1TransferCharacteristics {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoAV1TransferCharacteristics {
     STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_RESERVED_0 = 0,
     STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_BT_709 = 1,
     STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_UNSPECIFIED = 2,
@@ -173,7 +173,7 @@ typedef enum StdVideoAV1TransferCharacteristics {
     STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1TransferCharacteristics;
 
-typedef enum StdVideoAV1MatrixCoefficients {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoAV1MatrixCoefficients {
     STD_VIDEO_AV1_MATRIX_COEFFICIENTS_IDENTITY = 0,
     STD_VIDEO_AV1_MATRIX_COEFFICIENTS_BT_709 = 1,
     STD_VIDEO_AV1_MATRIX_COEFFICIENTS_UNSPECIFIED = 2,
@@ -193,7 +193,7 @@ typedef enum StdVideoAV1MatrixCoefficients {
     STD_VIDEO_AV1_MATRIX_COEFFICIENTS_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1MatrixCoefficients;
 
-typedef enum StdVideoAV1ChromaSamplePosition {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoAV1ChromaSamplePosition {
     STD_VIDEO_AV1_CHROMA_SAMPLE_POSITION_UNKNOWN = 0,
     STD_VIDEO_AV1_CHROMA_SAMPLE_POSITION_VERTICAL = 1,
     STD_VIDEO_AV1_CHROMA_SAMPLE_POSITION_COLOCATED = 2,

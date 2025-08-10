@@ -78,58 +78,6 @@ extension VulkanGenerate {
             )
         }
 
-        let headerFolders: [String] = [
-            "vulkan",
-            "vk_video"
-        ]
-
-        // Copy both the vulkan and vk_video headers to the include folder
-        let headersPath = headersRepoPath.appending(component: "include")
-        let dstPath = path.appending(component: "Sources/CVulkan/include")
-        for folder in headerFolders {
-            if FileManager.default.fileExists(atPath: dstPath.appending(component: folder).path(percentEncoded: false)) {
-                try FileManager.default.removeItem(atPath: dstPath.appending(component: folder).path(percentEncoded: false))
-            }
-            try FileManager.default.copyItem(
-                atPath: headersPath.appending(component: folder).path(percentEncoded: false),
-                toPath: dstPath.appending(component: folder).path(percentEncoded: false)
-            )
-        }
-
-        let subpaths: [URL] = headerFolders.flatMap { folder in
-            let folderPath: URL = dstPath.appending(component: folder)
-            let folderSubpaths: [URL] = try! FileManager.default.subpathsOfDirectory(
-                atPath: folderPath.path(percentEncoded: false)
-            ).compactMap { fileName in
-                // Strip the possible ".h" suffix from the file name
-                let fileNameStripped = fileName.dropLast(2)
-                // If the file is a header file, we want to keep it only if it does not end with a disabled platform name.
-                if
-                    fileName.hasSuffix(".h"),
-                    !disabledPlatforms.contains(where: { fileNameStripped.hasSuffix($0) }),
-                    !["vk_layer", "vk_icd"].contains(fileNameStripped)
-                {
-                    return nil
-                } else {
-                    return folderPath.appending(path: fileName)
-                }
-            }
-            return folderSubpaths
-        }
-        for subpath in subpaths {
-            #if canImport(Darwin)
-                var isDirObjc: ObjCBool = false
-                let exists = FileManager.default.fileExists(atPath: subpath.path(percentEncoded: false), isDirectory: &isDirObjc)
-                let isDir: Bool = isDirObjc.boolValue
-            #else
-                var isDir: Bool = false
-                let exists = FileManager.default.fileExists(atPath: subpath.path(percentEncoded: false), isDirectory: &isDir)
-            #endif
-            if exists && !isDir {
-                try FileManager.default.removeItem(atPath: subpath.path(percentEncoded: false))
-            }
-        }
-
         // Make the parser
         let specUrl = headersRepoPath.appending(component: "registry/vk.xml")
         let parser: Parser
@@ -151,18 +99,8 @@ extension VulkanGenerate {
 
         // Run the generators
         try generateAPIVersions(packagePath: path, registry: registry)
-        try generateExtensions(packagePath: path, registry: registry)
         try generatePlatformTraits(packagePath: path, registry: registry)
         try generateFunctionTables(packagePath: path, registry: registry)
-        try generateEnumWrappers(packagePath: path, registry: registry)
-        try generateStructWrappers(packagePath: path, registry: registry)
-        // try generateHandleWrappers(packagePath: path, registry: registry)
-        try generateResultWrappers(packagePath: path, registry: registry)
-        try generateChainExtends(packagePath: path, registry: registry)
-
-        // We remove vulkan.h from the include folder because we replace it with CVulkan.h.
-        // It was saved until now so we could use it to generate parts of CVulkan.h.
-        try FileManager.default.removeItem(atPath: dstPath.appending(path: "vulkan/vulkan.h").path(percentEncoded: false))
 
         print("Done!")
     }

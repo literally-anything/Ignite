@@ -23,7 +23,12 @@ extern "C" {
 #define VK_NN_vi_surface 1
 #define VK_NN_VI_SURFACE_SPEC_VERSION     1
 #define VK_NN_VI_SURFACE_EXTENSION_NAME   "VK_NN_vi_surface"
-typedef VkFlags VkViSurfaceCreateFlagsNN;
+#ifndef CVULKAN_IMPLEMENTATION
+typedef enum __attribute__((enum_extensibility(open),flag_enum)) VkViSurfaceCreateFlagsNN : VkFlags { VkViSurfaceCreateFlagsNN_NONE __attribute__((deprecated)) = 0 }VkViSurfaceCreateFlagsNN
+#else
+typedef VkFlags VkViSurfaceCreateFlagsNN
+#endif
+;
 typedef struct VkViSurfaceCreateInfoNN {
     VkStructureType             sType;
     const void*                 pNext;
@@ -34,11 +39,13 @@ typedef struct VkViSurfaceCreateInfoNN {
 typedef VkResult (VKAPI_PTR *PFN_vkCreateViSurfaceNN)(VkInstance instance, const VkViSurfaceCreateInfoNN* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
 
 #ifndef VK_NO_PROTOTYPES
+#ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateViSurfaceNN(
     VkInstance                                  instance,
     const VkViSurfaceCreateInfoNN*              pCreateInfo,
     const VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
+#endif
 #endif
 
 #ifdef __cplusplus

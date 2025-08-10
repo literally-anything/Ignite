@@ -11,7 +11,24 @@ import Foundation
 import PackageDescription
 
 let cSettings: [CSetting] = [
-    .headerSearchPath("../CVulkan/include")
+    .headerSearchPath("../CVulkan/include"),
+    // BEGIN_GENERATE_PLATFORM_TRAIT_DEFINES
+    .define("EnableProvisional", .when(traits: ["EnableProvisional"])),
+    .define("PlatformAndroid", .when(traits: ["PlatformAndroid"])),
+    .define("PlatformDirectfb", .when(traits: ["PlatformDirectfb"])),
+    .define("PlatformFuchsia", .when(traits: ["PlatformFuchsia"])),
+    .define("PlatformGgp", .when(traits: ["PlatformGgp"])),
+    .define("PlatformMetal", .when(traits: ["PlatformMetal"])),
+    .define("PlatformOhos", .when(traits: ["PlatformOhos"])),
+    .define("PlatformSci", .when(traits: ["PlatformSci"])),
+    .define("PlatformScreen", .when(traits: ["PlatformScreen"])),
+    .define("PlatformVi", .when(traits: ["PlatformVi"])),
+    .define("PlatformWayland", .when(traits: ["PlatformWayland"])),
+    .define("PlatformWin32", .when(traits: ["PlatformWin32"])),
+    .define("PlatformXcb", .when(traits: ["PlatformXcb"])),
+    .define("PlatformXlib", .when(traits: ["PlatformXlib"])),
+    .define("PlatformXlibXrandr", .when(traits: ["PlatformXlibXrandr"]))
+    // END_GENERATE_PLATFORM_TRAIT_DEFINES
 ]
 let linkerSettings: [LinkerSetting] = [
     .linkedLibrary("vulkan", .when(traits: ["LinkedVulkan"]))
@@ -40,7 +57,7 @@ var package = Package(
     ],
     traits: [
         // BEGIN_GENERATE_PLATFORM_TRAITS
-        // Generated using header version: 318
+        // Generated using header version: 325
 
         .trait(
             name: "EnableProvisional",
@@ -113,8 +130,10 @@ var package = Package(
             description:
                 """
                 Enables using the `swift-log` package to log debug information. \
-                When this is enabled in debug builds, `Ignite` logs debug and trace logs when loading functions and other operations. \
-                `Ignite` will also automatically register a Vulkan debug messenger using a logger unless disabled in the `Instance` creation. \
+                When this is enabled in debug builds, `Ignite` logs debug and trace logs when loading functions and other \
+                operations. \
+                `Ignite` will also automatically register a Vulkan debug messenger using a logger unless disabled in the \
+                `Instance` creation. \
                 This is enabled by default.
                 """
         ),
@@ -124,15 +143,6 @@ var package = Package(
         .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0")
     ],
     targets: [
-        .testTarget(
-            name: "ValidationTests",
-            dependencies: [
-                "Ignite",
-                "CVulkan"
-            ],
-            cSettings: cSettings,
-            linkerSettings: linkerSettings
-        ),
         .target(
             name: "Ignite",
             dependencies: [
@@ -141,18 +151,11 @@ var package = Package(
             ],
             // These need to be here because SwiftPM only seems to respect these settings in the first target that depends on the c target
             cSettings: cSettings,
-            swiftSettings: [
-                .unsafeFlags(["-strict-memory-safety"]),
-                .enableExperimentalFeature("LifetimeDependence")
-            ],
             linkerSettings: linkerSettings
         ),
         .target(
             name: "CVulkan",
             cSettings: cSettings,
-            swiftSettings: [
-                .unsafeFlags(["-strict-memory-safety"])
-            ],
             linkerSettings: linkerSettings
         )
     ]

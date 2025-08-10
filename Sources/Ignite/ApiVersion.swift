@@ -87,7 +87,7 @@ extension ApiVersion: CustomStringConvertible, CustomDebugStringConvertible {
 
 extension ApiVersion {
     // BEGIN_GENERATE_API_VERSIONS
-    // Generated using header version: 318
+    // Generated using header version: 325
 
     /// Equvalent to Vulkan's VK_VERSION_1_0
     @inlinable

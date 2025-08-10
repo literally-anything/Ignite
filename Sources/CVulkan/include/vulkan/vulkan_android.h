@@ -24,7 +24,12 @@ extern "C" {
 struct ANativeWindow;
 #define VK_KHR_ANDROID_SURFACE_SPEC_VERSION 6
 #define VK_KHR_ANDROID_SURFACE_EXTENSION_NAME "VK_KHR_android_surface"
-typedef VkFlags VkAndroidSurfaceCreateFlagsKHR;
+#ifndef CVULKAN_IMPLEMENTATION
+typedef enum __attribute__((enum_extensibility(open),flag_enum)) VkAndroidSurfaceCreateFlagsKHR : VkFlags { VkAndroidSurfaceCreateFlagsKHR_NONE __attribute__((deprecated)) = 0 }VkAndroidSurfaceCreateFlagsKHR
+#else
+typedef VkFlags VkAndroidSurfaceCreateFlagsKHR
+#endif
+;
 typedef struct VkAndroidSurfaceCreateInfoKHR {
     VkStructureType                   sType;
     const void*                       pNext;
@@ -35,11 +40,13 @@ typedef struct VkAndroidSurfaceCreateInfoKHR {
 typedef VkResult (VKAPI_PTR *PFN_vkCreateAndroidSurfaceKHR)(VkInstance instance, const VkAndroidSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
 
 #ifndef VK_NO_PROTOTYPES
+#ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateAndroidSurfaceKHR(
     VkInstance                                  instance,
     const VkAndroidSurfaceCreateInfoKHR*        pCreateInfo,
     const VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
+#endif
 #endif
 
 
@@ -109,15 +116,19 @@ typedef VkResult (VKAPI_PTR *PFN_vkGetAndroidHardwareBufferPropertiesANDROID)(Vk
 typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryAndroidHardwareBufferANDROID)(VkDevice device, const VkMemoryGetAndroidHardwareBufferInfoANDROID* pInfo, struct AHardwareBuffer** pBuffer);
 
 #ifndef VK_NO_PROTOTYPES
+#ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkGetAndroidHardwareBufferPropertiesANDROID(
     VkDevice                                    device,
     const struct AHardwareBuffer*               buffer,
     VkAndroidHardwareBufferPropertiesANDROID*   pProperties);
+#endif
 
+#ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryAndroidHardwareBufferANDROID(
     VkDevice                                    device,
     const VkMemoryGetAndroidHardwareBufferInfoANDROID* pInfo,
     struct AHardwareBuffer**                    pBuffer);
+#endif
 #endif
 
 

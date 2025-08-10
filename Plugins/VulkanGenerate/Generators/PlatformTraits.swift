@@ -50,12 +50,20 @@ func generatePlatformTraits(packagePath: URL, registry: Registry) throws {
     try modifyFileAtPlaceholder(file: headerFile, markerName: "PLATFORM_DEFINES") { contents in
         var defines = traits.flatMap { trait in
             """
-            #if \(trait.name)
+            #ifdef \(trait.name)
             #  define \(trait.macroName)
             #endif
             """.split(separator: "\n")
         }
         defines.insert("// Generated using header version: \(registry.version)", at: 0)
+        contents[...] = defines[...]
+    }
+
+    try modifyFileAtPlaceholder(file: packageFile, markerName: "PLATFORM_TRAIT_DEFINES") { contents in
+        var defines: [Substring] = []
+        for trait in traits {
+            defines.append(".define(\"\(trait.name)\", .when(traits: [\"\(trait.name)\"])),")
+        }
         contents[...] = defines[...]
     }
 

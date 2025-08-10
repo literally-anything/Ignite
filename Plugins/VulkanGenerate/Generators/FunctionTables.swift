@@ -19,13 +19,13 @@ func generateFunctionTables(packagePath: URL, registry: Registry) throws {
     )
 
     print("- Generating InstanceTable...")
-    let instanceFile = packagePath.appendingPathComponent("Sources/Ignite/Instance/InstanceTable.swift")
+    let instanceFile = packagePath.appendingPathComponent("Sources/Ignite/InstanceTable.swift")
     try generateFunctionTable(
         file: instanceFile, registry: registry, tableName: "INSTANCE", tableTypeName: "InstanceTable", scope: .instance
     )
 
     print("- Generating DeviceTable...")
-    let deviceFile = packagePath.appendingPathComponent("Sources/Ignite/Device/DeviceTable.swift")
+    let deviceFile = packagePath.appendingPathComponent("Sources/Ignite/DeviceTable.swift")
     try generateFunctionTable(
         file: deviceFile, registry: registry, tableName: "DEVICE", tableTypeName: "DeviceTable", scope: .device
     )
@@ -141,8 +141,8 @@ private func generateFunctionTable(
             // Add some extra indentation to the lines because we are putting them in a #if block
             // Only indent if it is not already a blank line
             lines = lines.map { $0.isEmpty ? "" : ("    \($0)") }
-            // Add the #if and #endif lines
-            lines.insert("#if \(trait)", at: 0)
+            // Add the #ifdef and #endif lines
+            lines.insert("#ifdef \(trait)", at: 0)
             lines.append("#endif\n")
         }
         return lines

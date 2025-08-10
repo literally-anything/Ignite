@@ -22,50 +22,50 @@
 
 
 // BEGIN_GENERATE_PLATFORM_DEFINES
-// Generated using header version: 318
-#if EnableProvisional
+// Generated using header version: 325
+#ifdef EnableProvisional
 #  define VK_ENABLE_BETA_EXTENSIONS
 #endif
-#if PlatformAndroid
+#ifdef PlatformAndroid
 #  define VK_USE_PLATFORM_ANDROID_KHR
 #endif
-#if PlatformDirectfb
+#ifdef PlatformDirectfb
 #  define VK_USE_PLATFORM_DIRECTFB_EXT
 #endif
-#if PlatformFuchsia
+#ifdef PlatformFuchsia
 #  define VK_USE_PLATFORM_FUCHSIA
 #endif
-#if PlatformGgp
+#ifdef PlatformGgp
 #  define VK_USE_PLATFORM_GGP
 #endif
-#if PlatformMetal
+#ifdef PlatformMetal
 #  define VK_USE_PLATFORM_METAL_EXT
 #endif
-#if PlatformOhos
+#ifdef PlatformOhos
 #  define VK_USE_PLATFORM_OHOS
 #endif
-#if PlatformSci
+#ifdef PlatformSci
 #  define VK_USE_PLATFORM_SCI
 #endif
-#if PlatformScreen
+#ifdef PlatformScreen
 #  define VK_USE_PLATFORM_SCREEN_QNX
 #endif
-#if PlatformVi
+#ifdef PlatformVi
 #  define VK_USE_PLATFORM_VI_NN
 #endif
-#if PlatformWayland
+#ifdef PlatformWayland
 #  define VK_USE_PLATFORM_WAYLAND_KHR
 #endif
-#if PlatformWin32
+#ifdef PlatformWin32
 #  define VK_USE_PLATFORM_WIN32_KHR
 #endif
-#if PlatformXcb
+#ifdef PlatformXcb
 #  define VK_USE_PLATFORM_XCB_KHR
 #endif
-#if PlatformXlib
+#ifdef PlatformXlib
 #  define VK_USE_PLATFORM_XLIB_KHR
 #endif
-#if PlatformXlibXrandr
+#ifdef PlatformXlibXrandr
 #  define VK_USE_PLATFORM_XLIB_XRANDR_EXT
 #endif
 // END_GENERATE_PLATFORM_DEFINES
@@ -106,7 +106,7 @@
 #  endif
 
 // BEGIN_GENERATE_PLATFORM_INCLUDES
-// Generated using header version: 318
+// Generated using header version: 325
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 #include "vulkan_beta.h"
 #endif
@@ -149,6 +149,8 @@
 // END_GENERATE_PLATFORM_INCLUDES
 
 #endif
+
+#include "vk_mem_alloc.h"
 
 #define INLINE static inline __attribute__((__always_inline__))
 

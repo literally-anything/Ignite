@@ -23,7 +23,12 @@ extern "C" {
 #define VK_QNX_screen_surface 1
 #define VK_QNX_SCREEN_SURFACE_SPEC_VERSION 1
 #define VK_QNX_SCREEN_SURFACE_EXTENSION_NAME "VK_QNX_screen_surface"
-typedef VkFlags VkScreenSurfaceCreateFlagsQNX;
+#ifndef CVULKAN_IMPLEMENTATION
+typedef enum __attribute__((enum_extensibility(open),flag_enum)) VkScreenSurfaceCreateFlagsQNX : VkFlags { VkScreenSurfaceCreateFlagsQNX_NONE __attribute__((deprecated)) = 0 }VkScreenSurfaceCreateFlagsQNX
+#else
+typedef VkFlags VkScreenSurfaceCreateFlagsQNX
+#endif
+;
 typedef struct VkScreenSurfaceCreateInfoQNX {
     VkStructureType                  sType;
     const void*                      pNext;
@@ -36,16 +41,20 @@ typedef VkResult (VKAPI_PTR *PFN_vkCreateScreenSurfaceQNX)(VkInstance instance, 
 typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceScreenPresentationSupportQNX)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, struct _screen_window* window);
 
 #ifndef VK_NO_PROTOTYPES
+#ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateScreenSurfaceQNX(
     VkInstance                                  instance,
     const VkScreenSurfaceCreateInfoQNX*         pCreateInfo,
     const VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
+#endif
 
+#ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceScreenPresentationSupportQNX(
     VkPhysicalDevice                            physicalDevice,
     uint32_t                                    queueFamilyIndex,
     struct _screen_window*                      window);
+#endif
 #endif
 
 
@@ -95,10 +104,12 @@ typedef struct VkPhysicalDeviceExternalMemoryScreenBufferFeaturesQNX {
 typedef VkResult (VKAPI_PTR *PFN_vkGetScreenBufferPropertiesQNX)(VkDevice device, const struct _screen_buffer* buffer, VkScreenBufferPropertiesQNX* pProperties);
 
 #ifndef VK_NO_PROTOTYPES
+#ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkGetScreenBufferPropertiesQNX(
     VkDevice                                    device,
     const struct _screen_buffer*                buffer,
     VkScreenBufferPropertiesQNX*                pProperties);
+#endif
 #endif
 
 #ifdef __cplusplus

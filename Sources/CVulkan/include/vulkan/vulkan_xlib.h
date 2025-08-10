@@ -23,7 +23,12 @@ extern "C" {
 #define VK_KHR_xlib_surface 1
 #define VK_KHR_XLIB_SURFACE_SPEC_VERSION  6
 #define VK_KHR_XLIB_SURFACE_EXTENSION_NAME "VK_KHR_xlib_surface"
-typedef VkFlags VkXlibSurfaceCreateFlagsKHR;
+#ifndef CVULKAN_IMPLEMENTATION
+typedef enum __attribute__((enum_extensibility(open),flag_enum)) VkXlibSurfaceCreateFlagsKHR : VkFlags { VkXlibSurfaceCreateFlagsKHR_NONE __attribute__((deprecated)) = 0 }VkXlibSurfaceCreateFlagsKHR
+#else
+typedef VkFlags VkXlibSurfaceCreateFlagsKHR
+#endif
+;
 typedef struct VkXlibSurfaceCreateInfoKHR {
     VkStructureType                sType;
     const void*                    pNext;
@@ -36,17 +41,21 @@ typedef VkResult (VKAPI_PTR *PFN_vkCreateXlibSurfaceKHR)(VkInstance instance, co
 typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, Display* dpy, VisualID visualID);
 
 #ifndef VK_NO_PROTOTYPES
+#ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateXlibSurfaceKHR(
     VkInstance                                  instance,
     const VkXlibSurfaceCreateInfoKHR*           pCreateInfo,
     const VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
+#endif
 
+#ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceXlibPresentationSupportKHR(
     VkPhysicalDevice                            physicalDevice,
     uint32_t                                    queueFamilyIndex,
     Display*                                    dpy,
     VisualID                                    visualID);
+#endif
 #endif
 
 #ifdef __cplusplus

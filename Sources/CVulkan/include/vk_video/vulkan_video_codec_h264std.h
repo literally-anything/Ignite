@@ -22,16 +22,16 @@ extern "C" {
 // vulkan_video_codec_h264std is a preprocessor guard. Do not pass it to API calls.
 #define vulkan_video_codec_h264std 1
 #include "vulkan_video_codecs_common.h"
-#define STD_VIDEO_H264_CPB_CNT_LIST_SIZE  32
-#define STD_VIDEO_H264_SCALING_LIST_4X4_NUM_LISTS 6
-#define STD_VIDEO_H264_SCALING_LIST_4X4_NUM_ELEMENTS 16
-#define STD_VIDEO_H264_SCALING_LIST_8X8_NUM_LISTS 6
-#define STD_VIDEO_H264_SCALING_LIST_8X8_NUM_ELEMENTS 64
-#define STD_VIDEO_H264_MAX_NUM_LIST_REF   32
-#define STD_VIDEO_H264_MAX_CHROMA_PLANES  2
-#define STD_VIDEO_H264_NO_REFERENCE_PICTURE 0xFF
+#define STD_VIDEO_H264_CPB_CNT_LIST_SIZE  32U
+#define STD_VIDEO_H264_SCALING_LIST_4X4_NUM_LISTS 6U
+#define STD_VIDEO_H264_SCALING_LIST_4X4_NUM_ELEMENTS 16U
+#define STD_VIDEO_H264_SCALING_LIST_8X8_NUM_LISTS 6U
+#define STD_VIDEO_H264_SCALING_LIST_8X8_NUM_ELEMENTS 64U
+#define STD_VIDEO_H264_MAX_NUM_LIST_REF   32U
+#define STD_VIDEO_H264_MAX_CHROMA_PLANES  2U
+#define STD_VIDEO_H264_NO_REFERENCE_PICTURE 0xFFU
 
-typedef enum StdVideoH264ChromaFormatIdc {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoH264ChromaFormatIdc {
     STD_VIDEO_H264_CHROMA_FORMAT_IDC_MONOCHROME = 0,
     STD_VIDEO_H264_CHROMA_FORMAT_IDC_420 = 1,
     STD_VIDEO_H264_CHROMA_FORMAT_IDC_422 = 2,
@@ -40,7 +40,7 @@ typedef enum StdVideoH264ChromaFormatIdc {
     STD_VIDEO_H264_CHROMA_FORMAT_IDC_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264ChromaFormatIdc;
 
-typedef enum StdVideoH264ProfileIdc {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoH264ProfileIdc {
     STD_VIDEO_H264_PROFILE_IDC_BASELINE = 66,
     STD_VIDEO_H264_PROFILE_IDC_MAIN = 77,
     STD_VIDEO_H264_PROFILE_IDC_HIGH = 100,
@@ -49,7 +49,7 @@ typedef enum StdVideoH264ProfileIdc {
     STD_VIDEO_H264_PROFILE_IDC_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264ProfileIdc;
 
-typedef enum StdVideoH264LevelIdc {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoH264LevelIdc {
     STD_VIDEO_H264_LEVEL_IDC_1_0 = 0,
     STD_VIDEO_H264_LEVEL_IDC_1_1 = 1,
     STD_VIDEO_H264_LEVEL_IDC_1_2 = 2,
@@ -73,7 +73,7 @@ typedef enum StdVideoH264LevelIdc {
     STD_VIDEO_H264_LEVEL_IDC_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264LevelIdc;
 
-typedef enum StdVideoH264PocType {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoH264PocType {
     STD_VIDEO_H264_POC_TYPE_0 = 0,
     STD_VIDEO_H264_POC_TYPE_1 = 1,
     STD_VIDEO_H264_POC_TYPE_2 = 2,
@@ -81,7 +81,7 @@ typedef enum StdVideoH264PocType {
     STD_VIDEO_H264_POC_TYPE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264PocType;
 
-typedef enum StdVideoH264AspectRatioIdc {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoH264AspectRatioIdc {
     STD_VIDEO_H264_ASPECT_RATIO_IDC_UNSPECIFIED = 0,
     STD_VIDEO_H264_ASPECT_RATIO_IDC_SQUARE = 1,
     STD_VIDEO_H264_ASPECT_RATIO_IDC_12_11 = 2,
@@ -104,7 +104,7 @@ typedef enum StdVideoH264AspectRatioIdc {
     STD_VIDEO_H264_ASPECT_RATIO_IDC_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264AspectRatioIdc;
 
-typedef enum StdVideoH264WeightedBipredIdc {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoH264WeightedBipredIdc {
     STD_VIDEO_H264_WEIGHTED_BIPRED_IDC_DEFAULT = 0,
     STD_VIDEO_H264_WEIGHTED_BIPRED_IDC_EXPLICIT = 1,
     STD_VIDEO_H264_WEIGHTED_BIPRED_IDC_IMPLICIT = 2,
@@ -112,7 +112,7 @@ typedef enum StdVideoH264WeightedBipredIdc {
     STD_VIDEO_H264_WEIGHTED_BIPRED_IDC_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264WeightedBipredIdc;
 
-typedef enum StdVideoH264ModificationOfPicNumsIdc {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoH264ModificationOfPicNumsIdc {
     STD_VIDEO_H264_MODIFICATION_OF_PIC_NUMS_IDC_SHORT_TERM_SUBTRACT = 0,
     STD_VIDEO_H264_MODIFICATION_OF_PIC_NUMS_IDC_SHORT_TERM_ADD = 1,
     STD_VIDEO_H264_MODIFICATION_OF_PIC_NUMS_IDC_LONG_TERM = 2,
@@ -121,7 +121,7 @@ typedef enum StdVideoH264ModificationOfPicNumsIdc {
     STD_VIDEO_H264_MODIFICATION_OF_PIC_NUMS_IDC_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264ModificationOfPicNumsIdc;
 
-typedef enum StdVideoH264MemMgmtControlOp {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoH264MemMgmtControlOp {
     STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_END = 0,
     STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_UNMARK_SHORT_TERM = 1,
     STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_UNMARK_LONG_TERM = 2,
@@ -133,7 +133,7 @@ typedef enum StdVideoH264MemMgmtControlOp {
     STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264MemMgmtControlOp;
 
-typedef enum StdVideoH264CabacInitIdc {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoH264CabacInitIdc {
     STD_VIDEO_H264_CABAC_INIT_IDC_0 = 0,
     STD_VIDEO_H264_CABAC_INIT_IDC_1 = 1,
     STD_VIDEO_H264_CABAC_INIT_IDC_2 = 2,
@@ -141,7 +141,7 @@ typedef enum StdVideoH264CabacInitIdc {
     STD_VIDEO_H264_CABAC_INIT_IDC_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264CabacInitIdc;
 
-typedef enum StdVideoH264DisableDeblockingFilterIdc {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoH264DisableDeblockingFilterIdc {
     STD_VIDEO_H264_DISABLE_DEBLOCKING_FILTER_IDC_DISABLED = 0,
     STD_VIDEO_H264_DISABLE_DEBLOCKING_FILTER_IDC_ENABLED = 1,
     STD_VIDEO_H264_DISABLE_DEBLOCKING_FILTER_IDC_PARTIAL = 2,
@@ -149,7 +149,7 @@ typedef enum StdVideoH264DisableDeblockingFilterIdc {
     STD_VIDEO_H264_DISABLE_DEBLOCKING_FILTER_IDC_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264DisableDeblockingFilterIdc;
 
-typedef enum StdVideoH264SliceType {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoH264SliceType {
     STD_VIDEO_H264_SLICE_TYPE_P = 0,
     STD_VIDEO_H264_SLICE_TYPE_B = 1,
     STD_VIDEO_H264_SLICE_TYPE_I = 2,
@@ -157,7 +157,7 @@ typedef enum StdVideoH264SliceType {
     STD_VIDEO_H264_SLICE_TYPE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264SliceType;
 
-typedef enum StdVideoH264PictureType {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoH264PictureType {
     STD_VIDEO_H264_PICTURE_TYPE_P = 0,
     STD_VIDEO_H264_PICTURE_TYPE_B = 1,
     STD_VIDEO_H264_PICTURE_TYPE_I = 2,
@@ -166,7 +166,7 @@ typedef enum StdVideoH264PictureType {
     STD_VIDEO_H264_PICTURE_TYPE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264PictureType;
 
-typedef enum StdVideoH264NonVclNaluType {
+typedef enum __attribute__((enum_extensibility(open))) StdVideoH264NonVclNaluType {
     STD_VIDEO_H264_NON_VCL_NALU_TYPE_SPS = 0,
     STD_VIDEO_H264_NON_VCL_NALU_TYPE_PPS = 1,
     STD_VIDEO_H264_NON_VCL_NALU_TYPE_AUD = 2,

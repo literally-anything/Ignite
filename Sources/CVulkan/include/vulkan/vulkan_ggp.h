@@ -23,7 +23,12 @@ extern "C" {
 #define VK_GGP_stream_descriptor_surface 1
 #define VK_GGP_STREAM_DESCRIPTOR_SURFACE_SPEC_VERSION 1
 #define VK_GGP_STREAM_DESCRIPTOR_SURFACE_EXTENSION_NAME "VK_GGP_stream_descriptor_surface"
-typedef VkFlags VkStreamDescriptorSurfaceCreateFlagsGGP;
+#ifndef CVULKAN_IMPLEMENTATION
+typedef enum __attribute__((enum_extensibility(open),flag_enum)) VkStreamDescriptorSurfaceCreateFlagsGGP : VkFlags { VkStreamDescriptorSurfaceCreateFlagsGGP_NONE __attribute__((deprecated)) = 0 }VkStreamDescriptorSurfaceCreateFlagsGGP
+#else
+typedef VkFlags VkStreamDescriptorSurfaceCreateFlagsGGP
+#endif
+;
 typedef struct VkStreamDescriptorSurfaceCreateInfoGGP {
     VkStructureType                            sType;
     const void*                                pNext;
@@ -34,11 +39,13 @@ typedef struct VkStreamDescriptorSurfaceCreateInfoGGP {
 typedef VkResult (VKAPI_PTR *PFN_vkCreateStreamDescriptorSurfaceGGP)(VkInstance instance, const VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
 
 #ifndef VK_NO_PROTOTYPES
+#ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateStreamDescriptorSurfaceGGP(
     VkInstance                                  instance,
     const VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo,
     const VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
+#endif
 #endif
 
 

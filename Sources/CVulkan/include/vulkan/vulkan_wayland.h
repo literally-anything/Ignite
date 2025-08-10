@@ -23,7 +23,12 @@ extern "C" {
 #define VK_KHR_wayland_surface 1
 #define VK_KHR_WAYLAND_SURFACE_SPEC_VERSION 6
 #define VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME "VK_KHR_wayland_surface"
-typedef VkFlags VkWaylandSurfaceCreateFlagsKHR;
+#ifndef CVULKAN_IMPLEMENTATION
+typedef enum __attribute__((enum_extensibility(open),flag_enum)) VkWaylandSurfaceCreateFlagsKHR : VkFlags { VkWaylandSurfaceCreateFlagsKHR_NONE __attribute__((deprecated)) = 0 }VkWaylandSurfaceCreateFlagsKHR
+#else
+typedef VkFlags VkWaylandSurfaceCreateFlagsKHR
+#endif
+;
 typedef struct VkWaylandSurfaceCreateInfoKHR {
     VkStructureType                   sType;
     const void*                       pNext;
@@ -36,16 +41,20 @@ typedef VkResult (VKAPI_PTR *PFN_vkCreateWaylandSurfaceKHR)(VkInstance instance,
 typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, struct wl_display* display);
 
 #ifndef VK_NO_PROTOTYPES
+#ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateWaylandSurfaceKHR(
     VkInstance                                  instance,
     const VkWaylandSurfaceCreateInfoKHR*        pCreateInfo,
     const VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
+#endif
 
+#ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceWaylandPresentationSupportKHR(
     VkPhysicalDevice                            physicalDevice,
     uint32_t                                    queueFamilyIndex,
     struct wl_display*                          display);
+#endif
 #endif
 
 #ifdef __cplusplus

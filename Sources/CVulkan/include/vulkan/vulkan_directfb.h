@@ -23,7 +23,12 @@ extern "C" {
 #define VK_EXT_directfb_surface 1
 #define VK_EXT_DIRECTFB_SURFACE_SPEC_VERSION 1
 #define VK_EXT_DIRECTFB_SURFACE_EXTENSION_NAME "VK_EXT_directfb_surface"
-typedef VkFlags VkDirectFBSurfaceCreateFlagsEXT;
+#ifndef CVULKAN_IMPLEMENTATION
+typedef enum __attribute__((enum_extensibility(open),flag_enum)) VkDirectFBSurfaceCreateFlagsEXT : VkFlags { VkDirectFBSurfaceCreateFlagsEXT_NONE __attribute__((deprecated)) = 0 }VkDirectFBSurfaceCreateFlagsEXT
+#else
+typedef VkFlags VkDirectFBSurfaceCreateFlagsEXT
+#endif
+;
 typedef struct VkDirectFBSurfaceCreateInfoEXT {
     VkStructureType                    sType;
     const void*                        pNext;
@@ -36,16 +41,20 @@ typedef VkResult (VKAPI_PTR *PFN_vkCreateDirectFBSurfaceEXT)(VkInstance instance
 typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceDirectFBPresentationSupportEXT)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, IDirectFB* dfb);
 
 #ifndef VK_NO_PROTOTYPES
+#ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateDirectFBSurfaceEXT(
     VkInstance                                  instance,
     const VkDirectFBSurfaceCreateInfoEXT*       pCreateInfo,
     const VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
+#endif
 
+#ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceDirectFBPresentationSupportEXT(
     VkPhysicalDevice                            physicalDevice,
     uint32_t                                    queueFamilyIndex,
     IDirectFB*                                  dfb);
+#endif
 #endif
 
 #ifdef __cplusplus

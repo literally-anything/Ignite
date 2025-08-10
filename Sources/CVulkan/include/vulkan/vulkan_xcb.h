@@ -23,7 +23,12 @@ extern "C" {
 #define VK_KHR_xcb_surface 1
 #define VK_KHR_XCB_SURFACE_SPEC_VERSION   6
 #define VK_KHR_XCB_SURFACE_EXTENSION_NAME "VK_KHR_xcb_surface"
-typedef VkFlags VkXcbSurfaceCreateFlagsKHR;
+#ifndef CVULKAN_IMPLEMENTATION
+typedef enum __attribute__((enum_extensibility(open),flag_enum)) VkXcbSurfaceCreateFlagsKHR : VkFlags { VkXcbSurfaceCreateFlagsKHR_NONE __attribute__((deprecated)) = 0 }VkXcbSurfaceCreateFlagsKHR
+#else
+typedef VkFlags VkXcbSurfaceCreateFlagsKHR
+#endif
+;
 typedef struct VkXcbSurfaceCreateInfoKHR {
     VkStructureType               sType;
     const void*                   pNext;
@@ -36,17 +41,21 @@ typedef VkResult (VKAPI_PTR *PFN_vkCreateXcbSurfaceKHR)(VkInstance instance, con
 typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, xcb_connection_t* connection, xcb_visualid_t visual_id);
 
 #ifndef VK_NO_PROTOTYPES
+#ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateXcbSurfaceKHR(
     VkInstance                                  instance,
     const VkXcbSurfaceCreateInfoKHR*            pCreateInfo,
     const VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
+#endif
 
+#ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceXcbPresentationSupportKHR(
     VkPhysicalDevice                            physicalDevice,
     uint32_t                                    queueFamilyIndex,
     xcb_connection_t*                           connection,
     xcb_visualid_t                              visual_id);
+#endif
 #endif
 
 #ifdef __cplusplus
